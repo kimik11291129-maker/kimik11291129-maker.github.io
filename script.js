@@ -191,8 +191,9 @@ let isBgmPlaying = false;
  * @param {number} [volume=0.85] 볼륨 (0.0 ~ 1.0)
  */
 function playAudioClip(key, btnElement, volume = 0.85) {
-    const src = AUDIO_ASSETS[key];
-    if (!src) return;
+    const rawSrc = AUDIO_ASSETS[key];
+    if (!rawSrc) return;
+    const src = rawSrc + '?v=20260909_06';
 
     // 만약 이미 재생 중인 같은 단발 오디오가 있다면 중지 후 재시작 또는 토글
     if (activeAudioInstances[key]) {
@@ -236,7 +237,7 @@ function playAudioClip(key, btnElement, volume = 0.85) {
  */
 function toggleBGM(btnElement) {
     if (!bgmAudio) {
-        bgmAudio = new Audio(AUDIO_ASSETS.drone);
+        bgmAudio = new Audio(AUDIO_ASSETS.drone + '?v=20260909_06');
         bgmAudio.loop = true;
         bgmAudio.volume = 0.55;
     }
