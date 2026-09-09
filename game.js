@@ -180,7 +180,7 @@ const GAME_STAGES = {
                <em>"문 안에서 이동 중인 것은 아무것도 없다고 경고했을 텐데..."</em><br>
                방 안으로 스며든 냉기와 함께 당신의 의식은 영구 격리 구역으로 빨려 들어갑니다.`,
         choices: [
-            { text: "🔄 이전 시점으로 되돌아가기", next: "start" }
+            { text: "🔄 처음부터 다시 도전하기", next: "start" }
         ]
     },
 
@@ -240,7 +240,7 @@ const GAME_STAGES = {
                <em>"아직 사람의 자세를 완벽히 따라 하지 못했는데... 눈치챘구나?"</em><br>
                그림자의 기다란 손가락이 벽에서 뻗어 나와 당신의 목을 틀어쥡니다.`,
         choices: [
-            { text: "🔄 점호 직전으로 되돌아가기", next: "p2_shadow" }
+            { text: "🔄 처음부터 다시 도전하기", next: "start" }
         ]
     },
 
@@ -367,7 +367,7 @@ const GAME_STAGES = {
                그리고... <strong>대신 당신의 존재와 이름이 학적에서 완전히 지워졌습니다.</strong><br>
                다음 날, 룸메이트들은 당신이 처음부터 그 방에 없었던 사람인 양 행동할 것입니다.`,
         choices: [
-            { text: "🔄 인원 점검 시점으로 되돌아가기", next: "p2_headcount" }
+            { text: "🔄 처음부터 다시 도전하기", next: "start" }
         ]
     },
 
@@ -426,7 +426,7 @@ const GAME_STAGES = {
                <em>"연습하는 게 아니야... 이미 다 익혔어."</em><br><br>
                그 순간, 당신 자신의 목에서는 짐승의 쉰 비명 소리만이 터져 나옵니다. 목소리가 완전히 강탈당했습니다.`,
         choices: [
-            { text: "🔄 잠꼬대 시점으로 되돌아가기", next: "p3_murmur" }
+            { text: "🔄 처음부터 다시 도전하기", next: "start" }
         ]
     },
 
@@ -552,7 +552,7 @@ const GAME_STAGES = {
                순찰 무인의 호각 없는 부름에 한 번이라도 반응하면 목소리가 표본으로 채취됩니다.<br><br>
                내일부터 누군가는 당신의 목소리로 다른 학생을 속여 문을 열게 만들 것입니다.`,
         choices: [
-            { text: "🔄 부름 직전으로 되돌아가기", next: "p3_call" }
+            { text: "🔄 처음부터 다시 도전하기", next: "start" }
         ]
     },
 
@@ -611,7 +611,7 @@ const GAME_STAGES = {
                <em>"아아... 나도 사람이 아니었구나..."</em><br>
                당신은 스스로 창문을 뛰어넘어 붉은 달밤의 어두운 산속으로 사라졌습니다.`,
         choices: [
-            { text: "🔄 월광 출현 시점으로 되돌아가기", next: "p4_blood_moon" }
+            { text: "🔄 처음부터 다시 도전하기", next: "start" }
         ]
     },
 
@@ -669,7 +669,7 @@ const GAME_STAGES = {
                어둠 속에서 수많은 낯선 목소리들이 당신의 이름을 부르며 계단 아래로 끌어당깁니다.<br>
                비상 정화령 상황에서 방 밖으로 나온 자는 정화 표적으로 간주되어 영구 격리됩니다.`,
         choices: [
-            { text: "🔄 타종 직전으로 되돌아가기", next: "p4_seven_bells" }
+            { text: "🔄 처음부터 다시 도전하기", next: "start" }
         ]
     },
 
@@ -731,7 +731,7 @@ const GAME_STAGES = {
                <em>"종이 그치고 한참 뒤에 애타게 부르더라도... 그때는 더더욱 열지 마십시오..."</em><br>
                수칙의 마지막 문장이 귓가를 맴돌지만, 이미 늦었습니다.`,
         choices: [
-            { text: "🔄 어머니의 목소리 시점으로 되돌아가기", next: "p4_mother_trap" }
+            { text: "🔄 처음부터 다시 도전하기", next: "start" }
         ]
     },
 
@@ -769,7 +769,7 @@ const GAME_STAGES = {
                정규 타종 전의 여명은 바깥의 존재가 부리는 마지막 환각이었습니다.<br>
                결계가 풀리지 않은 복도에서 당신은 안개와 함께 온데간데없이 사라졌습니다.`,
         choices: [
-            { text: "🔄 05:00 시점으로 되돌아가기", next: "p5_dawn" }
+            { text: "🔄 처음부터 다시 도전하기", next: "start" }
         ]
     },
 
@@ -830,7 +830,7 @@ const GAME_STAGES = {
                가슴에 찬 당신의 명찰 글자가 흐릿해지며 어젯밤 사라진 누군가의 학번으로 바뀌어 버렸습니다.<br>
                뒤이어 다가온 사감실 순찰대에게 신원 불명자로 체포되어 영구 격리 구역으로 이송됩니다.`,
         choices: [
-            { text: "🔄 복도 출현 시점으로 되돌아가기", next: "p5_hallway" }
+            { text: "🔄 처음부터 다시 도전하기", next: "start" }
         ]
     },
 
@@ -884,11 +884,18 @@ function renderStage(stageKey) {
     const stage = GAME_STAGES[stageKey];
     if (!stage) return;
 
-    // 0. 게임 재시작 시 인벤토리 및 상태 초기화
+    // 0. 게임 시작 및 사망 후 재시작 시 넋 수치 100% 완전 복구 및 상태 초기화
     if (stageKey === "start") {
         currentSan = 100;
         playerInventory.clear();
         updateRelicsHUD();
+        const sanBar = document.getElementById("san-bar");
+        const sanText = document.getElementById("san-text");
+        if (sanBar && sanText) {
+            sanBar.style.width = "100%";
+            sanBar.style.backgroundColor = "#98c379";
+            sanText.textContent = "100%";
+        }
     }
 
     // 1. 유물 습득 이벤트 처리
