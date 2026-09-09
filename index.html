@@ -3,83 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deskterior Portfolio | Home</title>
+    <title>📜 화랑골 생활관 | 서문 (序文)</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- 1. 카메라 뷰포트 (실제 사용자가 보는 창문, 넘치는 영역 숨김) -->
-    <div class="desk-viewport">
-        <!-- 안내 힌트 툴팁 (줌인 전 표시) -->
-        <div class="zoom-hint">🖥️ 화면 속 모니터를 클릭하면 포트폴리오로 들어갑니다!</div>
-
-        <!-- 2. 데스크 캔버스 (1920x1080 도화지) -->
+    <div class="desk-viewport is-zoomed">
         <div class="desk-canvas">
-            <!-- 책상 위 모니터 스탠드 및 본체 -->
-            <div class="monitor-wrapper">
-                <div class="monitor-bezel">
-                    <div class="monitor-camera"></div>
-                    
-                    <!-- 모니터 화면 영역 (클릭 트리거 대상) -->
-                    <div class="monitor-screen monitor-trigger-area">
-                        <!-- 가상 브라우저 타이틀바 -->
-                        <div class="window-titlebar">
-                            <div class="window-controls">
-                                <span class="control-btn close"></span>
-                                <span class="control-btn minimize"></span>
-                                <span class="control-btn maximize"></span>
-                            </div>
-                            <div class="window-address-bar">
-                                <span class="url-protocol">https://</span>
-                                <span class="url-text">my-portfolio.github.io/index.html</span>
-                            </div>
-                            <div class="window-actions">
-                                <a href="index.html" class="home-btn" title="새로고침">🔄</a>
-                            </div>
+            <div class="scroll-wrapper">
+                <div class="scroll-paper">
+                    <!-- 두루마리 상단 헤더 -->
+                    <div class="scroll-header">
+                        <div class="scroll-seal-tag">
+                            <span class="red-seal">禁 · 忌 · 令</span>
+                            <span class="scroll-title-tag">화랑골 생활관 심야 생존 수칙</span>
                         </div>
+                        <nav class="inner-nav">
+                            <a href="index.html" class="nav-item active">서문 (序文)</a>
+                            <a href="about.html" class="nav-item">수칙 전문 (第1~3章)</a>
+                            <a href="portfolio.html" class="nav-item emergency">🚨 비상 정화령</a>
+                            <a href="game.html" class="nav-item" style="color: #ff5555; border-color: #b72b2b;">🎮 생존 시험</a>
+                        </nav>
+                        <button class="sound-toggle-btn" onclick="toggleBGM(this)">🔇 심야 앰비언스</button>
+                    </div>
 
-                        <!-- 모니터 내부 콘텐츠 영역 -->
-                        <div class="monitor-content-area">
-                            <!-- 네비게이션 바 -->
-                            <nav class="inner-nav">
-                                <div class="logo">🚀 DevPortfolio</div>
-                                <div class="nav-links mobile-nav-bar">
-                                    <a href="index.html" class="nav-item active">Home</a>
-                                    <a href="about.html" class="nav-item">About</a>
-                                    <a href="portfolio.html" class="nav-item">Portfolio</a>
-                                </div>
-                            </nav>
+                    <!-- 두루마리 내부 스크롤 콘텐츠 -->
+                    <div class="scroll-content-area">
+                        <main class="hero-section">
+                            <span class="doc-badge">機密 · 제3종 관리 구역 지정 문서</span>
+                            <h1 class="hero-title">화랑골 생활관<br><span class="highlight">심야 생존 수칙</span></h1>
 
-                            <!-- 메인 히어로 섹션 -->
-                            <main class="hero-section">
-                                <span class="badge">2026 linker's portfolio</span>
-                                <h1 class="hero-title">'생활관 안전수칙'<br><span class="highlight">몰입형 웹 & 데이터 분석</span> 개발자입니다.</h1>
-                                <p class="hero-desc">
-                                    데스크테리어 3D 인터랙션을 통해 방문자에게 몰입감 있는 경험을 선사합니다.<br>
-                                    상단 메뉴를 클릭하여 상세 자기소개와 프로젝트들을 둘러보세요.
-                                </p>
-                                <div class="hero-buttons">
-                                    <a href="about.html" class="btn btn-primary">소개 보기 (About)</a>
-                                    <a href="portfolio.html" class="btn btn-secondary">프로젝트 구경하기 (Portfolio)</a>
+                            <!-- 경고 서문 -->
+                            <div class="notice-box">
+                                <strong>본 문서는 화랑골 생활관 입소자 전원에게 고지되는 필수 숙지 문서입니다.</strong><br><br>
+
+                                22:00 이후, 생활관의 모든 출입문은 쇠사슬로 봉쇄됩니다.<br>
+                                이는 여러분을 <em>가두기 위함이 아니라</em>, 바깥의 무언가가 <em>들어오지 못하게</em> 하기 위함입니다.<br><br>
+
+                                아래 수칙을 반드시 숙지하십시오.<br>
+                                수칙을 어긴 학생의 학적은 다음 날 아침 <strong class="warning-text">조용히 말소</strong>됩니다.<br>
+                                아무도 그 학생이 처음부터 이곳에 있었다는 사실을 기억하지 못합니다.
+                            </div>
+
+                            <!-- 비상 방송 오디오 플레이어 -->
+                            <div class="audio-player-banner">
+                                <div class="audio-player-info">
+                                    <div class="audio-player-title">📢 비상 방송 녹취 원본</div>
+                                    <div class="audio-player-desc">2026년 심야 결계 경보 시 송출된 교내 비상 방송. 해당 방송은 공식 기록에 존재하지 않음.</div>
                                 </div>
-                            </main>
-                        </div>
+                                <button class="audio-clip-btn" onclick="playAudioClip('broadcast', this)">🔊 비상 방송 재생</button>
+                            </div>
+
+                            <!-- 4개 장 퀵 요약 그리드 -->
+                            <div class="chapter-grid">
+                                <a href="about.html" class="chapter-card">
+                                    <span class="chapter-badge">第1章</span>
+                                    <h4>야간 통금과 밤의 결계</h4>
+                                    <p>22:00 폐쇄 이후, 복도의 마찰음과 거울 속 반 박자, 방 안의 여분의 기척에 대한 대처.</p>
+                                </a>
+                                <a href="about.html" class="chapter-card">
+                                    <span class="chapter-badge">第2章</span>
+                                    <h4>음성 오염과 사칭 방지</h4>
+                                    <p>동실인의 잠꼬대, 동기의 다급한 부름, 어머니의 애타는 목소리 — 모두 속임일 수 있습니다.</p>
+                                </a>
+                                <a href="about.html" class="chapter-card">
+                                    <span class="chapter-badge">第3章</span>
+                                    <h4>결계와 잔류물</h4>
+                                    <p>핏빛 달빛, 존재하지 않는 지하 계단, '혼 0반' 명찰 개체 — 밤이 남기고 간 것들.</p>
+                                </a>
+                                <a href="portfolio.html" class="chapter-card alert-card">
+                                    <span class="chapter-badge">🚨 第4章</span>
+                                    <h4>비상 정화령 발효 지침</h4>
+                                    <p>7연속 타종 시 절대 엄금 사항. 문틀 부적 보존. 백사(白絲) 3회 결속 프로토콜.</p>
+                                </a>
+                            </div>
+
+                            <!-- 게임북 CTA -->
+                            <div class="hero-buttons" style="margin-top: 16px;">
+                                <a href="about.html" class="btn btn-primary">📜 수칙 전문 열람 (第1~3章)</a>
+                                <a href="game.html" class="btn btn-danger">🎮 생존 시험 도전</a>
+                            </div>
+                        </main>
                     </div>
                 </div>
-                <!-- 모니터 목 & 받침대 -->
-                <div class="monitor-stand-neck"></div>
-                <div class="monitor-stand-base"></div>
             </div>
 
-            <!-- 책상 데코 소품 (키보드, 마우스, 커피) -->
+            <!-- 책상 위 교내 결계 방어 유물 -->
             <div class="desk-props">
-                <div class="keyboard"></div>
-                <div class="mouse"></div>
-                <div class="coffee-mug"><div class="coffee"></div></div>
+                <div class="prop-item prop-whistle" onclick="ringWhistleProp()" title="순찰 무인의 놋쇠 호각 (Rule 2)">
+                    <img src="images/whistle.jpg" alt="놋쇠 호각">
+                    <span class="prop-label">놋쇠 호각 [소리]</span>
+                </div>
+                <div class="prop-item prop-talisman" onclick="showToast('📜 문틀 주사 부적: 맹수의 손톱자국이 긁혀 있으나 결계는 온전합니다.')" title="문틀 주사 부적 (Rule 12)">
+                    <img src="images/talisman.jpg" alt="주사 부적">
+                    <span class="prop-label">주사 부적</span>
+                </div>
             </div>
         </div>
 
-        <!-- 줌아웃 (처음 책상 전체 보기로 복귀) 플로팅 버튼 -->
-        <button id="zoom-out-btn" class="zoom-out-btn" title="책상 전체 보기로 나가기">🔍 전체 화면 보기</button>
+        <a href="index.html" class="zoom-out-btn">🔍 전체 책상으로 가기</a>
     </div>
 
     <script src="script.js"></script>
