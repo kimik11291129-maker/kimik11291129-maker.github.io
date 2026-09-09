@@ -917,8 +917,34 @@ body {
 }
 
 .relic-icons {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
     font-size: 13px;
-    letter-spacing: 2px;
+}
+
+.relic-slot {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px dashed rgba(100, 40, 30, 0.5);
+    opacity: 0.35;
+    filter: grayscale(1);
+    transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+    font-size: 12px;
+}
+
+.relic-slot.acquired {
+    opacity: 1;
+    filter: grayscale(0);
+    background: rgba(139, 30, 30, 0.25);
+    border: 1px solid #ff4455;
+    box-shadow: 0 0 8px rgba(255, 68, 85, 0.5);
+    transform: scale(1.08);
 }
 
 /* 게임북 본문 스토리 상자 */

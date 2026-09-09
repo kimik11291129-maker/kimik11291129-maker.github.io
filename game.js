@@ -1,6 +1,6 @@
 // ==========================================================================
 // 화랑골 생활관 인터랙티브 생존 게임북 엔진 (Multi-Branch to Single Ending)
-// 모든 선택지 페이지 전용 이미지 100% 매핑 & 동일 생존 엔딩 수렴 구조
+// 유물(아이템) 수집 & 위기 상황 활용 시스템 연동
 // ==========================================================================
 
 const GAME_STAGES = {
@@ -21,16 +21,42 @@ const GAME_STAGES = {
                 next: "p2_shadow"
             },
             {
-                text: "② 벽을 쿵쿵 두드리며 '누구야? 조용히 해!' 소리친다.",
-                next: "p1_shout"
-            },
-            {
-                text: "③ 룸메이트 침대로 가 소리를 낮추고 쪽지로 대화한다.",
+                text: "② 룸메이트 침대로 가 소리를 낮추고 쪽지로 대화한다.",
                 next: "p1_roommate"
             },
             {
-                text: "④ 문틈(외시경)으로 바깥 복도를 살짝 내다본다.",
+                text: "③ 벽면 문틀 주변의 미세한 틈새를 조심스럽게 살펴본다.",
+                next: "p1_search_frame"
+            },
+            {
+                text: "④ 벽을 쿵쿵 두드리며 '누구야? 조용히 해!' 소리친다.",
+                next: "p1_shout"
+            },
+            {
+                text: "⑤ 문틈(외시경)으로 바깥 복도를 살짝 내다본다.",
                 next: "be1_peek"
+            }
+        ]
+    },
+
+    p1_search_frame: {
+        stageTitle: "【 제1막 : 22:08 문틀 틈새의 발견 】",
+        time: "22:08 PM",
+        sanChange: +10,
+        image: "images/talisman.jpg",
+        audio: null,
+        gainItem: {
+            id: 'talisman',
+            name: '주사 부적',
+            icon: '📜'
+        },
+        text: `당신은 까치발로 문틀 상단 구석을 조심스럽게 살폈습니다.<br><br>
+               문틀 나무 틈새에 이전 입소자가 비상용으로 깊숙이 끼워둔 <strong>붉은 주사 부적(朱砂符籍)</strong> 한 장이 손끝에 잡힙니다. 손톱자국이 거칠게 긁혀 있지만, 붉은 경면주사의 결계 기운은 온전히 살아있습니다.<br><br>
+               부적을 품속 깊은 안주머니에 챙겨 넣자, 서늘하던 가슴이 든든해집니다.`,
+        choices: [
+            {
+                text: "침대로 돌아가 자정 점호 시간을 기다린다.",
+                next: "p2_shadow"
             }
         ]
     },
@@ -42,7 +68,7 @@ const GAME_STAGES = {
         image: "images/creepy_corridor_night.jpg",
         audio: "scratch",
         text: `벽을 두드리자, 복도의 마찰음이 당신 호실 문 바로 앞에서 딱 멈췄습니다.<br><br>
-               숨 막히는 침묵 속에서 문틈 너머로 <em>키득거리는 듯한 기괴한 숨소리</em>가 들려옵니다. 다행히 문을 억지로 부수지는 않았지만, 당신의 존재가 바깥에 노출되었습니다. 소름이 돋으며 넋의 안정도가 떨어집니다. 식은땀을 닦으며 이를 악물고 침대로 돌아갑니다.`,
+               숨 막히는 침묵 속에서 문틈 너머로 <em>키득거리는 듯한 기괴한 숨소리</em>가 들려옵니다. 다행히 문을 부수지는 않았지만, 당신의 기척이 바깥에 노출되었습니다. 소름이 돋으며 넋의 안정도가 떨어집니다. 식은땀을 닦으며 이를 악물고 침대로 돌아갑니다.`,
         choices: [
             {
                 text: "숨을 죽이고 자정 점호 시간을 기다린다.",
@@ -58,10 +84,36 @@ const GAME_STAGES = {
         image: "images/dorm_dark_corner.jpg",
         audio: null,
         text: `당신은 까치발로 룸메이트의 침대로 다가갔습니다. 룸메이트 역시 하얗게 질린 얼굴로 이불을 쥐고 있었습니다.<br><br>
-               노트에 <em>'수칙 제1조야. 밖은 보지도 말고 대답도 하지 말자'</em>라고 적어 보여주자, 룸메이트가 고개를 끄덕이며 조금 안도한 표정을 짓습니다. 둘이서 함께 의지하니 공포가 다소 가라앉습니다.`,
+               노트에 <em>'수칙 제1조야. 밖은 보지도 말고 대답도 하지 말자'</em>라고 적어 보여주자, 룸메이트가 고개를 끄덕이며 조금 안도한 표정을 짓습니다.`,
         choices: [
             {
+                text: "룸메이트가 건네는 여분의 소지품을 확인한다.",
+                next: "p1_gain_talisman"
+            },
+            {
                 text: "각자 침대로 돌아가 불을 끄고 점호를 대비한다.",
+                next: "p2_shadow"
+            }
+        ]
+    },
+
+    p1_gain_talisman: {
+        stageTitle: "【 제1막 : 22:12 룸메이트의 비상 유물 】",
+        time: "22:12 PM",
+        sanChange: +10,
+        image: "images/talisman.jpg",
+        audio: null,
+        gainItem: {
+            id: 'talisman',
+            name: '주사 부적',
+            icon: '📜'
+        },
+        text: `룸메이트가 떨리는 손으로 베개 밑에서 붉은 한지 조각 하나를 꺼내 당신 손에 쥐여주었습니다.<br><br>
+               <em>"어제 낮에 청소하다가 침대 밑 틈새에서 찾은 여분의 주사 부적이야... 밤에는 넋이 홀리기 쉽다니까 너도 꼭 지니고 있어."</em><br><br>
+               거친 경면주사 잉크 냄새가 코끝을 스치며 공포로 떨리던 마음에 중심이 잡힙니다.`,
+        choices: [
+            {
+                text: "부적을 품에 넣고 각자 침대에서 점호를 대비한다.",
                 next: "p2_shadow"
             }
         ]
@@ -96,12 +148,13 @@ const GAME_STAGES = {
                그런데 초롱불에 비친 <strong>조장의 벽면 그림자가 소름 끼치게 어긋나 있습니다.</strong> 그림자의 손가락은 비정상적으로 길게 늘어져 있고, 관절이 기괴하게 뒤틀려 바닥에 웅크리고 있습니다. 눈앞의 조장은 태연한 얼굴로 출석부를 넘기고 있습니다.`,
         choices: [
             {
-                text: "① 눈을 깜박이지 않고 표정 변화 없이 번호를 복창한다.",
-                next: "p2_headcount"
+                text: "① 품 안의 주사 부적(朱砂符籍)을 쥐며 마음을 가다듬는다.",
+                next: "p2_talisman",
+                requireItem: "talisman"
             },
             {
-                text: "② 품 안의 주사 부적(朱砂符籍)을 쥐며 마음을 가다듬는다.",
-                next: "p2_talisman"
+                text: "② 눈을 깜박이지 않고 표정 변화 없이 번호를 복창한다.",
+                next: "p2_headcount"
             },
             {
                 text: "③ 기겁하여 비명을 지르며 뒤로 물러선다.",
@@ -113,11 +166,11 @@ const GAME_STAGES = {
     p2_talisman: {
         stageTitle: "【 제2막 : 23:35 주사 부적의 은밀한 결계 】",
         time: "23:35 PM",
-        sanChange: +10,
+        sanChange: +15,
         image: "images/talisman.jpg",
         audio: null,
-        text: `붉은 주사(朱砂)로 쓰인 부적의 거친 한지 감촉이 손끝에 닿자, 불안하게 뛰던 심장이 차분히 가라앉습니다.<br><br>
-               어긋난 그림자를 애써 시야에서 지우며 담담한 목소리로 당신의 번호를 복창했습니다. 조장은 의심 없이 출석부에 체크를 마친 뒤 방을 나섰습니다.`,
+        text: `붉은 주사(朱砂)로 쓰인 부적의 온기가 손끝을 타고 전해지자, 일렁이던 벽면 그림자의 괴이한 형상이 희미하게 잦아듭니다.<br><br>
+               어긋난 그림자를 자연스럽게 시야에서 지우며 담담한 목소리로 당신의 번호를 복창했습니다. 조장은 의심 없이 출석부에 체크를 마친 뒤 방을 나섰습니다. 유물이 당신의 정신을 지켜냈습니다.`,
         choices: [
             {
                 text: "문이 닫힌 후 방 안의 기척을 점검한다.",
@@ -155,7 +208,7 @@ const GAME_STAGES = {
         choices: [
             {
                 text: "① 절대 소리 내지 않고, 모르는 척 침대에 누워 눈을 감는다.",
-                next: "p3_murmur"
+                next: "p2_search_drop"
             },
             {
                 text: "② 룸메이트들과 서로 등을 맞대고 조용히 손을 잡는다.",
@@ -178,7 +231,53 @@ const GAME_STAGES = {
                원래 인원 셋의 체온이 등으로 전해지자, 어두운 구석에서 들려오던 불길한 네 번째 숨소리가 자리를 잡지 못하고 허공 속으로 천천히 흐려집니다. 침착한 대처로 위기를 넘겼습니다.`,
         choices: [
             {
+                text: "숨소리가 사라진 옷장 구석을 조심스레 살펴본다.",
+                next: "p2_find_whistle"
+            },
+            {
                 text: "새벽 시련을 향해 시간을 흘려보낸다.",
+                next: "p3_murmur"
+            }
+        ]
+    },
+
+    p2_search_drop: {
+        stageTitle: "【 제2막 : 00:08 어둠 속에서 굴러온 것 】",
+        time: "00:08 AM",
+        sanChange: +5,
+        image: "images/dorm_dark_corner.jpg",
+        audio: null,
+        text: `침대에 누워 모르는 척 눈을 감자, 여분의 기척은 형태를 얻지 못하고 차가운 한기만 남긴 채 흩어졌습니다.<br><br>
+               잠시 후, 텅 빈 옷장 아래 어둠 속에서 <em>딸깍- 데구르르</em> 하는 묵직한 쇠붙이 굴러가는 소리가 납니다.`,
+        choices: [
+            {
+                text: "바닥에 굴러떨어진 물건을 확인한다.",
+                next: "p2_find_whistle"
+            },
+            {
+                text: "무시하고 이불을 덮은 채 시간을 보낸다.",
+                next: "p3_murmur"
+            }
+        ]
+    },
+
+    p2_find_whistle: {
+        stageTitle: "【 제2막 : 00:12 순찰 무인의 유류품 】",
+        time: "00:12 AM",
+        sanChange: +10,
+        image: "images/whistle.jpg",
+        audio: null,
+        gainItem: {
+            id: 'whistle',
+            name: '놋쇠 호각',
+            icon: '📯'
+        },
+        text: `바닥을 더듬자 차갑고 묵직한 금속체가 쥐어졌습니다.<br><br>
+               정교한 연꽃 문양이 새겨진 <strong>순찰 무인의 놋쇠 호각</strong>입니다! 수칙 제2조에서 명시한, 교내의 모든 사칭과 홀림을 찢어발기는 신성한 유물입니다. 이전 순찰관이 떨어뜨린 것으로 보입니다.<br><br>
+               당신은 호각을 바지 주머니 깊숙이 단단히 챙겨두었습니다.`,
+        choices: [
+            {
+                text: "호각을 숨기고 새벽 시간을 대비한다.",
                 next: "p3_murmur"
             }
         ]
@@ -270,8 +369,9 @@ const GAME_STAGES = {
                가장 친한 동기 민우의 다급한 목소리입니다. <strong>하지만 복도에서는 순찰 무인의 놋쇠 호각 소리가 전혀 들리지 않았습니다.</strong>`,
         choices: [
             {
-                text: "① 책상 위의 [놋쇠 호각]을 집어 들고 문을 향해 힘껏 분다!",
-                next: "p3_whistle_win"
+                text: "① 주머니 속 놋쇠 호각을 꺼내 문을 향해 힘껏 분다!",
+                next: "p3_whistle_win",
+                requireItem: "whistle"
             },
             {
                 text: "② 호각 소리가 없음을 확인하고 이불 속에 엎드려 완벽히 침묵한다.",
@@ -292,8 +392,12 @@ const GAME_STAGES = {
         audio: "whistle",
         text: `삐이익——! 날카롭고 서슬 퍼런 놋쇠 호각 소리가 방문을 뚫고 복도로 터져 나갑니다!<br><br>
                문밖에서 민우의 목소리로 속이려던 존재가 <strong>"크아아악!"</strong> 하는 찢어지는 비명을 지르며 복도 끝으로 허겁지겁 도망칩니다.<br>
-               순찰 무인의 신성한 호각이 사칭 음성을 격퇴했습니다!`,
+               습득해둔 순찰 무인의 유물이 사칭 음성을 통쾌하게 격퇴했습니다!`,
         choices: [
+            {
+                text: "수칙 13에 대비하여 베개 안감을 확인해둔다.",
+                next: "p3_find_thread"
+            },
             {
                 text: "숨을 고르고 새벽 3시 반의 월광을 대비한다.",
                 next: "p4_blood_moon"
@@ -311,7 +415,33 @@ const GAME_STAGES = {
                문밖의 존재는 한참 동안 문고리를 덜컹거리며 애원하다가, 아무 반응이 없자 낮게 투덜거리며 복도 저편으로 멀어져 갔습니다. 비록 신경이 곤두섰지만 문을 열지 않아 무사합니다.`,
         choices: [
             {
+                text: "수칙 13에 대비하여 베개 안감을 뒤져본다.",
+                next: "p3_find_thread"
+            },
+            {
                 text: "가쁜 숨을 내쉬며 창가 쪽의 기척에 집중한다.",
+                next: "p4_blood_moon"
+            }
+        ]
+    },
+
+    p3_find_thread: {
+        stageTitle: "【 제3막 : 02:50 베개 속 봉인 백사 】",
+        time: "02:50 AM",
+        sanChange: +10,
+        image: "images/door_thread.jpg",
+        audio: null,
+        gainItem: {
+            id: 'white_thread',
+            name: '봉인 백사',
+            icon: '🧵'
+        },
+        text: `수칙 제13조의 경고를 떠올리며, 당신은 베개 밑과 안감 솔기를 조심스럽게 더듬었습니다.<br><br>
+               베개 안쪽 솔기 틈새에 가지런히 감겨 있던 <strong>질기고 팽팽한 백사(흰 실)</strong> 한 뼘이 손끝에 만져집니다! 7연속 타종 비상 정화령이 발효될 때 문고리를 봉인할 필수 결계 도구입니다.<br><br>
+               실을 손닿는 머리맡에 조심스레 준비해두었습니다.`,
+        choices: [
+            {
+                text: "창밖의 핏빛 기척에 대비한다.",
                 next: "p4_blood_moon"
             }
         ]
@@ -404,12 +534,33 @@ const GAME_STAGES = {
                생활관 외부 결계가 깨졌습니다. 침실 밖 복도는 이제 인간의 영역이 아닙니다!`,
         choices: [
             {
-                text: "① 베개 밑 백사(흰 실)를 꺼내 문고리에 3회 결속하고 침대 중앙에 앉는다.",
-                next: "p4_mother_trap"
+                text: "① 챙겨둔 백사(흰 실)를 꺼내 문고리에 3회 결속하고 침대 중앙에 앉는다.",
+                next: "p4_mother_trap",
+                requireItem: "white_thread"
             },
             {
-                text: "② 당황하여 이성을 잃고 짐을 챙겨 복도 밖으로 뛰쳐나간다.",
+                text: "② 백사가 없어 옷 솔기의 실밥을 뜯어내며 필사적으로 문고리를 묶는다.",
+                next: "p4_improvised_thread"
+            },
+            {
+                text: "③ 당황하여 이성을 잃고 짐을 챙겨 복도 밖으로 뛰쳐나간다.",
                 next: "be7_bells"
+            }
+        ]
+    },
+
+    p4_improvised_thread: {
+        stageTitle: "【 🚨 제4막 : 04:05 불완전한 임시 결속 】",
+        time: "04:05 AM",
+        sanChange: -25,
+        image: "images/door_thread.jpg",
+        audio: "scratch",
+        text: `정식 백사가 준비되지 않아 옷자락을 찢어 문고리를 칭칭 감았습니다.<br><br>
+               실이 팽팽하지 못해 문틈 사이로 차가운 서리 같은 한기가 계속해서 새어 들어옵니다. 문밖에서 무언가가 문고리를 덜컹거릴 때마다 심장이 내려앉습니다. 극심한 불안감 속에 식은땀이 비 오듯 쏟아집니다.`,
+        choices: [
+            {
+                text: "침대 중앙에 주저앉아 귀를 막고 버틴다.",
+                next: "p4_mother_trap"
             }
         ]
     },
@@ -435,20 +586,25 @@ const GAME_STAGES = {
         sanChange: -20,
         image: "images/door_thread.jpg",
         audio: "mimic",
-        text: `백사를 문고리에 세 번 팽팽히 감고 침대 한가운데 앉아 속으로 정화 주문을 읊습니다.<br><br>
+        text: `문고리를 결속하고 침대 한가운데 앉아 속으로 정화 주문을 읊습니다.<br><br>
                종이 그치고 한참 뒤... 방문 밖에서 울먹이는 소리와 함께 <strong>당신 어머니의 너무나 그립고 애타는 목소리</strong>가 들려옵니다.<br>
                <em>"아들아... 엄마야... 엄마가 널 데리러 왔단다... 밖이 너무 춥고 발이 아파... 문 좀 열어다오..."</em>`,
         choices: [
             {
-                text: "① '종이 그친 뒤에는 더더욱 열지 마라'를 되뇌며 입술을 깨물고 묵송한다.",
+                text: "① 품 안의 주사 부적을 꼭 쥐며 입술을 깨물고 묵송을 이어간다.",
+                next: "p5_dawn",
+                requireItem: "talisman"
+            },
+            {
+                text: "② '종이 그친 뒤에는 더더욱 열지 마라'를 되뇌며 필사적으로 참아낸다.",
                 next: "p5_dawn"
             },
             {
-                text: "② 동실인들과 손을 꽉 쥐고 소리 없이 눈짓으로 버팀목이 되어준다.",
+                text: "③ 동실인들과 손을 꽉 쥐고 소리 없이 눈짓으로 버팀목이 되어준다.",
                 next: "p4_chant_hold"
             },
             {
-                text: "③ '엄마?! 엄마가 어떻게 여기에...' 눈물을 흘리며 백사를 푼다.",
+                text: "④ '엄마?! 엄마가 어떻게 여기에...' 눈물을 흘리며 문으로 다가간다.",
                 next: "be8_mother"
             }
         ]
@@ -461,7 +617,7 @@ const GAME_STAGES = {
         image: "images/talisman.jpg",
         audio: null,
         text: `어머니의 가슴 찢어지는 목소리에 눈물이 쏟아지려 할 때, 옆 동실인이 당신의 떨리는 손을 꽉 잡았습니다.<br><br>
-               서로의 온기와 주사 부적의 기운이 마음을 다잡아 주었습니다. 문고리에 걸린 백사는 팽팽하게 버텨냈고, 문밖의 존재는 문을 열 수 없었습니다.`,
+               서로의 온기가 마음을 다잡아 주었습니다. 문고리에 걸린 결속선은 팽팽하게 버텨냈고, 문밖의 존재는 방 안으로 들어오지 못했습니다.`,
         choices: [
             {
                 text: "새벽빛이 스며들 때까지 침묵을 지킨다.",
@@ -477,7 +633,7 @@ const GAME_STAGES = {
         isEnding: true,
         image: "images/door_thread.jpg",
         audio: "scratch",
-        text: `손을 떨며 백사를 풀고 문을 벌컥 연 순간...<br><br>
+        text: `손을 떨며 문을 벌컥 연 순간...<br><br>
                문밖에는 어머니가 없었습니다. 칠흑 같은 어둠 속에서 문틀을 쥐고 선 것은, 당신 어머니의 목소리로 흉내를 내며 헐떡이는 <strong>거대하고 뒤틀린 이형의 그림자</strong>였습니다.<br><br>
                <em>"종이 그치고 한참 뒤에 애타게 부르더라도... 그때는 더더욱 열지 마십시오..."</em><br>
                수칙의 마지막 문장이 귓가를 맴돌지만, 이미 늦었습니다.`,
@@ -495,7 +651,7 @@ const GAME_STAGES = {
         sanChange: +20,
         image: "images/blood_moon.jpg",
         audio: null,
-        text: `문밖에서 어머니의 목소리로 애원하던 소리는, 당신들이 끝까지 문을 열지 않자 서서히 <em>기괴한 쇳소리와 거친 짐승의 으르렁거림</em>으로 변하더니 어둠 속으로 서서히 멀어져 갔습니다.<br><br>
+        text: `문밖에서 어머니의 목소리로 애원하던 소리는, 당신들이 끝까지 문을 열지 않자 서서히 <em>기괴한 쇳소리와 거친 으르렁거림</em>으로 변하더니 어둠 속으로 서서히 멀어져 갔습니다.<br><br>
                창밖을 보니 푸르스름한 새벽안개가 자욱합니다. 마치 날이 밝은 것처럼 보이지만, 시계는 아직 <strong>05:00 AM</strong>을 가리키고 있습니다.`,
         choices: [
             {
@@ -610,22 +766,53 @@ const GAME_STAGES = {
 };
 
 // ==========================================================================
-// 게임 런타임 제어 로직
+// 게임 런타임 제어 & 유물 인벤토리 엔진
 // ==========================================================================
 let currentSan = 100;
+const playerInventory = new Set();
+
+const ALL_RELICS = [
+    { id: 'talisman', icon: '📜', name: '주사 부적' },
+    { id: 'whistle', icon: '📯', name: '놋쇠 호각' },
+    { id: 'white_thread', icon: '🧵', name: '봉인 백사' }
+];
+
+function updateRelicsHUD() {
+    const hudEl = document.getElementById("relic-icons");
+    if (!hudEl) return;
+
+    hudEl.innerHTML = ALL_RELICS.map(r => {
+        const has = playerInventory.has(r.id);
+        return `<span class="relic-slot ${has ? 'acquired' : ''}" title="${r.name}: ${has ? '소지 중 (위기 시 사용 가능)' : '미소지'}">${r.icon}</span>`;
+    }).join("");
+}
 
 function renderStage(stageKey) {
     const stage = GAME_STAGES[stageKey];
     if (!stage) return;
 
-    // 1. 시간 갱신
+    // 0. 게임 재시작 시 인벤토리 및 상태 초기화
+    if (stageKey === "start") {
+        currentSan = 100;
+        playerInventory.clear();
+        updateRelicsHUD();
+    }
+
+    // 1. 유물 습득 이벤트 처리
+    if (stage.gainItem && !playerInventory.has(stage.gainItem.id)) {
+        playerInventory.add(stage.gainItem.id);
+        updateRelicsHUD();
+        if (typeof showToast === 'function') {
+            showToast(`🎒 [유물 습득] ${stage.gainItem.icon} ${stage.gainItem.name}을(를) 챙겼습니다!`);
+        }
+    }
+
+    // 2. 시간 갱신
     const timeEl = document.getElementById("game-time");
     if (timeEl) timeEl.textContent = stage.time;
 
-    // 2. SAN치(넋의 안정도) 갱신
-    if (stageKey === "start") {
-        currentSan = 100;
-    } else {
+    // 3. SAN치(넋의 안정도) 갱신
+    if (stageKey !== "start") {
         currentSan = Math.max(0, Math.min(100, currentSan + (stage.sanChange || 0)));
     }
 
@@ -643,13 +830,13 @@ function renderStage(stageKey) {
         }
     }
 
-    // 3. 텍스트 및 제목
+    // 4. 텍스트 및 제목
     const titleEl = document.getElementById("story-stage-title");
     const textEl = document.getElementById("story-text");
     if (titleEl) titleEl.innerHTML = stage.stageTitle;
     if (textEl) textEl.innerHTML = stage.text;
 
-    // 4. 이미지 렌더링 (모든 스테이지 100% 필수)
+    // 5. 이미지 렌더링 (모든 스테이지 100% 필수)
     const imgBox = document.getElementById("story-image-box");
     if (imgBox) {
         if (stage.image) {
@@ -661,11 +848,16 @@ function renderStage(stageKey) {
         }
     }
 
-    // 5. 선택지 버튼 렌더링
+    // 6. 선택지 버튼 렌더링 (유물 소지 조건 필터링)
     const choicesBox = document.getElementById("choices-container");
     if (choicesBox) {
         choicesBox.innerHTML = "";
         stage.choices.forEach(ch => {
+            // 유물 필요 조건 확인: 아이템을 습득한 경우에만 해당 유물 분기가 출현!
+            if (ch.requireItem && !playerInventory.has(ch.requireItem)) {
+                return; // 미소지 시 선택지 숨김
+            }
+
             const btn = document.createElement("button");
             btn.className = "choice-btn";
             if (stage.isEnding) {
@@ -683,7 +875,7 @@ function renderStage(stageKey) {
         });
     }
 
-    // 6. 무대 음향/음성 효과 재생
+    // 7. 무대 음향/음성 효과 재생
     if (stage.audio && typeof playAudioClip === 'function') {
         try {
             playAudioClip(stage.audio, null, 0.75);
@@ -692,7 +884,7 @@ function renderStage(stageKey) {
         }
     }
 
-    // 7. 두루마리 스크롤 상단 리셋
+    // 8. 두루마리 스크롤 상단 리셋
     const scrollArea = document.querySelector(".scroll-content-area");
     if (scrollArea) scrollArea.scrollTop = 0;
 }
@@ -712,6 +904,7 @@ function useWhistleInGame() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+    updateRelicsHUD();
     if (document.getElementById("story-container")) {
         renderStage("start");
     }
