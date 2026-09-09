@@ -1,0 +1,6 @@
+# Server scripts
+server.py
+start_server.bat
+_tts_temp.ps1
+_tts_exec.ps1
+_clean_tts.wav

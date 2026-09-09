@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deskterior Portfolio | Home</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- 1. 카메라 뷰포트 (실제 사용자가 보는 창문, 넘치는 영역 숨김) -->
+    <div class="desk-viewport">
+        <!-- 안내 힌트 툴팁 (줌인 전 표시) -->
+        <div class="zoom-hint">🖥️ 화면 속 모니터를 클릭하면 포트폴리오로 들어갑니다!</div>
+
+        <!-- 2. 데스크 캔버스 (1920x1080 도화지) -->
+        <div class="desk-canvas">
+            <!-- 책상 위 모니터 스탠드 및 본체 -->
+            <div class="monitor-wrapper">
+                <div class="monitor-bezel">
+                    <div class="monitor-camera"></div>
+                    
+                    <!-- 모니터 화면 영역 (클릭 트리거 대상) -->
+                    <div class="monitor-screen monitor-trigger-area">
+                        <!-- 가상 브라우저 타이틀바 -->
+                        <div class="window-titlebar">
+                            <div class="window-controls">
+                                <span class="control-btn close"></span>
+                                <span class="control-btn minimize"></span>
+                                <span class="control-btn maximize"></span>
+                            </div>
+                            <div class="window-address-bar">
+                                <span class="url-protocol">https://</span>
+                                <span class="url-text">my-portfolio.github.io/index.html</span>
+                            </div>
+                            <div class="window-actions">
+                                <a href="index.html" class="home-btn" title="새로고침">🔄</a>
+                            </div>
+                        </div>
+
+                        <!-- 모니터 내부 콘텐츠 영역 -->
+                        <div class="monitor-content-area">
+                            <!-- 네비게이션 바 -->
+                            <nav class="inner-nav">
+                                <div class="logo">🚀 DevPortfolio</div>
+                                <div class="nav-links mobile-nav-bar">
+                                    <a href="index.html" class="nav-item active">Home</a>
+                                    <a href="about.html" class="nav-item">About</a>
+                                    <a href="portfolio.html" class="nav-item">Portfolio</a>
+                                </div>
+                            </nav>
+
+                            <!-- 메인 히어로 섹션 -->
+                            <main class="hero-section">
+                                <span class="badge">2026 linker's portfolio</span>
+                                <h1 class="hero-title">'생활관 안전수칙'<br><span class="highlight">몰입형 웹 & 데이터 분석</span> 개발자입니다.</h1>
+                                <p class="hero-desc">
+                                    데스크테리어 3D 인터랙션을 통해 방문자에게 몰입감 있는 경험을 선사합니다.<br>
+                                    상단 메뉴를 클릭하여 상세 자기소개와 프로젝트들을 둘러보세요.
+                                </p>
+                                <div class="hero-buttons">
+                                    <a href="about.html" class="btn btn-primary">소개 보기 (About)</a>
+                                    <a href="portfolio.html" class="btn btn-secondary">프로젝트 구경하기 (Portfolio)</a>
+                                </div>
+                            </main>
+                        </div>
+                    </div>
+                </div>
+                <!-- 모니터 목 & 받침대 -->
+                <div class="monitor-stand-neck"></div>
+                <div class="monitor-stand-base"></div>
+            </div>
+
+            <!-- 책상 데코 소품 (키보드, 마우스, 커피) -->
+            <div class="desk-props">
+                <div class="keyboard"></div>
+                <div class="mouse"></div>
+                <div class="coffee-mug"><div class="coffee"></div></div>
+            </div>
+        </div>
+
+        <!-- 줌아웃 (처음 책상 전체 보기로 복귀) 플로팅 버튼 -->
+        <button id="zoom-out-btn" class="zoom-out-btn" title="책상 전체 보기로 나가기">🔍 전체 화면 보기</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

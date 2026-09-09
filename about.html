@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deskterior Portfolio | About</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="desk-viewport is-zoomed">
+        <div class="desk-canvas">
+            <div class="monitor-wrapper">
+                <div class="monitor-bezel">
+                    <div class="monitor-camera"></div>
+                    
+                    <div class="monitor-screen">
+                        <!-- 가상 브라우저 타이틀바 -->
+                        <div class="window-titlebar">
+                            <div class="window-controls">
+                                <span class="control-btn close"></span>
+                                <span class="control-btn minimize"></span>
+                                <span class="control-btn maximize"></span>
+                            </div>
+                            <div class="window-address-bar">
+                                <span class="url-protocol">https://</span>
+                                <span class="url-text">my-portfolio.github.io/about.html</span>
+                            </div>
+                            <div class="window-actions">
+                                <a href="index.html" class="home-btn" title="홈으로">🏠</a>
+                            </div>
+                        </div>
+
+                        <!-- 모니터 내부 콘텐츠 영역 -->
+                        <div class="monitor-content-area">
+                            <nav class="inner-nav">
+                                <div class="logo">🚀 DevPortfolio</div>
+                                <div class="nav-links mobile-nav-bar">
+                                    <a href="index.html" class="nav-item">Home</a>
+                                    <a href="about.html" class="nav-item active">About</a>
+                                    <a href="portfolio.html" class="nav-item">Portfolio</a>
+                                </div>
+                            </nav>
+
+                            <main class="subpage-container">
+                                <header class="page-header">
+                                    <h2>👤 About Me</h2>
+                                    <p>성장하는 데이터 분석 및 프론트엔드 개발자입니다.</p>
+                                </header>
+
+                                <!-- 타임라인 연혁 (노션 v1.1.3 이력 항목) -->
+                                <section>
+                                    <h3 style="font-size: 16px; margin-bottom: 12px; color: #61afef;">학습 및 커리어 타임라인</h3>
+                                    <div class="timeline">
+                                        <div class="timeline-item">
+                                            <span class="timeline-date">2026. 03 ~ 현재</span>
+                                            <div class="timeline-title">데이터 기반 인터랙티브 웹 개발 프로젝트</div>
+                                            <div class="timeline-desc">시네마틱 데스크테리어 3D UI 및 반응형 웹 인터페이스 구축</div>
+                                        </div>
+                                        <div class="timeline-item">
+                                            <span class="timeline-date">2025. 09 ~ 2026. 02</span>
+                                            <div class="timeline-title">머신러닝 & 딥러닝 데이터 분석 집중 과정</div>
+                                            <div class="timeline-desc">Python, Pandas, Scikit-learn을 활용한 예측 모델링 및 시각화</div>
+                                        </div>
+                                        <div class="timeline-item">
+                                            <span class="timeline-date">2025. 03 ~ 2025. 08</span>
+                                            <div class="timeline-title">웹 표준 & JavaScript 기초 마스터</div>
+                                            <div class="timeline-desc">HTML5 시맨틱 구조화, CSS3 Grid/Flexbox 및 비동기 JS 학습</div>
+                                        </div>
+                                    </div>
+                                </section>
+
+                                <!-- 스킬셋 -->
+                                <section style="margin-top: 24px;">
+                                    <h3 style="font-size: 16px; margin-bottom: 10px; color: #98c379;">기술 스택 (Tech Stack)</h3>
+                                    <div class="skill-tags">
+                                        <span class="skill-tag">HTML5 / CSS3</span>
+                                        <span class="skill-tag">JavaScript (ES6+)</span>
+                                        <span class="skill-tag">Python</span>
+                                        <span class="skill-tag">Pandas / NumPy</span>
+                                        <span class="skill-tag">Machine Learning</span>
+                                        <span class="skill-tag">Git / GitHub Pages</span>
+                                    </div>
+                                </section>
+
+                                <!-- 연락처 & 원클릭 복사 -->
+                                <section class="contact-card">
+                                    <div>
+                                        <div style="font-size: 14px; font-weight: 600; color: #fff;">📫 kimik11291129@gmail.com</div>
+                                        <div style="font-size: 13px; color: #8c93a8; margin-top: 4px;">dev.student@example.com</div>
+                                    </div>
+                                    <button class="copy-btn" onclick="copyEmailToClipboard('dev.student@example.com')">이메일 복사</button>
+                                </section>
+                            </main>
+                        </div>
+                    </div>
+                </div>
+                <div class="monitor-stand-neck"></div>
+                <div class="monitor-stand-base"></div>
+            </div>
+        </div>
+
+        <a href="index.html" class="zoom-out-btn" style="text-decoration: none;">🔍 전체 책상으로 가기</a>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📜 화랑골 생활관 | 🎮 심야 생존 시험</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="desk-viewport is-zoomed">
+        <div class="desk-canvas">
+            <div class="scroll-wrapper">
+                <div class="scroll-paper">
+                    <!-- 두루마리 상단 헤더 & 상태바 -->
+                    <div class="scroll-header">
+                        <div class="scroll-seal-tag">
+                            <span class="red-seal">生存 · 試驗</span>
+                            <span class="scroll-title-tag">花郞골 禁忌錄 · 實戰 生存錄</span>
+                        </div>
+                        <nav class="inner-nav">
+                            <a href="index.html" class="nav-item">서문 (序文)</a>
+                            <a href="about.html" class="nav-item">수칙 전문 (第1~3章)</a>
+                            <a href="portfolio.html" class="nav-item emergency">🚨 비상 정화령</a>
+                            <a href="game.html" class="nav-item active" style="color: #ff5555; border-color: #b72b2b;">🎮 생존 시험</a>
+                        </nav>
+                        <button class="sound-toggle-btn" onclick="toggleBGM(this)">🔇 심야 앰비언스</button>
+                    </div>
+
+                    <!-- 게임 실시간 상태 HUD -->
+                    <div class="game-hud">
+                        <div class="hud-item time-hud">
+                            <span class="hud-label">現在 時刻</span>
+                            <span id="game-time" class="hud-value">22:00 PM</span>
+                        </div>
+                        <div class="hud-item san-hud">
+                            <span class="hud-label">넋의 安定度</span>
+                            <div class="san-bar-track">
+                                <div id="san-bar" class="san-bar-fill" style="width: 100%;"></div>
+                            </div>
+                            <span id="san-text" class="hud-value">100%</span>
+                        </div>
+                        <div class="hud-item relics-hud">
+                            <span class="hud-label">所持 遺物</span>
+                            <span class="relic-icons" title="놋쇠 호각 / 문틀 주사 부적 / 백사">📯 📜 🧵</span>
+                        </div>
+                    </div>
+
+                    <!-- 게임북 본문 & 선택지 영역 (초슬림 은폐 스크롤) -->
+                    <div class="scroll-content-area game-play-area">
+                        <!-- 스토리 본문 텍스트 -->
+                        <div id="story-container" class="story-box">
+                            <h3 id="story-stage-title" class="story-title">【 제1막 : 22:00 폐쇄와 마찰음 】</h3>
+                            <div id="story-image-box" class="story-media" style="display: none;"></div>
+                            <p id="story-text" class="story-paragraph">
+                                22:00 정각. 육중한 쇠사슬 감기는 소리와 함께 생활관의 모든 출입문이 굳게 닫혔다.
+                                밖으로 나갈 수 있는 길은 완전히 차단되었다.
+                                <br><br>
+                                몇 분 후, 쥐 죽은 듯 고요하던 복도 바닥에서 무언가 무거운 것을 질질 끄는 기괴한 마찰음이 천천히 당신의 호실 문앞을 지나가기 시작하는데...
+                            </p>
+                        </div>
+
+                        <!-- 선택지 버튼 그룹 -->
+                        <div id="choices-container" class="choices-box">
+                            <!-- JS에서 동적 생성 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 책상 위 방어 유물 (게임북 연동 가능) -->
+            <div class="desk-props">
+                <div class="prop-item prop-whistle" onclick="useWhistleInGame()" title="순찰 무인의 놋쇠 호각 (클릭하여 사용)">
+                    <img src="images/whistle.jpg" alt="놋쇠 호각">
+                    <span class="prop-label">놋쇠 호각 [사용]</span>
+                </div>
+                <div class="prop-item prop-talisman" onclick="showToast('📜 문틀 주사 부적: 문틀에 온전히 고정되어 있습니다.')" title="문틀 주사 부적">
+                    <img src="images/talisman.jpg" alt="주사 부적">
+                    <span class="prop-label">주사 부적 [보존]</span>
+                </div>
+            </div>
+        </div>
+
+        <a href="index.html" class="zoom-out-btn">🔍 전체 책상으로 가기</a>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="game.js"></script>
+</body>
+</html>

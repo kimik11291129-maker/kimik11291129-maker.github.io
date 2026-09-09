@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📜 화랑골 생활관 | 🚨 第4章 비상 정화령</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="desk-viewport is-zoomed">
+        <div class="desk-canvas">
+            <div class="scroll-wrapper">
+                <div class="scroll-paper">
+                    <!-- 두루마리 상단 헤더 -->
+                    <div class="scroll-header">
+                        <div class="scroll-seal-tag">
+                            <span class="red-seal" style="color: #ff3344; border-color: #ff3344;">非常 · 淨化令</span>
+                            <span class="scroll-title-tag" style="color: #8c1414;">第4章 非常淨化令 發效指針</span>
+                        </div>
+                        <nav class="inner-nav">
+                            <a href="index.html" class="nav-item">서문 (序文)</a>
+                            <a href="about.html" class="nav-item">수칙 전문 (第1~3章)</a>
+                            <a href="portfolio.html" class="nav-item emergency active">🚨 비상 정화령</a>
+                            <a href="game.html" class="nav-item" style="color: #ff5555; border-color: #b72b2b;">🎮 생존 시험</a>
+                        </nav>
+                        <button class="sound-toggle-btn" onclick="toggleBGM(this)">🔇 심야 앰비언스</button>
+                    </div>
+
+                    <!-- 두루마리 내부 스크롤 콘텐츠 -->
+                    <div class="scroll-content-area">
+                        <main class="subpage-container">
+                            <div class="emergency-banner">
+                                <h3>🚨 第4章 · 비상 정화령 발효 시 행동 지침</h3>
+                                <p>종이 연속 일곱 번 울리거나 결계 붕괴 및 침탈 징후가 보일 때 즉각 본 지침을 시행하십시오. 망설임은 곧 영구 격리입니다.</p>
+                            </div>
+
+                            <!-- 핵심 수칙 12 & 13 -->
+                            <section class="chapter-section">
+                                <article class="rule-card danger">
+                                    <div class="rule-header">
+                                        <span class="rule-title">문틀 부적 보존</span>
+                                        <span class="rule-id">Rule 12</span>
+                                    </div>
+                                    <div class="rule-desc">
+                                        호실 문 안쪽 주사 부적을 손톱으로 긁거나 훼손하지 마십시오. 이는 바깥의 오염을 막는 동시에, 방 안에서 누군가의 넋이 무너졌을 때 그 끔찍한 목소리가 복도로 새어나가 다른 이에게 옮는 것을 막는 마지막 가림막입니다.
+                                    </div>
+                                </article>
+
+                                <article class="rule-card danger" style="border-width: 2px;">
+                                    <div class="rule-header">
+                                        <span class="rule-title">7연속 타종 시 절대 엄금</span>
+                                        <span class="rule-id">Rule 13</span>
+                                    </div>
+                                    <div class="rule-desc">
+                                        생활관 전체에 종이 <strong>연속 일곱 번</strong> 울리면 즉시 비상 정화령 모드에 돌입합니다. 베개 밑에 둔 팽팽한 백사(흰 실)를 꺼내 문고리에 세 바퀴 감아 고정하고, 침대 한가운데 앉아 정화 주문을 <strong>'속으로만'</strong> 외우십시오.<br><br>
+                                        <strong style="color: #ff4d5e; font-size: 13.5px;">종이 그치고 한참 뒤에, 누군가 당신의 이름을 애타게 부르며 문을 열어 달라고 하더라도 — 아니, 그때는 더더욱 열지 마십시오.</strong>
+                                    </div>
+
+                                    <!-- 현장 채증 기록 4 -->
+                                    <div class="evidence-box">
+                                        <div class="evidence-tag" style="color: #ff6b78;">🔒 표준 백사(白絲) 3회 결속 실측 기록</div>
+                                        <img src="images/door_thread.jpg" alt="문고리 백사 결속 현장 사진" class="evidence-img">
+                                        <div class="evidence-caption">▲ 7연속 타종 직후 문고리에 백사를 3회 감아 고정한 모습. 문밖에서 어머니나 동기의 목소리로 애원해도 결코 실을 풀지 마십시오.</div>
+                                        <div style="margin-top: 8px;">
+                                            <button class="audio-clip-btn" onclick="playAudioClip('mimic', this)">🔊 문밖 모성 모창 주의 음성 (12초)</button>
+                                        </div>
+                                    </div>
+                                </article>
+                            </section>
+
+                            <!-- 실시간 생존 수칙 준수 체크리스트 -->
+                            <section class="checklist-container">
+                                <div class="checklist-title">📋 실시간 생존 수칙 이행 체크리스트</div>
+                                
+                                <label class="checklist-item">
+                                    <input type="checkbox" onchange="toggleCheck(this)">
+                                    <span class="checklist-text">22:00 이후 복도의 마찰음/발소리를 '공간 압착 소음'으로 분류하고 문을 열지 않음</span>
+                                </label>
+
+                                <label class="checklist-item">
+                                    <input type="checkbox" onchange="toggleCheck(this)">
+                                    <span class="checklist-text">놋쇠 호각 소리가 동반되지 않은 지인의 부름에 침묵으로 일관함</span>
+                                </label>
+
+                                <label class="checklist-item">
+                                    <input type="checkbox" onchange="toggleCheck(this)">
+                                    <span class="checklist-text">동실인이 내 음색으로 낮에 한 말을 중얼거릴 때 이불을 덮고 귀를 막음</span>
+                                </label>
+
+                                <label class="checklist-item">
+                                    <input type="checkbox" onchange="toggleCheck(this)">
+                                    <span class="checklist-text">거울 속 동작이 반 박자 늦거나 도포 자락이 비칠 때 즉시 눈을 감고 이탈함</span>
+                                </label>
+
+                                <label class="checklist-item">
+                                    <input type="checkbox" onchange="toggleCheck(this)">
+                                    <span class="checklist-text">복도 끝에 나타난 미지의 지하 계단에서 가장 그리운 목소리가 들려도 외면함</span>
+                                </label>
+
+                                <label class="checklist-item">
+                                    <input type="checkbox" onchange="toggleCheck(this)">
+                                    <span class="checklist-text">호실 문 앞 훼손된 명찰이나 '혼 0반' 명찰 개체를 마주쳐도 일절 접촉하지 않음</span>
+                                </label>
+
+                                <label class="checklist-item">
+                                    <input type="checkbox" onchange="toggleCheck(this)">
+                                    <span class="checklist-text">방 안 인원 점검 시 기척이 하나 더 많아도 손가락질하거나 소리 내어 세지 않음</span>
+                                </label>
+
+                                <label class="checklist-item">
+                                    <input type="checkbox" onchange="toggleCheck(this)">
+                                    <span class="checklist-text">문틀 주사 부적을 온전히 보존하고 있으며, 백사(흰 실)를 손닿는 곳에 준비해 둠</span>
+                                </label>
+                            </section>
+
+                            <!-- 7연속 타종 경보 시뮬레이터 -->
+                            <section class="bell-simulator-box">
+                                <h4 style="font-size: 15px; color: #ff6b78; font-family: 'Song Myung', serif; margin-bottom: 6px;">🔔 비상 정화령 타종 시뮬레이터</h4>
+                                <p style="font-size: 12px; color: #b0a494;">생활관 전체에 7회 종이 울릴 때의 경보 프로토콜을 시험 가동합니다. (※ 실제 청동 대종 타종 음향이 연동되어 울립니다)</p>
+                                
+                                <div id="bell-display" class="bell-status-display">대기 중 (정상 구역)</div>
+                                <button id="bell-btn" class="btn btn-danger" onclick="triggerBellSequence()">🔔 7연속 타종 경보 시험 발령</button>
+                            </section>
+                        </main>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 책상 위 교내 결계 방어 유물 -->
+            <div class="desk-props">
+                <div class="prop-item prop-whistle" onclick="ringWhistleProp()" title="순찰 무인의 놋쇠 호각 (Rule 2)">
+                    <img src="images/whistle.jpg" alt="놋쇠 호각">
+                    <span class="prop-label">놋쇠 호각 [소리]</span>
+                </div>
+                <div class="prop-item prop-talisman" onclick="showToast('📜 문틀 주사 부적: 맹수의 손톱자국이 긁혀 있으나 결계는 온전합니다.')" title="문틀 주사 부적 (Rule 12)">
+                    <img src="images/talisman.jpg" alt="주사 부적">
+                    <span class="prop-label">주사 부적</span>
+                </div>
+            </div>
+        </div>
+
+        <a href="index.html" class="zoom-out-btn">🔍 전체 책상으로 가기</a>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
