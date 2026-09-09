@@ -1248,7 +1248,183 @@ body {
     font-family: 'Song Myung', serif;
 }
 
-.chapter-next-guide p {
-    margin-bottom: 2px;
+
+/* ==========================================================================
+   12. 신규 인터랙티브 기믹 스타일 (글리치, 암전 손전등, 동행자, 증명서)
+   ========================================================================== */
+
+/* 1) 동행자 HUD 뱃지 */
+.companion-badge {
+    font-size: 11.5px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: rgba(30, 20, 18, 0.7);
+    border: 1px solid rgba(130, 45, 35, 0.45);
+    color: #e5d8c5;
+    font-family: 'Song Myung', serif;
+    font-weight: 700;
+    transition: all 0.3s ease;
+}
+.companion-badge.active {
+    color: #ffd4dd;
+    background: rgba(100, 20, 30, 0.75);
+    border-color: #ff4455;
+    box-shadow: 0 0 10px rgba(255, 68, 85, 0.5);
 }
 
+/* 2) 초롱불 토글 버튼 */
+.lantern-btn {
+    background: rgba(45, 25, 15, 0.85);
+    border: 1px solid #d4a047;
+    color: #ffe6a3;
+    padding: 4px 10px;
+    font-size: 11.5px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Song Myung', serif;
+    font-weight: 700;
+    transition: all 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-left: 6px;
+}
+.lantern-btn:hover {
+    background: #633315;
+    color: #ffffff;
+    box-shadow: 0 0 8px rgba(212, 160, 71, 0.5);
+}
+.lantern-btn.dark-mode {
+    background: #120b17;
+    border-color: #9955cc;
+    color: #dfbeff;
+    box-shadow: 0 0 10px rgba(153, 85, 204, 0.6);
+}
+
+/* 3) 암전 모드 & 마우스 손전등 오버레이 */
+.flashlight-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 50;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    background: radial-gradient(circle 140px at var(--mouse-x, 50%) var(--mouse-y, 50%), transparent 0%, rgba(4, 2, 4, 0.97) 100%);
+}
+.scroll-paper.dark-active .flashlight-overlay {
+    opacity: 1;
+}
+
+/* 암전 시에만 투시되는 숨겨진 혈서(血書) 힌트 */
+.blood-secret-hint {
+    display: none;
+    margin-top: 12px;
+    padding: 10px 14px;
+    border-radius: 5px;
+    background: rgba(40, 5, 8, 0.9);
+    border: 1px dashed #ff2233;
+    color: #ff3344;
+    font-family: 'Song Myung', serif;
+    font-size: 13px;
+    line-height: 1.6;
+    letter-spacing: 0.5px;
+    text-shadow: 0 0 8px #ff0022;
+    animation: bloodGlow 1.5s infinite alternate;
+}
+.scroll-paper.dark-active .blood-secret-hint {
+    display: block;
+}
+@keyframes bloodGlow {
+    0% { text-shadow: 0 0 4px #ff0022; }
+    100% { text-shadow: 0 0 14px #ff2244, 0 0 25px #aa0011; }
+}
+
+/* 4) 넋(SAN) 오염 글리치 연출 (SAN <= 40%) */
+.san-corrupted {
+    animation: sanGlitch 2.4s infinite ease-in-out;
+}
+.san-corrupted .story-paragraph {
+    text-shadow: 1.5px 0 1px rgba(255, 0, 50, 0.7), -1.5px 0 1px rgba(0, 200, 255, 0.6);
+    letter-spacing: 0.3px;
+}
+@keyframes sanGlitch {
+    0%, 91%, 100% { transform: translate(0, 0); filter: hue-rotate(0deg); }
+    92% { transform: translate(-2px, 1px); filter: hue-rotate(80deg) contrast(1.25); }
+    94% { transform: translate(2px, -1px); filter: hue-rotate(-80deg); }
+    96% { transform: translate(-1px, 2px); }
+    98% { transform: translate(1px, -1px); }
+}
+
+/* 5) 생존 증서 & 사망 실종 통보서 카드 */
+.certificate-card {
+    margin: 18px auto 8px auto;
+    padding: 18px 22px;
+    border-radius: 6px;
+    border: 2px solid #b72b2b;
+    background: rgba(18, 11, 10, 0.95);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.9), 0 0 20px rgba(183, 43, 43, 0.35);
+    text-align: center;
+    font-family: 'Song Myung', serif;
+    position: relative;
+    overflow: hidden;
+}
+.certificate-card.death {
+    border-color: #66181f;
+    background: rgba(14, 8, 9, 0.96);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.95), 0 0 20px rgba(100, 15, 20, 0.45);
+}
+.cert-seal {
+    display: inline-block;
+    border: 3px solid #ff2233;
+    color: #ff2233;
+    padding: 4px 16px;
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: 3px;
+    border-radius: 4px;
+    transform: rotate(-2deg);
+    margin: 10px 0;
+    background: rgba(255, 34, 51, 0.15);
+    box-shadow: 0 0 14px rgba(255, 34, 51, 0.45);
+}
+.cert-seal.death {
+    border-color: #8c2830;
+    color: #c9404a;
+    background: rgba(140, 40, 48, 0.18);
+    box-shadow: 0 0 10px rgba(140, 40, 48, 0.4);
+}
+.cert-meta {
+    font-size: 12.5px;
+    color: #ded6c5;
+    line-height: 1.85;
+    margin: 12px 0;
+    text-align: left;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 10px 14px;
+    border-radius: 4px;
+    border-left: 3px solid #8c1414;
+}
+.cert-copy-btn {
+    margin-top: 8px;
+    background: #6a1a1a;
+    color: #ffffff;
+    border: 1px solid #ff4455;
+    padding: 6px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Song Myung', serif;
+    font-weight: 700;
+    font-size: 12px;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+.cert-copy-btn:hover {
+    background: #942222;
+    box-shadow: 0 0 12px rgba(255, 68, 85, 0.55);
+    transform: translateY(-1px);
+}
