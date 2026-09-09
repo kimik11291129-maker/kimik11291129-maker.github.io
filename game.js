@@ -202,7 +202,7 @@ const GAME_STAGES = {
         stageTitle: "【 👥 제2막 : 23:15 문틈으로 밀려온 쪽지 】",
         time: "23:15 PM",
         sanChange: 0,
-        image: "images/dorm_dark_corner.jpg",
+        image: "images/companion_shadow.jpg",
         audio: null,
         secretHint: "🩸 [과거 입소자의 혈서] 동행은 공포를 덜어주지만, 그의 그림자가 너와 반대로 향하는지 수시로 확인해라.",
         text: `점호 시간이 다가오던 23:15경, 호실 문틈 밑으로 피 묻은 낡은 쪽지 한 장이 바스락거리며 밀려 들어옵니다.<br><br>
@@ -224,7 +224,7 @@ const GAME_STAGES = {
         stageTitle: "【 👥 제2막 : 23:18 정체불명의 동행자 합류 】",
         time: "23:18 PM",
         sanChange: +15,
-        image: "images/scroll_bg.jpg",
+        image: "images/companion_shadow.jpg",
         audio: null,
         secretHint: "🩸 [과거 입소자의 혈서] 선배는 수칙을 완벽히 안다. 하지만 왜 10년 전 구형 명찰을 달고 있는가?",
         setCompanion: "senior",
@@ -747,7 +747,7 @@ const GAME_STAGES = {
         time: "04:02 AM",
         sanChange: -100,
         isEnding: true,
-        image: "images/hidden_staircase.jpg",
+        image: "images/void_staircase.jpg",
         audio: "scratch",
         text: `종소리에 놀라 복도로 뛰쳐나간 순간, 복도 끝의 공간이 뒤틀려 본 건물에 존재하지 않는 칠흑의 지하 계단이 나타납니다.<br><br>
                어둠 속에서 수많은 낯선 목소리들이 당신의 이름을 부르며 계단 아래로 끌어당깁니다.<br>
@@ -815,7 +815,7 @@ const GAME_STAGES = {
         time: "04:35 AM",
         sanChange: -100,
         isEnding: true,
-        image: "images/door_thread.jpg",
+        image: "images/beast_shadow.jpg",
         audio: "scratch",
         text: `손을 떨며 문을 벌컥 연 순간...<br><br>
                문밖에는 어머니가 없었습니다. 칠흑 같은 어둠 속에서 문틀을 쥐고 선 것은, 당신 어머니의 목소리로 흉내를 내며 헐떡이는 <strong>거대하고 뒤틀린 이형의 그림자</strong>였습니다.<br><br>
@@ -833,7 +833,7 @@ const GAME_STAGES = {
         stageTitle: "【 제5막 : 05:00 여명의 환각과 후퇴 】",
         time: "05:00 AM",
         sanChange: +20,
-        image: "images/blood_moon.jpg",
+        image: "images/blood_moon_mountain.jpg",
         audio: null,
         secretHint: "🩸 [과거 입소자의 혈서] 창밖이 밝아 보여도 속지 마라. 시계가 06:00을 가리키고 나팔이 울려야 진짜 아침이다.",
         text: `문밖에서 어머니의 목소리로 애원하던 소리는, 당신들이 끝까지 문을 열지 않자 서서히 <em>기괴한 쇳소리와 거친 으르렁거림</em>으로 변하더니 어둠 속으로 서서히 멀어져 갔습니다.<br><br>
@@ -855,7 +855,7 @@ const GAME_STAGES = {
         time: "05:05 AM",
         sanChange: -100,
         isEnding: true,
-        image: "images/hidden_staircase.jpg",
+        image: "images/void_staircase.jpg",
         audio: "scratch",
         text: `05:00에 복도로 뛰어나간 순간, 새벽빛이라 여겼던 푸른빛이 순식간에 차가운 잿빛 안개로 돌변합니다.<br><br>
                정규 타종 전의 여명은 바깥의 존재가 부리는 마지막 환각이었습니다.<br>
@@ -918,7 +918,7 @@ const GAME_STAGES = {
         time: "06:07 AM",
         sanChange: -100,
         isEnding: true,
-        image: "images/hidden_staircase.jpg",
+        image: "images/companion_shadow.jpg",
         audio: "scratch",
         text: `바닥의 훼손된 명찰을 집어 든 순간, 명찰에 묻어 있던 차가운 기름 같은 액체가 손끝으로 스며듭니다.<br><br>
                가슴에 찬 당신의 명찰 글자가 흐릿해지며 어젯밤 사라진 누군가의 학번으로 바뀌어 버렸습니다.<br>
