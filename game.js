@@ -1,6 +1,6 @@
 // ==========================================================================
 // 화랑골 생활관 인터랙티브 생존 게임북 엔진 (Multi-Branch to Single Ending)
-// 유물(아이템) 수집 & 위기 상황 활용 시스템 연동
+// 유물(아이템) 수집 & 위기 상황 활용 & 넋(정신력) 회복 이벤트 시스템 연동
 // ==========================================================================
 
 const GAME_STAGES = {
@@ -18,7 +18,7 @@ const GAME_STAGES = {
         choices: [
             {
                 text: "① 단순한 '건물 수축음'이라 생각하며 침대에 누워 귀를 막는다.",
-                next: "p2_shadow"
+                next: "p1_relax_choice"
             },
             {
                 text: "② 룸메이트 침대로 가 소리를 낮추고 쪽지로 대화한다.",
@@ -55,7 +55,48 @@ const GAME_STAGES = {
                부적을 품속 깊은 안주머니에 챙겨 넣자, 서늘하던 가슴이 든든해집니다.`,
         choices: [
             {
+                text: "호흡을 가다듬으며 넋을 안정시킬 방법을 찾는다.",
+                next: "p1_relax_choice"
+            },
+            {
                 text: "침대로 돌아가 자정 점호 시간을 기다린다.",
+                next: "p2_shadow"
+            }
+        ]
+    },
+
+    p1_relax_choice: {
+        stageTitle: "【 제1막 : 22:20 마찰음이 지나간 뒤 】",
+        time: "22:20 PM",
+        sanChange: 0,
+        image: "images/dorm_dark_corner.jpg",
+        audio: null,
+        text: `복도를 질질 끌며 지나가던 기괴한 소리가 마침내 저 멀리 복도 끝으로 사라졌습니다.<br><br>
+               식은땀으로 등줄기가 축축합니다. 아직 자정 점호까지는 시간이 남아 있습니다. 지금 넋을 추스르지 않으면 밤을 버텨내기 어렵습니다.`,
+        choices: [
+            {
+                text: "보온병에 담아둔 따뜻한 쑥차를 마시며 깊게 심호흡한다.",
+                next: "p1_tea_relax"
+            },
+            {
+                text: "긴장을 늦추지 않고 침대에 누워 점호를 대비한다.",
+                next: "p2_shadow"
+            }
+        ]
+    },
+
+    p1_tea_relax: {
+        stageTitle: "【 🍵 제1막 : 22:30 온기와 심신 안정 】",
+        time: "22:30 PM",
+        sanChange: +20,
+        image: "images/dorm_dark_corner.jpg",
+        audio: null,
+        text: `어둠 속에서 보온병 뚜껑을 조용히 열자, 은은하고 구수한 쑥차 향기가 퍼집니다.<br><br>
+               따뜻한 찻물을 천천히 목을 타고 넘기며 가슴 깊이 숨을 들이쉬고 내쉬었습니다. 얼어붙었던 속이 풀리고 마비되었던 감각이 서서히 제자리를 찾습니다.<br><br>
+               <strong>[ 넋 회복 : 넋의 안정도가 대폭 회복되었습니다 (+20%) ]</strong>`,
+        choices: [
+            {
+                text: "안정을 찾은 정신으로 자정 점호를 기다린다.",
                 next: "p2_shadow"
             }
         ]
@@ -70,6 +111,10 @@ const GAME_STAGES = {
         text: `벽을 두드리자, 복도의 마찰음이 당신 호실 문 바로 앞에서 딱 멈췄습니다.<br><br>
                숨 막히는 침묵 속에서 문틈 너머로 <em>키득거리는 듯한 기괴한 숨소리</em>가 들려옵니다. 다행히 문을 부수지는 않았지만, 당신의 기척이 바깥에 노출되었습니다. 소름이 돋으며 넋의 안정도가 떨어집니다. 식은땀을 닦으며 이를 악물고 침대로 돌아갑니다.`,
         choices: [
+            {
+                text: "쑥차를 마시며 무너진 넋을 필사적으로 추스른다.",
+                next: "p1_tea_relax"
+            },
             {
                 text: "숨을 죽이고 자정 점호 시간을 기다린다.",
                 next: "p2_shadow"
@@ -112,6 +157,10 @@ const GAME_STAGES = {
                <em>"어제 낮에 청소하다가 침대 밑 틈새에서 찾은 여분의 주사 부적이야... 밤에는 넋이 홀리기 쉽다니까 너도 꼭 지니고 있어."</em><br><br>
                거친 경면주사 잉크 냄새가 코끝을 스치며 공포로 떨리던 마음에 중심이 잡힙니다.`,
         choices: [
+            {
+                text: "부적을 품에 넣고 쑥차를 나눠 마시며 안정을 찾는다.",
+                next: "p1_tea_relax"
+            },
             {
                 text: "부적을 품에 넣고 각자 침대에서 점호를 대비한다.",
                 next: "p2_shadow"
@@ -235,8 +284,8 @@ const GAME_STAGES = {
                 next: "p2_find_whistle"
             },
             {
-                text: "새벽 시련을 향해 시간을 흘려보낸다.",
-                next: "p3_murmur"
+                text: "가부좌를 틀고 정화 묵송문으로 넋을 정돈한다.",
+                next: "p2_meditation"
             }
         ]
     },
@@ -255,8 +304,8 @@ const GAME_STAGES = {
                 next: "p2_find_whistle"
             },
             {
-                text: "무시하고 이불을 덮은 채 시간을 보낸다.",
-                next: "p3_murmur"
+                text: "가부좌를 틀고 마음속으로 정화 주문을 암송한다.",
+                next: "p2_meditation"
             }
         ]
     },
@@ -277,7 +326,30 @@ const GAME_STAGES = {
                당신은 호각을 바지 주머니 깊숙이 단단히 챙겨두었습니다.`,
         choices: [
             {
-                text: "호각을 숨기고 새벽 시간을 대비한다.",
+                text: "호각을 쥔 채 정화 묵송문으로 넋을 가다듬는다.",
+                next: "p2_meditation"
+            },
+            {
+                text: "호각을 숨기고 곧바로 새벽 시간을 대비한다.",
+                next: "p3_murmur"
+            }
+        ]
+    },
+
+    p2_meditation: {
+        stageTitle: "【 🧘 제2막 : 00:20 정화 묵송과 넋 정돈 】",
+        time: "00:20 AM",
+        sanChange: +20,
+        image: "images/talisman.jpg",
+        audio: "chant",
+        text: `침대 한가운데 반듯하게 앉아 눈을 감았습니다.<br><br>
+               수칙 제12조의 정화 주문을 소리 내지 않고 입안에서만 굴리며 묵송했습니다.<br>
+               <em>'맑은 기운은 머물고, 탁한 것은 흩어지라...'</em><br><br>
+               방 안을 맴돌던 기괴한 잔향이 씻겨 내려가고, 불안하게 뛰던 맥박이 고요하게 가라앉습니다.<br>
+               <strong>[ 넋 회복 : 정화 묵송으로 넋의 안정도가 대폭 회복되었습니다 (+20%) ]</strong>`,
+        choices: [
+            {
+                text: "맑아진 정신으로 새벽 1시 반을 맞이한다.",
                 next: "p3_murmur"
             }
         ]
@@ -333,7 +405,7 @@ const GAME_STAGES = {
         image: "images/dorm_dark_corner.jpg",
         audio: null,
         text: `스펀지 귀마개를 귓구멍 깊숙이 쑤셔 넣자, 방 안을 떠돌던 기괴한 도플갱어 음색이 먹먹한 침묵 속으로 차단되었습니다.<br><br>
-               마음속으로만 <em>'옴 바즈라 사트바...'</em> 묵송문을 되뇌자, 귓가를 갉아먹던 음성 오염이 씻겨 내려갑니다.`,
+               마음속으로만 정화 묵송문을 되뇌자, 귓가를 갉아먹던 음성 오염이 씻겨 내려갑니다.`,
         choices: [
             {
                 text: "고요 속에서 새벽 2시 반을 맞이한다.",
@@ -395,12 +467,12 @@ const GAME_STAGES = {
                습득해둔 순찰 무인의 유물이 사칭 음성을 통쾌하게 격퇴했습니다!`,
         choices: [
             {
-                text: "수칙 13에 대비하여 베개 안감을 확인해둔다.",
-                next: "p3_find_thread"
+                text: "동실인들과 손을 꽉 쥐며 온기를 나눈다.",
+                next: "p3_warmth"
             },
             {
-                text: "숨을 고르고 새벽 3시 반의 월광을 대비한다.",
-                next: "p4_blood_moon"
+                text: "수칙 13에 대비하여 베개 안감을 확인해둔다.",
+                next: "p3_find_thread"
             }
         ]
     },
@@ -415,11 +487,32 @@ const GAME_STAGES = {
                문밖의 존재는 한참 동안 문고리를 덜컹거리며 애원하다가, 아무 반응이 없자 낮게 투덜거리며 복도 저편으로 멀어져 갔습니다. 비록 신경이 곤두섰지만 문을 열지 않아 무사합니다.`,
         choices: [
             {
+                text: "동실인들과 손을 꽉 쥐며 온기를 나눈다.",
+                next: "p3_warmth"
+            },
+            {
                 text: "수칙 13에 대비하여 베개 안감을 뒤져본다.",
+                next: "p3_find_thread"
+            }
+        ]
+    },
+
+    p3_warmth: {
+        stageTitle: "【 🤝 제3막 : 02:45 체온의 연대 】",
+        time: "02:45 AM",
+        sanChange: +20,
+        image: "images/dorm_dark_corner.jpg",
+        audio: null,
+        text: `위기가 지나간 뒤, 당신과 룸메이트들은 침대 맡에 모여 서로의 떨리는 손을 말없이 꼭 쥐었습니다.<br><br>
+               손바닥을 통해 살아있는 인간의 따뜻한 체온과 강한 심장 박동이 전해집니다. 이 공포 속에서 나 혼자가 아니라는 사실 하나만으로 얼어붙었던 영혼에 온기가 돕니다.<br><br>
+               <strong>[ 넋 회복 : 동료와의 온기 연대로 넋의 안정도가 대폭 회복되었습니다 (+20%) ]</strong>`,
+        choices: [
+            {
+                text: "수칙 13에 대비하여 베개 속 백사를 챙겨둔다.",
                 next: "p3_find_thread"
             },
             {
-                text: "가쁜 숨을 내쉬며 창가 쪽의 기척에 집중한다.",
+                text: "창밖의 핏빛 기척에 대비한다.",
                 next: "p4_blood_moon"
             }
         ]
@@ -811,9 +904,13 @@ function renderStage(stageKey) {
     const timeEl = document.getElementById("game-time");
     if (timeEl) timeEl.textContent = stage.time;
 
-    // 3. SAN치(넋의 안정도) 갱신
+    // 3. SAN치(넋의 안정도) 갱신 및 회복 알림
+    const prevSan = currentSan;
     if (stageKey !== "start") {
         currentSan = Math.max(0, Math.min(100, currentSan + (stage.sanChange || 0)));
+        if (stage.sanChange && stage.sanChange > 0 && typeof showToast === 'function' && stageKey !== "true_ending") {
+            showToast(`🧘 [넋 회복] 넋의 안정도가 회복되었습니다 (+${stage.sanChange}%)`);
+        }
     }
 
     const sanBar = document.getElementById("san-bar");
