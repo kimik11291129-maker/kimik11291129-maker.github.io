@@ -104,10 +104,13 @@
     </aside>
 
     <!-- 프로젝트 상세 모달 -->
-    <div id="project-modal-backdrop" class="project-modal-backdrop" onclick="closeProjectModal()"></div>
-    <div id="project-modal" class="project-modal" role="dialog" aria-modal="true" aria-hidden="true">
-        <button class="modal-close-btn" onclick="closeProjectModal()" title="창 닫기">&times;</button>
-        <div id="project-modal-body" class="project-modal-body"></div>
+    <div id="project-detail-modal-backdrop" class="project-detail-modal-backdrop" onclick="if(event.target === this) closeProjectModal()">
+        <div class="project-detail-modal">
+            <button class="modal-close-btn" onclick="closeProjectModal()" title="닫기">✕</button>
+            <div id="modal-project-category" class="modal-category">CATEGORY</div>
+            <h3 id="modal-project-title" class="modal-title">Project Title</h3>
+            <div id="modal-project-body" class="modal-body-content"></div>
+        </div>
     </div>
 
     <div class="desk-viewport is-zoomed">
