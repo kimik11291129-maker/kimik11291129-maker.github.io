@@ -34,3 +34,4 @@ try {
     console.error('Error extracting GAME_STAGES:', err);
     process.exit(1);
 }
+

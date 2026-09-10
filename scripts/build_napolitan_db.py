@@ -18,6 +18,8 @@ SCHEMA_PATH = DATA_DIR / "napolitan_schema.sql"
 STAGES_JSON_PATH = DATA_DIR / "stages.json"
 RULES_JSON_PATH = DATA_DIR / "rules.json"
 
+CDN_BASE = "https://kimik11291129-maker.github.io"
+
 def init_database():
     """스키마 SQL을 실행하여 테이블 구조를 초기화합니다."""
     print(f"[*] 데이터베이스 초기화: {DB_PATH}")
@@ -47,6 +49,8 @@ def seed_works():
             "15~25분",
             "22시 정각, 철문이 잠기면 복도는 더 이상 사람만의 공간이 아닙니다. 13가지 금기를 지키고 06:30 아침 점호까지 온전히 살아남으십시오.",
             "images/iron_door_lock.jpg",
+            f"{CDN_BASE}/images/iron_door_lock.jpg",
+            f"{CDN_BASE}/gamebooks.html",
             "ACTIVE"
         ),
         (
@@ -59,6 +63,8 @@ def seed_works():
             "10~15분",
             "자정이 넘은 시각, 남태령을 지나는 막차에서 절대 승객들의 눈을 마주치지 마십시오. 창문 블라인드가 내려간 칸은 존재하지 않는 칸입니다.",
             "images/creepy_corridor_night.jpg",
+            f"{CDN_BASE}/images/creepy_corridor_night.jpg",
+            f"{CDN_BASE}/gamebooks.html",
             "COMING_SOON"
         ),
         (
@@ -71,14 +77,16 @@ def seed_works():
             "15~20분",
             "404호 병실은 1998년 화재 이후 폐쇄되었습니다. 만약 404호의 호출 벨이 울리거든 벨 코드를 뽑고 뒤돌아보지 마십시오.",
             "images/companion_shadow.jpg",
+            f"{CDN_BASE}/images/companion_shadow.jpg",
+            f"{CDN_BASE}/gamebooks.html",
             "COMING_SOON"
         )
     ]
 
     cursor.executemany("""
         INSERT OR REPLACE INTO works 
-        (work_id, title, subtitle, author, danger_level, survival_rate, play_time, description, cover_image, status)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        (work_id, title, subtitle, author, danger_level, survival_rate, play_time, description, cover_image, cover_url, hub_url, status)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     """, works_data)
 
     conn.commit()
@@ -149,11 +157,13 @@ def parse_and_seed_rules():
     # 2) Rules 시딩
     for r in rules_catalog:
         c_id = chapters_map[r["chapter_no"]]
+        audio_url = f"{CDN_BASE}/audio/{r['audio']}.wav" if r.get("audio") else None
+        image_url = f"{CDN_BASE}/{r['img']}" if r.get("img") else None
         cursor.execute("""
             INSERT OR REPLACE INTO rules 
-            (chapter_id, rule_no, title, danger_level, content, evidence_audio, evidence_image)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
-        """, (c_id, r["rule_no"], r["title"], r["danger"], r["content"], r["audio"], r["img"]))
+            (chapter_id, rule_no, title, danger_level, content, evidence_audio, evidence_image, audio_url, image_url)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """, (c_id, r["rule_no"], r["title"], r["danger"], r["content"], r.get("audio"), r.get("img"), audio_url, image_url))
 
     conn.commit()
     conn.close()
@@ -186,19 +196,25 @@ def seed_stages_and_choices():
                 ending_type = "END"
 
         gain_item_str = json.dumps(data.get("gainItem"), ensure_ascii=False) if data.get("gainItem") else None
+        img_rel = data.get("image", "images/iron_door_lock.jpg")
+        img_url = f"{CDN_BASE}/{img_rel}" if img_rel else None
+        audio_k = data.get("audio")
+        audio_u = f"{CDN_BASE}/audio/{audio_k}.wav" if audio_k else None
 
         cursor.execute("""
             INSERT OR REPLACE INTO stages 
-            (stage_id, work_id, stage_title, time_str, san_change, image_path, audio_key, secret_hint, gain_item_json, body_text, is_ending, ending_type)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            (stage_id, work_id, stage_title, time_str, san_change, image_path, image_url, audio_key, audio_url, secret_hint, gain_item_json, body_text, is_ending, ending_type)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """, (
             stage_id,
             "hwarang",
             data.get("stageTitle", stage_id),
             data.get("time", ""),
             data.get("sanChange", 0),
-            data.get("image", "images/iron_door_lock.jpg"),
-            data.get("audio"),
+            img_rel,
+            img_url,
+            audio_k,
+            audio_u,
             data.get("secretHint"),
             gain_item_str,
             data.get("text", ""),

@@ -15,7 +15,9 @@ CREATE TABLE IF NOT EXISTS works (
     survival_rate TEXT DEFAULT '4.8%',      -- 예상 생존율
     play_time TEXT DEFAULT '15~25분',       -- 평균 플레이 시간
     description TEXT,                       -- 시놉시스 요약
-    cover_image TEXT,                       -- 대표 커버 이미지 경로
+    cover_image TEXT,                       -- 상대 경로 (예: images/iron_door_lock.jpg)
+    cover_url TEXT,                         -- 외부 CDN 링크 (예: https://.../images/...)
+    hub_url TEXT,                           -- 플레이어블 웹 Hub 링크 (예: https://.../gamebooks.html)
     status TEXT DEFAULT 'ACTIVE',           -- 상태 ('ACTIVE', 'COMING_SOON', 'LOCKED')
     created_at TEXT DEFAULT (datetime('now', 'localtime'))
 );
@@ -40,8 +42,10 @@ CREATE TABLE IF NOT EXISTS rules (
     title TEXT NOT NULL,                    -- 수칙 요약 제목 (예: '복도의 마찰음에 대하여')
     danger_level TEXT DEFAULT 'NORMAL',     -- 'NORMAL', 'WARNING', 'FATAL'
     content TEXT NOT NULL,                  -- 수칙 본문 지침 내용
-    evidence_audio TEXT,                    -- 효과음 키/경로
-    evidence_image TEXT,                    -- 증거 사진 경로
+    evidence_audio TEXT,                    -- 효과음 상대 키/경로
+    evidence_image TEXT,                    -- 증거 사진 상대 경로
+    audio_url TEXT,                         -- 외부 CDN 음원 스트리밍 링크
+    image_url TEXT,                         -- 외부 CDN 고해상도 이미지 링크
     FOREIGN KEY (chapter_id) REFERENCES chapters(chapter_id) ON DELETE CASCADE,
     UNIQUE(chapter_id, rule_no)
 );
@@ -53,8 +57,10 @@ CREATE TABLE IF NOT EXISTS stages (
     stage_title TEXT NOT NULL,              -- 스테이지 타이틀 (예: '【 제1막 : 22:00 폐쇄와 마찰음 】')
     time_str TEXT,                          -- 시점 (예: '22:00 PM')
     san_change INTEGER DEFAULT 0,           -- 넋(정신력) 변화치 (-20, +10)
-    image_path TEXT,                        -- 배경 이미지 경로
-    audio_key TEXT,                         -- 재생 오디오 키 ('scratch', 'heartbeat' 등)
+    image_path TEXT,                        -- 상대 경로 (images/...)
+    image_url TEXT,                         -- 외부 CDN 이미지 링크 (HTTPS)
+    audio_key TEXT,                         -- 오디오 키
+    audio_url TEXT,                         -- 외부 CDN 음원 스트리밍 링크 (HTTPS)
     secret_hint TEXT,                       -- 숨은 혈서 힌트 내용
     gain_item_json TEXT,                    -- 획득 아이템 JSON ({"id": "talisman", "name": "주사 부적", "icon": "📜"})
     body_text TEXT NOT NULL,                -- 상황 지문 HTML 본문
@@ -79,3 +85,4 @@ CREATE TABLE IF NOT EXISTS choices (
 CREATE INDEX IF NOT EXISTS idx_rules_chapter ON rules(chapter_id);
 CREATE INDEX IF NOT EXISTS idx_stages_work ON stages(work_id);
 CREATE INDEX IF NOT EXISTS idx_choices_stage ON choices(stage_id);
+
