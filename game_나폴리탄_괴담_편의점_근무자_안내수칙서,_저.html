@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📜 [나폴리탄 괴담] 편의점 근무자 안내수칙서, 저희 편의점에 지원해 주신 예비 근무자분들께 감사드립니다. | 공포라디오 | 무서운이야기 | 매뉴얼 괴담 | 공포썰 | 🎮 나폴리탄 실전 생존 시험</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <a href="gamebooks.html" class="global-menu-trigger" style="text-decoration: none; color: #eee;" title="나폴리탄 서고로 돌아가기">
+        <span class="hamburger-icon">📚</span> 서고 목록
+    </a>
+
+    <div class="desk-viewport is-zoomed">
+        <div class="desk-canvas">
+            <div class="scroll-wrapper">
+                <div class="scroll-paper" id="scroll-paper">
+                    <div id="flashlight-overlay" class="flashlight-overlay"></div>
+
+                    <div class="scroll-header">
+                        <div class="scroll-seal-tag">
+                            <span class="red-seal">생존 · 시험</span>
+                            <span class="scroll-title-tag">[나폴리탄 괴담] 편의점 근무자 안내수칙서, 저희  · 실전 기록</span>
+                        </div>
+                        <nav class="inner-nav">
+                            <a href="gamebooks.html" class="nav-item">📚 나폴리탄 서고</a>
+                            <a href="game.html" class="nav-item">🏛️ 화랑골 본관</a>
+                            <a href="javascript:void(0)" class="nav-item active" style="color: #ff5555; border-color: #b72b2b;">🎮 실전 시험</a>
+                        </nav>
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <button class="sound-toggle-btn" onclick="toggleBGM(this)">🔇 심야 앰비언스</button>
+                            <button id="lantern-toggle-btn" class="lantern-btn" onclick="toggleLantern(this)">🕯️ 초롱불 끄기</button>
+                        </div>
+                    </div>
+
+                    <div class="game-hud">
+                        <div class="hud-item time-hud">
+                            <span class="hud-label">현재 시각</span>
+                            <span id="game-time" class="hud-value">22:00 PM</span>
+                        </div>
+                        <div class="hud-item san-hud">
+                            <span class="hud-label">넋의 안정도</span>
+                            <div class="san-bar-track">
+                                <div id="san-bar" class="san-bar-fill" style="width: 100%;"></div>
+                            </div>
+                            <span id="san-text" class="hud-value">100%</span>
+                        </div>
+                        <div class="hud-item relics-hud">
+                            <span class="hud-label">소지 유물</span>
+                            <span id="relic-icons" class="relic-icons" title="소지한 결계 유물 목록">없음</span>
+                        </div>
+                        <div class="hud-item companion-hud">
+                            <span class="hud-label">동행</span>
+                            <span id="companion-badge" class="companion-badge">단독 👤</span>
+                        </div>
+                    </div>
+
+                    <div class="scroll-content-area game-play-area">
+                        <div id="story-container" class="story-box">
+                            <h3 id="story-stage-title" class="story-title">【 준비 중 】</h3>
+                            <div id="story-image-box" class="story-media" style="display: none;"></div>
+                            <div id="blood-secret-hint" class="blood-secret-hint"></div>
+                            <p id="story-text" class="story-paragraph">
+                                어둠 속에서 수칙서를 펼치며 실전 생존 시험이 시작됩니다...
+                            </p>
+                        </div>
+
+                        <div id="choices-container" class="choices-box"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="desk-props">
+                <div class="prop-item prop-whistle" onclick="showToast('📯 비상 신호 호각: 품속에 안전하게 보관 중입니다.')" title="비상 호각">
+                    <img src="images/whistle.jpg" alt="호각" onerror="this.style.display='none'">
+                    <span class="prop-label">비상 호각</span>
+                </div>
+                <div class="prop-item prop-talisman" onclick="showToast('📜 붉은 주사 부적: 결계의 기운이 유지되고 있습니다.')" title="주사 부적">
+                    <img src="images/talisman.jpg" alt="부적" onerror="this.style.display='none'">
+                    <span class="prop-label">주사 부적</span>
+                </div>
+            </div>
+        </div>
+
+        <a href="gamebooks.html" class="zoom-out-btn">📚 나폴리탄 서고로 나가기</a>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="js/game_나폴리탄_괴담_편의점_근무자_안내수칙서,_저.js"></script>
+</body>
+</html>

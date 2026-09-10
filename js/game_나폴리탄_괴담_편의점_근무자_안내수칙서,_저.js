@@ -1,0 +1,416 @@
+// ==========================================================================
+// [[나폴리탄 괴담] 편의점 근무자 안내수칙서, 저희 편의점에 지원해 주신 예비 근무자분들께 감사드립니다. | 공포라디오 | 무서운이야기 | 매뉴얼 괴담 | 공포썰] 화랑골 인터랙티브 나폴리탄 게임북 런타임
+// ==========================================================================
+
+const GAME_STAGES = {
+    "start": {
+        "stageId": "start",
+        "stageTitle": "【 제1막 : 22:00 PM 어둠의 경계와 수칙서 발견 】",
+        "time": "22:00 PM",
+        "sanChange": 0,
+        "image": "images/iron_door_lock.jpg",
+        "audio": "drone",
+        "secretHint": "🩸 [선배 생존자의 혈서] '기사님의 시럽 추가 요구 대응 수칙' 수칙을 명심하라. 첫 번째 금기를 어기면 아침을 보지 못한다.",
+        "text": "<strong>[[나폴리탄 괴담] 편의점 근무자 안내수칙서, 저희 편의점에 지원해 주신 예비 근무자분들께 감사드립니다. | 공포라디오 | 무서운이야기 | 매뉴얼 괴담 | 공포썰]</strong>의 현장에 발을 들이자 등 뒤의 육중한 문이 차갑게 잠기며 바깥세상과의 연결이 단절되었습니다.<br><br>낡은 탁자 위에는 이전 근무자가 피로 남긴 듯한 <strong>[생존 수칙서]</strong>가 놓여 있습니다. 총 14가지 금기가 빽빽이 적혀 있습니다.<br><br>원작 작가 <em>미스터리북</em>의 기록에 따르면, 첫 번째 수칙 <strong>[기사님의 시럽 추가 요구 대응 수칙]</strong>의 이상 징후가 서서히 시작되려 합니다.",
+        "choices": [
+            {
+                "text": "① 제1수칙 [기사님의 시럽 추가 요구 대응 수칙]을 가슴속에 새기며 침착하게 대처한다.",
+                "next": "stage_r1"
+            },
+            {
+                "text": "② 주변을 수색하여 호신용 비상 결계 유물을 찾는다.",
+                "next": "stage_search_item"
+            },
+            {
+                "text": "③ 헛소리라 비웃으며 수칙서를 구겨 버리고 행동한다.",
+                "next": "bad_end_disregard"
+            }
+        ],
+        "isEnding": false,
+        "endingType": null
+    },
+    "stage_search_item": {
+        "stageId": "stage_search_item",
+        "stageTitle": "【 제1막 : 22:15 PM 비상 결계 부적 입수 】",
+        "time": "22:15 PM",
+        "sanChange": 15,
+        "image": "images/talisman.jpg",
+        "audio": "whistle",
+        "secretHint": "🩸 [혈서] 품속에 지닌 부적은 극한의 위기에서 당신의 목숨을 단 한 번 구원할 것이다.",
+        "gainItem": {
+            "id": "relic_item",
+            "name": "붉은 주사 부적",
+            "icon": "📜"
+        },
+        "text": "당신은 숨을 죽인 채 서랍 깊숙한 비밀 틈새를 조사했습니다.<br><br>주사로 정성껏 쓴 <strong>[붉은 주사 부적 📜]</strong>과 긴급 호신 메모가 들어 있었습니다.<br><br>부적의 서늘하면서도 온화한 기운이 몸을 감싸며 이성도(SAN)가 회복되었습니다 (+15%).",
+        "choices": [
+            {
+                "text": "부적을 챙긴 뒤, 제1수칙 [기사님의 시럽 추가 요구 대응 수칙]에 맞선다.",
+                "next": "stage_r1"
+            }
+        ],
+        "isEnding": false,
+        "endingType": null
+    },
+    "bad_end_disregard": {
+        "stageId": "bad_end_disregard",
+        "stageTitle": "💀 【 즉각 참극 : 수칙 무시와 조롱의 대가 】",
+        "time": "22:05 PM",
+        "sanChange": -100,
+        "image": "images/beast_shadow.jpg",
+        "audio": "scratch",
+        "secretHint": "🩸 [사망 통지서] 수칙을 믿지 않는 자는 규칙 괴담의 첫 번째 제물이 된다.",
+        "text": "수칙을 미신이라 비웃던 순간, 방 안의 모든 조명이 일제히 꺼졌습니다.<br><br>천장 모서리에서 스르륵 흘러내린 기괴한 형체가 당신의 목덜미를 휘감았습니다.<br>비명조차 지르지 못한 채 당신의 흔적은 영원히 지워졌습니다.",
+        "choices": [
+            {
+                "text": "🔄 처음부터 다시 도전",
+                "next": "start"
+            },
+            {
+                "text": "📚 서고 허브로 돌아가기",
+                "url": "gamebooks.html"
+            }
+        ],
+        "isEnding": true,
+        "endingType": "DEATH"
+    },
+    "stage_r1": {
+        "stageId": "stage_r1",
+        "stageTitle": "【 제1막 : 23:30 PM 제1조 [기사님의 시럽 추가 요구 대응 수칙]의 전조 】",
+        "time": "23:30 PM",
+        "sanChange": -15,
+        "image": "images/creepy_corridor_night.jpg",
+        "audio": "drone",
+        "secretHint": "🩸 [혈서 힌트] 제1조 금기: 두 번째 항목과 같은 사유로 카운터의 빛이 되어 있습니다 반드시 규칙서에서 지침 한 내용일 때만 응용하여 주... 의심하지 말고 수칙을 따르라.",
+        "text": "자정이 가까워지자 공기가 싸늘하게 식어가며 <strong>제1수칙 [기사님의 시럽 추가 요구 대응 수칙]</strong>의 현상이 나타납니다.<br><br><em>\"두 번째 항목과 같은 사유로 카운터의 빛이 되어 있습니다 반드시 규칙서에서 지침 한 내용일 때만 응용하여 주십시오 그 이외의 경우에는 오히려 그들의 표적이 될 수 있습니다 본인의 근무시간 중 주문한 물건이 입고되는 시간대 알바 분들께서는 매장 밖을 관찰하는 cctv가 한데 설치되어 있습니다 저희 매장은 물건이 입고될 때 하얀색 짐칸 트럭에서 파란색 유니폼을 입고 계신 중년의 남성분이 매장으로 물건을 가지고 오십니다 다른 색상의 유니폼을 입은 기사님이 확인된다면 물건을 가지고 들어오셨을 때 저희의 물건이 아닙니다 실수하였습니다 죄송합니다라고 정중하게 이야기 부탁드립니다 그 뒤 그것은 미소를 띄며 다시 물건을 가지고 나갈 것이고 얼마 뒤 원래의 기사님께서 물건을 가지고 오실 것입니다 그것은 예의 없는 사람에게는 절대 자비를 주지 않습니다 다시 한번 경고합니다 그가 정중하게 이야기했을 때 미소를 띄는 것에는 분명한 이유가 있습니다 만약 차량이나 기사님의 유니폼색이 빨간색이라면 그 즉시 빠르게 입구로 달려가 문을 잠근 후 카운터로 달려가서 몸을 최대한 웅크려서 눈을 감고 귀를 막아주시길 바랍니다 절대 외부를 보아서도 안 되고 그것의 소리를 들어서는 안 됩니다 5분이 지난 후 온몸에 감도는 전율이 사라졌다면 천천히 일어나신 후 귀를 열고 눈을 천천히 떠 주시기 바랍니다 반드시 위 순서를 지켜주셔야 하며 지키지 않았을 때에 일어나는 일에 대해서는 아직 밝혀진 바가 없습니다 모든 상황이 종료된 후 들어온 손님께서 왜 문이 잠겨 있었냐고 물어볼 시 그냥 화장실을 이용 중이어서 그랬다고 말하여 주시길 바랍니다 저희 가게에는 커피 머신이 있습니다 기사님께서 평소처럼 아이스 아메리카노로 저요라고 하신다면 친절하게 계산 후 시럽은 얼마나 필요하신지 꼭 물어봐 주시길 바랍니다 기사님께선 매일\"</em><br><br>수칙에 적힌 전조 증상이 한 치의 오차도 없이 현실로 닥쳐왔습니다. 당신의 등골이 오싹해집니다.",
+        "choices": [
+            {
+                "text": "① [수칙 준수] 적힌 지침을 정확히 이행하며 침묵을 유지한다.",
+                "next": "stage_r2"
+            },
+            {
+                "text": "② [소지 유물 사용] 부적의 힘을 빌려 사악한 기운을 밀어낸다.",
+                "requireItem": "relic_item",
+                "next": "stage_r2"
+            },
+            {
+                "text": "③ [호기심/공포] 금기를 어기고 호기심에 문틈을 엿본다.",
+                "next": "bad_end_r1"
+            }
+        ],
+        "isEnding": false,
+        "endingType": null
+    },
+    "bad_end_r1": {
+        "stageId": "bad_end_r1",
+        "stageTitle": "💀 【 영구 실종 : 제1수칙 [기사님의 시럽 추가 요구 대응 수칙] 위반 】",
+        "time": "23:35 PM",
+        "sanChange": -100,
+        "image": "images/beast_shadow.jpg",
+        "audio": "mimic",
+        "secretHint": "🩸 [실종자 기록] 첫 번째 규칙을 어긴 자에게 두 번째 기회는 허락되지 않는다.",
+        "text": "당신은 제1수칙 <strong>[기사님의 시럽 추가 요구 대응 수칙]</strong>의 경고를 어겼습니다.<br><br><em>\"두 번째 항목과 같은 사유로 카운터의 빛이 되어 있습니다 반드시 규칙서에서 지침 한 내용일 때만 응용하여 주십시오 그 이외의 경우에는 오히려 그들의 표적이 될 수 있습니다 본인의 근무시간 중 주문한 물건이 입고되는 시간대 알바 분들께서는 매장 밖을 관찰하는 cctv가 한데 설치되어 있습니다 저희 매장은 물건이 입고될 때 하얀색 짐칸 트럭에서 파란색 유니폼을 입고 계신 중년의 남성분이 매장으로 물건을 가지고 오십니다 다른 색상의 유니폼을 입은 기사님이 확인된다면 물건을 가지고 들어오셨을 때 저희의 물건이 아닙니다 실수하였습니다 죄송합니다라고 정중하게 이야기 부탁드립니다 그 뒤 그것은 미소를 띄며 다시 물건을 가지고 나갈 것이고 얼마 뒤 원래의 기사님께서 물건을 가지고 오실 것입니다 그것은 예의 없는 사람에게는 절대 자비를 주지 않습니다 다시 한번 경고합니다 그가 정중하게 이야기했을 때 미소를 띄는 것에는 분명한 이유가 있습니다 만약 차량이나 기사님의 유니폼색이 빨간색이라면 그 즉시 빠르게 입구로 달려가 문을 잠근 후 카운터로 달려가서 몸을 최대한 웅크려서 눈을 감고 귀를 막아주시길 바랍니다 절대 외부를 보아서도 안 되고 그것의 소리를 들어서는 안 됩니다 5분이 지난 후 온몸에 감도는 전율이 사라졌다면 천천히 일어나신 후 귀를 열고 눈을 천천히 떠 주시기 바랍니다 반드시 위 순서를 지켜주셔야 하며 지키지 않았을 때에 일어나는 일에 대해서는 아직 밝혀진 바가 없습니다 모든 상황이 종료된 후 들어온 손님께서 왜 문이 잠겨 있었냐고 물어볼 시 그냥 화장실을 이용 중이어서 그랬다고 말하여 주시길 바랍니다 저희 가게에는 커피 머신이 있습니다 기사님께서 평소처럼 아이스 아메리카노로 저요라고 하신다면 친절하게 계산 후 시럽은 얼마나 필요하신지 꼭 물어봐 주시길 바랍니다 기사님께선 매일\"</em><br><br>어둠 속의 눈동자가 당신과 정면으로 마주쳤고, 당신은 그림자 속으로 빨려 들어갔습니다.",
+        "choices": [
+            {
+                "text": "🔄 처음부터 다시 도전",
+                "next": "start"
+            },
+            {
+                "text": "📚 서고 허브로 복귀",
+                "url": "gamebooks.html"
+            }
+        ],
+        "isEnding": true,
+        "endingType": "MISSING"
+    },
+    "stage_r2": {
+        "stageId": "stage_r2",
+        "stageTitle": "【 제2막 : 01:20 AM 제2조 [기사님의 시럽 추가 요구 대응 수칙]의 심연 】",
+        "time": "01:20 AM",
+        "sanChange": -20,
+        "image": "images/dorm_dark_corner.jpg",
+        "audio": "scratch",
+        "secretHint": "🩸 [혈서 힌트] 기사님의 시럽 추가 요구 대응 수칙: 절대로 눈을 마주치지 말고 시선을 바닥에 고정할 것.",
+        "text": "자정이 지나 시각은 새벽 1시 20분. 복도에서 기괴한 긁는 소리와 함께 <strong>제2수칙 [기사님의 시럽 추가 요구 대응 수칙]</strong>의 위협이 발생합니다.<br><br><em>\"시럽을 넣는 횟수가 다릅니다 그 횟수를 잘 보시고 아래 3-\"</em><br><br>귓가에 숨결이 닿을 듯한 거리에서 기괴한 속삭임이 맴돌며 당신의 이성을 시험합니다.",
+        "choices": [
+            {
+                "text": "① [수칙 준수] 호흡을 멈추고 시선을 완전히 바닥으로 내린다.",
+                "next": "stage_act3_dilemma"
+            },
+            {
+                "text": "② [도주] 비명을 지르며 반대편 복도로 내달린다.",
+                "next": "bad_end_panic"
+            }
+        ],
+        "isEnding": false,
+        "endingType": null
+    },
+    "bad_end_panic": {
+        "stageId": "bad_end_panic",
+        "stageTitle": "💀 【 이성 붕괴 : 패닉과 도주의 종말 】",
+        "time": "01:25 AM",
+        "sanChange": -100,
+        "image": "images/void_staircase.jpg",
+        "audio": "mimic",
+        "secretHint": "🩸 [사망 확인서] 규칙 괴담 구역에서 달리는 자는 사냥감이 될 뿐이다.",
+        "text": "공포를 이기지 못하고 뛰쳐나간 당신의 발밑이 허공으로 꺼졌습니다.<br><br>끝없는 나선형 계단 아래로 추락하며 의식을 잃었습니다.<br>당신의 이성은 0%로 붕괴되었습니다.",
+        "choices": [
+            {
+                "text": "🔄 처음부터 다시 도전",
+                "next": "start"
+            },
+            {
+                "text": "📚 서고 허브로 복귀",
+                "url": "gamebooks.html"
+            }
+        ],
+        "isEnding": true,
+        "endingType": "MADNESS"
+    },
+    "stage_act3_dilemma": {
+        "stageId": "stage_act3_dilemma",
+        "stageTitle": "【 제3막 : 03:40 AM 지인의 목소리와 [3번 수칙을 꼭 따라 주시길 바랍니다 만약 기...] 딜레마 】",
+        "time": "03:40 AM",
+        "sanChange": -25,
+        "image": "images/companion_shadow.jpg",
+        "audio": "roommate",
+        "secretHint": "🩸 [피 묻은 메모] 문 밖의 저 목소리는 사람이 아니다. 3번 수칙을 꼭 따라 주시길 바랍니다 만약 기... 수칙을 상기하라.",
+        "text": "가장 위험한 새벽 3시 40분. 문 밖에서 익숙한 동료의 목소리로 애타게 문을 두드립니다.<br><br><em>\"살려줘... 나야! 제발 문 좀 열어줘! 뒤에서 그것이 쫓아오고 있어!\"</em><br><br>하지만 수칙서 <strong>제3조 [3번 수칙을 꼭 따라 주시길 바랍니다 만약 기...]</strong>에는 이렇게 적혀 있습니다:<br><em>\"3번 수칙을 꼭 따라 주시길 바랍니다 만약 기사님께서 고맙다며 음료 하나를 건네주신다면 하루가 지나기 전에 그 음료를 꼭 마셔주세요 당신의 친절의 감동한 기사님의 작은 보답이니까요\"</em>",
+        "choices": [
+            {
+                "text": "① [철칙 엄수] 동료의 모습을 한 괴이라는 것을 간파하고 문을 굳게 닫아건다.",
+                "next": "stage_final_trial"
+            },
+            {
+                "text": "② [소지 유물 활용] 결계 부적을 문틈에 붙이고 정화 주문을 읊조린다.",
+                "requireItem": "relic_item",
+                "next": "stage_final_trial"
+            },
+            {
+                "text": "③ [인간적 연민] 동료를 버릴 수 없어 문을 열어준다.",
+                "next": "bad_end_roommate"
+            }
+        ],
+        "isEnding": false,
+        "endingType": null
+    },
+    "bad_end_roommate": {
+        "stageId": "bad_end_roommate",
+        "stageTitle": "💀 【 참극 : 흉내 괴이에게 낚인 최후 】",
+        "time": "03:45 AM",
+        "sanChange": -100,
+        "image": "images/beast_shadow.jpg",
+        "audio": "mimic",
+        "secretHint": "🩸 [경고문] 어둠 속의 그것은 당신의 가장 소중한 사람의 목소리를 흉내 낸다.",
+        "text": "문을 열어준 순간, 그곳에 서 있던 것은 동료가 아니었습니다.<br><br>입이 귀밑까지 찢어진 괴이가 기괴한 웃음을 터뜨리며 방 안으로 쏟아져 들어왔습니다.<br>그것은 당신의 얼굴을 가죽처럼 벗겨내며 새로운 희생자를 유인할 준비를 합니다.",
+        "choices": [
+            {
+                "text": "🔄 처음부터 다시 도전",
+                "next": "start"
+            },
+            {
+                "text": "📚 서고 허브로 복귀",
+                "url": "gamebooks.html"
+            }
+        ],
+        "isEnding": true,
+        "endingType": "DEATH"
+    },
+    "stage_final_trial": {
+        "stageId": "stage_final_trial",
+        "stageTitle": "【 제4막 : 05:50 AM 마지막 관문 [결번(삭제된 6번 수칙)에 대한 절대 주의문] 】",
+        "time": "05:50 AM",
+        "sanChange": -15,
+        "image": "images/temple_bell_tower.jpg",
+        "audio": "bell",
+        "secretHint": "🩸 [마지막 쪽지] 해가 뜨기 직전 마지막 유혹이 온다. 결번(삭제된 6번 수칙)에 대한 절대 주의문을 지키면 살아서 돌아갈 수 있다.",
+        "text": "창밖이 푸르스름하게 밝아오기 시작합니다. 먼 곳에서 새벽 타종 소리가 울립니다.<br><br>하지만 <strong>마지막 수칙 [결번(삭제된 6번 수칙)에 대한 절대 주의문]</strong>의 마지막 시련이 닥칩니다.<br><em>\"여섯 번째 항목은 그 어떠한 경우에도 절대 작성되지 않아서 결국 강제로 건너뛸 수밖에 없게 되었습니다 신경 쓰실 점들이 한둘이 아니기에 피곤하시고 예민하시겠지만 사전에 안내 드린 것처럼 위험하지만 어느 곳에 편의점보다도 빵빵한 시급과 복지를 제공해 드립니다 저희 편의점을 위해서 일해주시고 항상 수고해주시는 직원분들께 정말 감사드립니다 추가 강조사항 저희 수칙서에는 끈 문장을 다로 끝나는 문장 위에 다른 문장은 존재하지 않습니다 만약 그런 문장이 존재한다면 꼭 지켜주세요 또한 4번 항목은 원인을 알 수 없게 스스로 문장이 고쳐지는 현상이 일어나고 있습니다 4번 항목이 존재하더라도 가급적 무시해 주세요 그러나 언젠가 필요한 경우가 있을 수도 있으니까 배제하진 말아주세요 언제 당신을 해칠지 모르니까\"</em><br><br>06:30 정각 공식 해제 방송이 나올 때까지 아직 40분이 남아 있습니다. 방송처럼 들리는 위조 방송이 스피커에서 흘러나옵니다.",
+        "choices": [
+            {
+                "text": "① [의심과 인내] 위조 방송에 속지 않고 06:30 정각까지 눈을 감고 버틴다.",
+                "next": "true_survival_ending"
+            },
+            {
+                "text": "② [조급한 탈출] 날이 밝았다고 확신하고 곧바로 문을 박차고 뛰어나간다.",
+                "next": "bad_end_premature"
+            }
+        ],
+        "isEnding": false,
+        "endingType": null
+    },
+    "bad_end_premature": {
+        "stageId": "bad_end_premature",
+        "stageTitle": "💀 【 안타까운 종말 : 여명 직전의 방심 】",
+        "time": "06:10 AM",
+        "sanChange": -100,
+        "image": "images/creepy_corridor_night.jpg",
+        "audio": "broadcast",
+        "secretHint": "🩸 [생존 실패] 마지막 20분을 버티지 못한 수많은 이들이 안개 속으로 사라졌다.",
+        "text": "아직 해가 완전히 뜨지 않은 06:10, 문을 열고 나간 당신 앞에는 안개가 짙게 깔려 있었습니다.<br><br>그 안개 속에서 수백 개의 손이 뻗어 나와 당신을 낚아챘습니다.<br>새벽 점호 방송이 울려 퍼질 때, 당신의 방에는 오직 떨어진 신발 한 짝만이 남아 있었습니다.",
+        "choices": [
+            {
+                "text": "🔄 처음부터 다시 도전",
+                "next": "start"
+            },
+            {
+                "text": "📚 서고 허브로 복귀",
+                "url": "gamebooks.html"
+            }
+        ],
+        "isEnding": true,
+        "endingType": "MISSING"
+    },
+    "true_survival_ending": {
+        "stageId": "true_survival_ending",
+        "stageTitle": "🌅 【 생존 증명 : 06:30 AM 참된 여명 속의 귀환 】",
+        "time": "06:30 AM",
+        "sanChange": 50,
+        "image": "images/blood_moon_mountain.jpg",
+        "audio": "chant",
+        "secretHint": "🩸 [생존자 서명] 당신은 규칙을 온전히 지켜내고 악몽의 밤에서 살아남았습니다.",
+        "text": "06:30 AM 정각, 경쾌하고 명확한 아침 점호 방송과 함께 바깥에서 따스한 햇살이 비쳐듭니다.<br><br>밤새 귓가를 괴롭히던 불길한 기척과 환청은 아침 햇살 속에 연기처럼 흩어졌습니다.<br><br>당신은 <strong>[[나폴리탄 괴담] 편의점 근무자 안내수칙서, 저희 편의점에 지원해 주신 예비 근무자분들께 감사드립니다. | 공포라디오 | 무서운이야기 | 매뉴얼 괴담 | 공포썰]</strong>의 지옥 같은 14가지 금기를 모두 준수하고 온전한 정신으로 살아남았습니다.<br>당신의 생존 기록은 공식 아카이브에 영구 보존됩니다.",
+        "choices": [
+            {
+                "text": "🏆 생존 증명서 발급 및 명예의 전당 등록",
+                "url": "gamebooks.html"
+            },
+            {
+                "text": "🔄 다른 분기로 다시 도전하기",
+                "next": "start"
+            }
+        ],
+        "isEnding": true,
+        "endingType": "SURVIVAL"
+    }
+};
+
+let currentStageId = "start";
+let playerSAN = 100;
+let playerInventory = [];
+let playerCompanion = "단독 👤";
+
+function initGame() {
+    currentStageId = "start";
+    playerSAN = 100;
+    playerInventory = [];
+    playerCompanion = "단독 👤";
+    updateHUD();
+    renderStage(currentStageId);
+}
+
+function updateHUD() {
+    const sanBar = document.getElementById("san-bar");
+    const sanText = document.getElementById("san-text");
+    const relicsElem = document.getElementById("relic-icons");
+    const companionElem = document.getElementById("companion-badge");
+
+    if (sanBar) {
+        sanBar.style.width = Math.max(0, Math.min(100, playerSAN)) + "%";
+        if (playerSAN > 60) sanBar.style.backgroundColor = "#28a745";
+        else if (playerSAN > 30) sanBar.style.backgroundColor = "#ffc107";
+        else sanBar.style.backgroundColor = "#dc3545";
+    }
+    if (sanText) sanText.textContent = playerSAN + "%";
+
+    if (relicsElem) {
+        if (playerInventory.length === 0) {
+            relicsElem.textContent = "없음";
+        } else {
+            relicsElem.innerHTML = playerInventory.map(i => `<span title="${i.name}">${i.icon || '📜'}</span>`).join(" ");
+        }
+    }
+    if (companionElem) {
+        companionElem.textContent = playerCompanion;
+    }
+}
+
+function renderStage(stageId) {
+    const stage = GAME_STAGES[stageId];
+    if (!stage) {
+        console.error("존재하지 않는 스테이지:", stageId);
+        return;
+    }
+
+    currentStageId = stageId;
+
+    if (stage.sanChange) {
+        playerSAN = Math.max(0, Math.min(100, playerSAN + stage.sanChange));
+    }
+
+    if (stage.gainItem && !playerInventory.some(it => it.id === stage.gainItem.id)) {
+        playerInventory.push(stage.gainItem);
+        if (typeof showToast === "function") {
+            showToast(`[유물 획득] ${stage.gainItem.name} ${stage.gainItem.icon || ''}`);
+        }
+    }
+
+    const timeElem = document.getElementById("game-time");
+    if (timeElem && stage.time) timeElem.textContent = stage.time;
+
+    updateHUD();
+
+    const titleElem = document.getElementById("story-stage-title");
+    if (titleElem) titleElem.innerHTML = stage.stageTitle || "";
+
+    const textElem = document.getElementById("story-text");
+    if (textElem) textElem.innerHTML = stage.text || "";
+
+    const hintElem = document.getElementById("blood-secret-hint");
+    if (hintElem) {
+        if (stage.secretHint) {
+            hintElem.style.display = "block";
+            hintElem.innerHTML = stage.secretHint;
+        } else {
+            hintElem.style.display = "none";
+        }
+    }
+
+    const imgBox = document.getElementById("story-image-box");
+    if (imgBox) {
+        if (stage.image) {
+            imgBox.style.display = "block";
+            imgBox.innerHTML = `<img src="${stage.image}" alt="상황 삽화" onerror="this.parentElement.style.display='none'">`;
+        } else {
+            imgBox.style.display = "none";
+        }
+    }
+
+    if (stage.audio && typeof playAudioClip === "function") {
+        playAudioClip(stage.audio);
+    }
+
+    const choicesBox = document.getElementById("choices-container");
+    if (choicesBox) {
+        choicesBox.innerHTML = "";
+
+        if (stage.choices && stage.choices.length > 0) {
+            stage.choices.forEach(ch => {
+                if (ch.requireItem && !playerInventory.some(it => it.id === ch.requireItem)) {
+                    const btn = document.createElement("button");
+                    btn.className = "choice-btn disabled-choice";
+                    btn.disabled = true;
+                    btn.innerHTML = `<span style="opacity: 0.5;">🔒 ${ch.text} (필요 유물 없음)</span>`;
+                    choicesBox.appendChild(btn);
+                    return;
+                }
+
+                const btn = document.createElement("button");
+                btn.className = "choice-btn";
+                btn.innerHTML = ch.text;
+                btn.onclick = () => {
+                    if (ch.url) {
+                        window.location.href = ch.url;
+                    } else if (ch.next) {
+                        renderStage(ch.next);
+                    }
+                };
+                choicesBox.appendChild(btn);
+            });
+        }
+    }
+
+    const paper = document.getElementById("scroll-paper");
+    if (paper) paper.scrollTop = 0;
+}
+
+window.addEventListener("DOMContentLoaded", initGame);
