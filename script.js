@@ -299,6 +299,120 @@ function closePortfolioDrawer() {
 
 // 프로젝트 상세 모달 데이터 및 제어
 const PORTFOLIO_PROJECTS_DATA = {
+    ulsan_bus: {
+        title: "울산 시내버스 개편 빅데이터 분석 및 3-Win 에듀-DRT 맞춤형 정책 제안",
+        category: "Public Big Data Analytics / Mobility Policy & DRT Simulation",
+        content: `
+            <h4>📌 1. 프로젝트 배경 및 문제 정의</h4>
+            <p>2024년 12월 21일, 울산광역시는 522개 노선을 정비하며 '평균 이동시간 단축'이라는 성공적 성과를 발표했습니다. 그러나 신도시(매곡·송정)와 농소권 외곽 주민, 청소년들은 <strong>"버스가 30분 넘게 안 온다", "만차로 등교를 못 한다"</strong>며 거센 민원을 제기했습니다. 본 프로젝트는 시청 발표 수치 이면의 통계적 착시를 팩트체크하고, 구조적 병목 원인을 규명하여 실행 가능한 대안을 제시하고자 착수되었습니다.</p>
+
+            <h4>🗂️ 2. 활용 데이터셋 (6종 23개 공공 빅데이터 전수 융합)</h4>
+            <ul>
+                <li><strong>국토교통부 STCIS 교통카드 빅데이터 (14개 파일)</strong>: 4개 시점(2024.07, 2024.11, 2025.11, 2026.07) 통행시간, 통행거리, 수단/환승 통행량 19,067건 전수 가공</li>
+                <li><strong>울산시 버스 노선망 전수 데이터</strong>: 522개 노선 계통수, 배차간격, 기종점 데이터셋</li>
+                <li><strong>정류소 공간정보 & 최다 이용 정류장</strong>: TOP 10 거점 정류장 및 정류소 위치 GIS 좌표 데이터</li>
+                <li><strong>통계청 인구구조 & 북구 초·중·고교 현황</strong>: 22개교 학군 공간정보 및 신도시 연령대별 인구 분포</li>
+                <li><strong>언론 보도 및 타 지자체 DRT 운영 실증 데이터</strong>: 8대 언론 기사 텍스트 및 수요응답형 버스 운영 계획서</li>
+            </ul>
+
+            <h4>⚙️ 3. 공정한 분석을 위한 데이터 정제 4대 원칙</h4>
+            <ol>
+                <li><strong>표 정리하기 (Unmerge)</strong>: STCIS 엑셀 병합 셀 복원(Forward Fill)을 통한 정형화</li>
+                <li><strong>가짜 데이터(0) 필터링</strong>: 새벽 미운행 시간대의 '0분'을 제외하여 평균 하향 왜곡 방지</li>
+                <li><strong>공정한 단위 표준화 (분/km)</strong>: 노선 우회에 따른 거리 변화를 통제하기 위해 '1km당 이동시간' 지표 신설</li>
+                <li><strong>동일 계절 통제 (Seasonal Control)</strong>: 방학·날씨 등 외생변수 통제를 위해 개편 전(2024.11)과 개편 후(2025.11) 동월 1:1 매칭 비교</li>
+            </ol>
+
+            <h4>🚨 4. 핵심 분석 결과 및 실증 발견</h4>
+            <div class="modal-chart-card">
+                <img src="images/ulsan_bus/average_trap.png" alt="평균의 함정 팩트체크 차트">
+                <figcaption>▲ [팩트체크] 울산시 전체 평균(개선) vs 도심(7.8% 단축) vs 외곽 농소권(21.3% 소요시간 폭증)의 심슨의 역설</figcaption>
+            </div>
+            <ul>
+                <li><strong>[평균의 함정 규명]</strong>: 시청 발표와 달리 도심(남구·중구)은 통행시간이 7.8% 개선된 반면, 외곽 농소권은 21.3% 악화되어 <strong>'교통 양극화'</strong>가 심화됨을 실증</li>
+                <li><strong>[출근-등교 만차 충돌]</strong>: 07:00~08:00 시간대 직장인 통근 수요와 중고등학생 등교 수요가 동일 노선에 동시 집중되어 탑승 거부 및 통학 대란 발생</li>
+                <li><strong>[노선 쏠림의 참상]</strong>: 7번 국도(산업로) 단일 축에 44개 노선이 중복 쏠림 운행되는 반면, 유소년 인구 비율이 높은 신도시(매곡·송정)는 단 1~2개 노선에 불과 (44배 격차)</li>
+                <li><strong>[32분 배차 공백]</strong>: 버스 회사 간 출발 시간 미조정으로 3~4대가 동시에 몰려온 뒤 32분간 정류장에 버스가 없는 '배차 쏠림' 실태 확인</li>
+            </ul>
+
+            <div class="modal-chart-grid">
+                <div class="modal-chart-card">
+                    <img src="images/ulsan_bus/bunching_timeline.png" alt="32분 배차 공백 타임라인">
+                    <figcaption>▲ 32분 배차 공백 및 쏠림 타임라인</figcaption>
+                </div>
+                <div class="modal-chart-card">
+                    <img src="images/ulsan_bus/route_sankey.png" alt="7번 국도 노선 쏠림 Sankey">
+                    <figcaption>▲ 7번 국도 쏠림 vs 신도시 단절 Sankey</figcaption>
+                </div>
+            </div>
+
+            <h4>💡 5. 맞춤형 정책 대안 : 『3-Win 에듀-DRT』 및 운영 솔루션</h4>
+            <div class="modal-chart-card">
+                <img src="images/ulsan_bus/drt_effect.png" alt="3-Win 에듀-DRT 기대효과">
+                <figcaption>▲ 타 지자체 실증 기반 3-Win 에듀-DRT 도입 전후 정량적 기대효과 비교</figcaption>
+            </div>
+            <ul>
+                <li><strong>[제안 1: 3-Win 에듀-DRT 4대 회랑]</strong>: 
+                    시간대별 수요 전환형 탄력 버스 도입.<br>
+                    • <em>07:30~08:30</em>: 매곡·송정 ↔ 호계·농소 중고교 '학생 통학 전용 셔틀' (통학시간 35~45분 → 12~16분 단축)<br>
+                    • <em>09:30~16:30</em>: 어르신 대상 호계시장·시티병원 복지 순환 셔틀<br>
+                    • <em>17:30~19:30</em>: 북울산역 KTX/동해선 연계 직장인 퇴근 환승 피더(Feeder) 버스
+                </li>
+                <li><strong>[제안 2: 버스 회사 간 통합 시차 배차제]</strong>: 개별 회사별 임의 출발을 금지하고 5~7분 등간격 배차 규칙 적용으로 대기시간 35분 → 7분 감축</li>
+                <li><strong>[제안 3: 외곽-도심 논스톱 직행 버스 신설]</strong>: 중간 정류장 경유를 최소화하여 공업탑/시외터미널 직통 연결</li>
+            </ul>
+
+            <h4>📊 6. 정량적 기대효과 종합</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>평가 지표</th>
+                        <th>개편 직후 (현재)</th>
+                        <th>3-Win 솔루션 도입 후</th>
+                        <th>개선 효과</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>평균 대기시간</strong></td>
+                        <td>35분 이상 (쏠림 발생)</td>
+                        <td><strong>12분 이내</strong></td>
+                        <td><strong>약 65% 대폭 단축</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>통학 소요시간</strong></td>
+                        <td>35 ~ 45분</td>
+                        <td><strong>12 ~ 16분</strong></td>
+                        <td><strong>20분 이상 통학 시간 절약</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>환승 횟수</strong></td>
+                        <td>1~2회 (환승 단절)</td>
+                        <td><strong>0회 (직통 연결)</strong></td>
+                        <td><strong>환승 스트레스 100% 해소</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>시민 만족도</strong></td>
+                        <td>48.2점 (민원 폭증)</td>
+                        <td><strong>89.5점</strong></td>
+                        <td><strong>41.3점 대폭 상승</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>지자체 재정</strong></td>
+                        <td>빈 버스 보조금 낭비</td>
+                        <td><strong>수요 기반 효율 운행</strong></td>
+                        <td><strong>운행비용 약 18% 절감</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div style="margin-top: 18px; text-align: center; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+                <a href="bus_map.html" target="_blank" class="project-modal-btn" style="background: rgba(230, 126, 34, 0.2); border-color: #e67e22; color: #f39c12; font-size: 13px; padding: 8px 18px; text-decoration: none;">
+                    🗺️ 울산 농소권 노선 병목 인터랙티브 맵 열기 ↗
+                </a>
+            </div>
+        `
+    },
     shopping: {
         title: "NAVER API HUB 쇼핑인사이트 & 데이터랩 빅데이터 분석기",
         category: "Data Engineering / Big Data Analytics",
