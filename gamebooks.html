@@ -276,6 +276,192 @@
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
+
+        /* 괴담 관제 & 등록 모드 스타일 */
+        .admin-toolbar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            margin-top: 22px;
+            flex-wrap: wrap;
+        }
+        .btn-admin-toggle {
+            background: linear-gradient(135deg, rgba(220, 53, 69, 0.25), rgba(139, 0, 0, 0.5));
+            border: 1px solid #ff4d4d;
+            color: #ff9999;
+            padding: 9px 20px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.25s ease;
+            box-shadow: 0 0 14px rgba(255, 77, 77, 0.25);
+        }
+        .btn-admin-toggle:hover {
+            background: linear-gradient(135deg, rgba(220, 53, 69, 0.45), rgba(180, 0, 0, 0.7));
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px rgba(255, 77, 77, 0.45);
+        }
+        .btn-admin-sub {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #ccc;
+            padding: 9px 15px;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .btn-admin-sub:hover {
+            background: rgba(255, 255, 255, 0.12);
+            color: #fff;
+        }
+
+        /* 등록 패널 */
+        .collector-panel {
+            display: none;
+            max-width: 1160px;
+            margin: 0 auto 36px;
+            background: #11131a;
+            border: 1px solid rgba(255, 77, 77, 0.35);
+            border-radius: 14px;
+            padding: 24px;
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6);
+        }
+        .collector-panel.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .collector-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .collector-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #ff6b6b;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .collector-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+        @media (max-width: 820px) {
+            .collector-grid { grid-template-columns: 1fr; }
+        }
+
+        .form-group {
+            margin-bottom: 14px;
+        }
+        .form-label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #bbb;
+            margin-bottom: 6px;
+        }
+        .form-input, .form-textarea, .form-select {
+            width: 100%;
+            background: #181b24;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 8px;
+            padding: 10px 12px;
+            color: #fff;
+            font-size: 0.85rem;
+            outline: none;
+            box-sizing: border-box;
+            transition: border-color 0.2s;
+        }
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
+            border-color: #ff4d4d;
+            box-shadow: 0 0 8px rgba(255, 77, 77, 0.3);
+        }
+        .thumb-preview-wrap {
+            width: 100%;
+            height: 140px;
+            background: #090a0f;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-top: 8px;
+            border: 1px dashed rgba(255, 255, 255, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 0.8rem;
+        }
+        .thumb-preview-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .btn-submit-collector {
+            background: linear-gradient(135deg, #e53935, #b71c1c);
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.2s;
+            box-shadow: 0 4px 14px rgba(229, 57, 53, 0.4);
+            margin-top: 8px;
+        }
+        .btn-submit-collector:hover {
+            filter: brightness(1.15);
+            transform: translateY(-1px);
+        }
+        .btn-demo-collector {
+            background: rgba(255, 170, 0, 0.15);
+            border: 1px solid rgba(255, 170, 0, 0.4);
+            color: #ffaa00;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.78rem;
+            cursor: pointer;
+            margin-bottom: 12px;
+            display: inline-block;
+        }
+        .btn-demo-collector:hover {
+            background: rgba(255, 170, 0, 0.3);
+            color: #fff;
+        }
+        .btn-card-del {
+            background: rgba(255, 77, 77, 0.1);
+            border: 1px solid rgba(255, 77, 77, 0.3);
+            color: #ff7777;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 8px;
+            align-self: flex-end;
+        }
+        .btn-card-del:hover {
+            background: #ff4d4d;
+            color: #fff;
+        }
     </style>
 </head>
 <body class="portfolio-hub-body">
@@ -343,11 +529,95 @@
             미스터리북 레퍼런스 기반의 규칙 괴담(Rules Horror) 인터랙티브 텍스트 어드벤처 플랫폼입니다.<br>
             수칙 전문과 분기 시나리오는 정규화된 관계형 데이터베이스로 영구 관리됩니다.
         </p>
+        
+        <!-- 괴담 관제 및 관리 툴바 -->
+        <div class="admin-toolbar">
+            <button class="btn-admin-toggle" onclick="toggleCollectorPanel()">
+                <span>🛠️ 괴담 관제 & 신규 등록</span>
+            </button>
+            <button class="btn-admin-sub" onclick="exportDataJson()">
+                <span>📥 서고 데이터 백업 (JSON)</span>
+            </button>
+            <button class="btn-admin-sub" onclick="document.getElementById('import-file-input').click()">
+                <span>📤 데이터 불러오기</span>
+            </button>
+            <input type="file" id="import-file-input" style="display:none;" accept=".json" onchange="importDataJson(event)">
+        </div>
     </header>
+
+    <!-- 괴담 관제 & 신규 등록 패널 -->
+    <section id="collector-panel" class="collector-panel">
+        <div class="collector-header">
+            <div class="collector-title">
+                <span>🩸 유튜브 괴담 수집 & 서고 등록 관제소</span>
+            </div>
+            <button class="btn-demo-collector" type="button" onclick="fillDemoMysteryBook()">
+                ⚡ 미스터리북 편의점 수칙 예시 자동 채우기
+            </button>
+        </div>
+        
+        <form id="collector-form" onsubmit="submitCollectorForm(event)">
+            <div class="collector-grid">
+                <!-- 좌측: 영상 메타데이터 -->
+                <div>
+                    <div class="form-group">
+                        <label class="form-label">유튜브 동영상 링크 (URL)</label>
+                        <input type="text" id="input-yt-url" class="form-input" placeholder="https://www.youtube.com/watch?v=cpSuI4F5XHA" oninput="onYoutubeUrlChange()" required>
+                        <div id="thumb-preview-wrap" class="thumb-preview-wrap">
+                            <span>유튜브 링크를 입력하면 썸네일이 자동 감지됩니다.</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">괴담 작품 제목</label>
+                        <input type="text" id="input-title" class="form-input" placeholder="예: [나폴리탄 괴담] 편의점 근무자 안내수칙서" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">원작 채널 / 저자</label>
+                        <input type="text" id="input-author" class="form-input" value="미스터리북 (@MysteryBook3941)">
+                    </div>
+                    <div class="form-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                        <div>
+                            <label class="form-label">위험 등급</label>
+                            <select id="input-danger" class="form-select">
+                                <option value="★★★★★">★★★★★ (극악)</option>
+                                <option value="★★★★☆" selected>★★★★☆ (위험)</option>
+                                <option value="★★★☆☆">★★★☆☆ (경고)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="form-label">평균 생존율</label>
+                            <input type="text" id="input-survival" class="form-input" value="12.0%">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 우측: 설명 및 수칙 전문 -->
+                <div>
+                    <div class="form-group">
+                        <label class="form-label">작품 태그</label>
+                        <input type="text" id="input-tags" class="form-input" value="#야간알바 #편의점 #규칙괴담 #생존수칙">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">작품 개요 / 줄거리 요약</label>
+                        <textarea id="input-desc" class="form-textarea" rows="3" placeholder="소문으로 들으셨던 것 같이 저희 편의점은 일반적인 편의점이 아닙니다..." required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">수칙 목록 (형식: 규칙명 | 내용 | 위험도[FATAL/WARNING/NORMAL])</label>
+                        <textarea id="input-rules" class="form-textarea" rows="6" placeholder="미확인 교대자 대처 | 평소에 보지 못한 인물이 보인다면 뒤를 돌아 눈을 감으십시오. | FATAL&#10;기사님의 시럽 요구 | 시럽을 두 번 요구 시 화장실을 권유하십시오. | WARNING"></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit-collector">
+                        ✨ 나폴리탄 금기 서고에 즉시 등록하기
+                    </button>
+                </div>
+            </div>
+        </form>
+    </section>
 
     <!-- 게임북 컬렉션 그리드 -->
     <main>
-        <div class="gamebooks-grid">
+        <div class="gamebooks-grid" id="main-gamebooks-grid">
+            <!-- 사용자 등록 괴담 카드 컨테이너 -->
+            <div id="custom-cards-wrapper" style="display: contents;"></div>
             
             <!-- 작품 1: 화랑골 생활관 -->
             <div class="gamebook-card playable">
@@ -447,14 +717,18 @@
             <div class="browser-header">
                 <div>
                     <h3 style="font-size: 1.25rem; font-weight: 700; color: #fff; margin-bottom: 4px;">
-                        🔍 화랑골 생활관 13대 수칙 DB 라이브 탐색기
+                        🔍 나폴리탄 수칙 RDBMS 라이브 탐색기
                     </h3>
                     <p style="font-size: 0.8rem; color: #888;">
-                        <code>data/rules.json</code> (SQLite <code>rules</code> 테이블) 연동 실시간 필터링
+                        <code>napolitan.db</code> 및 사용자 수집 서고 실시간 필터링
                     </p>
                 </div>
-                <div>
-                    <input type="text" id="rules-search" class="rules-search-input" placeholder="수칙 키워드 검색 (예: 마찰음, 거울, 호각)..." oninput="filterRules()">
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <select id="rules-work-filter" class="rules-search-input" style="width: auto; min-width: 170px;" onchange="filterRules()">
+                        <option value="all">전체 작품 수칙 보기</option>
+                        <option value="hwarang">화랑골 생활관 (13대 수칙)</option>
+                    </select>
+                    <input type="text" id="rules-search" class="rules-search-input" placeholder="수칙 키워드 검색 (예: 마찰음, 성수, 시럽)..." oninput="filterRules()">
                 </div>
             </div>
 
@@ -466,7 +740,7 @@
 
     <footer style="text-align: center; padding: 30px; font-size: 0.8rem; color: #666; border-top: 1px solid rgba(255,255,255,0.05);">
         <p>⚓ 참수리 포트폴리오 | Kimik Maker</p>
-        <p style="margin-top: 4px;">데이터베이스 아키텍처: SQLite3 (napolitan.db) • 5개 정규화 테이블 모델링</p>
+        <p style="margin-top: 4px;">데이터베이스 아키텍처: SQLite3 (napolitan.db) • 플레이어블 나폴리탄 Hub</p>
     </footer>
 
     <script>
@@ -489,17 +763,277 @@
             }
         }
 
-        // DB 수칙 데이터 비동기 로드 및 렌더링
+        // --- 괴담 관제 & 등록 모드 제어 ---
+        function toggleCollectorPanel() {
+            const panel = document.getElementById("collector-panel");
+            if (panel) {
+                panel.classList.toggle("active");
+                if (panel.classList.contains("active")) {
+                    panel.scrollIntoView({ behavior: "smooth", block: "start" });
+                }
+            }
+        }
+
+        // 유튜브 URL 파싱 및 썸네일 미리보기
+        function extractYoutubeId(url) {
+            if (!url) return null;
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|shorts\/)([^#\&\?]*).*/;
+            const match = url.match(regExp);
+            return (match && match[2].length === 11) ? match[2] : null;
+        }
+
+        function onYoutubeUrlChange() {
+            const url = document.getElementById("input-yt-url").value.trim();
+            const previewWrap = document.getElementById("thumb-preview-wrap");
+            const vid = extractYoutubeId(url);
+
+            if (vid) {
+                previewWrap.innerHTML = `
+                    <img src="https://img.youtube.com/vi/${vid}/maxresdefault.jpg" 
+                         onerror="this.src='https://img.youtube.com/vi/${vid}/hqdefault.jpg'" 
+                         alt="유튜브 썸네일 미리보기">
+                `;
+            } else {
+                previewWrap.innerHTML = `<span>유튜브 링크를 입력하면 썸네일이 자동 감지됩니다.</span>`;
+            }
+        }
+
+        // 미스터리북 추천 괴담 데모 데이터 자동 입력
+        function fillDemoMysteryBook() {
+            document.getElementById("input-yt-url").value = "https://www.youtube.com/watch?v=cpSuI4F5XHA";
+            document.getElementById("input-title").value = "[나폴리탄 괴담] 편의점 근무자 안내수칙서";
+            document.getElementById("input-author").value = "미스터리북 (@MysteryBook3941)";
+            document.getElementById("input-danger").value = "★★★★☆";
+            document.getElementById("input-survival").value = "12.0%";
+            document.getElementById("input-tags").value = "#야간알바 #편의점 #규칙괴담 #미스터리북";
+            document.getElementById("input-desc").value = "소문으로 익히 들으셨던 것 같이 저희 편의점은 일반적인 편의점이 아닙니다. 본 수칙을 따르지 않았을 때 발생되는 모든 책임은 근무자에게 있음을 알려드립니다.";
+            document.getElementById("input-rules").value = 
+`미확인 교대 근무자 대처 수칙 | 평소에 보지 못한 인물이 편의점을 운영하는 것이 보인다면 그 즉시 뒤를 돌아서 눈을 감고 '보이는 것이 다가 아닙니다'를 마음속으로 세 번 외쳐주십시오. | FATAL
+기사님의 시럽 추가 요구 대응 수칙 | 시럽을 두 번 요구 시 매장 내 화장실을 이용하고 가주시기를 부탁하십시오. 3번 요구하신 경우엔 더 이상 우리가 아는 기사님이 아닙니다. 절대 눈을 마주치지 마십시오. | FATAL
+백룸 문손잡이 핏자국 발견 시 | 백룸 손잡이에 빨간 핏자국이 묻어있다면 절대 들어가지 마시고 매장 키를 챙겨 나온 후 즉시 문을 잠그고 임시 휴업 표지판을 세우십시오. | WARNING
+미라벨 붉은 음료 격리 보관 | 라벨이 없는 이상하리만큼 붉은 음료가 보인다면 카운터 아래 금고에 넣은 후 잠금장치를 하십시오. | WARNING
+존재하지 않는 과자('깡깡이') 응대 | 저희 매장에 깡깡이라는 과자는 없습니다. 손님께 '밖에서 친구분이 찾으십니다'라고 말하면 매장 밖으로 나갈 것입니다. | WARNING
+괴이한 형상의 손님 시선 회피 | 키가 비정상적으로 크거나 목이 긴 손님은 일반 손님처럼 대하되 절대 눈을 마주치지 마십시오. | FATAL
+바닥 미확인 액체 정화와 성수 | 검고 찐득한 액체가 있다면 카운터 성수를 스포이트로 딱 한 방울만 떨어뜨린 후 청소하십시오. | NORMAL
+소실된 6번 항목의 비밀 | 6번째 항목은 모종의 이유로 작성을 하여도 지속적으로 삭제되고 있습니다. 6번은 강제로 건너뛰어 주십시오. | FATAL`;
+            onYoutubeUrlChange();
+        }
+
+        // LocalStorage 관리
+        const STORAGE_KEY = "napolitan_custom_works_v1";
+
+        function getCustomWorks() {
+            try {
+                const data = localStorage.getItem(STORAGE_KEY);
+                if (data) return JSON.parse(data);
+            } catch (e) {
+                console.error(e);
+            }
+            // 최초 접속 시 미스터리북 편의점 수칙 기본 탑재
+            const initialData = [{
+                id: "mystery_cpSuI4F5XHA",
+                youtube_id: "cpSuI4F5XHA",
+                title: "[나폴리탄 괴담] 편의점 근무자 안내수칙서",
+                author: "미스터리북 (@MysteryBook3941)",
+                danger: "★★★★☆",
+                survival: "12.0%",
+                tags: "#야간알바 #편의점 #미스터리북",
+                desc: "소문으로 익히 들으셨던 것 같이 저희 편의점은 일반적인 편의점이 아닙니다. 본 수칙을 따르지 않았을 때 발생되는 모든 책임은 근무자에게 있음을 알려드립니다.",
+                youtube_url: "https://www.youtube.com/watch?v=cpSuI4F5XHA",
+                cover_url: "https://img.youtube.com/vi/cpSuI4F5XHA/hqdefault.jpg",
+                rules: [
+                    { rule_no: 1, title: "미확인 교대 근무자 대처 수칙", danger: "FATAL", content: "평소에 보지 못한 인물이 편의점을 운영하는 것이 보인다면 그 즉시 뒤를 돌아서 눈을 감고 '보이는 것이 다가 아닙니다'를 세 번 외치십시오." },
+                    { rule_no: 2, title: "기사님의 시럽 추가 요구 대응 수칙", danger: "FATAL", content: "시럽을 두 번 요구 시 매장 내 화장실을 권유하십시오. 3번 요구하신 경우엔 더 이상 우리가 아는 기사님이 아닙니다." },
+                    { rule_no: 3, title: "백룸 문손잡이 핏자국 발견 시", danger: "WARNING", content: "백룸 손잡이에 핏자국이 묻어있다면 절대 들어가지 마시고 즉시 매장 문을 잠그고 임시 휴업 표지판을 세우십시오." },
+                    { rule_no: 4, title: "미라벨 붉은 음료 격리 보관", danger: "WARNING", content: "라벨이 없는 붉은 음료가 보인다면 카운터 아래 금고에 넣고 잠그십시오." },
+                    { rule_no: 5, title: "존재하지 않는 과자('깡깡이') 응대", danger: "WARNING", content: "손님께 '밖에서 친구분이 찾으십니다'라고 말하면 매장 밖으로 나갈 것입니다." },
+                    { rule_no: 6, title: "소실된 6번 항목의 비밀", danger: "FATAL", content: "6번째 항목은 작성하여도 지속적으로 삭제되고 있습니다. 6번은 강제로 건너뛰어 주십시오." }
+                ]
+            }];
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(initialData));
+            return initialData;
+        }
+
+        function saveCustomWorks(works) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(works));
+        }
+
+        // 폼 제출 처리 (신규 괴담 등록)
+        function submitCollectorForm(e) {
+            e.preventDefault();
+
+            const url = document.getElementById("input-yt-url").value.trim();
+            const vid = extractYoutubeId(url);
+            if (!vid) {
+                alert("유효한 유튜브 영상 링크(URL)를 입력해 주십시오.");
+                return;
+            }
+
+            const title = document.getElementById("input-title").value.trim();
+            const author = document.getElementById("input-author").value.trim();
+            const danger = document.getElementById("input-danger").value;
+            const survival = document.getElementById("input-survival").value.trim();
+            const tags = document.getElementById("input-tags").value.trim();
+            const desc = document.getElementById("input-desc").value.trim();
+            const rulesRaw = document.getElementById("input-rules").value.trim();
+
+            // 수칙 텍스트 파싱
+            const rules = [];
+            if (rulesRaw) {
+                const lines = rulesRaw.split('\n');
+                lines.forEach((line, idx) => {
+                    const parts = line.split('|');
+                    if (parts.length >= 2) {
+                        const rTitle = parts[0].trim();
+                        const rContent = parts[1].trim();
+                        const rDanger = (parts[2] ? parts[2].trim().toUpperCase() : "NORMAL");
+                        rules.push({
+                            rule_no: idx + 1,
+                            title: rTitle,
+                            danger: ["FATAL", "WARNING", "NORMAL"].includes(rDanger) ? rDanger : "NORMAL",
+                            content: rContent
+                        });
+                    }
+                });
+            }
+
+            const newWork = {
+                id: "work_" + Date.now(),
+                youtube_id: vid,
+                title: title,
+                author: author,
+                danger: danger,
+                survival: survival,
+                tags: tags,
+                desc: desc,
+                youtube_url: url,
+                cover_url: `https://img.youtube.com/vi/${vid}/hqdefault.jpg`,
+                rules: rules
+            };
+
+            const works = getCustomWorks();
+            works.unshift(newWork);
+            saveCustomWorks(works);
+
+            alert(`🎉 '${title}' 괴담이 금기 서고에 등록되었습니다!`);
+            document.getElementById("collector-form").reset();
+            onYoutubeUrlChange();
+            toggleCollectorPanel();
+
+            renderCustomCards();
+            refreshRulesDataset();
+        }
+
+        // 사용자 등록 카드 렌더링
+        function renderCustomCards() {
+            const container = document.getElementById("custom-cards-wrapper");
+            if (!container) return;
+
+            const works = getCustomWorks();
+            container.innerHTML = works.map(w => `
+                <div class="gamebook-card playable" id="card-${w.id}">
+                    <div class="card-cover" style="background-image: url('${w.cover_url}');">
+                        <span class="card-status-badge status-active">📺 YOUTUBE ARCHIVE</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-meta">
+                            <span class="meta-tag">${w.tags.split(' ')[0] || '#유튜브괴담'}</span>
+                            <span>수칙 ${w.rules.length}개</span>
+                        </div>
+                        <h2 class="card-title">${w.title}</h2>
+                        <p class="card-desc">${w.desc}</p>
+                        <div class="card-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">평균 생존율</span>
+                                <span class="stat-value" style="color: #ffaa00;">${w.survival}</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">위험 등급</span>
+                                <span class="stat-value" style="color: #ff4d4d;">${w.danger}</span>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <a href="${w.youtube_url}" target="_blank" class="btn-play">📺 원작 영상 시청</a>
+                            <button class="btn-rules" onclick="viewWorkRules('${w.id}')">📖 수칙 열람</button>
+                        </div>
+                        <button class="btn-card-del" onclick="deleteWork('${w.id}')" title="이 서고 카드 삭제">🗑️ 삭제</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // 작품 삭제
+        function deleteWork(id) {
+            if (confirm("정말 이 괴담 작품을 서고에서 삭제하시겠습니까?")) {
+                let works = getCustomWorks();
+                works = works.filter(w => w.id !== id);
+                saveCustomWorks(works);
+                renderCustomCards();
+                refreshRulesDataset();
+            }
+        }
+
+        // 수칙 데이터 세트 및 셀렉트 갱신
         let allRules = [];
 
         async function loadRules() {
             try {
                 const res = await fetch('data/rules.json');
-                allRules = await res.json();
-                renderRules(allRules);
+                const hwarangRules = await res.json();
+                window.hwarangRules = hwarangRules.map(r => ({ ...r, work_id: "hwarang" }));
             } catch (err) {
-                console.error("수칙 로드 오류:", err);
+                console.warn("기본 수칙 로드 폴백");
+                window.hwarangRules = [];
             }
+            refreshRulesDataset();
+        }
+
+        function refreshRulesDataset() {
+            const customWorks = getCustomWorks();
+            const filterSelect = document.getElementById("rules-work-filter");
+
+            // 셀렉트 박스 옵션 재구성
+            if (filterSelect) {
+                filterSelect.innerHTML = `
+                    <option value="all">전체 작품 수칙 보기</option>
+                    <option value="hwarang">화랑골 생활관 (13대 수칙)</option>
+                `;
+                customWorks.forEach(w => {
+                    filterSelect.innerHTML += `<option value="${w.id}">${w.title.slice(0, 20)}...</option>`;
+                });
+            }
+
+            // 통합 규칙 배열 구성
+            allRules = [...(window.hwarangRules || [])];
+            customWorks.forEach(w => {
+                w.rules.forEach(r => {
+                    allRules.push({
+                        work_id: w.id,
+                        rule_no: r.rule_no,
+                        title: r.title,
+                        danger: r.danger,
+                        content: r.content
+                    });
+                });
+            });
+
+            filterRules();
+        }
+
+        function filterRules() {
+            const query = (document.getElementById("rules-search")?.value || "").trim().toLowerCase();
+            const targetWork = document.getElementById("rules-work-filter")?.value || "all";
+
+            const filtered = allRules.filter(r => {
+                const matchWork = (targetWork === "all" || r.work_id === targetWork);
+                const matchQuery = !query || 
+                    r.title.toLowerCase().includes(query) || 
+                    r.content.toLowerCase().includes(query) ||
+                    `rule ${r.rule_no}`.includes(query);
+                return matchWork && matchQuery;
+            });
+
+            renderRules(filtered);
         }
 
         function renderRules(rules) {
@@ -507,7 +1041,7 @@
             if (!container) return;
 
             if (rules.length === 0) {
-                container.innerHTML = '<p style="color:#666; font-size:0.85rem;">일치하는 수칙이 없습니다.</p>';
+                container.innerHTML = '<p style="color:#888; font-size:0.85rem; padding: 20px;">일치하는 수칙 항목이 없습니다.</p>';
                 return;
             }
 
@@ -523,17 +1057,59 @@
             `).join('');
         }
 
-        function filterRules() {
-            const query = document.getElementById("rules-search").value.trim().toLowerCase();
-            const filtered = allRules.filter(r => 
-                r.title.toLowerCase().includes(query) || 
-                r.content.toLowerCase().includes(query) ||
-                `rule ${r.rule_no}`.includes(query)
-            );
-            renderRules(filtered);
+        function viewWorkRules(workId) {
+            const filterSelect = document.getElementById("rules-work-filter");
+            if (filterSelect) {
+                filterSelect.value = workId;
+                filterRules();
+            }
+            const section = document.querySelector(".rules-browser-section");
+            if (section) {
+                section.scrollIntoView({ behavior: "smooth" });
+            }
         }
 
-        window.addEventListener('DOMContentLoaded', loadRules);
+        // 백업 및 불러오기 (JSON Export/Import)
+        function exportDataJson() {
+            const works = getCustomWorks();
+            const blob = new Blob([JSON.stringify(works, null, 2)], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = `나폴리탄_서고_백업_${new Date().toISOString().slice(0,10)}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function importDataJson(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const imported = JSON.parse(e.target.result);
+                    if (Array.isArray(imported)) {
+                        saveCustomWorks(imported);
+                        renderCustomCards();
+                        refreshRulesDataset();
+                        alert(`✅ ${imported.length}건의 서고 데이터를 성공적으로 불러왔습니다!`);
+                    } else {
+                        alert("올바른 서고 JSON 형식이 아닙니다.");
+                    }
+                } catch (err) {
+                    alert("JSON 파싱 에러: " + err);
+                }
+            };
+            reader.readAsText(file);
+            event.target.value = "";
+        }
+
+        // 초기화
+        window.addEventListener('DOMContentLoaded', () => {
+            renderCustomCards();
+            loadRules();
+        });
     </script>
 </body>
 </html>
