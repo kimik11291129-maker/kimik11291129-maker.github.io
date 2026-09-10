@@ -275,3 +275,128 @@ function ringWhistleProp() {
     showToast("📯 순찰 무인의 놋쇠 호각이 날카롭게 울립니다. (Rule 2 준수)");
 }
 
+// ==========================================================================
+// 8. 글로벌 블로그형 좌측 상단 슬라이딩 메뉴 & 프로젝트 모달 제어
+// ==========================================================================
+function togglePortfolioDrawer(forceState) {
+    const drawer = document.getElementById("portfolio-drawer");
+    const backdrop = document.getElementById("portfolio-drawer-backdrop");
+    if (!drawer || !backdrop) return;
+
+    const isOpen = typeof forceState === "boolean" ? forceState : !drawer.classList.contains("is-open");
+    if (isOpen) {
+        drawer.classList.add("is-open");
+        backdrop.classList.add("is-open");
+    } else {
+        drawer.classList.remove("is-open");
+        backdrop.classList.remove("is-open");
+    }
+}
+
+function closePortfolioDrawer() {
+    togglePortfolioDrawer(false);
+}
+
+// 프로젝트 상세 모달 데이터 및 제어
+const PORTFOLIO_PROJECTS_DATA = {
+    shopping: {
+        title: "NAVER API HUB 쇼핑인사이트 & 데이터랩 빅데이터 분석기",
+        category: "Data Engineering / Big Data Analytics",
+        content: `
+            <h4>📌 프로젝트 개요 및 핵심 목표</h4>
+            <p>네이버 데이터랩 쇼핑인사이트 웹 백엔드 비동기(Ajax) 엔드포인트 역공학 크롤링과 공식 NAVER API HUB(NCP API Gateway)의 8대 쇼핑인사이트 API 전수 연동을 융합한 빅데이터 쇼핑 트렌드 수집·통계 분석 파이프라인(<code>과제_쇼핑_완성.py</code>)입니다.</p>
+            
+            <h4>⚙️ 핵심 아키텍처 및 구현 스키마</h4>
+            <ul>
+                <li><strong>인증 헤더 규격화</strong>: <code>X-NCP-APIGW-API-KEY-ID</code>, <code>X-NCP-APIGW-API-KEY</code> 환경 변수(.env) 보안 관리</li>
+                <li><strong>8대 공식 엔드포인트 전수 연동</strong>: 분야별/기기별/성별/연령별 트렌드 및 키워드 기반 세부 트렌드 수집</li>
+                <li><strong>11대 스키마 정밀 모델링</strong>: [순위, 상대인기지수, 카테고리, 품목분류, 소비목적_타겟, 시장동향_코멘트, 쇼핑바로가기URL] 등 실무형 필드 구조화</li>
+                <li><strong>4대 시계열 통계 엔진</strong>: 기초 통계량, 상대 점유율, 모멘텀 추세 판정, 최전성기 피크일 산출</li>
+                <li><strong>안정적 익스포트</strong>: 엑셀 호환 UTF-8-SIG 2중 CSV 저장 및 터미널 ASCII 바 차트 시각화</li>
+            </ul>
+            <div class="modal-code-snippet">
+# 핵심 통계 지표 산출 예시
+df['점유율(%)'] = (df['클릭비율'] / df['클릭비율'].sum()) * 100
+momentum = df['클릭비율'].pct_change().mean() # 모멘텀 산출
+peak_date = df.loc[df['클릭비율'].idxmax()]['조회일자'] # 피크일
+            </div>
+        `
+    },
+    series: {
+        title: "네이버 시리즈 웹소설 8대 장르 실시간 랭킹 & 통계 분석 엔진",
+        category: "Web Scraping / Content Analytics",
+        content: `
+            <h4>📌 프로젝트 개요 및 핵심 목표</h4>
+            <p>네이버 시리즈 웹소설 실시간 TOP 100 랭킹을 무손실 스크래핑하고, 8대 장르별(로맨스, 판타지, 무협 등) 시장 점유율 및 작품별 평점·독점율을 다각도로 분석하여 리포트하는 엔진(<code>naver_series_analyzer.py</code>)입니다.</p>
+            
+            <h4>⚙️ 기술 특징 및 알고리즘</h4>
+            <ul>
+                <li><strong>무손실 DOM 파싱</strong>: <code>em</code> 태그 결합 다중 자릿수 순위 및 변동폭 정밀 파싱</li>
+                <li><strong>O(1) 장르 매칭 사전</strong>: 8대 장르 키워드 해시 룩업을 통한 초고속 메타데이터 분류</li>
+                <li><strong>4대 심층 통계</strong>: 장르별 시장 점유율(%), 평균 평점 만족도, 플랫폼 독점율, 이벤트 프로모션율 분석</li>
+                <li><strong>터미널 3단 리포트</strong>: TOP 10 랭킹표 + 점유율 ASCII 바 차트 + 통계 요약표 자동 렌더링</li>
+            </ul>
+        `
+    },
+    control_app: {
+        title: "참수리 관제소: 검색어 트렌드 & 기상관제 데스크톱 애플리케이션",
+        category: "Desktop GUI / Async Threading",
+        content: `
+            <h4>📌 프로젝트 개요 및 핵심 목표</h4>
+            <p>CustomTkinter를 기반으로 제작된 실무형 데스크톱 관제 소프트웨어로, 네이버 검색어 트렌드 API 비동기 실시간 조회 및 울산 기상 데이터 관제실 대시보드를 제공합니다.</p>
+            
+            <h4>⚙️ 핵심 기능</h4>
+            <ul>
+                <li><strong>UI 프리징 방지</strong>: Python <code>threading.Thread</code> 기반 백그라운드 API 호출로 쾌적한 GUI 반응성 확보</li>
+                <li><strong>시계열 차트 임베딩</strong>: Matplotlib Figure를 Tkinter Canvas에 실시간 렌더링</li>
+                <li><strong>무소음 백그라운드 런처</strong>: <code>run_silent.vbs</code> 및 원클릭 바로가기 배치 파일 구축</li>
+            </ul>
+        `
+    },
+    news_scraper: {
+        title: "네이버 뉴스 정적 본문 스크래퍼 & 텍스트 정제 파이프라인",
+        category: "Text Mining / ETL Pipeline",
+        content: `
+            <h4>📌 프로젝트 개요 및 핵심 목표</h4>
+            <p>네이버 뉴스 정적 페이지를 대상으로 언론사별 기사 본문 구조를 분석하여 무손실 텍스트 추출 및 정제, DataFrame 변환 및 CSV 저장까지 원스톱으로 처리하는 스크래퍼(<code>naver_news_scraper.py</code>)입니다.</p>
+            
+            <h4>⚙️ 데이터 정제 전략</h4>
+            <ul>
+                <li><strong>노이즈 필터링</strong>: 기자 이메일, 저작권 문구, 광고 배너 정규표현식(Regex) 일괄 제거</li>
+                <li><strong>구조화 스키마</strong>: [언론사, 기사제목, 송고일시, 정제본문, URL] 표준 DataFrame 변환</li>
+                <li><strong>UTF-8-SIG 인코딩</strong>: 한글 깨짐 없는 Excel 호환 CSV 파이프라인 확립</li>
+            </ul>
+        `
+    }
+};
+
+function openProjectModal(projectId) {
+    const data = PORTFOLIO_PROJECTS_DATA[projectId];
+    if (!data) return;
+
+    const modal = document.getElementById("project-detail-modal-backdrop");
+    const titleEl = document.getElementById("modal-project-title");
+    const categoryEl = document.getElementById("modal-project-category");
+    const bodyEl = document.getElementById("modal-project-body");
+
+    if (modal && titleEl && categoryEl && bodyEl) {
+        titleEl.textContent = data.title;
+        categoryEl.textContent = data.category;
+        bodyEl.innerHTML = data.content;
+        modal.classList.add("is-open");
+    }
+}
+
+function closeProjectModal() {
+    const modal = document.getElementById("project-detail-modal-backdrop");
+    if (modal) modal.classList.remove("is-open");
+}
+
+// ESC 키로 사이드바 및 모달 닫기
+document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+        closePortfolioDrawer();
+        closeProjectModal();
+    }
+});
+
