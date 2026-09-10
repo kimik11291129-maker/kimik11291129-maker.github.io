@@ -1064,8 +1064,26 @@ function copyCertificateText(isSurvival, cause) {
     }
 }
 
+// SQLite RDBMS ETL 파이프라인(data/stages.json) 비동기 로더
+let currentStages = GAME_STAGES;
+
+async function initGameData() {
+    try {
+        const res = await fetch('data/stages.json');
+        if (res.ok) {
+            const data = await res.json();
+            if (data && Object.keys(data).length > 0) {
+                currentStages = data;
+                console.log("🎮 [SQLite ETL] data/stages.json 비동기 로드 완료 (" + Object.keys(data).length + "개 스테이지)");
+            }
+        }
+    } catch (e) {
+        console.log("오프라인/로컬 파일 모드: 내장 스테이지 데이터로 동작합니다.");
+    }
+}
+
 function renderStage(stageKey) {
-    const stage = GAME_STAGES[stageKey];
+    const stage = currentStages[stageKey] || GAME_STAGES[stageKey];
     if (!stage) return;
 
     // 0. 게임 시작 및 사망 후 재시작 시 넋 수치 100% 완전 복구 및 상태 초기화
@@ -1275,7 +1293,8 @@ function useWhistleInGame() {
     }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
+    await initGameData();
     updateRelicsHUD();
     updateCompanionHUD();
     if (document.getElementById("story-container")) {
