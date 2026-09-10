@@ -87,7 +87,12 @@
                 </li>
                 <li class="drawer-nav-item">
                     <a href="javascript:void(0)" class="drawer-nav-link" onclick="openProjectModal('control_app'); closePortfolioDrawer();">
-                        <span class="nav-icon">🖥️</span> 참수리 검색어 & 기상 관제소
+                        <span class="nav-icon">🖥️</span> 참수리 함교 기상관제실
+                    </a>
+                </li>
+                <li class="drawer-nav-item">
+                    <a href="javascript:void(0)" class="drawer-nav-link" onclick="openProjectModal('keyword_app'); closePortfolioDrawer();">
+                        <span class="nav-icon">⚓</span> 참수리 블로그 키워드 관제소
                     </a>
                 </li>
                 <li class="drawer-nav-item">
@@ -224,26 +229,49 @@
                     </div>
                 </article>
 
-                <!-- 프로젝트 3: 참수리 관제소 -->
+                <!-- 프로젝트 3: 참수리 기상관제실 -->
                 <article class="project-card">
                     <div class="project-card-header">
-                        <span class="project-category-badge">Desktop GUI</span>
+                        <span class="project-category-badge">Desktop GUI & LLM</span>
                         <span class="project-icon">🖥️</span>
                     </div>
-                    <h3 class="project-card-title">참수리 관제소: 검색어 트렌드 & 기상관제 데스크톱 애플리케이션</h3>
+                    <h3 class="project-card-title">참수리 함교 기상관제실 : 출항 15분 전 AI 당직사관 챗봇</h3>
                     <p class="project-card-desc">
-                        CustomTkinter 기반의 실무형 관제 GUI 소프트웨어. 멀티스레딩(Threading) 비동기 처리로 UI 프리징 없이 네이버 검색어 트렌드 API 실시간 시각화 및 울산 기상 데이터 관제실 대시보드 제공.
+                        출항 15분 전 풍속, 돌풍, 파고 기상 데이터를 초민감 모니터링하고, GPT-5.6-Luna 기반 AI 당직사관이 엄격한 해군 군사 지휘 페르소나로 출항 가부 점검 및 CSV 기상 보고서를 자동 출납하는 데스크톱 관제 소프트웨어.
                     </p>
                     <div class="project-tech-tags">
                         <span class="tech-tag">Python</span>
+                        <span class="tech-tag">GPT-5.6-Luna</span>
                         <span class="tech-tag">CustomTkinter</span>
                         <span class="tech-tag">Threading</span>
-                        <span class="tech-tag">Matplotlib</span>
-                        <span class="tech-tag">VBScript</span>
+                        <span class="tech-tag">CSV Pipeline</span>
                     </div>
                     <div class="project-card-footer">
                         <button class="project-modal-btn" onclick="openProjectModal('control_app')">🔍 상세 아키텍처 보기</button>
-                        <span style="font-size: 11px; color: #888;">과제app.py / search_app.py</span>
+                        <span style="font-size: 11px; color: #888;">app.py / chat-ui</span>
+                    </div>
+                </article>
+
+                <!-- 프로젝트 4: 참수리 블로그 키워드 관제소 -->
+                <article class="project-card" style="border-color: rgba(212, 175, 55, 0.35);">
+                    <div class="project-card-header">
+                        <span class="project-category-badge" style="background: rgba(212, 175, 55, 0.2); color: #ffd875; border-color: rgba(212, 175, 55, 0.5);">AI Agent & Scraping</span>
+                        <span class="project-icon">⚓</span>
+                    </div>
+                    <h3 class="project-card-title">참수리 블로그 키워드 관제소 : GPT-5.6-Luna 지휘 정찰</h3>
+                    <p class="project-card-desc">
+                        타깃 키워드(어종, 해역, 작전 단어 등) 지정 시 네이버 웹 문서를 실시간 정찰·스크래핑하고, GPT-5.6-Luna가 전술 브리핑 형태의 마크다운 보고서(.md)와 기사 데이터셋(.csv)을 실시간 자동 편성하는 지휘 정찰 시스템.
+                    </p>
+                    <div class="project-tech-tags">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">GPT-5.6-Luna</span>
+                        <span class="tech-tag">Web Scraping</span>
+                        <span class="tech-tag">Markdown Parser</span>
+                        <span class="tech-tag">VBScript 런처</span>
+                    </div>
+                    <div class="project-card-footer">
+                        <button class="project-modal-btn" onclick="openProjectModal('keyword_app')">🔍 상세 아키텍처 보기</button>
+                        <span style="font-size: 11px; color: #888;">search_app.py / keyword-ui</span>
                     </div>
                 </article>
 

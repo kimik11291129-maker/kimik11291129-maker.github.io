@@ -339,17 +339,35 @@ peak_date = df.loc[df['클릭비율'].idxmax()]['조회일자'] # 피크일
         `
     },
     control_app: {
-        title: "참수리 관제소: 검색어 트렌드 & 기상관제 데스크톱 애플리케이션",
-        category: "Desktop GUI / Async Threading",
+        title: "참수리 함교 기상관제실 : 출항 15분 전 AI 당직사관 챗봇 & 기상 대시보드",
+        category: "Desktop GUI & LLM Agent",
         content: `
             <h4>📌 프로젝트 개요 및 핵심 목표</h4>
-            <p>CustomTkinter를 기반으로 제작된 실무형 데스크톱 관제 소프트웨어로, 네이버 검색어 트렌드 API 비동기 실시간 조회 및 울산 기상 데이터 관제실 대시보드를 제공합니다.</p>
+            <p>사용자(참수리 함장님)와 AI(참수리 당직사관)의 군사 지휘 페르소나를 기반으로, 출항 15분 전 기상 초민감 대응 및 기상 분석 보고서를 제출하는 데스크톱 관제 애플리케이션(<code>app.py</code> / <code>chat-ui</code>)입니다.</p>
             
-            <h4>⚙️ 핵심 기능</h4>
+            <h4>⚙️ 핵심 아키텍처 및 기능</h4>
             <ul>
-                <li><strong>UI 프리징 방지</strong>: Python <code>threading.Thread</code> 기반 백그라운드 API 호출로 쾌적한 GUI 반응성 확보</li>
-                <li><strong>시계열 차트 임베딩</strong>: Matplotlib Figure를 Tkinter Canvas에 실시간 렌더링</li>
-                <li><strong>무소음 백그라운드 런처</strong>: <code>run_silent.vbs</code> 및 원클릭 바로가기 배치 파일 구축</li>
+                <li><strong>GPT-5.6-Luna 전용 연동</strong>: 엄격한 해군 당직사관 페르소나(복명복창 및 긴급 브리핑) 탑재</li>
+                <li><strong>긴급 출항 15분 전 기상 감응</strong>: 풍속, 돌풍, 파고, 너울 데이터에 따른 즉각적인 출항 가부 점검</li>
+                <li><strong>CSV 기상 보고서 자동 생성</strong>: 지휘관 명령 수신 시 <code>weather_report.csv</code> 편제 및 즉시 제출 파이프라인</li>
+                <li><strong>무소음 백그라운드 런처</strong>: <code>run_silent.vbs</code> 및 원클릭 바로가기 지원</li>
+            </ul>
+        `
+    },
+    keyword_app: {
+        title: "참수리 블로그 키워드 관제소 : GPT-5.6-Luna 웹 정찰 & 보고서 생성기",
+        category: "AI Agent & Web Scraping / Desktop App",
+        content: `
+            <h4>📌 프로젝트 개요 및 핵심 목표</h4>
+            <p>사용자(참수리 함장님)가 검색할 타깃 키워드(어종, 해역, 작전 단어 등)를 지정하면, 네이버 웹 문서를 실시간 정찰·스크래핑하고 GPT-5.6-Luna가 전술 브리핑 형태의 마크다운 보고서(.md)와 기사 데이터셋(.csv)을 자동 편성하는 지휘 정찰 시스템(<code>search_app.py</code> / <code>keyword-ui</code>)입니다.</p>
+            
+            <h4>⚙️ 시스템 특징 및 워크플로우</h4>
+            <ul>
+                <li><strong>타깃 키워드 정찰 스크래퍼</strong>: 검색 키워드별 1~5페이지(최대 50건) 웹 문서 실시간 DOM 추출 및 중복 제거</li>
+                <li><strong>GPT-5.6-Luna 전술 브리핑 생성</strong>: 정찰된 기사 데이터를 심층 요약 분석하여 구조화된 마크다운 보고서 자동 집필</li>
+                <li><strong>클라이언트 마크다운 실시간 렌더러</strong>: Vanilla JS 기반 커스텀 마크다운 파서로 표, 인라인 코드, 외부 링크 즉시 렌더링</li>
+                <li><strong>CSV & MD 데이터 영구 아카이빙</strong>: <code>keyword_articles_*.csv</code> 및 <code>keyword_report_*.md</code> 원클릭 클립보드 복사 및 저장</li>
+                <li><strong>원클릭 실행 바로가기</strong>: <code>참수리 블로그 키워드 관제소.lnk</code> 및 <code>run_search_silent.vbs</code> 연계 무소음 구동</li>
             </ul>
         `
     },
