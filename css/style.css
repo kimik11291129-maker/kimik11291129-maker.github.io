@@ -843,5 +843,231 @@ footer.site-footer {
   }
 }
 
+/* ==========================================================================
+   🏛️ Main Home Broadsheet Architecture (riversideulsan inspired)
+   ========================================================================== */
+.home-broadsheet-wrap {
+  width: 100%;
+  max-width: 1680px;
+  margin: 0 auto 100px;
+  padding: clamp(60px, 8vw, 120px) clamp(24px, 10vw, 160px);
+}
+
+.home-hero-title {
+  max-width: 1280px;
+  font-size: clamp(2.8rem, 6.4vw, 6.2rem);
+  font-family: var(--font-serif);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  color: var(--text);
+  word-break: keep-all;
+  margin: 16px 0 32px 0;
+}
+
+.home-hero-title em {
+  font-family: "Playfair Display", var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--primary);
+}
+
+.home-hero-copy {
+  max-width: 960px;
+  font-size: clamp(1.08rem, 1.4vw, 1.32rem);
+  line-height: 1.82;
+  color: #38434a;
+  word-break: keep-all;
+  margin-bottom: 36px;
+}
+
+.home-hero-copy strong {
+  color: var(--text);
+  font-weight: 700;
+}
+
+.home-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+.home-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 28px;
+  background: var(--primary);
+  color: #ffffff;
+  border-radius: 10px;
+  text-decoration: none;
+  font-size: 0.96rem;
+  font-weight: 700;
+  box-shadow: 0 4px 16px rgba(67, 100, 54, 0.25);
+  transition: all 0.2s ease;
+}
+
+.home-btn-primary:hover {
+  background: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(67, 100, 54, 0.35);
+}
+
+.home-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 28px;
+  background: #ffffff;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  text-decoration: none;
+  font-size: 0.96rem;
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+
+.home-btn-secondary:hover {
+  background: #f4f0e6;
+  border-color: #cec7b8;
+  transform: translateY(-2px);
+}
+
+.home-badges-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 24px 0 44px 0;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 54px;
+}
+
+.home-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-body);
+  font-size: 0.84rem;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 8px;
+  background: #edebe4;
+  color: #434e55;
+  border: 1px solid #ddd9ce;
+}
+
+.home-badge-primary {
+  background: #eaf0e6;
+  color: var(--primary);
+  border-color: #d4dfce;
+}
+
+/* 4열 건축적 숏컷 그리드 */
+.home-nav-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1.5px solid #2d353b;
+  border-bottom: 1px solid var(--border);
+}
+
+.home-nav-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 32px 28px 36px 0;
+  border-right: 1px solid var(--border);
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.2s ease;
+}
+
+.home-nav-item + .home-nav-item {
+  padding-left: 28px;
+}
+
+.home-nav-item:last-child {
+  border-right: none;
+}
+
+.home-nav-item:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.home-nav-index {
+  font-family: "DM Mono", monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.home-nav-title {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.32;
+  margin-bottom: 12px;
+  letter-spacing: -0.025em;
+  transition: color 0.15s ease;
+}
+
+.home-nav-item:hover .home-nav-title {
+  color: var(--primary);
+}
+
+.home-nav-desc {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.68;
+  margin-bottom: 24px;
+  flex: 1;
+  word-break: keep-all;
+}
+
+.home-nav-link {
+  font-family: "DM Mono", monospace;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--primary);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: gap 0.2s ease;
+}
+
+.home-nav-item:hover .home-nav-link {
+  gap: 12px;
+}
+
+@media (max-width: 960px) {
+  .home-broadsheet-wrap {
+    padding-left: clamp(20px, 5vw, 36px);
+    padding-right: clamp(20px, 5vw, 36px);
+  }
+  .home-nav-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .home-nav-item {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    padding: 24px 0;
+  }
+  .home-nav-item + .home-nav-item {
+    padding-left: 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .home-nav-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
 
 
