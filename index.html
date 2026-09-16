@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <!-- 🛡️ 극보수 보안: Content Security Policy (CSP) 메타 태그 -->
+
+  <!-- 🛡️ 보안 메타 태그: CSP 및 스니핑 방지 -->
   <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://cdn.jsdelivr.net; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co;">
   <meta http-equiv="X-Content-Type-Options" content="nosniff">
   <meta name="referrer" content="no-referrer">
 
-  <title>개발자 포트폴리오 & All I Gator HoYatch & 방명록</title>
+  <title>김호선 (Ho-seon Kim) — Projects & HoYatch</title>
 
   <!-- Supabase 공식 클라이언트 (v2) -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -19,6 +19,7 @@
       --primary: #2563eb;
       --primary-hover: #1d4ed8;
       --accent: #10b981;
+      --accent-hover: #059669;
       --danger: #ef4444;
       --warning: #f59e0b;
       --bg: #f8fafc;
@@ -26,7 +27,7 @@
       --text: #0f172a;
       --text-muted: #64748b;
       --border: #e2e8f0;
-      --header-h: 70px;
+      --font-mono: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     }
 
     * {
@@ -44,374 +45,276 @@
       background-color: var(--bg);
       color: var(--text);
       line-height: 1.6;
+      padding-bottom: 80px;
     }
 
-    /* 🧭 상단 고정 내비게이션 */
-    nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: var(--header-h);
-      background: rgba(255, 255, 255, 0.94);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 24px;
-      z-index: 1000;
-    }
-
-    .nav-logo {
-      font-size: 1.2rem;
-      font-weight: 800;
-      color: var(--primary);
-      text-decoration: none;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 20px;
-      list-style: none;
-    }
-
-    .nav-links a {
-      text-decoration: none;
-      color: var(--text-muted);
-      font-size: 0.95rem;
-      font-weight: 600;
-      transition: color 0.2s;
-    }
-
-    .nav-links a:hover {
-      color: var(--primary);
-    }
-
-    /* 공통 레이아웃 */
-    main {
-      margin-top: var(--header-h);
-    }
-
-    section {
-      padding: 80px 20px;
-      max-width: 980px;
+    .container {
+      max-width: 900px;
       margin: 0 auto;
+      padding: 0 20px;
     }
 
-    .section-title {
-      font-size: 2.1rem;
-      font-weight: 800;
-      margin-bottom: 10px;
-      text-align: center;
-    }
-
-    .section-subtitle {
-      text-align: center;
-      color: var(--text-muted);
+    /* 🏷️ 1. 미니멀 프로필 헤더 */
+    header.profile-header {
+      padding: 48px 0 28px 0;
+      border-bottom: 2px solid var(--border);
       margin-bottom: 40px;
-      font-size: 1rem;
     }
 
-    .card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 28px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.02);
-    }
-
-    .btn {
-      padding: 10px 20px;
-      border-radius: 8px;
-      font-size: 0.95rem;
-      font-weight: 600;
-      text-decoration: none;
-      cursor: pointer;
-      border: none;
-      transition: all 0.2s;
-      display: inline-block;
-    }
-
-    .btn-primary {
-      background: var(--primary);
-      color: #fff;
-    }
-
-    .btn-primary:hover:not(:disabled) {
-      background: var(--primary-hover);
-    }
-
-    .btn-outline {
-      background: #fff;
-      border: 1px solid var(--border);
-      color: var(--text);
-    }
-
-    .btn-outline:hover {
-      background: var(--bg);
-    }
-
-    .btn:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    /* 🏠 1. 홈 (Hero) */
-    #home {
-      min-height: calc(100vh - var(--header-h));
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-    }
-
-    .hero-badge {
-      background: #eff6ff;
-      color: var(--primary);
-      font-size: 0.85rem;
-      font-weight: 700;
-      padding: 6px 14px;
-      border-radius: 20px;
-      margin-bottom: 20px;
-      border: 1px solid #dbeafe;
-    }
-
-    .hero-title {
-      font-size: 2.7rem;
-      font-weight: 900;
-      margin-bottom: 16px;
-      line-height: 1.3;
-    }
-
-    .hero-desc {
-      font-size: 1.15rem;
-      color: var(--text-muted);
-      max-width: 640px;
-      margin-bottom: 30px;
-    }
-
-    /* 👤 2. 자기소개 (About) */
-    .about-box {
-      display: grid;
-      grid-template-columns: 1fr 2fr;
-      gap: 24px;
-    }
-
-    .profile-card {
-      text-align: center;
-    }
-
-    .profile-icon {
-      font-size: 3.5rem;
-      margin-bottom: 12px;
-    }
-
-    .skills-box {
-      margin-top: 18px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .skill-tag {
-      background: #f1f5f9;
-      color: #334155;
-      padding: 6px 12px;
-      border-radius: 8px;
-      font-size: 0.85rem;
-      font-weight: 600;
-    }
-
-    /* 💼 3. 포트폴리오 (5대 정예 프로젝트 개요서) */
-    .project-card {
-      margin-bottom: 32px;
-      border-left: 5px solid var(--primary);
-    }
-
-    .project-header {
+    .profile-top {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      margin-bottom: 12px;
       flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .project-title {
-      font-size: 1.35rem;
-      font-weight: 800;
-    }
-
-    .project-category {
-      font-size: 0.8rem;
-      background: #e0e7ff;
-      color: #3730a3;
-      padding: 4px 10px;
-      border-radius: 12px;
-      font-weight: 700;
-    }
-
-    .project-desc {
-      color: #334155;
-      font-size: 0.95rem;
+      gap: 16px;
       margin-bottom: 16px;
     }
 
-    .project-points {
-      list-style: disc;
-      margin-left: 20px;
-      margin-bottom: 20px;
-      font-size: 0.9rem;
-      color: var(--text-muted);
+    .profile-name {
+      font-size: 2rem;
+      font-weight: 900;
+      letter-spacing: -0.5px;
     }
 
-    .demo-container {
-      background: #f8fafc;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 18px;
-      margin-top: 14px;
-    }
-
-    .demo-title {
-      font-size: 0.95rem;
-      font-weight: 700;
+    .profile-title {
+      font-size: 1.05rem;
       color: var(--primary);
-      margin-bottom: 10px;
+      font-weight: 700;
+      margin-top: 4px;
+    }
+
+    .profile-links {
       display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .shorts-preview-frame {
-      width: 220px;
-      height: 340px;
-      background: #0f172a;
-      color: #fff;
-      border-radius: 14px;
-      padding: 16px;
-      margin: 12px auto;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.25);
-      border: 2px solid #334155;
-    }
-
-    .shorts-badge {
-      display: inline-block;
-      padding: 3px 8px;
-      border-radius: 6px;
-      font-size: 0.75rem;
-      font-weight: 800;
-      background: #ef4444;
-    }
-
-    /* 🎮 4. All I Gator HoYatch 다이스 게임 스타일 */
-    .hoyatch-wrapper {
-      max-width: 760px;
-      margin: 0 auto;
-      background: #ffffff;
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 24px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.04);
-    }
-
-    .hoyatch-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-      padding-bottom: 14px;
-      border-bottom: 2px solid #f1f5f9;
-      flex-wrap: wrap;
       gap: 10px;
     }
 
-    .hoyatch-title-badge {
+    .btn-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      border-radius: 8px;
+      text-decoration: none;
+      border: 1px solid var(--border);
+      background: #ffffff;
+      color: var(--text);
+      transition: all 0.15s ease;
+    }
+
+    .btn-link:hover {
+      background: #f1f5f9;
+      border-color: #cbd5e1;
+    }
+
+    .skill-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .badge {
+      background: #e2e8f0;
+      color: #334155;
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-family: var(--font-mono);
+    }
+
+    .nav-shortcuts {
+      display: flex;
+      gap: 18px;
+      margin-top: 20px;
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+
+    .nav-shortcuts a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .nav-shortcuts a:hover {
+      color: var(--primary);
+    }
+
+    /* 공통 섹션 스타일 */
+    section {
+      margin-bottom: 56px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .section-title {
+      font-size: 1.4rem;
+      font-weight: 800;
       display: flex;
       align-items: center;
       gap: 8px;
-      font-size: 1.25rem;
-      font-weight: 800;
-      color: #047857;
     }
 
-    .hoyatch-stats-row {
+    /* 📁 2. 프로젝트 팩트시트 카드 */
+    .factsheet-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 22px;
+      margin-bottom: 18px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+      transition: transform 0.15s, border-color 0.15s;
+    }
+
+    .factsheet-card:hover {
+      border-color: #cbd5e1;
+      transform: translateY(-2px);
+    }
+
+    .factsheet-header {
       display: flex;
-      gap: 14px;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .factsheet-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .factsheet-category {
+      font-size: 0.75rem;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: #eff6ff;
+      color: var(--primary);
+      border: 1px solid #dbeafe;
+    }
+
+    .factsheet-summary {
+      font-size: 0.92rem;
+      color: #334155;
+      margin-bottom: 14px;
+      line-height: 1.55;
+    }
+
+    .factsheet-details {
+      display: grid;
+      grid-template-columns: 100px 1fr;
+      gap: 8px;
+      font-size: 0.85rem;
+      background: #f8fafc;
+      padding: 12px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+
+    .detail-label {
       font-weight: 700;
-      font-size: 0.95rem;
+      color: var(--text-muted);
+    }
+
+    .detail-value {
+      color: #1e293b;
+      font-weight: 600;
+    }
+
+    /* 🐊 3. All I Gator HoYatch 다이스 게임 */
+    .hoyatch-box {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    }
+
+    .hoyatch-topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+      gap: 10px;
     }
 
     .stat-pill {
       background: #f1f5f9;
-      padding: 6px 12px;
+      padding: 6px 14px;
       border-radius: 8px;
-      color: #334155;
+      font-weight: 800;
+      font-size: 0.9rem;
     }
 
-    /* 주사위 테이블 영역 */
     .dice-table {
-      background: #064e3b;
       background: radial-gradient(circle, #065f46 0%, #064e3b 100%);
-      border-radius: 16px;
+      border-radius: 14px;
       padding: 24px 16px;
       text-align: center;
-      margin-bottom: 24px;
-      box-shadow: inset 0 0 20px rgba(0,0,0,0.4);
+      margin-bottom: 20px;
+      box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.35);
     }
 
     .dice-container {
       display: flex;
       justify-content: center;
-      gap: 14px;
-      margin-bottom: 18px;
+      gap: 12px;
+      margin-bottom: 16px;
       flex-wrap: wrap;
     }
 
     .dice-box {
-      width: 68px;
-      height: 68px;
+      width: 66px;
+      height: 66px;
       background: #ffffff;
       border-radius: 12px;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      box-shadow: 0 6px 12px rgba(0,0,0,0.25);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
       border: 3px solid #ffffff;
       transition: transform 0.15s, border-color 0.15s;
       position: relative;
     }
 
     .dice-box:hover {
-      transform: translateY(-4px);
+      transform: translateY(-3px);
     }
 
     .dice-box.kept {
       border-color: #f59e0b;
-      box-shadow: 0 0 16px rgba(245, 158, 11, 0.8);
+      box-shadow: 0 0 14px rgba(245, 158, 11, 0.8);
       background: #fef3c7;
-      transform: translateY(-6px);
+      transform: translateY(-5px);
     }
 
     .dice-val-text {
       font-size: 2.1rem;
       font-weight: 900;
-      color: #1e293b;
+      color: #0f172a;
       line-height: 1;
     }
 
     .kept-badge {
       position: absolute;
-      top: -8px;
+      top: -9px;
       background: #f59e0b;
-      color: #fff;
+      color: #ffffff;
       font-size: 0.65rem;
       font-weight: 800;
       padding: 1px 6px;
@@ -423,30 +326,30 @@
       display: block;
     }
 
-    .dice-controls {
+    .dice-actions {
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 16px;
+      gap: 14px;
       flex-wrap: wrap;
     }
 
     .btn-roll {
       background: #10b981;
-      color: #fff;
-      font-size: 1.05rem;
+      color: #ffffff;
+      font-size: 1rem;
       font-weight: 800;
-      padding: 12px 28px;
-      border-radius: 12px;
+      padding: 10px 24px;
+      border-radius: 10px;
       border: none;
       cursor: pointer;
-      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
-      transition: background-color 0.2s, transform 0.1s;
+      box-shadow: 0 4px 10px rgba(16, 185, 129, 0.4);
+      transition: all 0.15s;
     }
 
     .btn-roll:hover:not(:disabled) {
       background: #059669;
-      transform: scale(1.03);
+      transform: scale(1.02);
     }
 
     .btn-roll:disabled {
@@ -455,118 +358,174 @@
       box-shadow: none;
     }
 
-    .rolls-left-tag {
+    .rolls-left {
       color: #d1fae5;
       font-weight: 700;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
     }
 
-    /* 12대 족보 스코어보드 그리드 */
     .scoreboard-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 16px;
+      gap: 14px;
     }
 
-    .score-category-card {
+    .score-group {
       background: #f8fafc;
       border: 1px solid var(--border);
-      border-radius: 12px;
+      border-radius: 10px;
       padding: 12px;
     }
 
-    .category-title {
-      font-size: 0.9rem;
+    .group-header {
+      font-size: 0.85rem;
       font-weight: 800;
       color: #334155;
-      margin-bottom: 8px;
+      padding-bottom: 6px;
       border-bottom: 1px solid var(--border);
-      padding-bottom: 4px;
+      margin-bottom: 6px;
     }
 
-    .score-row {
+    .score-item {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 7px 10px;
+      padding: 6px 10px;
       border-radius: 6px;
-      margin-bottom: 4px;
+      font-size: 0.85rem;
       cursor: pointer;
       transition: background-color 0.15s;
     }
 
-    .score-row:hover:not(.locked) {
+    .score-item:hover:not(.locked) {
       background: #e2e8f0;
     }
 
-    .score-row.locked {
+    .score-item.locked {
       cursor: default;
       background: #f1f5f9;
       color: #64748b;
     }
 
-    .score-label {
-      font-size: 0.85rem;
-      font-weight: 600;
-    }
-
-    .score-val {
-      font-size: 0.95rem;
+    .score-num {
       font-weight: 800;
-      min-width: 32px;
+      min-width: 28px;
       text-align: right;
     }
 
-    .score-val.preview {
+    .score-num.preview {
       color: var(--accent);
-      opacity: 0.85;
     }
 
-    .score-val.fixed {
+    .score-num.fixed {
       color: var(--primary);
     }
 
-    /* 📝 5. 방명록 스타일 */
-    .guestbook-item {
-      background: var(--card-bg);
+    /* 📝 4. 오픈 방명록 */
+    .guestbook-box {
+      background: #ffffff;
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 16px;
-      margin-bottom: 12px;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
     }
 
-    .guestbook-meta {
+    .form-inputs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.9rem;
+      outline: none;
+      background: #ffffff;
+    }
+
+    input:focus, textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+
+    textarea {
+      min-height: 80px;
+      resize: vertical;
+      margin-bottom: 6px;
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 10px;
+      background: var(--primary);
+      color: #ffffff;
+      font-weight: 700;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.15s;
+    }
+
+    .btn-submit:hover:not(:disabled) {
+      background: var(--primary-hover);
+    }
+
+    .btn-submit:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .guestbook-card {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+      margin-bottom: 10px;
+    }
+
+    .gb-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 6px;
     }
 
-    .author-name {
-      font-weight: 700;
-      color: var(--text);
+    .gb-author {
+      font-weight: 800;
+      font-size: 0.9rem;
     }
 
-    .item-date {
+    .gb-date {
       font-size: 0.8rem;
       color: var(--text-muted);
       margin-right: 8px;
     }
 
-    .btn-del {
+    .btn-delete {
       background: none;
       border: 1px solid var(--border);
       color: var(--danger);
       font-size: 0.75rem;
-      padding: 3px 8px;
-      border-radius: 6px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 5px;
       cursor: pointer;
-      font-weight: 600;
     }
 
-    .btn-del:hover {
+    .btn-delete:hover {
       background: #fef2f2;
       border-color: var(--danger);
+    }
+
+    .gb-msg {
+      font-size: 0.9rem;
+      white-space: pre-wrap;
+      word-break: break-word;
+      color: #1e293b;
     }
 
     /* 삭제 모달 */
@@ -581,7 +540,7 @@
     }
 
     .modal-box {
-      background: #fff;
+      background: #ffffff;
       padding: 24px;
       border-radius: 14px;
       max-width: 360px;
@@ -590,253 +549,165 @@
     }
 
     @media (max-width: 768px) {
-      .about-box {
-        grid-template-columns: 1fr;
+      .profile-top {
+        flex-direction: column;
       }
       .scoreboard-grid {
         grid-template-columns: 1fr;
       }
-      .hero-title {
-        font-size: 2rem;
+      .form-inputs {
+        grid-template-columns: 1fr;
       }
     }
   </style>
 </head>
 <body>
 
-  <!-- 🧭 상단 내비게이션 -->
-  <nav>
-    <a href="#home" class="nav-logo">🚀 DevPortfolio</a>
-    <ul class="nav-links">
-      <li><a href="#home">홈</a></li>
-      <li><a href="#about">자기소개</a></li>
-      <li><a href="#portfolio">포트폴리오</a></li>
-      <li><a href="#game">게임</a></li>
-      <li><a href="#guestbook">방명록</a></li>
-    </ul>
-  </nav>
+  <div class="container">
+    <!-- 🏷️ 1. 미니멀 프로필 헤더 -->
+    <header class="profile-header">
+      <div class="profile-top">
+        <div>
+          <h1 class="profile-name">김호선 (Ho-seon Kim)</h1>
+          <p class="profile-title">Data Engineer & Fullstack Builder</p>
+        </div>
+        <div class="profile-links">
+          <a href="https://github.com/kimik11291129-maker" target="_blank" class="btn-link">
+            <span>🐙 GitHub</span>
+          </a>
+          <a href="mailto:contact@example.com" class="btn-link">
+            <span>📧 Email</span>
+          </a>
+        </div>
+      </div>
 
-  <main>
-    <!-- 🏠 1. 홈 섹션 -->
-    <section id="home">
-      <div class="hero-badge">💡 기획과 데이터 분석에서 클라우드 보안까지</div>
-      <h1 class="hero-title">문제를 데이터로 정의하고<br>견고한 코드로 해결합니다</h1>
-      <p class="hero-desc">
-        공공 빅데이터 정책 제안부터 AI 무인 자동화 파이프라인, 풀스택 아케이드 게임, 그리고 안전한 클라우드 데이터베이스 아키텍처까지의 기술 여정입니다.
-      </p>
-      <div style="display: flex; gap: 12px;">
-        <a href="#portfolio" class="btn btn-primary">5대 대표작 둘러보기</a>
-        <a href="#game" class="btn btn-outline">🐊 HoYatch 한 판 하기</a>
+      <div class="skill-badges">
+        <span class="badge">Python</span>
+        <span class="badge">FastAPI</span>
+        <span class="badge">Supabase (PostgreSQL)</span>
+        <span class="badge">Big Data & GIS</span>
+        <span class="badge">Automation (FFmpeg)</span>
+        <span class="badge">Vanilla JS</span>
+      </div>
+
+      <nav class="nav-shortcuts">
+        <a href="#projects">📁 프로젝트 팩트시트</a>
+        <a href="#hoyatch">🐊 HoYatch 다이스</a>
+        <a href="#guestbook">📝 방명록</a>
+      </nav>
+    </header>
+
+    <!-- 📁 2. 프로젝트 팩트시트 섹션 (군더더기 0%) -->
+    <section id="projects">
+      <div class="section-header">
+        <h2 class="section-title">📁 프로젝트 팩트시트 (Projects Factsheet)</h2>
+      </div>
+
+      <!-- 프로젝트 1 -->
+      <div class="factsheet-card">
+        <div class="factsheet-header">
+          <h3 class="factsheet-title">[01] 울산 시내버스 개편 빅데이터 분석 및 3-Win 에듀-DRT 정책 제안</h3>
+          <span class="factsheet-category">빅데이터 · 공공 정책</span>
+        </div>
+        <p class="factsheet-summary">
+          울산광역시 시내버스 노선 개편 데이터를 분석하여 외곽 학생들의 통학 교통 사각지대를 도출하고, 고정 노선의 비효율을 극복하기 위해 수요응답형 버스(DRT) 기반의 상생 정책 모델을 수립한 프로젝트입니다.
+        </p>
+        <div class="factsheet-details">
+          <div class="detail-label">데이터 / 기술</div>
+          <div class="detail-value">교통카드 승하차 데이터, GIS 공간 분석, 수요응답형 버스(DRT) 최적화 알고리즘</div>
+          <div class="detail-label">핵심 성과</div>
+          <div class="detail-value">학생(통학권 보장) · 운송사(수익성 개선) · 지자체(보조금 절감)의 3-Win 상생 구조 완성 및 정책 제안서 도출</div>
+        </div>
+      </div>
+
+      <!-- 프로젝트 2 -->
+      <div class="factsheet-card">
+        <div class="factsheet-header">
+          <h3 class="factsheet-title">[02] 대한민국 입법쇼츠 100% 무료 무인 자동화 파이프라인</h3>
+          <span class="factsheet-category">AI 미디어 · 무인 자동화</span>
+        </div>
+        <p class="factsheet-summary">
+          국회 신규 발의 법안을 국민들이 1분 만에 파악할 수 있도록, 외부 유료 API 없이 100% 무료 로컬 오픈소스 스택으로 매일 아침 9:16 유튜브 세로형 비디오를 대량 자동 생산하는 파이프라인입니다.
+        </p>
+        <div class="factsheet-details">
+          <div class="detail-label">핵심 기술</div>
+          <div class="detail-value">Python, 열린국회 공공 API, Edge-TTS, Pillow, FFmpeg, libass, Windows Scheduler</div>
+          <div class="detail-label">핵심 성과</div>
+          <div class="detail-value">비용 0원으로 매일 07:30 무인 가동, 하드코딩 텍스트 원천 배제 및 100% 동적 비디오 렌더링 구축</div>
+        </div>
+      </div>
+
+      <!-- 프로젝트 3 -->
+      <div class="factsheet-card">
+        <div class="factsheet-header">
+          <h3 class="factsheet-title">[03] 나폴리탄 괴담 수집기 & AI 인터랙티브 스토리 스튜디오</h3>
+          <span class="factsheet-category">웹 크롤링 · 생성형 AI</span>
+        </div>
+        <p class="factsheet-summary">
+          웹 커뮤니티의 비정형 수칙서 텍스트를 크롤링하여 규칙 번호와 금기 행동 패턴을 정규식으로 구조화 파싱하고, 생성형 AI를 결합하여 사용자 선택 기반의 인터랙티브 스토리텔링 플랫폼을 구현했습니다.
+        </p>
+        <div class="factsheet-details">
+          <div class="detail-label">핵심 기술</div>
+          <div class="detail-value">Python Web Scraping, 정규식(Regex) 수칙서 파서, Generative AI 화랑 생성기, 인터랙티브 UI</div>
+          <div class="detail-label">핵심 성과</div>
+          <div class="detail-value">텍스트 마이닝을 인터랙티브 엔터테인먼트와 결합하여 독창적인 규칙 기반 분기 스토리 엔진 설계</div>
+        </div>
+      </div>
+
+      <!-- 프로젝트 4 -->
+      <div class="factsheet-card">
+        <div class="factsheet-header">
+          <h3 class="factsheet-title">[04] All I Gator HoYatch 다이스 아케이드 (FastAPI & JS)</h3>
+          <span class="factsheet-category">웹 풀스택 · 게임 엔진</span>
+        </div>
+        <p class="factsheet-summary">
+          고전 주사위 족보 게임 야추(Yacht)를 악어 버거 테마로 재해석하여, 17대 족보 판정 로직과 5대 악어 보스 디펜스(PVE), 버거 유물 덱빌딩 시너지를 구현한 인터랙티브 웹게임입니다.
+        </p>
+        <div class="factsheet-details">
+          <div class="detail-label">핵심 기술</div>
+          <div class="detail-value">FastAPI (Python 비동기 백엔드), Vanilla JavaScript (ES6), CSS Keyframe 애니메이션</div>
+          <div class="detail-label">핵심 성과</div>
+          <div class="detail-value">게임 루프, 주사위 물리, 족보 알고리즘 풀스택 개발 완료 (아래에서 웹 단독 버전 즉시 플레이 가능)</div>
+        </div>
+      </div>
+
+      <!-- 프로젝트 5 -->
+      <div class="factsheet-card">
+        <div class="factsheet-header">
+          <h3 class="factsheet-title">[05] Supabase 기반 실시간 비밀번호 보호 방명록 웹앱</h3>
+          <span class="factsheet-category">클라우드 BaaS · DB 보안</span>
+        </div>
+        <p class="factsheet-summary">
+          GitHub Pages 정적 호스팅 환경에서 공개(anon) 키가 노출되더라도 안전하도록, RLS(Row Level Security) 정책과 DB 내부 pgcrypto Blowfish 솔트 암호화 RPC 함수로 비밀번호 안전 삭제를 보장한 시스템입니다.
+        </p>
+        <div class="factsheet-details">
+          <div class="detail-label">핵심 기술</div>
+          <div class="detail-value">Supabase, PostgreSQL, pgcrypto, Row Level Security (RLS), 보안 뷰(View) 격리</div>
+          <div class="detail-label">핵심 성과</div>
+          <div class="detail-value">브라우저로 비밀번호 컬럼 전송 원천 차단 및 서버 사이드 비밀번호 대조 삭제 완벽 구현</div>
+        </div>
       </div>
     </section>
 
-    <!-- 👤 2. 자기소개 섹션 -->
-    <section id="about">
-      <h2 class="section-title">자기소개</h2>
-      <p class="section-subtitle">배움을 즉각 실행으로 증명하는 개발자입니다.</p>
-
-      <div class="about-box">
-        <div class="card profile-card">
-          <div class="profile-icon">👨‍💻</div>
-          <h3 style="font-size: 1.25rem;">나의 프로필</h3>
-          <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 4px;">Data Engineer & Fullstack Builder</p>
-          <div style="margin-top: 16px; font-size: 0.85rem; color: var(--text-muted); text-align: left;">
-            <p>📍 위치: 서울, 대한민국</p>
-            <p>📧 문의: contact@example.com</p>
-            <p>🛡️ 핵심 가치: 직관성, 안전성, 무인 자동화</p>
-          </div>
-        </div>
-
-        <div class="card">
-          <h3 style="margin-bottom: 10px;">핵심 역량 및 개발 철학</h3>
-          <p style="color: #334155; font-size: 0.95rem; margin-bottom: 16px;">
-            단순히 코드를 작성하는 것을 넘어, 현실의 문제를 빅데이터로 분석하고 정책화하거나, 100% 무료 로컬 오픈소스 스택을 조합해 지속 가능한 자동화 시스템을 구축하는 엔지니어링을 지향합니다.
-          </p>
-          <div class="skills-box">
-            <span class="skill-tag">🏛️ Big Data & GIS</span>
-            <span class="skill-tag">🐍 Python</span>
-            <span class="skill-tag">⚡ FastAPI</span>
-            <span class="skill-tag">🗄️ PostgreSQL (Supabase)</span>
-            <span class="skill-tag">🛡️ RLS & DB Security</span>
-            <span class="skill-tag">🎬 FFmpeg & Automation</span>
-            <span class="skill-tag">🌐 Vanilla JavaScript</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 💼 3. 포트폴리오 섹션 (5대 정예 프로젝트 개요서 + 라이브 데모) -->
-    <section id="portfolio">
-      <h2 class="section-title">포트폴리오 개요서</h2>
-      <p class="section-subtitle">직접 기획하고 완성한 5대 핵심 프로젝트와 라이브 시뮬레이터입니다.</p>
-
-      <!-- 프로젝트 1: 에듀-DRT 정책 제안 -->
-      <div class="card project-card">
-        <div class="project-header">
-          <div>
-            <span class="project-category">공공 정책 & 빅데이터</span>
-            <h3 class="project-title" style="margin-top: 6px;">[01] 울산 시내버스 개편 빅데이터 분석 및 3-Win 에듀-DRT 정책 제안</h3>
-          </div>
-        </div>
-        <p class="project-desc">
-          울산광역시 시내버스 노선 개편 데이터를 분석하여 외곽 지역 학생들의 통학 교통 사각지대를 도출하고, 고정 노선의 한계를 극복하기 위해 학생 수요에 실시간 대응하는 <strong>'3-Win 에듀-DRT(수요응답형 버스)'</strong> 실증 모델을 수립한 프로젝트입니다.
-        </p>
-        <ul class="project-points">
-          <li><strong>핵심 기술</strong>: 교통카드 승하차 빅데이터, GIS 공간 분석, DRT 최적화 알고리즘</li>
-          <li><strong>어필 포인트</strong>: 학생(통학권 보장) · 운송사(수익 증대) · 지자체(재정 절감)의 3-Win 상생 구조 완성</li>
-        </ul>
-
-        <!-- 🚌 초경량 인라인 데모: 배차 시뮬레이터 -->
-        <div class="demo-container">
-          <div class="demo-title">🚌 [실시간 체험] 에듀-DRT 맞춤 배차 & 경제 효과 시뮬레이터</div>
-          <div style="display: flex; gap: 16px; align-items: center; margin-bottom: 10px; flex-wrap: wrap;">
-            <label style="font-size: 0.9rem; font-weight: 600;">통학 탑승 학생 수: <span id="drtStudentVal" style="color: var(--primary); font-weight: 800;">45</span>명</label>
-            <input type="range" id="drtSlider" min="10" max="120" value="45" style="flex: 1; min-width: 160px;">
-          </div>
-          <div style="font-size: 0.9rem; background: #fff; padding: 12px; border-radius: 8px; border: 1px solid var(--border);">
-            <p>⏱️ 평균 통학 단축 시간: <strong id="drtTimeSave" style="color: var(--accent);">24분 단축</strong></p>
-            <p>💰 지자체 월간 보조금 절감액: <strong id="drtCostSave" style="color: var(--primary);">약 380만 원</strong></p>
-          </div>
-        </div>
+    <!-- 🐊 3. All I Gator HoYatch 다이스 게임 섹션 -->
+    <section id="hoyatch">
+      <div class="section-header">
+        <h2 class="section-title">🐊 All I Gator HoYatch (호야추 다이스) 🍔</h2>
       </div>
 
-      <!-- 프로젝트 2: 입법쇼츠 0원 파이프라인 -->
-      <div class="card project-card">
-        <div class="project-header">
-          <div>
-            <span class="project-category">AI & 무인 자동화</span>
-            <h3 class="project-title" style="margin-top: 6px;">[02] 대한민국 입법쇼츠 100% 무료 무인 자동화 파이프라인</h3>
-          </div>
-        </div>
-        <p class="project-desc">
-          국회 신규 발의 법안을 국민들에게 빠르고 알기 쉽게 전달하기 위해, 외부 유료 API 일절 없이 <strong>비용 0원의 순수 로컬/오픈소스 스택</strong>만으로 매일 아침 9:16 쇼츠 영상을 대량 자동 생산하는 파이프라인입니다.
-        </p>
-        <ul class="project-points">
-          <li><strong>핵심 기술</strong>: 열린국회 공공 API, Edge-TTS, Pillow, FFmpeg, libass, Windows Task Scheduler</li>
-          <li><strong>어필 포인트</strong>: 매일 아침 07:30 전자동 무인 구동 및 하드코딩 텍스트 없는 100% 동적 렌더링 강제</li>
-        </ul>
-
-        <!-- 🎬 초경량 인라인 데모: 쇼츠 카드 실시간 프리뷰어 -->
-        <div class="demo-container">
-          <div class="demo-title">🎬 [실시간 체험] 입법쇼츠 9:16 세로형 카드뉴스 실시간 프리뷰어</div>
-          <div style="display: flex; gap: 10px; margin-bottom: 12px; flex-wrap: wrap;">
-            <input type="text" id="shortsInputTitle" value="전세사기 피해 방지 및 임차인 보호 특별법" style="flex: 2; padding: 8px 12px; border: 1px solid var(--border); border-radius: 6px; font-size: 0.9rem;">
-            <select id="shortsSelectGrade" style="flex: 1; padding: 8px; border: 1px solid var(--border); border-radius: 6px; font-size: 0.9rem;">
-              <option value="S">S등급 (95점)</option>
-              <option value="A">A등급 (85점)</option>
-              <option value="B">B등급 (75점)</option>
-            </select>
-          </div>
-          <div class="shorts-preview-frame">
-            <div>
-              <span class="shorts-badge" id="previewGradeBadge">S등급 (95점)</span>
-              <p style="font-size: 0.75rem; color: #94a3b8; margin-top: 6px;">대한민국 입법쇼츠 제01호</p>
-              <h4 id="previewCardTitle" style="font-size: 1rem; font-weight: 800; margin-top: 10px; line-height: 1.4;">전세사기 피해 방지 및 임차인 보호 특별법</h4>
-            </div>
-            <div style="font-size: 0.75rem; color: #cbd5e1; border-top: 1px solid #334155; padding-top: 8px;">
-              제안자: 국회의원 10인<br>
-              소관위: 국토교통위원회
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 프로젝트 3: 나폴리탄 AI 스튜디오 -->
-      <div class="card project-card">
-        <div class="project-header">
-          <div>
-            <span class="project-category">웹 데이터 마이닝 & AI</span>
-            <h3 class="project-title" style="margin-top: 6px;">[03] 나폴리탄 괴담 수집기 & AI 인터랙티브 스토리 스튜디오</h3>
-          </div>
-        </div>
-        <p class="project-desc">
-          웹상의 비정형 나폴리탄 수칙서 데이터를 크롤링하고 정규식으로 조항과 금기 규칙을 파싱하여, 사용자의 선택에 따라 생사가 분기되는 독창적인 생성형 AI 스토리텔링 웹 플랫폼입니다.
-        </p>
-        <ul class="project-points">
-          <li><strong>핵심 기술</strong>: Python Web Scraping, Regex Parser, Generative AI 화랑 생성기, 인터랙티브 UX</li>
-          <li><strong>어필 포인트</strong>: 단순 데이터 마이닝을 넘어 엔터테인먼트 콘텐츠와 결합한 창의적 인터랙티브 시스템</li>
-        </ul>
-
-        <!-- 📜 초경량 인라인 데모: 수칙서 미니 탈출 런너 -->
-        <div class="demo-container">
-          <div class="demo-title">📜 [실시간 체험] 나폴리탄 수칙서 생존 미니 런너</div>
-          <div id="napolitanBox" style="background: #0f172a; color: #f8fafc; padding: 14px; border-radius: 8px; font-size: 0.9rem; margin-bottom: 10px;">
-            <p id="napolitanRule"><strong>[수칙 제4조]</strong> 밤 11시 45분, 복도 끝에서 구두 굽 소리가 들려옵니다. 어떻게 행동하시겠습니까?</p>
-          </div>
+      <div class="hoyatch-box">
+        <div class="hoyatch-topbar">
+          <span style="font-weight: 800; font-size: 1.1rem; color: #047857;">🎲 정식 족보 12라운드 승부</span>
           <div style="display: flex; gap: 10px;">
-            <button type="button" class="btn btn-outline" id="btnNapoAction1" style="flex: 1; font-size: 0.85rem;">소리가 나는 방향을 쳐다본다</button>
-            <button type="button" class="btn btn-primary" id="btnNapoAction2" style="flex: 1; font-size: 0.85rem;">벽을 보고 숨을 참는다</button>
-          </div>
-          <div id="napoResult" style="margin-top: 10px; font-weight: 700; font-size: 0.9rem; display: none;"></div>
-        </div>
-      </div>
-
-      <!-- 프로젝트 4: HoYatch 아케이드 -->
-      <div class="card project-card">
-        <div class="project-header">
-          <div>
-            <span class="project-category">웹 풀스택 & 게임 엔진</span>
-            <h3 class="project-title" style="margin-top: 6px;">[04] All I Gator HoYatch 다이스 아케이드 (FastAPI & JS)</h3>
-          </div>
-        </div>
-        <p class="project-desc">
-          고전 주사위 족보 게임 야추(Yacht)를 악어 버거 테마로 재해석하여, 17대 족보 판정 엔진과 5대 악어 보스 디펜스(PVE), 버거 유물 덱빌딩 시너지를 구현한 인터랙티브 웹게임입니다.
-        </p>
-        <ul class="project-points">
-          <li><strong>핵심 기술</strong>: FastAPI 비동기 백엔드, Vanilla JS 게임 루프, CSS 키프레임 애니메이션</li>
-          <li><strong>보안 및 독립성</strong>: 로컬 백엔드 자산은 안전 격리하고, 웹 브라우저 단독형 엔진으로 포털 내 실시간 구동</li>
-        </ul>
-        <div style="margin-top: 12px;">
-          <a href="#game" class="btn btn-primary" style="font-size: 0.85rem;">지금 바로 호야추 주사위 던지기 ➔</a>
-        </div>
-      </div>
-
-      <!-- 프로젝트 5: Supabase RLS 보안 방명록 -->
-      <div class="card project-card">
-        <div class="project-header">
-          <div>
-            <span class="project-category">클라우드 BaaS & 웹 보안</span>
-            <h3 class="project-title" style="margin-top: 6px;">[05] Supabase 기반 실시간 비밀번호 보호 방명록 웹앱</h3>
-          </div>
-        </div>
-        <p class="project-desc">
-          GitHub Pages와 같은 정적 호스팅 환경에서 공개(`anon`) 키 노출 문제를 RLS 행 단위 보안 정책과 DB 내 `pgcrypto` Blowfish 솔트 암호화 RPC 함수로 완벽히 해결한 비밀번호 보호형 방명록입니다.
-        </p>
-        <ul class="project-points">
-          <li><strong>핵심 기술</strong>: Supabase, PostgreSQL, pgcrypto, Row Level Security (RLS), 보안 뷰 격리</li>
-          <li><strong>어필 포인트</strong>: 브라우저로 비밀번호 컬럼 비노출 및 서버 사이드 비밀번호 검증 삭제 구현</li>
-        </ul>
-        <div style="margin-top: 12px;">
-          <a href="#guestbook" class="btn btn-primary" style="font-size: 0.85rem;">방명록 실시간 체험하러 가기 ➔</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- 🎮 4. All I Gator HoYatch 주사위 게임 섹션 -->
-    <section id="game">
-      <h2 class="section-title">🐊 All I Gator HoYatch (호야추 다이스) 🍔</h2>
-      <p class="section-subtitle">
-        브라우저에서 100% 안전하게 구동되는 주사위 족보 게임입니다. 주사위를 굴리고 족보를 완성해 보세요!
-      </p>
-
-      <div class="hoyatch-wrapper">
-        <!-- 호야추 헤더 -->
-        <div class="hoyatch-header">
-          <div class="hoyatch-title-badge">
-            <span>🐊 All I Gator HoYatch</span>
-            <span style="font-size: 0.8rem; background: #d1fae5; color: #047857; padding: 2px 8px; border-radius: 10px;">정식 족보 12R</span>
-          </div>
-          <div class="hoyatch-stats-row">
-            <div class="stat-pill">라운드: <strong id="hyRound" style="color: var(--primary);">1</strong> / 12</div>
-            <div class="stat-pill">가넷: <strong id="hyGarnet" style="color: var(--danger);">🔴 0</strong></div>
-            <div class="stat-pill">총점: <strong id="hyTotalScore" style="color: var(--accent);">0</strong>점</div>
+            <span class="stat-pill">라운드: <strong id="hyRound" style="color: var(--primary);">1</strong> / 12</span>
+            <span class="stat-pill">가넷: <strong id="hyGarnet" style="color: var(--danger);">🔴 0</strong></span>
+            <span class="stat-pill">총점: <strong id="hyTotalScore" style="color: var(--accent);">0</strong>점</span>
           </div>
         </div>
 
-        <!-- 주사위 플레이 테이블 -->
+        <!-- 주사위 테이블 -->
         <div class="dice-table">
-          <div class="dice-container" id="hyDiceBoxContainer">
-            <!-- 5개 주사위 -->
+          <div class="dice-container" id="hyDiceContainer">
             <div class="dice-box" data-idx="0" onclick="toggleKeepDice(0)">
               <span class="kept-badge">KEEP</span>
               <span class="dice-val-text" id="dice0">?</span>
@@ -859,141 +730,123 @@
             </div>
           </div>
 
-          <div class="dice-controls">
+          <div class="dice-actions">
             <button type="button" class="btn-roll" id="btnRollDice" onclick="rollDice()">🎲 주사위 굴리기</button>
-            <span class="rolls-left-tag">남은 굴리기: <strong id="hyRollsLeft">3</strong>회</span>
-            <button type="button" class="btn btn-outline" style="font-size: 0.85rem; padding: 6px 12px;" onclick="resetHoyatchGame()">새 게임 🔄</button>
+            <span class="rolls-left">남은 굴리기: <strong id="hyRollsLeft">3</strong>회</span>
+            <button type="button" class="btn-link" style="padding: 6px 12px; font-size: 0.8rem;" onclick="resetHoyatchGame()">새 게임 🔄</button>
           </div>
         </div>
 
         <!-- 12대 족보 스코어보드 -->
         <div class="scoreboard-grid">
           <!-- 상단 족보 -->
-          <div class="score-category-card">
-            <div class="category-title">🍔 상단 족보 (숫자 눈의 합)</div>
-            <div class="score-row" id="row_aces" onclick="chooseCategory('aces')">
-              <span class="score-label">Aces (1의 눈)</span>
-              <span class="score-val" id="val_aces">-</span>
+          <div class="score-group">
+            <div class="group-header">🍔 상단 족보 (숫자 눈의 합)</div>
+            <div class="score-item" id="row_aces" onclick="chooseCategory('aces')">
+              <span>Aces (1의 눈)</span>
+              <span class="score-num" id="val_aces">-</span>
             </div>
-            <div class="score-row" id="row_deuces" onclick="chooseCategory('deuces')">
-              <span class="score-label">Deuces (2의 눈)</span>
-              <span class="score-val" id="val_deuces">-</span>
+            <div class="score-item" id="row_deuces" onclick="chooseCategory('deuces')">
+              <span>Deuces (2의 눈)</span>
+              <span class="score-num" id="val_deuces">-</span>
             </div>
-            <div class="score-row" id="row_threes" onclick="chooseCategory('threes')">
-              <span class="score-label">Threes (3의 눈)</span>
-              <span class="score-val" id="val_threes">-</span>
+            <div class="score-item" id="row_threes" onclick="chooseCategory('threes')">
+              <span>Threes (3의 눈)</span>
+              <span class="score-num" id="val_threes">-</span>
             </div>
-            <div class="score-row" id="row_fours" onclick="chooseCategory('fours')">
-              <span class="score-label">Fours (4의 눈)</span>
-              <span class="score-val" id="val_fours">-</span>
+            <div class="score-item" id="row_fours" onclick="chooseCategory('fours')">
+              <span>Fours (4의 눈)</span>
+              <span class="score-num" id="val_fours">-</span>
             </div>
-            <div class="score-row" id="row_fives" onclick="chooseCategory('fives')">
-              <span class="score-label">Fives (5의 눈)</span>
-              <span class="score-val" id="val_fives">-</span>
+            <div class="score-item" id="row_fives" onclick="chooseCategory('fives')">
+              <span>Fives (5의 눈)</span>
+              <span class="score-num" id="val_fives">-</span>
             </div>
-            <div class="score-row" id="row_sixes" onclick="chooseCategory('sixes')">
-              <span class="score-label">Sixes (6의 눈)</span>
-              <span class="score-val" id="val_sixes">-</span>
+            <div class="score-item" id="row_sixes" onclick="chooseCategory('sixes')">
+              <span>Sixes (6의 눈)</span>
+              <span class="score-num" id="val_sixes">-</span>
             </div>
-            <div style="display: flex; justify-content: space-between; font-size: 0.8rem; font-weight: 700; color: var(--text-muted); padding-top: 6px; border-top: 1px dashed var(--border); margin-top: 6px;">
-              <span>상단 보너스 (63점 이상 시 +35점)</span>
+            <div style="display: flex; justify-content: space-between; font-size: 0.8rem; font-weight: 700; color: var(--text-muted); padding-top: 6px; border-top: 1px dashed var(--border); margin-top: 4px;">
+              <span>상단 보너스 (63점 이상 시 +35)</span>
               <span id="upperBonusVal">0 / 63 (+0)</span>
             </div>
           </div>
 
           <!-- 하단 족보 -->
-          <div class="score-category-card">
-            <div class="category-title">🐊 특수 족보 (조합 점수)</div>
-            <div class="score-row" id="row_choice" onclick="chooseCategory('choice')">
-              <span class="score-label">Choice (주사위 총합)</span>
-              <span class="score-val" id="val_choice">-</span>
+          <div class="score-group">
+            <div class="group-header">🐊 특수 족보 (조합 점수)</div>
+            <div class="score-item" id="row_choice" onclick="chooseCategory('choice')">
+              <span>Choice (주사위 총합)</span>
+              <span class="score-num" id="val_choice">-</span>
             </div>
-            <div class="score-row" id="row_fourKind" onclick="chooseCategory('fourKind')">
-              <span class="score-label">4 of a Kind (동일 4개)</span>
-              <span class="score-val" id="val_fourKind">-</span>
+            <div class="score-item" id="row_fourKind" onclick="chooseCategory('fourKind')">
+              <span>4 of a Kind (동일 4개)</span>
+              <span class="score-num" id="val_fourKind">-</span>
             </div>
-            <div class="score-row" id="row_fullHouse" onclick="chooseCategory('fullHouse')">
-              <span class="score-label">Full House (3개 + 2개)</span>
-              <span class="score-val" id="val_fullHouse">-</span>
+            <div class="score-item" id="row_fullHouse" onclick="chooseCategory('fullHouse')">
+              <span>Full House (3개 + 2개)</span>
+              <span class="score-num" id="val_fullHouse">-</span>
             </div>
-            <div class="score-row" id="row_sStraight" onclick="chooseCategory('sStraight')">
-              <span class="score-label">Small Straight (연속 4개)</span>
-              <span class="score-val" id="val_sStraight">-</span>
+            <div class="score-item" id="row_sStraight" onclick="chooseCategory('sStraight')">
+              <span>Small Straight (연속 4개)</span>
+              <span class="score-num" id="val_sStraight">-</span>
             </div>
-            <div class="score-row" id="row_lStraight" onclick="chooseCategory('lStraight')">
-              <span class="score-label">Large Straight (연속 5개)</span>
-              <span class="score-val" id="val_lStraight">-</span>
+            <div class="score-item" id="row_lStraight" onclick="chooseCategory('lStraight')">
+              <span>Large Straight (연속 5개)</span>
+              <span class="score-num" id="val_lStraight">-</span>
             </div>
-            <div class="score-row" id="row_yacht" onclick="chooseCategory('yacht')" style="background: #fef2f2;">
-              <span class="score-label" style="color: var(--danger); font-weight: 800;">🐊 HoYatch (5개 동일!)</span>
-              <span class="score-val" id="val_yacht" style="color: var(--danger); font-weight: 900;">-</span>
+            <div class="score-item" id="row_yacht" onclick="chooseCategory('yacht')" style="background: #fef2f2;">
+              <span style="color: var(--danger); font-weight: 800;">🐊 HoYatch (5개 동일!)</span>
+              <span class="score-num" id="val_yacht" style="color: var(--danger); font-weight: 900;">-</span>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- 📝 5. 방명록 섹션 -->
+    <!-- 📝 4. 오픈 방명록 섹션 -->
     <section id="guestbook">
-      <div style="max-width: 680px; margin: 0 auto;">
-        <h2 class="section-title">오픈 방명록 📝</h2>
-        <p class="section-subtitle">따뜻한 방문 흔적을 남겨보세요! 본인이 설정한 비밀번호로 언제든 삭제할 수 있습니다.</p>
+      <div class="section-header">
+        <h2 class="section-title">📝 오픈 방명록 (Guestbook)</h2>
+      </div>
 
-        <!-- 환경설정 안내 배너 -->
-        <div id="configBanner" style="display: none; background: #fffbeb; border: 1px solid #fef3c7; color: #92400e; padding: 14px; border-radius: 10px; margin-bottom: 20px; font-size: 0.9rem;">
-          ⚠️ <strong>Supabase 연결 설정이 필요합니다.</strong><br>
-          스크립트 상단의 <code>SUPABASE_URL</code>과 <code>SUPABASE_ANON_KEY</code>를 설정해 주세요.
-        </div>
+      <div class="guestbook-box">
+        <form id="gbForm" style="margin-bottom: 24px;">
+          <div class="form-inputs">
+            <input type="text" id="gbName" maxlength="20" placeholder="닉네임 (최대 20자)" required>
+            <input type="password" id="gbPassword" minlength="4" maxlength="30" placeholder="삭제 비밀번호 (4자리 이상)" required>
+          </div>
+          <textarea id="gbMessage" maxlength="300" placeholder="방명록 내용을 작성해 주세요 (최대 300자)" required></textarea>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <span style="font-size: 0.8rem; color: var(--text-muted);"><span id="gbCharCount">0</span> / 300자</span>
+            <span id="cooldownNotice" style="display: none; font-size: 0.8rem; color: var(--warning); font-weight: 700;">
+              ⏱️ 도배 방지 쿨타임: <span id="cooldownTimer">30</span>초
+            </span>
+          </div>
+          <button type="submit" id="gbSubmitBtn" class="btn-submit">방명록 남기기</button>
+        </form>
 
-        <!-- 작성 폼 -->
-        <div class="card" style="margin-bottom: 24px;">
-          <form id="gbForm">
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
-              <div>
-                <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 4px;">닉네임</label>
-                <input type="text" id="gbName" maxlength="20" placeholder="이름 (최대 20자)" required style="width: 100%; padding: 8px 12px; border: 1px solid var(--border); border-radius: 6px;">
-              </div>
-              <div>
-                <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 4px;">삭제 비밀번호</label>
-                <input type="password" id="gbPassword" minlength="4" maxlength="30" placeholder="4~30자" required style="width: 100%; padding: 8px 12px; border: 1px solid var(--border); border-radius: 6px;">
-              </div>
-            </div>
-
-            <div style="margin-bottom: 12px;">
-              <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 4px;">남길 메시지</label>
-              <textarea id="gbMessage" maxlength="300" placeholder="방명록 내용을 작성해 주세요 (최대 300자)" required style="width: 100%; min-height: 80px; padding: 8px 12px; border: 1px solid var(--border); border-radius: 6px;"></textarea>
-              <div style="text-align: right; font-size: 0.8rem; color: var(--text-muted);"><span id="gbCharCount">0</span> / 300자</div>
-            </div>
-
-            <button type="submit" id="gbSubmitBtn" class="btn btn-primary" style="width: 100%;">방명록 남기기</button>
-            <p id="cooldownNotice" style="display: none; text-align: center; font-size: 0.8rem; color: var(--warning); margin-top: 8px;">
-              ⏱️ 도배 방지를 위해 <span id="cooldownTimer">30</span>초 후 다시 작성할 수 있습니다.
-            </p>
-          </form>
-        </div>
-
-        <!-- 피드 목록 -->
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
-          <h3 style="font-size: 1.1rem;">남겨진 이야기 (<span id="gbTotalCount">0</span>)</h3>
-          <button type="button" id="gbRefreshBtn" style="background: none; border: none; color: var(--primary); font-weight: 600; cursor: pointer;">새로고침 ↻</button>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <span style="font-weight: 800; font-size: 0.95rem;">남겨진 이야기 (<span id="gbTotalCount">0</span>)</span>
+          <button type="button" id="gbRefreshBtn" style="background: none; border: none; color: var(--primary); font-weight: 700; cursor: pointer; font-size: 0.85rem;">새로고침 ↻</button>
         </div>
 
         <div id="gbList">
-          <div style="text-align: center; color: var(--text-muted); padding: 30px;">방명록을 불러오는 중...</div>
+          <div style="text-align: center; color: var(--text-muted); padding: 24px;">방명록을 불러오는 중...</div>
         </div>
       </div>
     </section>
-  </main>
+  </div>
 
   <!-- 🔒 삭제 확인 모달 -->
   <div class="modal-overlay" id="delModal">
     <div class="modal-box">
       <h3 style="margin-bottom: 8px;">글 삭제하기</h3>
-      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 14px;">작성 시 입력했던 비밀번호를 입력해 주세요.</p>
-      <input type="password" id="delPasswordInput" placeholder="비밀번호 입력" style="width: 100%; padding: 8px 12px; border: 1px solid var(--border); border-radius: 6px; margin-bottom: 14px;">
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 14px;">작성 시 설정했던 비밀번호를 입력해 주세요.</p>
+      <input type="password" id="delPasswordInput" placeholder="비밀번호 입력" style="margin-bottom: 14px;">
       <div style="display: flex; gap: 10px;">
-        <button type="button" class="btn btn-outline" id="btnCancelDel" style="flex: 1;">취소</button>
-        <button type="button" class="btn btn-primary" id="btnConfirmDel" style="flex: 1; background: var(--danger);">삭제 확인</button>
+        <button type="button" class="btn-link" id="btnCancelDel" style="flex: 1; justify-content: center;">취소</button>
+        <button type="button" class="btn-submit" id="btnConfirmDel" style="flex: 1; background: var(--danger);">삭제 확인</button>
       </div>
       <p id="lockoutNotice" style="display: none; color: var(--danger); font-size: 0.8rem; margin-top: 10px;">
         ⚠️ 비밀번호 5회 연속 오류로 1분간 삭제가 잠겼습니다.
@@ -1003,109 +856,29 @@
 
   <script>
     // ==========================================================================
-    // ⚙️ [1] Supabase 설정 (공개 anon 키만 사용)
+    // ⚙️ [1] Supabase 설정 (공개 anon 키)
     // ==========================================================================
     const SUPABASE_URL = "https://xotaszyodmnmdexvtooi.supabase.co";
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhvdGFzenlvZG1ubWRleHZ0b29pIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk0OTA2MTUsImV4cCI6MjEwNTA2NjYxNX0.nYrCRLpDb2BeD4rOdAFUuZemSX946yhtGFNSNNcSSxI";
 
-    let supabaseClient = null;
-
-    function initSupabase() {
-      // Supabase 클라이언트를 초기화하고 키 설정 여부를 확인하는 함수
-      if (!SUPABASE_URL || SUPABASE_URL === "YOUR_SUPABASE_PROJECT_URL" ||
-          !SUPABASE_ANON_KEY || SUPABASE_ANON_KEY === "YOUR_SUPABASE_ANON_KEY") {
-        document.getElementById("configBanner").style.display = "block";
-        document.getElementById("gbList").innerHTML = `<div class="card" style="text-align:center; color:var(--text-muted);">Supabase URL과 Anon Key를 설정해 주세요.</div>`;
-        return false;
-      }
-      supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-      return true;
-    }
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     function escapeHtml(text) {
-      // 악성 스크립트 실행(XSS)을 방지하기 위해 HTML 특수문자를 이스케이프하는 함수
+      // 악성 스크립트 실행(XSS)을 차단하기 위해 HTML 특수문자를 이스케이프하는 함수
       const div = document.createElement("div");
       div.textContent = text;
       return div.innerHTML;
     }
 
     function formatDate(isoString) {
-      // 날짜 문자열을 한국어 친화적인 형식으로 변환하는 함수
+      // 날짜 문자열을 알기 쉬운 한국어 시간 포맷으로 변환하는 함수
       if (!isoString) return "";
       const d = new Date(isoString);
       return `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')} ${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
     }
 
     // ==========================================================================
-    // 🚌 [2] 라이브 데모 1: 에듀-DRT 배차 시뮬레이터
-    // ==========================================================================
-    const drtSlider = document.getElementById("drtSlider");
-    const drtStudentVal = document.getElementById("drtStudentVal");
-    const drtTimeSave = document.getElementById("drtTimeSave");
-    const drtCostSave = document.getElementById("drtCostSave");
-
-    function updateDrtSimulation() {
-      // 슬라이더 값에 따라 에듀-DRT 통학 시간 단축 및 예산 절감액을 계산하는 함수
-      const count = parseInt(drtSlider.value);
-      drtStudentVal.textContent = count;
-      const minutes = Math.round(15 + (count * 0.22));
-      const cost = Math.round(180 + (count * 4.5));
-      drtTimeSave.textContent = `${minutes}분 단축`;
-      drtCostSave.textContent = `약 ${cost.toLocaleString()}만 원`;
-    }
-    drtSlider.addEventListener("input", updateDrtSimulation);
-
-    // ==========================================================================
-    // 🎬 [3] 라이브 데모 2: 입법쇼츠 실시간 프리뷰어
-    // ==========================================================================
-    const shortsTitleInput = document.getElementById("shortsInputTitle");
-    const shortsGradeSelect = document.getElementById("shortsSelectGrade");
-    const previewGradeBadge = document.getElementById("previewGradeBadge");
-    const previewCardTitle = document.getElementById("previewCardTitle");
-
-    function updateShortsPreview() {
-      // 입력값에 따라 9:16 입법쇼츠 카드 프레임을 실시간으로 렌더링하는 함수
-      const title = shortsTitleInput.value.trim() || "의안명을 입력하세요";
-      const grade = shortsGradeSelect.value;
-      previewCardTitle.textContent = title;
-
-      if (grade === "S") {
-        previewGradeBadge.textContent = "S등급 (95점)";
-        previewGradeBadge.style.background = "#ef4444";
-      } else if (grade === "A") {
-        previewGradeBadge.textContent = "A등급 (85점)";
-        previewGradeBadge.style.background = "#2563eb";
-      } else {
-        previewGradeBadge.textContent = "B등급 (75점)";
-        previewGradeBadge.style.background = "#10b981";
-      }
-    }
-    shortsTitleInput.addEventListener("input", updateShortsPreview);
-    shortsGradeSelect.addEventListener("change", updateShortsPreview);
-
-    // ==========================================================================
-    // 📜 [4] 라이브 데모 3: 나폴리탄 수칙서 미니 런너
-    // ==========================================================================
-    const btnNapo1 = document.getElementById("btnNapoAction1");
-    const btnNapo2 = document.getElementById("btnNapoAction2");
-    const napoResult = document.getElementById("napoResult");
-
-    function handleNapoChoice(isSafe) {
-      // 나폴리탄 수칙서 선택에 따른 생존/탈출 여부를 판정하는 함수
-      napoResult.style.display = "block";
-      if (isSafe) {
-        napoResult.style.color = "var(--accent)";
-        napoResult.textContent = "✅ [생존 성공] 발소리가 멀어집니다. 당신은 규칙을 지켜 무사히 탈출했습니다.";
-      } else {
-        napoResult.style.color = "var(--danger)";
-        napoResult.textContent = "❌ [수칙 위반] 시선을 마주치고 말았습니다... 당신의 의식은 어둠 속으로 사라집니다.";
-      }
-    }
-    btnNapo1.addEventListener("click", () => handleNapoChoice(false));
-    btnNapo2.addEventListener("click", () => handleNapoChoice(true));
-
-    // ==========================================================================
-    // 🐊 [5] All I Gator HoYatch 다이스 게임 엔진 (100% 브라우저 독립 실행)
+    // 🐊 [2] All I Gator HoYatch 다이스 게임 엔진
     // ==========================================================================
     let hyDice = [1, 2, 3, 4, 5];
     let hyKept = [false, false, false, false, false];
@@ -1130,7 +903,7 @@
     };
 
     function rollDice() {
-      // 남겨두지 않은 주사위를 무작위로 굴리고 스코어 미리보기를 갱신하는 함수
+      // 남겨두지 않은 주사위를 무작위로 굴리고 예상 점수 미리보기를 갱신하는 함수
       if (hyRollsLeft <= 0) return;
 
       for (let i = 0; i < 5; i++) {
@@ -1142,7 +915,6 @@
 
       hyRollsLeft--;
       document.getElementById("hyRollsLeft").textContent = hyRollsLeft;
-
       if (hyRollsLeft === 0) {
         document.getElementById("btnRollDice").disabled = true;
       }
@@ -1151,8 +923,8 @@
     }
 
     function toggleKeepDice(idx) {
-      // 주사위를 클릭했을 때 고정(KEEP) 상태를 토글하는 함수
-      if (hyRollsLeft === 3) return; // 한 번도 안 굴렸을 때는 고정 불가
+      // 주사위를 클릭했을 때 킵(고정) 상태를 켜거나 끄는 함수
+      if (hyRollsLeft === 3) return; // 굴리기 전에는 고정 불가
 
       hyKept[idx] = !hyKept[idx];
       const box = document.querySelector(`.dice-box[data-idx="${idx}"]`);
@@ -1164,7 +936,7 @@
     }
 
     function calculateCategoryScore(catKey) {
-      // 현재 주사위 눈을 바탕으로 특정 족보의 점수를 판정하는 함수
+      // 현재 주사위 눈을 기준으로 특정 족보의 점수를 판정하는 함수
       const counts = [0, 0, 0, 0, 0, 0, 0];
       let sum = 0;
       hyDice.forEach(v => {
@@ -1180,10 +952,8 @@
         case "fives": return counts[5] * 5;
         case "sixes": return counts[6] * 6;
         case "choice": return sum;
-        case "fourKind":
-          return counts.some(c => c >= 4) ? sum : 0;
-        case "fullHouse":
-          return (counts.includes(3) && counts.includes(2)) || counts.includes(5) ? sum : 0;
+        case "fourKind": return counts.some(c => c >= 4) ? sum : 0;
+        case "fullHouse": return (counts.includes(3) && counts.includes(2)) || counts.includes(5) ? sum : 0;
         case "sStraight":
           const hasS1 = counts[1] && counts[2] && counts[3] && counts[4];
           const hasS2 = counts[2] && counts[3] && counts[4] && counts[5];
@@ -1193,56 +963,52 @@
           const hasL1 = counts[1] && counts[2] && counts[3] && counts[4] && counts[5];
           const hasL2 = counts[2] && counts[3] && counts[4] && counts[5] && counts[6];
           return (hasL1 || hasL2) ? 30 : 0;
-        case "yacht":
-          return counts.includes(5) ? 50 : 0;
+        case "yacht": return counts.includes(5) ? 50 : 0;
         default: return 0;
       }
     }
 
     function updateScorePreviews() {
-      // 비어있는 족보 칸에 이번 턴 획득 가능한 예상 점수를 미리 보여주는 함수
+      // 아직 확정하지 않은 빈 족보 칸에 획득 가능한 예상 점수를 보여주는 함수
       Object.keys(categories).forEach(k => {
         if (categories[k].val === null) {
           const score = calculateCategoryScore(k);
           const el = document.getElementById(`val_${k}`);
           el.textContent = `+${score}`;
-          el.className = "score-val preview";
+          el.className = "score-num preview";
         }
       });
     }
 
     function chooseCategory(catKey) {
-      // 원하는 족보 칸을 클릭하여 점수를 최종 확정하고 다음 라운드로 진행하는 함수
+      // 선택한 족보 칸에 점수를 확정 기록하고 다음 라운드로 진행하는 함수
       if (hyRollsLeft === 3) {
         alert("먼저 주사위를 굴려주세요! 🎲");
         return;
       }
-      if (categories[catKey].val !== null) return; // 이미 기록된 칸
+      if (categories[catKey].val !== null) return;
 
       const score = calculateCategoryScore(catKey);
       categories[catKey].val = score;
 
       const el = document.getElementById(`val_${catKey}`);
       el.textContent = score;
-      el.className = "score-val fixed";
+      el.className = "score-num fixed";
       document.getElementById(`row_${catKey}`).classList.add("locked");
 
-      // 보너스 및 점수 집계
       updateUpperBonus();
       recalculateTotal();
 
-      // 호야추(50점) 달성 시 보너스 가넷 증정
       if (catKey === "yacht" && score === 50) {
         hyGarnets += 50;
         alert("🎉 대박! HoYatch 달성! 보너스 가넷 +50 획득! 🐊🍔");
       }
 
-      // 턴 종료 후 다음 라운드 리셋
       nextRound();
     }
 
     function updateUpperBonus() {
-      // 상단 족보 6개 합계를 계산하여 63점 이상 시 보너스 35점을 부여하는 함수
+      // 상단 족보 합계를 계산하여 63점 이상 시 보너스 35점을 부여하는 함수
       const upperKeys = ["aces", "deuces", "threes", "fours", "fives", "sixes"];
       let upperSum = 0;
       upperKeys.forEach(k => {
@@ -1259,13 +1025,12 @@
     }
 
     function recalculateTotal() {
-      // 고정된 모든 점수를 합산하여 총점을 산출하는 함수
+      // 확정된 점수들을 합산하여 총점과 가넷을 갱신하는 함수
       let sum = 0;
       Object.keys(categories).forEach(k => {
         if (categories[k].val !== null) sum += categories[k].val;
       });
 
-      // 상단 보너스 체크
       const upperSum = ["aces", "deuces", "threes", "fours", "fives", "sixes"]
         .reduce((acc, k) => acc + (categories[k].val || 0), 0);
       if (upperSum >= 63) sum += 35;
@@ -1276,7 +1041,7 @@
     }
 
     function nextRound() {
-      // 다음 라운드를 위해 주사위와 굴리기 횟수를 초기화하는 함수
+      // 다음 라운드를 위해 주사위 상태와 굴리기 횟수를 초기화하는 함수
       hyRound++;
       if (hyRound > 12) {
         setTimeout(() => {
@@ -1290,24 +1055,22 @@
       document.getElementById("hyRollsLeft").textContent = hyRollsLeft;
       document.getElementById("btnRollDice").disabled = false;
 
-      // 주사위 초기화
       hyKept = [false, false, false, false, false];
       document.querySelectorAll(".dice-box").forEach((box, i) => {
         box.classList.remove("kept");
         document.getElementById(`dice${i}`).textContent = "?";
       });
 
-      // 남은 빈 칸 프리뷰 초기화
       Object.keys(categories).forEach(k => {
         if (categories[k].val === null) {
           document.getElementById(`val_${k}`).textContent = "-";
-          document.getElementById(`val_${k}`).className = "score-val";
+          document.getElementById(`val_${k}`).className = "score-num";
         }
       });
     }
 
     function resetHoyatchGame() {
-      // 호야추 게임을 완전히 처음부터 새로 시작하는 함수
+      // 호야추 다이스 게임을 처음부터 완전히 리셋하는 함수
       hyRound = 1;
       hyTotalScore = 0;
       hyGarnets = 0;
@@ -1329,7 +1092,7 @@
         categories[k].val = null;
         const el = document.getElementById(`val_${k}`);
         el.textContent = "-";
-        el.className = "score-val";
+        el.className = "score-num";
         document.getElementById(`row_${k}`).classList.remove("locked");
       });
 
@@ -1338,17 +1101,16 @@
     }
 
     // ==========================================================================
-    // 📝 [6] 극보수 보안 방명록 (쿨타임, 뷰 격리, 단방향 솔트 암호화 RPC)
+    // 📝 [3] Supabase 오픈 방명록 (암호화 및 안전 삭제)
     // ==========================================================================
     let activeDelId = null;
     let failedAttempts = 0;
     let isLockedOut = false;
 
     async function loadGuestbookFeed() {
-      // 비밀번호 컬럼이 차단된 guestbook_view에서 안전하게 글을 불러오는 함수
-      if (!supabaseClient) return;
+      // 비밀번호 컬럼이 숨겨진 guestbook_view에서 글 목록을 가져와 렌더링하는 함수
       const feed = document.getElementById("gbList");
-      feed.innerHTML = `<div style="text-align:center; color:var(--text-muted); padding:30px;">불러오는 중...</div>`;
+      feed.innerHTML = `<div style="text-align:center; color:var(--text-muted); padding:20px;">불러오는 중...</div>`;
 
       try {
         const { data, error } = await supabaseClient
@@ -1360,36 +1122,32 @@
         document.getElementById("gbTotalCount").textContent = data ? data.length : 0;
 
         if (!data || data.length === 0) {
-          feed.innerHTML = `<div class="card" style="text-align:center; color:var(--text-muted);">첫 번째 방명록을 남겨보세요! ✨</div>`;
+          feed.innerHTML = `<div style="text-align:center; color:var(--text-muted); padding:20px;">아직 작성된 글이 없습니다. 첫 방명록을 남겨보세요! ✨</div>`;
           return;
         }
 
         feed.innerHTML = data.map(item => `
-          <div class="guestbook-item">
-            <div class="guestbook-meta">
-              <span class="author-name">${escapeHtml(item.name)}</span>
+          <div class="guestbook-card">
+            <div class="gb-header">
+              <span class="gb-author">${escapeHtml(item.name)}</span>
               <div>
-                <span class="item-date">${formatDate(item.created_at)}</span>
-                <button type="button" class="btn-del" onclick="triggerDelModal(${item.id})">삭제 🗑️</button>
+                <span class="gb-date">${formatDate(item.created_at)}</span>
+                <button type="button" class="btn-delete" onclick="triggerDelModal(${item.id})">삭제 🗑️</button>
               </div>
             </div>
-            <div style="font-size:0.95rem; white-space:pre-wrap; word-break:break-word;">${escapeHtml(item.message)}</div>
+            <div class="gb-msg">${escapeHtml(item.message)}</div>
           </div>
         `).join("");
 
       } catch (err) {
         console.error("방명록 로딩 오류:", err);
-        feed.innerHTML = `<div class="card" style="color:var(--danger); text-align:center;">방명록을 불러오지 못했습니다: ${escapeHtml(err.message)}</div>`;
+        feed.innerHTML = `<div style="color:var(--danger); text-align:center; padding:16px;">방명록을 불러오지 못했습니다: ${escapeHtml(err.message)}</div>`;
       }
     }
 
     async function submitGuestbookEntry(e) {
-      // 단방향 솔트 암호화 RPC(add_guestbook_entry)를 호출하여 글을 등록하는 함수
+      // 솔트 암호화 RPC(add_guestbook_entry)를 실행하여 방명록을 등록하는 함수
       e.preventDefault();
-      if (!supabaseClient) {
-        alert("Supabase 설정을 먼저 완료해 주세요.");
-        return;
-      }
 
       const name = document.getElementById("gbName").value.trim();
       const pwd = document.getElementById("gbPassword").value;
@@ -1397,7 +1155,7 @@
       const submitBtn = document.getElementById("gbSubmitBtn");
 
       if (!name || !pwd || !msg) {
-        alert("모든 항목을 입력해 주세요.");
+        alert("닉네임, 비밀번호, 메시지를 모두 입력해 주세요.");
         return;
       }
 
@@ -1418,7 +1176,6 @@
         document.getElementById("gbCharCount").textContent = "0";
         await loadGuestbookFeed();
 
-        // 30초 쿨타임 실행 (도배 방지)
         startCooldownTimer(30);
 
       } catch (err) {
@@ -1430,13 +1187,13 @@
     }
 
     function startCooldownTimer(seconds) {
-      // 연속 도배를 차단하기 위해 등록 버튼을 30초 동안 잠그는 함수
+      // 연속 도배를 방지하기 위해 등록 버튼을 30초간 비활성화하는 함수
       const submitBtn = document.getElementById("gbSubmitBtn");
       const notice = document.getElementById("cooldownNotice");
       const timerSpan = document.getElementById("cooldownTimer");
 
       submitBtn.disabled = true;
-      notice.style.display = "block";
+      notice.style.display = "inline";
       let remaining = seconds;
       timerSpan.textContent = remaining;
 
@@ -1453,7 +1210,7 @@
     }
 
     function triggerDelModal(id) {
-      // 삭제 모달 창을 열고 비밀번호 입력을 준비하는 함수
+      // 삭제 확인 모달 창을 띄우고 비밀번호 입력을 유도하는 함수
       if (isLockedOut) {
         alert("비밀번호 5회 연속 오류로 현재 삭제가 잠겨 있습니다.");
         return;
@@ -1465,14 +1222,14 @@
     }
 
     function hideDelModal() {
-      // 삭제 확인 모달 창을 닫는 함수
+      // 삭제 모달 창을 닫는 함수
       activeDelId = null;
       document.getElementById("delModal").style.display = "none";
     }
 
     async function executeDelItem() {
       // 서버 RPC(delete_guestbook_item)를 실행해 비밀번호 일치 시에만 삭제하는 함수
-      if (!activeDelId || !supabaseClient || isLockedOut) return;
+      if (!activeDelId || isLockedOut) return;
 
       const inputPwd = document.getElementById("delPasswordInput").value;
       if (!inputPwd) {
@@ -1515,7 +1272,7 @@
     }
 
     function triggerLockout() {
-      // 5회 연속 실패 시 1분 동안 삭제를 잠금 처리하는 함수
+      // 5회 연속 오류 시 1분 동안 삭제 시도를 차단하는 함수
       isLockedOut = true;
       document.getElementById("lockoutNotice").style.display = "block";
       document.getElementById("btnConfirmDel").disabled = true;
@@ -1528,7 +1285,7 @@
     }
 
     // ==========================================================================
-    // 🚀 [7] 이벤트 리스너 바인딩 및 초기 실행
+    // 🚀 [4] 이벤트 리스너 바인딩 및 시작
     // ==========================================================================
     document.getElementById("gbMessage").addEventListener("input", (e) => {
       document.getElementById("gbCharCount").textContent = e.target.value.length;
@@ -1539,10 +1296,8 @@
     document.getElementById("btnCancelDel").addEventListener("click", hideDelModal);
     document.getElementById("btnConfirmDel").addEventListener("click", executeDelItem);
 
-    // 초기 실행
-    if (initSupabase()) {
-      loadGuestbookFeed();
-    }
+    // 페이지 진입 시 방명록 로드
+    loadGuestbookFeed();
   </script>
 </body>
 </html>
