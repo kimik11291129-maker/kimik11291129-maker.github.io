@@ -845,15 +845,15 @@ footer.site-footer {
 }
 
 .home-hero-title {
-  max-width: 1280px;
-  font-size: clamp(2.8rem, 6.4vw, 6.2rem);
+  max-width: 1380px;
+  font-size: clamp(2.8rem, 6.2vw, 6rem);
   font-family: var(--font-serif);
-  font-weight: 700;
-  line-height: 1.05;
+  font-weight: 900;
+  line-height: 1.14;
   letter-spacing: -0.04em;
   color: var(--text);
   word-break: keep-all;
-  margin: 16px 0 32px 0;
+  margin: 20px 0 32px 0;
 }
 
 .home-hero-title em {
