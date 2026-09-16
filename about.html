@@ -1,433 +1,258 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>📜 화랑골 생활관 | 수칙 전문 (제1~3장)</title>
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
-    <link rel="stylesheet" href="style.css?v=20260910_01">
-    <link rel="stylesheet" href="style.css?v=20260910_02">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- 🛡️ 보안 메타 태그 -->
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta name="referrer" content="no-referrer">
+
+  <title>자기소개 (About) — 김호선 (Ho-seon Kim)</title>
+  <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    .profile-card {
+      display: flex;
+      gap: 28px;
+      align-items: center;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+    }
+
+    .profile-avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #2563eb 0%, #10b981 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+    }
+
+    .profile-info h1 {
+      font-size: 1.8rem;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      margin-bottom: 4px;
+    }
+
+    .profile-role {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+
+    .profile-meta-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      font-size: 0.9rem;
+      color: #475569;
+    }
+
+    .meta-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .meta-item a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .meta-item a:hover {
+      text-decoration: underline;
+    }
+
+    .section-block {
+      margin-top: 32px;
+    }
+
+    .section-title {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .philosophy-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin-top: 14px;
+    }
+
+    .philosophy-item {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+    }
+
+    .philosophy-item h3 {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .philosophy-item p {
+      font-size: 0.88rem;
+      color: #475569;
+      line-height: 1.6;
+    }
+
+    .tech-stack-group {
+      margin-bottom: 18px;
+    }
+
+    .tech-stack-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #334155;
+      margin-bottom: 8px;
+    }
+  </style>
 </head>
 <body>
-    <!-- 글로벌 좌측 상단 블로그형 메뉴 트리거 버튼 -->
-    <button class="global-menu-trigger" onclick="togglePortfolioDrawer()" title="전체 프로젝트 및 메뉴 열기">
-        <span class="hamburger-icon">☰</span> 메뉴
-    </button>
 
-    <!-- 사이드바 드로어 배경 오버레이 -->
-    <div id="portfolio-drawer-backdrop" class="portfolio-drawer-backdrop" onclick="closePortfolioDrawer()"></div>
+  <!-- 🧭 상단 공통 네비게이션 헤더 -->
+  <header class="header">
+    <div class="nav-container">
+      <a href="index.html" class="brand-logo">
+        <span>김호선</span>
+        <span class="role-pill">Data & Fullstack</span>
+      </a>
+      <nav>
+        <ul class="tab-group">
+          <li class="tab-item"><a href="index.html">홈</a></li>
+          <li class="tab-item"><a href="about.html" class="active">자기소개</a></li>
+          <li class="tab-item"><a href="portfolio.html">포폴소개</a></li>
+          <li class="tab-item"><a href="game.html">게임</a></li>
+          <li class="tab-item"><a href="guestbook.html">방명록</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
-    <!-- 블로그형 슬라이딩 사이드바 드로어 -->
-    <aside id="portfolio-drawer" class="portfolio-drawer">
-        <div class="drawer-header">
-            <button class="drawer-close-btn" onclick="closePortfolioDrawer()" title="메뉴 닫기">✕</button>
-            <div class="drawer-profile">
-                <div class="drawer-avatar">👨‍💻</div>
-                <div class="drawer-profile-info">
-                    <h3>Kimik Maker</h3>
-                    <p>Data Engineer & Web Interaction</p>
-                </div>
-            </div>
-        </div>
-
-        <nav class="drawer-nav">
-            <div class="drawer-nav-section-title">Navigation</div>
-            <ul class="drawer-nav-list">
-                <li class="drawer-nav-item">
-                    <a href="index.html" class="drawer-nav-link">
-                        <span class="nav-icon">🏠</span> 포트폴리오 홈
-                    </a>
-                </li>
-                <li class="drawer-nav-item">
-                    <a href="index.html#featured" class="drawer-nav-link">
-                        <span class="nav-icon">⭐</span> 대표 프로젝트
-                    </a>
-                </li>
-                <li class="drawer-nav-item">
-                    <a href="index.html#projects" class="drawer-nav-link">
-                        <span class="nav-icon">📂</span> 전체 프로젝트
-                    </a>
-                </li>
-                <li class="drawer-nav-item">
-                    <a href="index.html#about-me" class="drawer-nav-link">
-                        <span class="nav-icon">👤</span> 개발자 소개 & 스킬
-                    </a>
-                </li>
-            </ul>
-
-            <div class="drawer-nav-section-title">Projects Showcase</div>
-            <ul class="drawer-nav-list">
-                <li class="drawer-nav-item">
-                    <a href="gamebooks.html" class="drawer-nav-link">
-                        <span class="nav-icon">📚</span> 나폴리탄 금기 서고 (Hub)
-                        <span class="badge-featured" style="background: #8b0000; color: #fff;">DB연동</span>
-                    </a>
-                </li>
-                <li class="drawer-nav-item">
-                    <a href="game.html" class="drawer-nav-link">
-                        <span class="nav-icon">🎮</span> 화랑골 생활관: 게임북
-                        <span class="badge-featured">실행</span>
-                    </a>
-                </li>
-                <li class="drawer-nav-item">
-                    <a href="about.html" class="drawer-nav-link active">
-                        <span class="nav-icon">📜</span> 화랑골 수칙 전문 (1~3장)
-                    </a>
-                </li>
-                <li class="drawer-nav-item">
-                    <a href="portfolio.html" class="drawer-nav-link">
-                        <span class="nav-icon">🚨</span> 화랑골 비상 정화령 (4장)
-                    </a>
-                </li>
-                <li class="drawer-nav-item">
-                    <a href="javascript:void(0)" class="drawer-nav-link" onclick="openProjectModal('ulsan_bus'); closePortfolioDrawer();">
-                        <span class="nav-icon">🚌</span> 울산 버스 빅데이터 분석 & DRT 제안
-                        <span class="badge-featured" style="background: #e67e22; color: #fff;">빅데이터</span>
-                    </a>
-                </li>
-                <li class="drawer-nav-item">
-                    <a href="javascript:void(0)" class="drawer-nav-link" onclick="openProjectModal('shopping'); closePortfolioDrawer();">
-                        <span class="nav-icon">📊</span> 네이버 쇼핑인사이트 분석기
-                    </a>
-                </li>
-                <li class="drawer-nav-item">
-                    <a href="javascript:void(0)" class="drawer-nav-link" onclick="openProjectModal('series'); closePortfolioDrawer();">
-                        <span class="nav-icon">📚</span> 시리즈 웹소설 통계 엔진
-                    </a>
-                </li>
-                <li class="drawer-nav-item">
-                    <a href="javascript:void(0)" class="drawer-nav-link" onclick="openProjectModal('control_app'); closePortfolioDrawer();">
-                        <span class="nav-icon">🖥️</span> 참수리 함교 기상관제실
-                    </a>
-                </li>
-                <li class="drawer-nav-item">
-                    <a href="javascript:void(0)" class="drawer-nav-link" onclick="openProjectModal('keyword_app'); closePortfolioDrawer();">
-                        <span class="nav-icon">⚓</span> 참수리 블로그 키워드 관제소
-                    </a>
-                </li>
-                <li class="drawer-nav-item">
-                    <a href="javascript:void(0)" class="drawer-nav-link" onclick="openProjectModal('news_scraper'); closePortfolioDrawer();">
-                        <span class="nav-icon">📰</span> 네이버 뉴스 정적 스크래퍼
-                    </a>
-                </li>
-            </ul>
-        </nav>
-
-        <div class="drawer-footer">
-            <p style="margin-bottom: 6px;">GitHub: <a href="https://github.com/kimik11291129-maker" target="_blank">@kimik11291129-maker</a></p>
-            <p>© 2026 Kimik Maker. All rights reserved.</p>
-        </div>
-    </aside>
-
-    <!-- 프로젝트 상세 모달 -->
-    <div id="project-detail-modal-backdrop" class="project-detail-modal-backdrop" onclick="if(event.target === this) closeProjectModal()">
-        <div class="project-detail-modal">
-            <button class="modal-close-btn" onclick="closeProjectModal()" title="닫기">✕</button>
-            <div id="modal-project-category" class="modal-category">CATEGORY</div>
-            <h3 id="modal-project-title" class="modal-title">Project Title</h3>
-            <div id="modal-project-body" class="modal-body-content"></div>
-        </div>
+  <!-- 📦 메인 콘텐츠 영역 -->
+  <main class="main-container">
+    <div class="page-header">
+      <h1 class="page-title">👤 자기소개 (About Me)</h1>
+      <p class="page-desc">문제를 데이터로 정의하고, 견고한 코드와 무인 자동화로 증명하는 엔지니어입니다.</p>
     </div>
 
-    <div class="desk-viewport is-zoomed">
-        <div class="desk-canvas">
-            <div class="scroll-wrapper">
-                <div class="scroll-paper">
-                    <!-- 두루마리 상단 헤더 -->
-                    <div class="scroll-header">
-                        <div class="scroll-seal-tag">
-                            <span class="red-seal">금 · 기 · 령</span>
-                            <span class="scroll-title-tag">제1~3장 심야 생존 수칙 전문</span>
-                        </div>
-                        <nav class="inner-nav">
-                            <a href="index.html" class="nav-item">포트폴리오 홈</a>
-                            <a href="gamebooks.html" class="nav-item" style="color: #ff7777; border-color: #8b0000;">📚 나폴리탄 서고</a>
-                            <a href="about.html" class="nav-item active">수칙 전문 (제1~3장)</a>
-                            <a href="portfolio.html" class="nav-item emergency">🚨 비상 정화령</a>
-                            <a href="game.html" class="nav-item" style="color: #ff5555; border-color: #b72b2b;">🎮 생존 시험</a>
-                        </nav>
-                        <button class="sound-toggle-btn" onclick="toggleBGM(this)">🔇 심야 앰비언스</button>
-                    </div>
-
-                    <!-- 두루마리 내부 스크롤 콘텐츠 -->
-                    <div class="scroll-content-area">
-                        <main class="subpage-container">
-
-                            <!-- ============================== -->
-                            <!-- 제1장: 야간 통금과 밤의 결계     -->
-                            <!-- ============================== -->
-                            <div class="chapter-banner">
-                                <h3>제1장 · 야간 통금과 밤의 결계</h3>
-                                <p>22:00 — 철문이 닫히면, 복도는 더 이상 사람만의 공간이 아닙니다.</p>
-                            </div>
-
-                            <section class="chapter-section">
-                                <article class="rule-card">
-                                    <div class="rule-header">
-                                        <span class="rule-title">복도의 마찰음에 대하여</span>
-                                        <span class="rule-id">Rule 1</span>
-                                    </div>
-                                    <div class="rule-desc">
-                                        22:00 이후, 호실 밖 복도에서 들려오는 모든 소리를 단순한 <strong>'건물 수축음'</strong>으로 분류하십시오.<br><br>
-                                        발소리, 긁는 소리, 무거운 것을 질질 끄는 소리.<br>
-                                        그것이 아무리 사람이나 짐승의 기척처럼 들리더라도, 당신에게는 반드시 <em>'단순한 건물 수축음'</em>이어야만 합니다.<br><br>
-                                        의문을 품지 마십시오. 문을 열거나 문틈으로 내다보지 마십시오.<br>
-                                        그것이 무엇인지 확인하려는 순간 — <strong>당신이 확인당합니다.</strong>
-                                    </div>
-                                    <div class="evidence-box">
-                                        <div class="evidence-tag">📎 현장 음향 채록 — 복도 마찰음 표본 (5초)</div>
-                                        <button class="audio-clip-btn" onclick="playAudioClip('scratch', this)">🔊 심야 복도 마찰음 재생</button>
-                                    </div>
-                                </article>
-
-                                <article class="rule-card">
-                                    <div class="rule-header">
-                                        <span class="rule-title">순찰 무인의 놋쇠 호각</span>
-                                        <span class="rule-id">Rule 2</span>
-                                    </div>
-                                    <div class="rule-desc">
-                                        생활관 내 정식 순찰관은 반드시 <strong>놋쇠 호각</strong>을 휴대합니다.<br>
-                                        호각의 날카로운 금속성 음파는 이곳의 모든 사칭과 흉내를 일시적으로 무력화합니다.<br><br>
-                                        누군가 당신의 이름을 부르며 도움을 요청하거든, 먼저 귀를 기울이십시오.<br>
-                                        <strong>놋쇠 호각 소리가 동반되지 않는 부름은, 부름이 아닙니다.</strong><br><br>
-                                        <em>그것은 초대입니다. 절대 응하지 마십시오.</em>
-                                    </div>
-                                    <div class="evidence-box">
-                                        <div class="evidence-tag">📎 정규 놋쇠 호각 원음 표본 (2.4초)</div>
-                                        <button class="audio-clip-btn" onclick="playAudioClip('whistle', this)">🔊 놋쇠 호각 원음 재생</button>
-                                    </div>
-                                </article>
-
-                                <article class="rule-card">
-                                    <div class="rule-header">
-                                        <span class="rule-title">거울 속의 반 박자</span>
-                                        <span class="rule-id">Rule 3</span>
-                                    </div>
-                                    <div class="rule-desc">
-                                        세면대 거울 앞에 설 때, 반드시 자신의 동작을 주시하십시오.<br><br>
-                                        거울 속 당신의 움직임이 <strong>반 박자 늦게</strong> 따라오거나,<br>
-                                        어깨 너머로 존재하지 않아야 할 <em>낡은 도포 자락</em>이 비치거든 —<br><br>
-                                        <strong>즉시 눈을 감으십시오.</strong> 고개를 돌리지 말고, 뒷걸음질로 거울에서 벗어나십시오.<br>
-                                        거울은 이쪽에서 저쪽을 비추는 것이지만, 때때로 <em>저쪽에서 이쪽을 들여다보는 창</em>이 되기도 합니다.
-                                    </div>
-                                </article>
-
-                                <article class="rule-card">
-                                    <div class="rule-header">
-                                        <span class="rule-title">방 안의 숫자를 세지 마라</span>
-                                        <span class="rule-id">Rule 4</span>
-                                    </div>
-                                    <div class="rule-desc">
-                                        소등 후, 방 안의 인원 수를 <strong>절대로 소리 내어 세지 마십시오.</strong><br><br>
-                                        숨소리가 하나 더 많다고 느껴지더라도,<br>
-                                        이불 속에서 기척이 하나 더 감지되더라도,<br>
-                                        <em>모르는 척하십시오.</em><br><br>
-                                        숫자를 입 밖으로 내는 순간, 여분의 존재는 <strong>공식 인원으로 확정</strong>됩니다.<br>
-                                        그리고 원래 있던 누군가 한 명이, 아침에 학적부에서 조용히 지워집니다.
-                                    </div>
-                                    <div class="evidence-box">
-                                        <div class="evidence-tag">📷 현장 채증 — 소등 후 호실 내부 (어둠 속 구석)</div>
-                                        <img src="images/dorm_dark_corner.jpg" alt="소등 후 호실 내부" class="evidence-img">
-                                        <div class="evidence-caption">▲ 소등 후 촬영된 호실 내부. 구석의 어둠 속에서 카메라 센서에 포착된 미약한 열원 반응이 확인되었으나, 해당 위치에 배정된 인원은 없음.</div>
-                                    </div>
-                                </article>
-                            </section>
-
-                            <!-- ============================== -->
-                            <!-- 제2장: 음성 오염과 사칭 방지     -->
-                            <!-- ============================== -->
-                            <div class="chapter-banner">
-                                <h3>제2장 · 음성 오염과 사칭 방지</h3>
-                                <p>이곳에서 가장 위험한 무기는 칼이 아닙니다. <em>익숙한 목소리</em>입니다.</p>
-                            </div>
-
-                            <section class="chapter-section">
-                                <article class="rule-card">
-                                    <div class="rule-header">
-                                        <span class="rule-title">동실인의 잠꼬대</span>
-                                        <span class="rule-id">Rule 5</span>
-                                    </div>
-                                    <div class="rule-desc">
-                                        새벽 시간, 옆 침대의 동실인이 잠꼬대를 시작하거든 내용에 귀 기울이지 마십시오.<br><br>
-                                        특히 그 목소리가 <strong>당신의 음색과 정확히 일치</strong>하거나,<br>
-                                        낮에 당신 혼자 속으로만 떠올렸던 기억을 중얼거리고 있다면 —<br><br>
-                                        <strong>이불을 덮고 양쪽 귀를 틀어막으십시오.</strong><br>
-                                        동실인을 흔들어 깨우지 마십시오. 그것은 잠꼬대가 아닙니다.<br>
-                                        <em>연습입니다.</em>
-                                    </div>
-                                    <div class="evidence-box">
-                                        <div class="evidence-tag">📎 동실인 음성 모창 현상 포착 녹취 (9.8초)</div>
-                                        <button class="audio-clip-btn" onclick="playAudioClip('roommate', this)">🔊 음성 모창 녹취 재생</button>
-                                        <div class="evidence-caption">▲ 주의: 녹취 속 목소리는 해당 호실 거주자의 것이 아닙니다. 그러나 목소리 성문 분석 결과 일치율 99.7%.</div>
-                                    </div>
-                                </article>
-
-                                <article class="rule-card">
-                                    <div class="rule-header">
-                                        <span class="rule-title">문밖의 다급한 동기</span>
-                                        <span class="rule-id">Rule 6</span>
-                                    </div>
-                                    <div class="rule-desc">
-                                        한밤중, 가장 친한 동기의 목소리로 문을 두드리며<br>
-                                        <em>"야! 빨리 나와! 사감실 결계 터졌어! 다 대피하래!"</em> 하고 외치더라도,<br><br>
-                                        <strong>먼저 귀를 기울이십시오.</strong><br>
-                                        복도에서 순찰 무인의 놋쇠 호각 소리가 함께 들리고 있습니까?<br><br>
-                                        들리지 않는다면, 그 목소리의 주인은 동기가 아닙니다.<br>
-                                        문고리에 손대지 마십시오. <strong>침묵만이 유일한 방패입니다.</strong><br><br>
-                                        한 번이라도 대답하면, 당신의 목소리가 <em>표본으로 채취</em>됩니다.<br>
-                                        내일 밤에는 누군가가 당신의 목소리로 다른 학생의 문을 두드릴 것입니다.
-                                    </div>
-                                    <div class="evidence-box">
-                                        <div class="evidence-tag">📷 현장 채증 — 심야 복도 (비상등 하 촬영)</div>
-                                        <img src="images/creepy_corridor_night.jpg" alt="심야 복도" class="evidence-img">
-                                        <div class="evidence-caption">▲ 03:17 촬영. 복도 끝에서 다급한 목소리가 녹음되었으나, CCTV 영상에는 아무것도 포착되지 않음. 음성의 출처 불명.</div>
-                                    </div>
-                                </article>
-
-                                <article class="rule-card">
-                                    <div class="rule-header">
-                                        <span class="rule-title">어머니의 목소리</span>
-                                        <span class="rule-id">Rule 7</span>
-                                    </div>
-                                    <div class="rule-desc">
-                                        이 수칙 중 가장 견디기 어려운 것입니다.<br><br>
-                                        새벽녘, 문밖에서 당신의 <strong>어머니 목소리</strong>가 들릴 수 있습니다.<br>
-                                        울먹이며, 애타게, 간절하게 문을 열어 달라고 합니다.<br>
-                                        <em>"아들아... 엄마야... 밖이 너무 춥고 무서워... 문 좀 열어다오..."</em><br><br>
-                                        <strong>열지 마십시오.</strong><br><br>
-                                        당신의 어머니는 지금 이 시각, 집에서 편히 주무시고 계십니다.<br>
-                                        문밖의 것은 당신이 가장 사랑하는 사람의 목소리를 가장 정확하게 흉내 낼 수 있는 —<br>
-                                        <em>그 무엇</em>입니다.
-                                    </div>
-                                    <div class="evidence-box">
-                                        <div class="evidence-tag">⚠️ 열람 주의 — 문밖 어머니 목소리 모창 녹취 (12초)</div>
-                                        <button class="audio-clip-btn" onclick="playAudioClip('mimic', this)">🔊 모성 모창 녹취 재생 (주의)</button>
-                                        <div class="evidence-caption">▲ 경고: 이 녹취를 들으면 강한 감정적 동요가 유발될 수 있습니다. 녹취 속 목소리의 주인은 확인 불가.</div>
-                                    </div>
-                                </article>
-                            </section>
-
-                            <!-- ============================== -->
-                            <!-- 제3장: 결계와 잔류물             -->
-                            <!-- ============================== -->
-                            <div class="chapter-banner">
-                                <h3>제3장 · 결계와 잔류물</h3>
-                                <p>낮에 보이는 것과 밤에 남는 것은 다릅니다. 흔적에 손대지 마십시오.</p>
-                            </div>
-
-                            <section class="chapter-section">
-                                <article class="rule-card">
-                                    <div class="rule-header">
-                                        <span class="rule-title">핏빛 보름달의 월광</span>
-                                        <span class="rule-id">Rule 8</span>
-                                    </div>
-                                    <div class="rule-desc">
-                                        특정한 밤, 뒷산 능선 위로 <strong>핏빛 보름달</strong>이 차오릅니다.<br>
-                                        창틈으로 스며드는 붉은 광선은 단순한 빛이 아닙니다.<br><br>
-                                        월광에 노출되면, 내면 깊이 잠들어 있던 <em>원초적 충동</em>이 깨어납니다.<br>
-                                        아름다운 노랫소리가 들리고, 창문을 열고 싶은 강렬한 충동이 밀려옵니다.<br><br>
-                                        <strong>차광막을 내리십시오. 창문을 등지십시오.</strong><br>
-                                        충동에 굴복하여 달빛 아래 선 자들은, 다음 날 아침 산속에서 맨발로 발견됩니다.<br>
-                                        <em>자신이 누구였는지 기억하지 못하는 채로.</em>
-                                    </div>
-                                    <div class="evidence-box">
-                                        <div class="evidence-tag">📷 현장 채증 — 핏빛 보름달 관측 기록</div>
-                                        <img src="images/blood_moon.jpg" alt="핏빛 보름달" class="evidence-img">
-                                        <div class="evidence-caption">▲ 2026년 관측 기록. 기상청 공식 데이터에는 해당 일자에 월식이 없었음. 교내에서만 관측된 국지적 현상.</div>
-                                    </div>
-                                </article>
-
-                                <article class="rule-card">
-                                    <div class="rule-header">
-                                        <span class="rule-title">복도 끝의 지하 계단</span>
-                                        <span class="rule-id">Rule 9</span>
-                                    </div>
-                                    <div class="rule-desc">
-                                        이 건물에 지하실은 <strong>없습니다.</strong><br>
-                                        건축 도면에도, 관리사무소 기록에도, 지하 공간은 존재하지 않습니다.<br><br>
-                                        그러나 특정한 밤, 복도 막다른 곳에 <em>본래 없어야 할 하향 계단</em>이 나타납니다.<br>
-                                        계단 아래에서는 당신이 가장 그리워하는 사람의 목소리가 들려옵니다.<br><br>
-                                        <strong>계단에 발을 딛지 마십시오.</strong><br>
-                                        그곳으로 내려간 학생은 다음 날 학적부에서 이름이 지워지며,<br>
-                                        누구도 그 학생이 처음부터 존재했다는 사실을 기억하지 못합니다.
-                                    </div>
-                                    <div class="evidence-box">
-                                        <div class="evidence-tag">📷 현장 채증 — 복도 말단부 공간 왜곡 기록</div>
-                                        <img src="images/hidden_staircase.jpg" alt="미지의 지하 계단" class="evidence-img">
-                                        <div class="evidence-caption">▲ 03:42 촬영. 해당 위치는 낮 시간대에는 평범한 콘크리트 벽면. 촬영 다음 날, 촬영자의 학적 기록 확인 불가.</div>
-                                    </div>
-                                </article>
-
-                                <article class="rule-card">
-                                    <div class="rule-header">
-                                        <span class="rule-title">'혼 0반' 명찰 개체</span>
-                                        <span class="rule-id">Rule 10</span>
-                                    </div>
-                                    <div class="rule-desc">
-                                        이른 아침 복도에서 낯선 학생을 마주칠 수 있습니다.<br>
-                                        구형 교복을 입고, 무표정하며, 명찰에는 <strong>'혼 0반'</strong>이라고 적혀 있습니다.<br><br>
-                                        <strong>눈을 마주치지 마십시오. 말을 걸지 마십시오. 접촉하지 마십시오.</strong><br><br>
-                                        정면만 응시하며 당당히 지나가십시오.<br>
-                                        그들은 이미 이곳에 있었던 — <em>더 이상 사람이라 부를 수 없게 된</em> 잔류물입니다.<br>
-                                        접촉하면, 당신의 명찰이 그들의 것으로 바뀝니다.
-                                    </div>
-                                    <div class="evidence-box">
-                                        <div class="evidence-tag">📷 현장 채증 — 1994년 4월 13일 심야 순찰 일지 기록 중인 수련생 개체</div>
-                                        <img src="images/companion_shadow.jpg" alt="1994년 심야 순찰 수련생과 벽면 그림자" class="evidence-img">
-                                        <div class="evidence-caption">▲ 1994년 4월 13일 23:42 폴라로이드 촬영. 야간 점호 일지를 기록 중인 수련생의 등 뒤 벽면에 이형의 그림자가 투영됨. 해당 수련생은 이튿날 학적에서 영구 말소됨.</div>
-                                    </div>
-                                </article>
-
-                                <article class="rule-card">
-                                    <div class="rule-header">
-                                        <span class="rule-title">바닥의 흔적과 훼손된 명찰</span>
-                                        <span class="rule-id">Rule 11</span>
-                                    </div>
-                                    <div class="rule-desc">
-                                        아침 개문 직후, 복도 바닥에 다음과 같은 것들이 남아 있을 수 있습니다:<br><br>
-                                        — 출처를 알 수 없는 고운 <strong>백색 털</strong><br>
-                                        — 반쯤 뜯겨 나간 <strong>훼손된 명찰</strong><br>
-                                        — 콘크리트에 파인 <strong>길고 깊은 할퀸 자국</strong><br><br>
-                                        <strong>만지지 마십시오. 줍지 마십시오. 오래 쳐다보지 마십시오.</strong><br><br>
-                                        흔적은 밤의 잔류물입니다.<br>
-                                        잔류물에 접촉한 자는 밤의 소유물이 되며,<br>
-                                        <em>다음 날 아침, 복도 바닥에 또 하나의 명찰이 떨어져 있을 것입니다.</em>
-                                    </div>
-                                </article>
-                            </section>
-
-                            <!-- 다음 장 안내 -->
-                            <div class="chapter-next-guide">
-                                <p>제1~3장 수칙 전문 열람 완료.</p>
-                                <p style="margin-top: 6px;">결계 붕괴 및 비상 정화령 상황 시 행동 지침은 아래를 참조하십시오.</p>
-                                <a href="portfolio.html" class="btn btn-danger" style="margin-top: 12px; display: inline-block; text-decoration: none;">🚨 제4장 비상 정화령 열람 →</a>
-                                <a href="game.html" class="btn btn-primary" style="margin-top: 8px; display: inline-block; text-decoration: none; margin-left: 8px;">🎮 생존 시험 도전 →</a>
-                            </div>
-
-                        </main>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 책상 위 교내 결계 방어 유물 -->
-            <div class="desk-props">
-                <div class="prop-item prop-whistle" onclick="ringWhistleProp()" title="순찰 무인의 놋쇠 호각 (Rule 2)">
-                    <img src="images/whistle.jpg" alt="놋쇠 호각">
-                    <span class="prop-label">놋쇠 호각 [소리]</span>
-                </div>
-                <div class="prop-item prop-talisman" onclick="showToast('📜 문틀 주사 부적: 맹수의 손톱자국이 긁혀 있으나 결계는 온전합니다.')" title="문틀 주사 부적 (Rule 12)">
-                    <img src="images/talisman.jpg" alt="주사 부적">
-                    <span class="prop-label">주사 부적</span>
-                </div>
-            </div>
+    <!-- 개발자 프로필 카드 -->
+    <div class="content-card">
+      <div class="profile-card">
+        <div class="profile-avatar">👨‍💻</div>
+        <div class="profile-info">
+          <h1>김호선 (Ho-seon Kim)</h1>
+          <div class="profile-role">Data Engineer & Fullstack Builder</div>
+          <div class="profile-meta-list">
+            <span class="meta-item">📍 서울 / 원격</span>
+            <span class="meta-item">✉️ <a href="mailto:kimik11291129@gmail.com">kimik11291129@gmail.com</a></span>
+            <span class="meta-item">🐙 <a href="https://github.com/kimik11291129-maker" target="_blank">github.com/kimik11291129-maker</a></span>
+          </div>
         </div>
+      </div>
 
-        <a href="index.html" class="zoom-out-btn">💼 포트폴리오 홈으로 가기</a>
+      <p style="font-size: 0.98rem; color: #334155; line-height: 1.7;">
+        단순히 유행하는 기술을 나열하기보다, 복잡한 현실의 문제를 정량적인 데이터(공공 교통 빅데이터, 법령 API, 웹 텍스트)로 정의하고,
+        100% 무료 로컬 오픈소스 스택을 정밀하게 조합하여 지속 가능한 파이프라인으로 완성하는 것을 지향합니다.
+        비동기 백엔드부터 브라우저 단독 실행 웹 애플리케이션까지 제품의 전 생애주기를 직접 설계하고 구축합니다.
+      </p>
     </div>
 
-    <script src="script.js?v=20260910_01"></script>
-    <script src="script.js?v=20260910_02"></script>
+    <!-- 엔지니어링 철학 3원칙 -->
+    <div class="content-card section-block">
+      <h2 class="section-title">💡 핵심 개발 철학</h2>
+      <div class="philosophy-grid">
+        <div class="philosophy-item">
+          <h3>📊 데이터 기반 실증 문제 해결</h3>
+          <p>
+            추측이나 직관에 의존하지 않고, 교통카드 승하차 데이터, GIS 공간 분석 등 객관적인 숫자를 통해 사각지대와 비효율을 도출하고 3-Win 상생 모델을 제안합니다.
+          </p>
+        </div>
+        <div class="philosophy-item">
+          <h3>⚡ 100% 무료 무인 자동화</h3>
+          <p>
+            외부 유료 SaaS나 API 과금 없이, Python 오픈소스 스택(Edge-TTS, FFmpeg, libass, Windows Scheduler)을 조합해 비용 0원으로 매일 아침 가동되는 파이프라인을 완성합니다.
+          </p>
+        </div>
+        <div class="philosophy-item">
+          <h3>🛡️ 방어적 설계 & 안전 거버넌스</h3>
+          <p>
+            정적 호스팅 환경에서도 클라우드 DB의 RLS(Row Level Security) 정책과 pgcrypto 단방향 암호화, RPC 서버 사이드 검증을 통해 보안 취약점을 원천 방어합니다.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 기술 스택 명세 -->
+    <div class="content-card section-block">
+      <h2 class="section-title">🛠️ 기술 스택 (Tech Stacks)</h2>
+
+      <div class="tech-stack-group">
+        <div class="tech-stack-title">Languages</div>
+        <div class="badge-group">
+          <span class="badge badge-primary">Python (Core)</span>
+          <span class="badge badge-primary">JavaScript (ES6+)</span>
+          <span class="badge">SQL (PostgreSQL / SQLite)</span>
+          <span class="badge">HTML5 / CSS3</span>
+        </div>
+      </div>
+
+      <div class="tech-stack-group">
+        <div class="tech-stack-title">Backend & Cloud BaaS</div>
+        <div class="badge-group">
+          <span class="badge badge-primary">FastAPI (비동기 엔드포인트)</span>
+          <span class="badge badge-primary">Supabase (PostgreSQL Cloud)</span>
+          <span class="badge">Row Level Security (RLS)</span>
+          <span class="badge">pgcrypto (단방향 솔트 해시)</span>
+          <span class="badge">RESTful API Design</span>
+        </div>
+      </div>
+
+      <div class="tech-stack-group">
+        <div class="tech-stack-title">Data Engineering & Automation</div>
+        <div class="badge-group">
+          <span class="badge badge-accent">Pandas / NumPy (데이터 분석)</span>
+          <span class="badge badge-accent">GIS 공간 분석 (교통 노선 모델링)</span>
+          <span class="badge badge-accent">FFmpeg & libass (무인 영상 자동화)</span>
+          <span class="badge">Edge-TTS (비용 0원 음성 합성)</span>
+          <span class="badge">Pillow (동적 배지/카드 렌더링)</span>
+          <span class="badge">BeautifulSoup (웹 크롤링 & 텍스트 마이닝)</span>
+        </div>
+      </div>
+
+      <div class="tech-stack-group">
+        <div class="tech-stack-title">Environment & Tools</div>
+        <div class="badge-group">
+          <span class="badge">Git / GitHub / GitHub Pages</span>
+          <span class="badge">Windows PowerShell</span>
+          <span class="badge">VS Code / Cursor</span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- 🏷️ 푸터 -->
+  <footer class="site-footer">
+    <div class="main-container" style="margin: 0 auto; padding: 0 20px;">
+      <p>&copy; 2026 김호선 (Ho-seon Kim). All rights reserved.</p>
+    </div>
+  </footer>
+
 </body>
 </html>

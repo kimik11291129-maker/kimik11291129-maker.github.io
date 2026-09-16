@@ -1,220 +1,608 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>📜 화랑골 생활관 | 🎮 심야 생존 시험</title>
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
-    <link rel="stylesheet" href="style.css?v=20260910_01">
-    <link rel="stylesheet" href="style.css?v=20260910_02">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- 🛡️ 보안 메타 태그 -->
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta name="referrer" content="no-referrer">
+
+  <title>게임 (All I Gator HoYatch) — 김호선 (Ho-seon Kim)</title>
+  <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    /* 🐊 HoYatch 전용 스타일 */
+    .hoyatch-stage {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 32px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+      margin-bottom: 30px;
+    }
+
+    .game-status-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .game-mode-title {
+      font-size: 1.15rem;
+      font-weight: 900;
+      color: #047857;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .game-stat-group {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .stat-badge {
+      background: #f1f5f9;
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 0.9rem;
+      border: 1px solid var(--border);
+    }
+
+    /* 초록 벨벳 주사위 테이블 */
+    .dice-table {
+      background: radial-gradient(circle at 50% 50%, #065f46 0%, #044230 100%);
+      border-radius: 16px;
+      padding: 32px 20px;
+      text-align: center;
+      margin-bottom: 24px;
+      box-shadow: inset 0 0 24px rgba(0, 0, 0, 0.4), 0 4px 12px rgba(6, 95, 70, 0.15);
+      border: 2px solid #047857;
+    }
+
+    .dice-container {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .dice-box {
+      width: 72px;
+      height: 72px;
+      background: #ffffff;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      border: 3px solid #ffffff;
+      transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      user-select: none;
+    }
+
+    .dice-box:hover {
+      transform: translateY(-4px);
+    }
+
+    .dice-box.kept {
+      border-color: #f59e0b;
+      box-shadow: 0 0 16px rgba(245, 158, 11, 0.85);
+      background: #fef3c7;
+      transform: translateY(-6px);
+    }
+
+    .dice-val-text {
+      font-size: 2.3rem;
+      font-weight: 900;
+      color: #0f172a;
+      line-height: 1;
+    }
+
+    .kept-badge {
+      position: absolute;
+      top: -10px;
+      background: #f59e0b;
+      color: #ffffff;
+      font-size: 0.68rem;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 6px;
+      display: none;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .dice-box.kept .kept-badge {
+      display: block;
+    }
+
+    .dice-actions {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn-roll {
+      background: #10b981;
+      color: #ffffff;
+      font-size: 1.05rem;
+      font-weight: 800;
+      padding: 12px 28px;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+      transition: all 0.15s;
+    }
+
+    .btn-roll:hover:not(:disabled) {
+      background: #059669;
+      transform: scale(1.02);
+    }
+
+    .btn-roll:disabled {
+      background: #64748b;
+      cursor: not-allowed;
+      box-shadow: none;
+      opacity: 0.7;
+    }
+
+    .rolls-left-text {
+      color: #d1fae5;
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    /* 12대 족보 스코어보드 그리드 */
+    .scoreboard-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .score-group {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+    }
+
+    .group-header {
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: #334155;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 8px;
+    }
+
+    .score-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background-color 0.15s;
+      user-select: none;
+    }
+
+    .score-item:hover:not(.locked) {
+      background: #e2e8f0;
+    }
+
+    .score-item.locked {
+      cursor: default;
+      background: #f1f5f9;
+      color: #64748b;
+    }
+
+    .score-num {
+      font-weight: 800;
+      min-width: 32px;
+      text-align: right;
+    }
+
+    .score-num.preview {
+      color: var(--accent);
+    }
+
+    .score-num.fixed {
+      color: var(--primary);
+    }
+
+    @media (max-width: 768px) {
+      .scoreboard-grid {
+        grid-template-columns: 1fr;
+      }
+      .dice-box {
+        width: 58px;
+        height: 58px;
+      }
+      .dice-val-text {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
 </head>
 <body>
-    <!-- 글로벌 좌측 상단 블로그형 메뉴 트리거 버튼 -->
-    <button class="global-menu-trigger" onclick="togglePortfolioDrawer()" title="전체 프로젝트 및 메뉴 열기">
-        <span class="hamburger-icon">☰</span> 메뉴
-    </button>
 
-    <!-- 사이드바 드로어 배경 오버레이 -->
-    <div id="portfolio-drawer-backdrop" class="portfolio-drawer-backdrop" onclick="closePortfolioDrawer()"></div>
+  <!-- 🧭 상단 공통 네비게이션 헤더 -->
+  <header class="header">
+    <div class="nav-container">
+      <a href="index.html" class="brand-logo">
+        <span>김호선</span>
+        <span class="role-pill">Data & Fullstack</span>
+      </a>
+      <nav>
+        <ul class="tab-group">
+          <li class="tab-item"><a href="index.html">홈</a></li>
+          <li class="tab-item"><a href="about.html">자기소개</a></li>
+          <li class="tab-item"><a href="portfolio.html">포폴소개</a></li>
+          <li class="tab-item"><a href="game.html" class="active">게임</a></li>
+          <li class="tab-item"><a href="guestbook.html">방명록</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
-    <!-- 블로그형 슬라이딩 사이드바 드로어 -->
-    <aside id="portfolio-drawer" class="portfolio-drawer">
-        <div class="drawer-header">
-            <button class="drawer-close-btn" onclick="closePortfolioDrawer()" title="메뉴 닫기">✕</button>
-            <div class="drawer-profile">
-                <div class="drawer-avatar">👨‍💻</div>
-                <div class="drawer-profile-info">
-                    <h3>Kimik Maker</h3>
-                    <p>Data Engineer & Web Interaction</p>
-                </div>
-            </div>
-        </div>
-
-        <nav class="drawer-nav">
-            <div class="drawer-nav-section-title">Navigation</div>
-            <ul class="drawer-nav-list">
-                <li class="drawer-nav-item">
-                    <a href="index.html" class="drawer-nav-link">
-                        <span class="nav-icon">🏠</span> 포트폴리오 홈
-                    </a>
-                </li>
-                <li class="drawer-nav-item">
-                    <a href="index.html#featured" class="drawer-nav-link">
-                        <span class="nav-icon">⭐</span> 대표 프로젝트
-                    </a>
-                </li>
-                <li class="drawer-nav-item">
-                    <a href="index.html#projects" class="drawer-nav-link">
-                        <span class="nav-icon">📂</span> 전체 프로젝트
-                    </a>
-                </li>
-                <li class="drawer-nav-item">
-                    <a href="index.html#about-me" class="drawer-nav-link">
-                        <span class="nav-icon">👤</span> 개발자 소개 & 스킬
-                    </a>
-                </li>
-            </ul>
-
-            <div class="drawer-nav-section-title">Projects Showcase</div>
-            <ul class="drawer-nav-list">
-                <li class="drawer-nav-item">
-                    <a href="game.html" class="drawer-nav-link active">
-                        <span class="nav-icon">🎮</span> 화랑골 생활관: 게임북
-                        <span class="badge-featured">실행중</span>
-                    </a>
-                </li>
-                <li class="drawer-nav-item">
-                    <a href="about.html" class="drawer-nav-link">
-                        <span class="nav-icon">📜</span> 화랑골 수칙 전문 (1~3장)
-                    </a>
-                </li>
-                <li class="drawer-nav-item">
-                    <a href="portfolio.html" class="drawer-nav-link">
-                        <span class="nav-icon">🚨</span> 화랑골 비상 정화령 (4장)
-                    </a>
-                </li>
-                <li class="drawer-nav-item">
-                    <a href="javascript:void(0)" class="drawer-nav-link" onclick="openProjectModal('ulsan_bus'); closePortfolioDrawer();">
-                        <span class="nav-icon">🚌</span> 울산 버스 빅데이터 분석 & DRT 제안
-                        <span class="badge-featured" style="background: #e67e22; color: #fff;">빅데이터</span>
-                    </a>
-                </li>
-                <li class="drawer-nav-item">
-                    <a href="javascript:void(0)" class="drawer-nav-link" onclick="openProjectModal('shopping'); closePortfolioDrawer();">
-                        <span class="nav-icon">📊</span> 네이버 쇼핑인사이트 분석기
-                    </a>
-                </li>
-                <li class="drawer-nav-item">
-                    <a href="javascript:void(0)" class="drawer-nav-link" onclick="openProjectModal('series'); closePortfolioDrawer();">
-                        <span class="nav-icon">📚</span> 시리즈 웹소설 통계 엔진
-                    </a>
-                </li>
-                <li class="drawer-nav-item">
-                    <a href="javascript:void(0)" class="drawer-nav-link" onclick="openProjectModal('control_app'); closePortfolioDrawer();">
-                        <span class="nav-icon">🖥️</span> 참수리 함교 기상관제실
-                    </a>
-                </li>
-                <li class="drawer-nav-item">
-                    <a href="javascript:void(0)" class="drawer-nav-link" onclick="openProjectModal('keyword_app'); closePortfolioDrawer();">
-                        <span class="nav-icon">⚓</span> 참수리 블로그 키워드 관제소
-                    </a>
-                </li>
-                <li class="drawer-nav-item">
-                    <a href="javascript:void(0)" class="drawer-nav-link" onclick="openProjectModal('news_scraper'); closePortfolioDrawer();">
-                        <span class="nav-icon">📰</span> 네이버 뉴스 정적 스크래퍼
-                    </a>
-                </li>
-            </ul>
-        </nav>
-
-        <div class="drawer-footer">
-            <p style="margin-bottom: 6px;">GitHub: <a href="https://github.com/kimik11291129-maker" target="_blank">@kimik11291129-maker</a></p>
-            <p>© 2026 Kimik Maker. All rights reserved.</p>
-        </div>
-    </aside>
-
-    <!-- 프로젝트 상세 모달 -->
-    <div id="project-detail-modal-backdrop" class="project-detail-modal-backdrop" onclick="if(event.target === this) closeProjectModal()">
-        <div class="project-detail-modal">
-            <button class="modal-close-btn" onclick="closeProjectModal()" title="닫기">✕</button>
-            <div id="modal-project-category" class="modal-category">CATEGORY</div>
-            <h3 id="modal-project-title" class="modal-title">Project Title</h3>
-            <div id="modal-project-body" class="modal-body-content"></div>
-        </div>
+  <!-- 📦 메인 콘텐츠 영역 -->
+  <main class="main-container">
+    <div class="page-header">
+      <h1 class="page-title">🐊 All I Gator HoYatch (호야추 다이스)</h1>
+      <p class="page-desc">정식 12라운드 야추 족보, 킵(Keep) 주사위 물리, 상단 보너스(+35점)를 즐겨보세요.</p>
     </div>
 
-    <div class="desk-viewport is-zoomed">
-        <div class="desk-canvas">
-            <div class="scroll-wrapper">
-                <div class="scroll-paper" id="scroll-paper">
-                    <!-- 암전 모드 손전등 투시 레이어 -->
-                    <div id="flashlight-overlay" class="flashlight-overlay"></div>
+    <!-- 호야추 단독 게임 스테이지 -->
+    <div class="hoyatch-stage">
+      <!-- 게임 상단 정보 바 -->
+      <div class="game-status-bar">
+        <div class="game-mode-title">🎲 12라운드 정통 야추 승부</div>
+        <div class="game-stat-group">
+          <span class="stat-badge">라운드: <strong id="hyRound" style="color: var(--primary);">1</strong> / 12</span>
+          <span class="stat-badge">가넷: <strong id="hyGarnet" style="color: var(--danger);">🔴 0</strong></span>
+          <span class="stat-badge">총점: <strong id="hyTotalScore" style="color: var(--accent);">0</strong>점</span>
+        </div>
+      </div>
 
-                    <!-- 두루마리 상단 헤더 & 상태바 -->
-                    <div class="scroll-header">
-                        <div class="scroll-seal-tag">
-                            <span class="red-seal">생존 · 시험</span>
-                            <span class="scroll-title-tag">화랑골 금기록 · 실전 생존록</span>
-                        </div>
-                        <nav class="inner-nav">
-                            <a href="index.html" class="nav-item">포트폴리오 홈</a>
-                            <a href="gamebooks.html" class="nav-item" style="color: #ff7777; border-color: #8b0000;">📚 나폴리탄 서고</a>
-                            <a href="about.html" class="nav-item">수칙 전문 (제1~3장)</a>
-                            <a href="portfolio.html" class="nav-item emergency">🚨 비상 정화령</a>
-                            <a href="game.html" class="nav-item active" style="color: #ff5555; border-color: #b72b2b;">🎮 생존 시험</a>
-                        </nav>
-                        <div style="display: flex; align-items: center; gap: 6px;">
-                            <button class="sound-toggle-btn" onclick="toggleBGM(this)">🔇 심야 앰비언스</button>
-                            <button id="lantern-toggle-btn" class="lantern-btn" onclick="toggleLantern(this)">🕯️ 초롱불 끄기</button>
-                        </div>
-                    </div>
-
-                    <!-- 게임 실시간 상태 HUD -->
-                    <div class="game-hud">
-                        <div class="hud-item time-hud">
-                            <span class="hud-label">현재 시각</span>
-                            <span id="game-time" class="hud-value">22:00 PM</span>
-                        </div>
-                        <div class="hud-item san-hud">
-                            <span class="hud-label">넋의 안정도</span>
-                            <div class="san-bar-track">
-                                <div id="san-bar" class="san-bar-fill" style="width: 100%;"></div>
-                            </div>
-                            <span id="san-text" class="hud-value">100%</span>
-                        </div>
-                        <div class="hud-item relics-hud">
-                            <span class="hud-label">소지 유물</span>
-                            <span id="relic-icons" class="relic-icons" title="소지한 결계 유물 목록"></span>
-                        </div>
-                        <div class="hud-item companion-hud">
-                            <span class="hud-label">동행</span>
-                            <span id="companion-badge" class="companion-badge">단독 👤</span>
-                        </div>
-                    </div>
-
-                    <!-- 게임북 본문 & 선택지 영역 (초슬림 은폐 스크롤) -->
-                    <div class="scroll-content-area game-play-area">
-                        <!-- 스토리 본문 텍스트 -->
-                        <div id="story-container" class="story-box">
-                            <h3 id="story-stage-title" class="story-title">【 제1막 : 22:00 폐쇄와 마찰음 】</h3>
-                            <div id="story-image-box" class="story-media" style="display: none;"></div>
-                            <div id="blood-secret-hint" class="blood-secret-hint"></div>
-                            <p id="story-text" class="story-paragraph">
-                                22:00 정각. 육중한 쇠사슬 감기는 소리와 함께 생활관의 모든 출입문이 굳게 닫혔다.
-                                밖으로 나갈 수 있는 길은 완전히 차단되었다.
-                                <br><br>
-                                몇 분 후, 쥐 죽은 듯 고요하던 복도 바닥에서 무언가 무거운 것을 질질 끄는 기괴한 마찰음이 천천히 당신의 호실 문앞을 지나가기 시작하는데...
-                            </p>
-                        </div>
-
-                        <!-- 선택지 버튼 그룹 -->
-                        <div id="choices-container" class="choices-box">
-                            <!-- JS에서 동적 생성 -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 책상 위 방어 유물 (게임북 연동 가능) -->
-            <div class="desk-props">
-                <div class="prop-item prop-whistle" onclick="useWhistleInGame()" title="순찰 무인의 놋쇠 호각 (클릭하여 사용)">
-                    <img src="images/whistle.jpg" alt="놋쇠 호각">
-                    <span class="prop-label">놋쇠 호각 [사용]</span>
-                </div>
-                <div class="prop-item prop-talisman" onclick="showToast('📜 문틀 주사 부적: 문틀에 온전히 고정되어 있습니다.')" title="문틀 주사 부적">
-                    <img src="images/talisman.jpg" alt="주사 부적">
-                    <span class="prop-label">주사 부적 [보존]</span>
-                </div>
-            </div>
+      <!-- 주사위 테이블 -->
+      <div class="dice-table">
+        <div class="dice-container" id="hyDiceContainer">
+          <div class="dice-box" data-idx="0" onclick="toggleKeepDice(0)">
+            <span class="kept-badge">KEEP</span>
+            <span class="dice-val-text" id="dice0">?</span>
+          </div>
+          <div class="dice-box" data-idx="1" onclick="toggleKeepDice(1)">
+            <span class="kept-badge">KEEP</span>
+            <span class="dice-val-text" id="dice1">?</span>
+          </div>
+          <div class="dice-box" data-idx="2" onclick="toggleKeepDice(2)">
+            <span class="kept-badge">KEEP</span>
+            <span class="dice-val-text" id="dice2">?</span>
+          </div>
+          <div class="dice-box" data-idx="3" onclick="toggleKeepDice(3)">
+            <span class="kept-badge">KEEP</span>
+            <span class="dice-val-text" id="dice3">?</span>
+          </div>
+          <div class="dice-box" data-idx="4" onclick="toggleKeepDice(4)">
+            <span class="kept-badge">KEEP</span>
+            <span class="dice-val-text" id="dice4">?</span>
+          </div>
         </div>
 
-        <a href="index.html" class="zoom-out-btn">💼 포트폴리오 홈으로 가기</a>
-    </div>
+        <div class="dice-actions">
+          <button type="button" class="btn-roll" id="btnRollDice" onclick="rollDice()">🎲 주사위 굴리기</button>
+          <span class="rolls-left-text">남은 굴리기: <strong id="hyRollsLeft">3</strong>회</span>
+          <button type="button" class="btn-action" style="padding: 8px 14px; font-size: 0.85rem;" onclick="resetHoyatchGame()">새 게임 🔄</button>
+        </div>
+      </div>
 
-    <script src="script.js?v=20260910_01"></script>
-    <script src="script.js?v=20260910_02"></script>
-    <script src="game.js?v=20260910_01"></script>
+      <!-- 12대 족보 스코어보드 -->
+      <div class="scoreboard-grid">
+        <!-- 상단 족보 -->
+        <div class="score-group">
+          <div class="group-header">🍔 상단 족보 (숫자 눈의 합)</div>
+          <div class="score-item" id="row_aces" onclick="chooseCategory('aces')">
+            <span>Aces (1의 눈)</span>
+            <span class="score-num" id="val_aces">-</span>
+          </div>
+          <div class="score-item" id="row_deuces" onclick="chooseCategory('deuces')">
+            <span>Deuces (2의 눈)</span>
+            <span class="score-num" id="val_deuces">-</span>
+          </div>
+          <div class="score-item" id="row_threes" onclick="chooseCategory('threes')">
+            <span>Threes (3의 눈)</span>
+            <span class="score-num" id="val_threes">-</span>
+          </div>
+          <div class="score-item" id="row_fours" onclick="chooseCategory('fours')">
+            <span>Fours (4의 눈)</span>
+            <span class="score-num" id="val_fours">-</span>
+          </div>
+          <div class="score-item" id="row_fives" onclick="chooseCategory('fives')">
+            <span>Fives (5의 눈)</span>
+            <span class="score-num" id="val_fives">-</span>
+          </div>
+          <div class="score-item" id="row_sixes" onclick="chooseCategory('sixes')">
+            <span>Sixes (6의 눈)</span>
+            <span class="score-num" id="val_sixes">-</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 0.82rem; font-weight: 700; color: var(--text-muted); padding-top: 8px; border-top: 1px dashed var(--border); margin-top: 6px;">
+            <span>상단 보너스 (63점 이상 시 +35)</span>
+            <span id="upperBonusVal">0 / 63 (+0)</span>
+          </div>
+        </div>
+
+        <!-- 하단 족보 -->
+        <div class="score-group">
+          <div class="group-header">🐊 특수 족보 (조합 점수)</div>
+          <div class="score-item" id="row_choice" onclick="chooseCategory('choice')">
+            <span>Choice (주사위 총합)</span>
+            <span class="score-num" id="val_choice">-</span>
+          </div>
+          <div class="score-item" id="row_fourKind" onclick="chooseCategory('fourKind')">
+            <span>4 of a Kind (동일 4개)</span>
+            <span class="score-num" id="val_fourKind">-</span>
+          </div>
+          <div class="score-item" id="row_fullHouse" onclick="chooseCategory('fullHouse')">
+            <span>Full House (3개 + 2개)</span>
+            <span class="score-num" id="val_fullHouse">-</span>
+          </div>
+          <div class="score-item" id="row_sStraight" onclick="chooseCategory('sStraight')">
+            <span>Small Straight (연속 4개)</span>
+            <span class="score-num" id="val_sStraight">-</span>
+          </div>
+          <div class="score-item" id="row_lStraight" onclick="chooseCategory('lStraight')">
+            <span>Large Straight (연속 5개)</span>
+            <span class="score-num" id="val_lStraight">-</span>
+          </div>
+          <div class="score-item" id="row_yacht" onclick="chooseCategory('yacht')" style="background: #fef2f2;">
+            <span style="color: var(--danger); font-weight: 800;">🐊 HoYatch (5개 동일!)</span>
+            <span class="score-num" id="val_yacht" style="color: var(--danger); font-weight: 900;">-</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- 🏷️ 푸터 -->
+  <footer class="site-footer">
+    <div class="main-container" style="margin: 0 auto; padding: 0 20px;">
+      <p>&copy; 2026 김호선 (Ho-seon Kim). All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // ==========================================================================
+    // 🐊 All I Gator HoYatch 주사위 게임 엔진 (순수 브라우저 실행)
+    // ==========================================================================
+    let hyDice = [1, 2, 3, 4, 5];
+    let hyKept = [false, false, false, false, false];
+    let hyRollsLeft = 3;
+    let hyRound = 1;
+    let hyTotalScore = 0;
+    let hyGarnets = 0;
+
+    const categories = {
+      aces: { name: "Aces", val: null },
+      deuces: { name: "Deuces", val: null },
+      threes: { name: "Threes", val: null },
+      fours: { name: "Fours", val: null },
+      fives: { name: "Fives", val: null },
+      sixes: { name: "Sixes", val: null },
+      choice: { name: "Choice", val: null },
+      fourKind: { name: "4 of a Kind", val: null },
+      fullHouse: { name: "Full House", val: null },
+      sStraight: { name: "Small Straight", val: null },
+      lStraight: { name: "Large Straight", val: null },
+      yacht: { name: "HoYatch", val: null }
+    };
+
+    function rollDice() {
+      // 주사위를 굴리고 남은 횟수를 차감하는 함수
+      if (hyRollsLeft <= 0) return;
+
+      for (let i = 0; i < 5; i++) {
+        if (!hyKept[i]) {
+          hyDice[i] = Math.floor(Math.random() * 6) + 1;
+          document.getElementById(`dice${i}`).textContent = hyDice[i];
+        }
+      }
+
+      hyRollsLeft--;
+      document.getElementById("hyRollsLeft").textContent = hyRollsLeft;
+      if (hyRollsLeft === 0) {
+        document.getElementById("btnRollDice").disabled = true;
+      }
+
+      updateScorePreviews();
+    }
+
+    function toggleKeepDice(idx) {
+      // 주사위 킵(Keep) 상태를 토글하는 함수
+      if (hyRollsLeft === 3) return; // 굴리기 전에는 킵 불가
+
+      hyKept[idx] = !hyKept[idx];
+      const box = document.querySelector(`.dice-box[data-idx="${idx}"]`);
+      if (hyKept[idx]) {
+        box.classList.add("kept");
+      } else {
+        box.classList.remove("kept");
+      }
+    }
+
+    function calculateCategoryScore(catKey) {
+      // 현재 주사위 눈을 기준으로 특정 족보의 점수를 판정하는 함수
+      const counts = [0, 0, 0, 0, 0, 0, 0];
+      let sum = 0;
+      hyDice.forEach(v => {
+        counts[v]++;
+        sum += v;
+      });
+
+      switch (catKey) {
+        case "aces": return counts[1] * 1;
+        case "deuces": return counts[2] * 2;
+        case "threes": return counts[3] * 3;
+        case "fours": return counts[4] * 4;
+        case "fives": return counts[5] * 5;
+        case "sixes": return counts[6] * 6;
+        case "choice": return sum;
+        case "fourKind":
+          return counts.some(c => c >= 4) ? sum : 0;
+        case "fullHouse":
+          const has3 = counts.some(c => c === 3);
+          const has2 = counts.some(c => c === 2);
+          const has5 = counts.some(c => c === 5);
+          return (has3 && has2) || has5 ? sum : 0;
+        case "sStraight":
+          const s1 = counts[1] && counts[2] && counts[3] && counts[4];
+          const s2 = counts[2] && counts[3] && counts[4] && counts[5];
+          const s3 = counts[3] && counts[4] && counts[5] && counts[6];
+          return (s1 || s2 || s3) ? 15 : 0;
+        case "lStraight":
+          const l1 = counts[1] && counts[2] && counts[3] && counts[4] && counts[5];
+          const l2 = counts[2] && counts[3] && counts[4] && counts[5] && counts[6];
+          return (l1 || l2) ? 30 : 0;
+        case "yacht":
+          return counts.some(c => c === 5) ? 50 : 0;
+        default:
+          return 0;
+      }
+    }
+
+    function updateScorePreviews() {
+      // 선택되지 않은 족보 항목들에 예상 점수를 표시하는 함수
+      Object.keys(categories).forEach(cat => {
+        if (categories[cat].val === null) {
+          const previewScore = calculateCategoryScore(cat);
+          const elem = document.getElementById(`val_${cat}`);
+          elem.textContent = previewScore;
+          elem.className = "score-num preview";
+        }
+      });
+    }
+
+    function chooseCategory(catKey) {
+      // 주사위를 최소 한 번 굴린 후 족보를 확정 선택하는 함수
+      if (hyRollsLeft === 3) {
+        alert("주사위를 먼저 한 번 이상 굴려주세요! 🎲");
+        return;
+      }
+      if (categories[catKey].val !== null) return;
+
+      const score = calculateCategoryScore(catKey);
+      categories[catKey].val = score;
+
+      const row = document.getElementById(`row_${catKey}`);
+      row.classList.add("locked");
+      const valElem = document.getElementById(`val_${catKey}`);
+      valElem.textContent = score;
+      valElem.className = "score-num fixed";
+
+      if (catKey === "yacht" && score === 50) {
+        alert("🎉 대박! HoYatch(야추) 50점 잭팟 달성! 🐊🍔");
+        hyGarnets += 3;
+        document.getElementById("hyGarnet").textContent = `🔴 ${hyGarnets}`;
+      }
+
+      calculateTotals();
+
+      if (hyRound < 12) {
+        hyRound++;
+        document.getElementById("hyRound").textContent = hyRound;
+        startNextRound();
+      } else {
+        alert(`🏆 12라운드 게임 종료! 최종 점수: ${hyTotalScore}점입니다!`);
+        document.getElementById("btnRollDice").disabled = true;
+      }
+    }
+
+    function calculateTotals() {
+      // 상단 보너스 및 전체 점수 합계를 산출하는 함수
+      const upperKeys = ["aces", "deuces", "threes", "fours", "fives", "sixes"];
+      let upperSum = 0;
+      let allSum = 0;
+
+      upperKeys.forEach(k => {
+        if (categories[k].val !== null) upperSum += categories[k].val;
+      });
+
+      let bonus = 0;
+      if (upperSum >= 63) {
+        bonus = 35;
+        document.getElementById("upperBonusVal").textContent = `${upperSum} / 63 (+35 완료!) 🎉`;
+        document.getElementById("upperBonusVal").style.color = "var(--primary)";
+      } else {
+        document.getElementById("upperBonusVal").textContent = `${upperSum} / 63 (+0)`;
+      }
+
+      Object.keys(categories).forEach(k => {
+        if (categories[k].val !== null) allSum += categories[k].val;
+      });
+
+      hyTotalScore = allSum + bonus;
+      document.getElementById("hyTotalScore").textContent = hyTotalScore;
+    }
+
+    function startNextRound() {
+      // 라운드를 전환하고 주사위 상태를 초기화하는 함수
+      hyRollsLeft = 3;
+      hyKept = [false, false, false, false, false];
+      document.getElementById("hyRollsLeft").textContent = hyRollsLeft;
+      document.getElementById("btnRollDice").disabled = false;
+
+      for (let i = 0; i < 5; i++) {
+        const box = document.querySelector(`.dice-box[data-idx="${i}"]`);
+        box.classList.remove("kept");
+        document.getElementById(`dice${i}`).textContent = "?";
+      }
+
+      Object.keys(categories).forEach(cat => {
+        if (categories[cat].val === null) {
+          const elem = document.getElementById(`val_${cat}`);
+          elem.textContent = "-";
+          elem.className = "score-num";
+        }
+      });
+    }
+
+    function resetHoyatchGame() {
+      // 게임 전체를 1라운드부터 리셋하는 함수
+      hyRound = 1;
+      hyTotalScore = 0;
+      hyGarnets = 0;
+      document.getElementById("hyRound").textContent = hyRound;
+      document.getElementById("hyTotalScore").textContent = "0";
+      document.getElementById("hyGarnet").textContent = "🔴 0";
+      document.getElementById("upperBonusVal").textContent = "0 / 63 (+0)";
+      document.getElementById("upperBonusVal").style.color = "var(--text-muted)";
+
+      Object.keys(categories).forEach(k => {
+        categories[k].val = null;
+        const row = document.getElementById(`row_${k}`);
+        row.classList.remove("locked");
+        const elem = document.getElementById(`val_${k}`);
+        elem.textContent = "-";
+        elem.className = "score-num";
+      });
+
+      startNextRound();
+    }
+  </script>
+
 </body>
 </html>

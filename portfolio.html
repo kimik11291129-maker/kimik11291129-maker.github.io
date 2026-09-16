@@ -1,290 +1,224 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>📜 화랑골 생활관 | 🚨 제4장 비상 정화령</title>
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
-    <link rel="stylesheet" href="style.css?v=20260910_01">
-    <link rel="stylesheet" href="style.css?v=20260910_02">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- 🛡️ 보안 메타 태그 -->
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta name="referrer" content="no-referrer">
+
+  <title>포폴소개 (Portfolio) — 김호선 (Ho-seon Kim)</title>
+  <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    .factsheet-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 26px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+      transition: all 0.2s ease;
+    }
+
+    .factsheet-card:hover {
+      border-color: #cbd5e1;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.04);
+    }
+
+    .factsheet-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .factsheet-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .factsheet-category {
+      font-size: 0.78rem;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: #eff6ff;
+      color: var(--primary);
+      border: 1px solid #dbeafe;
+    }
+
+    .factsheet-summary {
+      font-size: 0.95rem;
+      color: #334155;
+      margin-bottom: 16px;
+      line-height: 1.6;
+    }
+
+    .factsheet-details {
+      display: grid;
+      grid-template-columns: 110px 1fr;
+      gap: 10px;
+      font-size: 0.88rem;
+      background: #f8fafc;
+      padding: 14px 16px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      margin-bottom: 14px;
+    }
+
+    .detail-label {
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .detail-value {
+      color: #1e293b;
+      font-weight: 600;
+    }
+
+    .factsheet-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+  </style>
 </head>
 <body>
-    <!-- 글로벌 좌측 상단 블로그형 메뉴 트리거 버튼 -->
-    <button class="global-menu-trigger" onclick="togglePortfolioDrawer()" title="전체 프로젝트 및 메뉴 열기">
-        <span class="hamburger-icon">☰</span> 메뉴
-    </button>
 
-    <!-- 사이드바 드로어 배경 오버레이 -->
-    <div id="portfolio-drawer-backdrop" class="portfolio-drawer-backdrop" onclick="closePortfolioDrawer()"></div>
+  <!-- 🧭 상단 공통 네비게이션 헤더 -->
+  <header class="header">
+    <div class="nav-container">
+      <a href="index.html" class="brand-logo">
+        <span>김호선</span>
+        <span class="role-pill">Data & Fullstack</span>
+      </a>
+      <nav>
+        <ul class="tab-group">
+          <li class="tab-item"><a href="index.html">홈</a></li>
+          <li class="tab-item"><a href="about.html">자기소개</a></li>
+          <li class="tab-item"><a href="portfolio.html" class="active">포폴소개</a></li>
+          <li class="tab-item"><a href="game.html">게임</a></li>
+          <li class="tab-item"><a href="guestbook.html">방명록</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
-    <!-- 블로그형 슬라이딩 사이드바 드로어 -->
-    <aside id="portfolio-drawer" class="portfolio-drawer">
-        <div class="drawer-header">
-            <button class="drawer-close-btn" onclick="closePortfolioDrawer()" title="메뉴 닫기">✕</button>
-            <div class="drawer-profile">
-                <div class="drawer-avatar">👨‍💻</div>
-                <div class="drawer-profile-info">
-                    <h3>Kimik Maker</h3>
-                    <p>Data Engineer & Web Interaction</p>
-                </div>
-            </div>
-        </div>
-
-        <nav class="drawer-nav">
-            <div class="drawer-nav-section-title">Navigation</div>
-            <ul class="drawer-nav-list">
-                <li class="drawer-nav-item">
-                    <a href="index.html" class="drawer-nav-link">
-                        <span class="nav-icon">🏠</span> 포트폴리오 홈
-                    </a>
-                </li>
-                <li class="drawer-nav-item">
-                    <a href="index.html#featured" class="drawer-nav-link">
-                        <span class="nav-icon">⭐</span> 대표 프로젝트
-                    </a>
-                </li>
-                <li class="drawer-nav-item">
-                    <a href="index.html#projects" class="drawer-nav-link">
-                        <span class="nav-icon">📂</span> 전체 프로젝트
-                    </a>
-                </li>
-                <li class="drawer-nav-item">
-                    <a href="index.html#about-me" class="drawer-nav-link">
-                        <span class="nav-icon">👤</span> 개발자 소개 & 스킬
-                    </a>
-                </li>
-            </ul>
-
-            <div class="drawer-nav-section-title">Projects Showcase</div>
-            <ul class="drawer-nav-list">
-                <li class="drawer-nav-item">
-                    <a href="game.html" class="drawer-nav-link">
-                        <span class="nav-icon">🎮</span> 화랑골 생활관: 게임북
-                        <span class="badge-featured">실행</span>
-                    </a>
-                </li>
-                <li class="drawer-nav-item">
-                    <a href="about.html" class="drawer-nav-link">
-                        <span class="nav-icon">📜</span> 화랑골 수칙 전문 (1~3장)
-                    </a>
-                </li>
-                <li class="drawer-nav-item">
-                    <a href="portfolio.html" class="drawer-nav-link active">
-                        <span class="nav-icon">🚨</span> 화랑골 비상 정화령 (4장)
-                    </a>
-                </li>
-                <li class="drawer-nav-item">
-                    <a href="javascript:void(0)" class="drawer-nav-link" onclick="openProjectModal('ulsan_bus'); closePortfolioDrawer();">
-                        <span class="nav-icon">🚌</span> 울산 버스 빅데이터 분석 & DRT 제안
-                        <span class="badge-featured" style="background: #e67e22; color: #fff;">빅데이터</span>
-                    </a>
-                </li>
-                <li class="drawer-nav-item">
-                    <a href="javascript:void(0)" class="drawer-nav-link" onclick="openProjectModal('shopping'); closePortfolioDrawer();">
-                        <span class="nav-icon">📊</span> 네이버 쇼핑인사이트 분석기
-                    </a>
-                </li>
-                <li class="drawer-nav-item">
-                    <a href="javascript:void(0)" class="drawer-nav-link" onclick="openProjectModal('series'); closePortfolioDrawer();">
-                        <span class="nav-icon">📚</span> 시리즈 웹소설 통계 엔진
-                    </a>
-                </li>
-                <li class="drawer-nav-item">
-                    <a href="javascript:void(0)" class="drawer-nav-link" onclick="openProjectModal('control_app'); closePortfolioDrawer();">
-                        <span class="nav-icon">🖥️</span> 참수리 함교 기상관제실
-                    </a>
-                </li>
-                <li class="drawer-nav-item">
-                    <a href="javascript:void(0)" class="drawer-nav-link" onclick="openProjectModal('keyword_app'); closePortfolioDrawer();">
-                        <span class="nav-icon">⚓</span> 참수리 블로그 키워드 관제소
-                    </a>
-                </li>
-                <li class="drawer-nav-item">
-                    <a href="javascript:void(0)" class="drawer-nav-link" onclick="openProjectModal('news_scraper'); closePortfolioDrawer();">
-                        <span class="nav-icon">📰</span> 네이버 뉴스 정적 스크래퍼
-                    </a>
-                </li>
-            </ul>
-        </nav>
-
-        <div class="drawer-footer">
-            <p style="margin-bottom: 6px;">GitHub: <a href="https://github.com/kimik11291129-maker" target="_blank">@kimik11291129-maker</a></p>
-            <p>© 2026 Kimik Maker. All rights reserved.</p>
-        </div>
-    </aside>
-
-    <!-- 프로젝트 상세 모달 -->
-    <div id="project-detail-modal-backdrop" class="project-detail-modal-backdrop" onclick="if(event.target === this) closeProjectModal()">
-        <div class="project-detail-modal">
-            <button class="modal-close-btn" onclick="closeProjectModal()" title="닫기">✕</button>
-            <div id="modal-project-category" class="modal-category">CATEGORY</div>
-            <h3 id="modal-project-title" class="modal-title">Project Title</h3>
-            <div id="modal-project-body" class="modal-body-content"></div>
-        </div>
+  <!-- 📦 메인 콘텐츠 영역 -->
+  <main class="main-container">
+    <div class="page-header">
+      <h1 class="page-title">📁 주요 프로젝트 팩트시트 (Portfolio)</h1>
+      <p class="page-desc">가짜 시뮬레이터를 배제하고, 실제 공공 빅데이터와 엔지니어링 기술로 완성한 5대 핵심 프로젝트입니다.</p>
     </div>
 
-    <div class="desk-viewport is-zoomed">
-        <div class="desk-canvas">
-            <div class="scroll-wrapper">
-                <div class="scroll-paper">
-                    <!-- 두루마리 상단 헤더 -->
-                    <div class="scroll-header">
-                        <div class="scroll-seal-tag">
-                            <span class="red-seal" style="color: #ff3344; border-color: #ff3344;">비상 · 정화령</span>
-                            <span class="scroll-title-tag" style="color: #8c1414;">제4장 비상 정화령 발효 지침</span>
-                        </div>
-                        <nav class="inner-nav">
-                            <a href="index.html" class="nav-item">포트폴리오 홈</a>
-                            <a href="gamebooks.html" class="nav-item" style="color: #ff7777; border-color: #8b0000;">📚 나폴리탄 서고</a>
-                            <a href="about.html" class="nav-item">수칙 전문 (제1~3장)</a>
-                            <a href="portfolio.html" class="nav-item emergency active">🚨 비상 정화령</a>
-                            <a href="game.html" class="nav-item" style="color: #ff5555; border-color: #b72b2b;">🎮 생존 시험</a>
-                        </nav>
-                        <button class="sound-toggle-btn" onclick="toggleBGM(this)">🔇 심야 앰비언스</button>
-                    </div>
+    <!-- 프로젝트 01 -->
+    <article class="factsheet-card">
+      <div class="factsheet-header">
+        <h2 class="factsheet-title">[01] 울산 시내버스 개편 빅데이터 분석 및 3-Win 에듀-DRT 정책 제안</h2>
+        <span class="factsheet-category">빅데이터 · 공공 정책</span>
+      </div>
+      <p class="factsheet-summary">
+        울산광역시 시내버스 노선 개편 데이터를 분석하여 외곽 학생들의 통학 교통 사각지대를 도출하고, 고정 노선의 비효율을 극복하기 위해 수요응답형 버스(DRT) 기반의 상생 정책 모델을 수립한 프로젝트입니다.
+      </p>
+      <div class="factsheet-details">
+        <div class="detail-label">데이터 / 기술</div>
+        <div class="detail-value">교통카드 승하차 데이터, GIS 공간 분석, 수요응답형 버스(DRT) 최적화 알고리즘</div>
+        <div class="detail-label">핵심 성과</div>
+        <div class="detail-value">학생(통학권 보장) · 운송사(수익성 개선) · 지자체(보조금 절감)의 3-Win 상생 구조 완성 및 정책 제안서 도출</div>
+      </div>
+    </article>
 
-                    <!-- 두루마리 내부 스크롤 콘텐츠 -->
-                    <div class="scroll-content-area">
-                        <main class="subpage-container">
-                            <div class="emergency-banner">
-                                <h3>🚨 제4장 · 비상 정화령 발효 시 행동 지침</h3>
-                                <p>종이 연속 일곱 번 울리면, 외부 결계가 깨진 것입니다.<br>
-                                복도는 더 이상 사람의 영역이 아닙니다. 즉시 본 지침을 시행하십시오.<br>
-                                <strong style="color: #ff8888;">망설임은 곧 영구 격리입니다.</strong></p>
-                            </div>
+    <!-- 프로젝트 02 -->
+    <article class="factsheet-card">
+      <div class="factsheet-header">
+        <h2 class="factsheet-title">[02] 대한민국 입법쇼츠 100% 무료 무인 자동화 파이프라인</h2>
+        <span class="factsheet-category">AI 미디어 · 무인 자동화</span>
+      </div>
+      <p class="factsheet-summary">
+        국회 신규 발의 법안을 국민들이 1분 만에 파악할 수 있도록, 외부 유료 API 없이 100% 무료 로컬 오픈소스 스택으로 매일 아침 9:16 유튜브 세로형 비디오를 대량 자동 생산하는 파이프라인입니다.
+      </p>
+      <div class="factsheet-details">
+        <div class="detail-label">핵심 기술</div>
+        <div class="detail-value">Python, 열린국회 공공 API, 국가법령정보, Edge-TTS, Pillow, FFmpeg, libass, Windows Scheduler</div>
+        <div class="detail-label">핵심 성과</div>
+        <div class="detail-value">비용 0원으로 매일 07:30 무인 가동, 하드코딩 텍스트 원천 배제 및 100% 동적 비디오 렌더링 구축</div>
+      </div>
+    </article>
 
-                            <!-- 핵심 수칙 12 & 13 -->
-                            <section class="chapter-section">
-                                <article class="rule-card danger">
-                                    <div class="rule-header">
-                                        <span class="rule-title">문틀 부적 보존</span>
-                                        <span class="rule-id">Rule 12</span>
-                                    </div>
-                                    <div class="rule-desc">
-                                        호실 문 안쪽 상단에 붙어 있는 <strong>주사 부적</strong>을 손톱으로 긁거나 훼손하지 마십시오.<br><br>
-                                        부적은 두 가지를 막고 있습니다.<br>
-                                        하나는, 바깥의 오염이 방 안으로 스며드는 것.<br>
-                                        다른 하나는 — 방 안에서 누군가의 넋이 무너졌을 때, 그 <em>끔찍한 목소리</em>가 복도로 새어나가 다른 호실에 <strong>옮는 것</strong>을 막는 마지막 가림막입니다.<br><br>
-                                        부적이 훼손되면, 그날 밤 그 복도의 모든 문은 안에서 잠가도 소용이 없어집니다.
-                                    </div>
-                                </article>
+    <!-- 프로젝트 03 -->
+    <article class="factsheet-card">
+      <div class="factsheet-header">
+        <h2 class="factsheet-title">[03] 나폴리탄 괴담 수집기 & AI 인터랙티브 스토리 스튜디오</h2>
+        <span class="factsheet-category">웹 크롤링 · 생성형 AI</span>
+      </div>
+      <p class="factsheet-summary">
+        웹 커뮤니티의 비정형 수칙서 텍스트를 크롤링하여 규칙 번호와 금기 행동 패턴을 정규식으로 구조화 파싱하고, 생성형 AI를 결합하여 사용자 선택 기반의 인터랙티브 스토리텔링 플랫폼을 구현했습니다.
+      </p>
+      <div class="factsheet-details">
+        <div class="detail-label">핵심 기술</div>
+        <div class="detail-value">Python Web Scraping, 정규식(Regex) 수칙서 파서, Generative AI 화랑 생성기, 인터랙티브 UI</div>
+        <div class="detail-label">핵심 성과</div>
+        <div class="detail-value">텍스트 마이닝을 인터랙티브 엔터테인먼트와 결합하여 독창적인 규칙 기반 분기 스토리 엔진 설계</div>
+      </div>
+    </article>
 
-                                <article class="rule-card danger" style="border-width: 2px;">
-                                    <div class="rule-header">
-                                        <span class="rule-title">7연속 타종 시 절대 엄금</span>
-                                        <span class="rule-id">Rule 13</span>
-                                    </div>
-                                    <div class="rule-desc">
-                                        생활관 전체에 종이 <strong>연속 일곱 번</strong> 울리면,<br>
-                                        즉시 비상 정화령 모드에 돌입합니다.<br><br>
+    <!-- 프로젝트 04 -->
+    <article class="factsheet-card">
+      <div class="factsheet-header">
+        <h2 class="factsheet-title">[04] All I Gator HoYatch 다이스 아케이드 (FastAPI & JS)</h2>
+        <span class="factsheet-category">웹 풀스택 · 게임 엔진</span>
+      </div>
+      <p class="factsheet-summary">
+        고전 주사위 족보 게임 야추(Yacht)를 악어 버거 테마로 재해석하여, 17대 족보 판정 로직과 5대 악어 보스 디펜스(PVE), 버거 유물 덱빌딩 시너지를 구현한 인터랙티브 웹게임입니다.
+      </p>
+      <div class="factsheet-details">
+        <div class="detail-label">핵심 기술</div>
+        <div class="detail-value">FastAPI (Python 비동기 백엔드), Vanilla JavaScript (ES6), CSS Keyframe 애니메이션</div>
+        <div class="detail-label">핵심 성과</div>
+        <div class="detail-value">게임 루프, 주사위 물리, 족보 알고리즘 풀스택 개발 완료 (게임 탭에서 즉시 플레이 가능)</div>
+      </div>
+      <div class="factsheet-footer">
+        <a href="game.html" class="btn-action btn-primary" style="font-size: 0.85rem; padding: 6px 14px;">
+          🐊 HoYatch 플레이하기 &rarr;
+        </a>
+      </div>
+    </article>
 
-                                        <strong>1.</strong> 베개 밑에 둔 백사(흰 실)를 꺼내십시오.<br>
-                                        <strong>2.</strong> 문고리에 세 바퀴 팽팽히 감아 고정하십시오.<br>
-                                        <strong>3.</strong> 침대 한가운데 앉아 정화 주문을 <strong>'속으로만'</strong> 외우십시오.<br><br>
+    <!-- 프로젝트 05 -->
+    <article class="factsheet-card">
+      <div class="factsheet-header">
+        <h2 class="factsheet-title">[05] Supabase 기반 실시간 비밀번호 보호 방명록 웹앱</h2>
+        <span class="factsheet-category">클라우드 BaaS · DB 보안</span>
+      </div>
+      <p class="factsheet-summary">
+        GitHub Pages 정적 호스팅 환경에서 공개(anon) 키가 노출되더라도 안전하도록, RLS(Row Level Security) 정책과 DB 내부 pgcrypto Blowfish 솔트 암호화 RPC 함수로 비밀번호 안전 삭제를 보장한 시스템입니다.
+      </p>
+      <div class="factsheet-details">
+        <div class="detail-label">핵심 기술</div>
+        <div class="detail-value">Supabase, PostgreSQL, pgcrypto, Row Level Security (RLS), 보안 뷰(View) 격리</div>
+        <div class="detail-label">핵심 성과</div>
+        <div class="detail-value">브라우저로 비밀번호 컬럼 전송 원천 차단 및 서버 사이드 비밀번호 대조 삭제 완벽 구현</div>
+      </div>
+      <div class="factsheet-footer">
+        <a href="guestbook.html" class="btn-action btn-primary" style="font-size: 0.85rem; padding: 6px 14px;">
+          📝 오픈 방명록 방문하기 &rarr;
+        </a>
+      </div>
+    </article>
+  </main>
 
-                                        소리 내어 읊지 마십시오. 주문의 음파는 당신을 보호하지만,<br>
-                                        소리는 동시에 <em>당신의 위치를 알려줍니다.</em><br><br>
-
-                                        <strong style="color: #ff4d5e; font-size: 13.5px;">종이 그치고 한참 뒤에, 누군가 당신의 이름을 애타게 부르며 문을 열어 달라고 하더라도 —<br>
-                                        아니, 그때는 더더욱 열지 마십시오.</strong>
-                                    </div>
-
-                                    <!-- 현장 채증 기록 4 -->
-                                    <div class="evidence-box">
-                                        <div class="evidence-tag" style="color: #ff6b78;">🔒 표준 백사(흰 실) 3회 결속 실측 기록</div>
-                                        <img src="images/door_thread.jpg" alt="문고리 백사 결속 현장 사진" class="evidence-img">
-                                        <div class="evidence-caption">▲ 7연속 타종 직후 문고리에 백사를 3회 감아 고정한 모습. 문밖에서 어머니나 동기의 목소리로 애원해도 결코 실을 풀지 마십시오.</div>
-                                        <div style="margin-top: 8px;">
-                                            <button class="audio-clip-btn" onclick="playAudioClip('mimic', this)">🔊 문밖 모성 모창 주의 음성 (12초)</button>
-                                        </div>
-                                    </div>
-
-                                    <!-- 현장 채증 기록 5 -->
-                                    <div class="evidence-box">
-                                        <div class="evidence-tag" style="color: #ff6b78;">📷 현장 채증 — 비상 정화령 발령 시 출현하는 미지의 석조 계단 (1998년 수색 기록)</div>
-                                        <img src="images/void_staircase.jpg" alt="미지의 지하 석조 계단" class="evidence-img">
-                                        <div class="evidence-caption">▲ 1998년 10월 24일 23:47 캠코더 녹화. 비상 정화령 중 3층 복도 끝에 발현된 지하 계단. 어둠 속에서 수련생의 목소리가 들렸으나 진입한 수색 대원은 복귀하지 못함.</div>
-                                    </div>
-                                </article>
-                            </section>
-
-                            <!-- 실시간 생존 수칙 준수 체크리스트 -->
-                            <section class="checklist-container">
-                                <div class="checklist-title">📋 실시간 생존 수칙 이행 체크리스트</div>
-                                
-                                <label class="checklist-item">
-                                    <input type="checkbox" onchange="toggleCheck(this)">
-                                    <span class="checklist-text">22:00 이후 복도의 마찰음/발소리를 '건물 수축음'으로 간주하고 문을 열지 않음</span>
-                                </label>
-
-                                <label class="checklist-item">
-                                    <input type="checkbox" onchange="toggleCheck(this)">
-                                    <span class="checklist-text">놋쇠 호각 소리가 동반되지 않은 지인의 부름에 침묵으로 일관함</span>
-                                </label>
-
-                                <label class="checklist-item">
-                                    <input type="checkbox" onchange="toggleCheck(this)">
-                                    <span class="checklist-text">동실인이 내 음색으로 낮에 한 말을 중얼거릴 때 이불을 덮고 귀를 막음</span>
-                                </label>
-
-                                <label class="checklist-item">
-                                    <input type="checkbox" onchange="toggleCheck(this)">
-                                    <span class="checklist-text">거울 속 동작이 반 박자 늦거나 도포 자락이 비칠 때 즉시 눈을 감고 이탈함</span>
-                                </label>
-
-                                <label class="checklist-item">
-                                    <input type="checkbox" onchange="toggleCheck(this)">
-                                    <span class="checklist-text">복도 끝에 나타난 미지의 지하 계단에서 가장 그리운 목소리가 들려도 외면함</span>
-                                </label>
-
-                                <label class="checklist-item">
-                                    <input type="checkbox" onchange="toggleCheck(this)">
-                                    <span class="checklist-text">호실 문 앞 훼손된 명찰이나 '혼 0반' 명찰 개체를 마주쳐도 일절 접촉하지 않음</span>
-                                </label>
-
-                                <label class="checklist-item">
-                                    <input type="checkbox" onchange="toggleCheck(this)">
-                                    <span class="checklist-text">방 안 인원 점검 시 기척이 하나 더 많아도 손가락질하거나 소리 내어 세지 않음</span>
-                                </label>
-
-                                <label class="checklist-item">
-                                    <input type="checkbox" onchange="toggleCheck(this)">
-                                    <span class="checklist-text">문틀 주사 부적을 온전히 보존하고 있으며, 백사(흰 실)를 손닿는 곳에 준비해 둠</span>
-                                </label>
-                            </section>
-
-                            <!-- 7연속 타종 경보 시뮬레이터 -->
-                            <section class="bell-simulator-box">
-                                <h4 style="font-size: 15px; color: #ff6b78; font-family: 'Song Myung', serif; margin-bottom: 6px;">🔔 비상 정화령 타종 시뮬레이터</h4>
-                                <p style="font-size: 12px; color: #b0a494;">생활관 전체에 7회 종이 울릴 때의 경보 프로토콜을 시험 가동합니다. (※ 실제 청동 대종 타종 음향이 연동되어 울립니다)</p>
-                                
-                                <div id="bell-display" class="bell-status-display">대기 중 (정상 구역)</div>
-                                <button id="bell-btn" class="btn btn-danger" onclick="triggerBellSequence()">🔔 7연속 타종 경보 시험 발령</button>
-                            </section>
-                        </main>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 책상 위 교내 결계 방어 유물 -->
-            <div class="desk-props">
-                <div class="prop-item prop-whistle" onclick="ringWhistleProp()" title="순찰 무인의 놋쇠 호각 (Rule 2)">
-                    <img src="images/whistle.jpg" alt="놋쇠 호각">
-                    <span class="prop-label">놋쇠 호각 [소리]</span>
-                </div>
-                <div class="prop-item prop-talisman" onclick="showToast('📜 문틀 주사 부적: 맹수의 손톱자국이 긁혀 있으나 결계는 온전합니다.')" title="문틀 주사 부적 (Rule 12)">
-                    <img src="images/talisman.jpg" alt="주사 부적">
-                    <span class="prop-label">주사 부적</span>
-                </div>
-            </div>
-        </div>
-
-        <a href="index.html" class="zoom-out-btn">💼 포트폴리오 홈으로 가기</a>
+  <!-- 🏷️ 푸터 -->
+  <footer class="site-footer">
+    <div class="main-container" style="margin: 0 auto; padding: 0 20px;">
+      <p>&copy; 2026 김호선 (Ho-seon Kim). All rights reserved.</p>
     </div>
+  </footer>
 
-    <script src="script.js?v=20260910_01"></script>
-    <script src="script.js?v=20260910_02"></script>
 </body>
 </html>

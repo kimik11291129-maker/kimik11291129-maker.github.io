@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- 🛡️ 보안 메타 태그: CSP 및 스니핑 방지 -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://cdn.jsdelivr.net; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co;">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta name="referrer" content="no-referrer">
+
+  <title>방명록 (Guestbook) — 김호선 (Ho-seon Kim)</title>
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- Supabase 공식 클라이언트 (v2) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    /* 📝 방명록 전용 스타일 */
+    .guestbook-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 32px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
+      margin-bottom: 30px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 0.92rem;
+      outline: none;
+      background: #ffffff;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    input:focus, textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 90px;
+      margin-bottom: 10px;
+    }
+
+    .form-helper {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .cooldown-text {
+      color: var(--warning);
+      font-weight: 700;
+      display: none;
+    }
+
+    .btn-submit-gb {
+      width: 100%;
+      padding: 12px;
+      background: var(--primary);
+      color: #ffffff;
+      font-size: 0.95rem;
+      font-weight: 800;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.15s;
+    }
+
+    .btn-submit-gb:hover:not(:disabled) {
+      background: var(--primary-hover);
+    }
+
+    .btn-submit-gb:disabled {
+      background: #94a3b8;
+      cursor: not-allowed;
+    }
+
+    /* 피드 리스트 */
+    .feed-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .feed-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .btn-refresh {
+      background: none;
+      border: none;
+      color: var(--primary);
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 0.88rem;
+    }
+
+    .gb-item {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 18px;
+      margin-bottom: 12px;
+      transition: border-color 0.15s;
+    }
+
+    .gb-item:hover {
+      border-color: #cbd5e1;
+    }
+
+    .gb-item-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .gb-author {
+      font-weight: 800;
+      font-size: 0.95rem;
+      color: var(--text);
+    }
+
+    .gb-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .gb-date {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .btn-del-item {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--danger);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .btn-del-item:hover {
+      background: #fef2f2;
+      border-color: var(--danger);
+    }
+
+    .gb-message-text {
+      font-size: 0.92rem;
+      white-space: pre-wrap;
+      word-break: break-word;
+      color: #1e293b;
+      line-height: 1.6;
+    }
+
+    /* 삭제 모달 */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-box {
+      background: #ffffff;
+      padding: 24px;
+      border-radius: 16px;
+      max-width: 360px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    @media (max-width: 768px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 🧭 상단 공통 네비게이션 헤더 -->
+  <header class="header">
+    <div class="nav-container">
+      <a href="index.html" class="brand-logo">
+        <span>김호선</span>
+        <span class="role-pill">Data & Fullstack</span>
+      </a>
+      <nav>
+        <ul class="tab-group">
+          <li class="tab-item"><a href="index.html">홈</a></li>
+          <li class="tab-item"><a href="about.html">자기소개</a></li>
+          <li class="tab-item"><a href="portfolio.html">포폴소개</a></li>
+          <li class="tab-item"><a href="game.html">게임</a></li>
+          <li class="tab-item"><a href="guestbook.html" class="active">방명록</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- 📦 메인 콘텐츠 영역 -->
+  <main class="main-container">
+    <div class="page-header">
+      <h1 class="page-title">📝 오픈 방명록 (Guestbook)</h1>
+      <p class="page-desc">포트폴리오에 방문해 주셔서 감사합니다. 자유롭게 응원의 한마디나 피드백을 남겨주세요.</p>
+    </div>
+
+    <!-- 방명록 메인 카드 -->
+    <div class="guestbook-card">
+      <!-- 작성 폼 -->
+      <form id="gbForm" style="margin-bottom: 30px;">
+        <div class="form-row">
+          <input type="text" id="gbName" maxlength="20" placeholder="닉네임 (최대 20자)" required>
+          <input type="password" id="gbPassword" minlength="4" maxlength="30" placeholder="삭제 비밀번호 (4자리 이상)" required>
+        </div>
+        <textarea id="gbMessage" maxlength="300" placeholder="자유롭게 방명록을 작성해 주세요 (최대 300자)" required></textarea>
+        <div class="form-helper">
+          <span><span id="gbCharCount">0</span> / 300자</span>
+          <span id="cooldownNotice" class="cooldown-text">
+            ⏱️ 도배 방지 쿨타임: <span id="cooldownTimer">30</span>초
+          </span>
+        </div>
+        <button type="submit" id="gbSubmitBtn" class="btn-submit-gb">방명록 남기기</button>
+      </form>
+
+      <!-- 방명록 피드 -->
+      <div class="feed-header">
+        <div class="feed-title">남겨진 이야기 (<span id="gbTotalCount">0</span>)</div>
+        <button type="button" id="gbRefreshBtn" class="btn-refresh">새로고침 ↻</button>
+      </div>
+
+      <div id="gbList">
+        <div style="text-align: center; color: var(--text-muted); padding: 32px;">방명록을 불러오는 중...</div>
+      </div>
+    </div>
+  </main>
+
+  <!-- 🔒 삭제 확인 모달 -->
+  <div class="modal-overlay" id="delModal">
+    <div class="modal-box">
+      <h3 style="margin-bottom: 8px; font-size: 1.15rem;">글 삭제하기</h3>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 14px;">작성 시 설정했던 삭제 비밀번호를 입력해 주세요.</p>
+      <input type="password" id="delPasswordInput" placeholder="비밀번호 입력" style="margin-bottom: 14px;">
+      <div style="display: flex; gap: 10px;">
+        <button type="button" class="btn-action" id="btnCancelDel" style="flex: 1; justify-content: center;">취소</button>
+        <button type="button" class="btn-submit-gb" id="btnConfirmDel" style="flex: 1; background: var(--danger);">삭제 확인</button>
+      </div>
+      <p id="lockoutNotice" style="display: none; color: var(--danger); font-size: 0.8rem; margin-top: 10px; font-weight: 700;">
+        ⚠️ 비밀번호 5회 연속 오류로 1분간 삭제가 잠겼습니다.
+      </p>
+    </div>
+  </div>
+
+  <!-- 🏷️ 푸터 -->
+  <footer class="site-footer">
+    <div class="main-container" style="margin: 0 auto; padding: 0 20px;">
+      <p>&copy; 2026 김호선 (Ho-seon Kim). All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // ==========================================================================
+    // ⚙️ [1] Supabase 설정 및 보안 클라이언트
+    // ==========================================================================
+    const SUPABASE_URL = "https://xotaszyodmnmdexvtooi.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhvdGFzenlvZG1ubWRleHZ0b29pIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk0OTA2MTUsImV4cCI6MjEwNTA2NjYxNX0.nYrCRLpDb2BeD4rOdAFUuZemSX946yhtGFNSNNcSSxI";
+
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    let activeDelId = null;
+    let failedAttempts = 0;
+    let isLockedOut = false;
+    let lastSubmitTime = 0;
+
+    function escapeHtml(text) {
+      // XSS 차단을 위한 특수문자 변환 함수
+      const div = document.createElement("div");
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    function formatDate(isoString) {
+      // 날짜 문자열을 한국어 형식으로 변환하는 함수
+      if (!isoString) return "";
+      const d = new Date(isoString);
+      return `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')} ${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
+    }
+
+    async function loadGuestbookFeed() {
+      // 보안 뷰(guestbook_view)에서 방명록 목록을 로드하는 함수
+      const listContainer = document.getElementById("gbList");
+      const countSpan = document.getElementById("gbTotalCount");
+
+      try {
+        const { data, error } = await supabaseClient
+          .from("guestbook_view")
+          .select("id, name, message, created_at")
+          .order("created_at", { ascending: false });
+
+        if (error) throw error;
+
+        countSpan.textContent = data ? data.length : 0;
+
+        if (!data || data.length === 0) {
+          listContainer.innerHTML = `
+            <div style="text-align: center; color: var(--text-muted); padding: 36px;">
+              아직 작성된 방명록이 없습니다.<br>첫 번째 발자취를 남겨보세요! ✨
+            </div>
+          `;
+          return;
+        }
+
+        listContainer.innerHTML = data.map(item => `
+          <div class="gb-item">
+            <div class="gb-item-top">
+              <span class="gb-author">${escapeHtml(item.name)}</span>
+              <div class="gb-meta">
+                <span class="gb-date">${formatDate(item.created_at)}</span>
+                <button type="button" class="btn-del-item" onclick="triggerDelModal(${item.id})">삭제</button>
+              </div>
+            </div>
+            <div class="gb-message-text">${escapeHtml(item.message)}</div>
+          </div>
+        `).join("");
+
+      } catch (err) {
+        console.error("방명록 로딩 오류:", err);
+        listContainer.innerHTML = `<div style="text-align: center; color: var(--danger); padding: 24px;">방명록을 불러오지 못했습니다. (${err.message})</div>`;
+      }
+    }
+
+    async function submitGuestbookEntry(e) {
+      // 새 방명록을 RPC 함수(add_guestbook_entry)로 등록하는 함수
+      e.preventDefault();
+
+      const now = Date.now();
+      if (now - lastSubmitTime < 30000) {
+        alert("⏱️ 도배 방지를 위해 30초에 한 번만 등록할 수 있습니다.");
+        return;
+      }
+
+      const name = document.getElementById("gbName").value.trim();
+      const password = document.getElementById("gbPassword").value.trim();
+      const message = document.getElementById("gbMessage").value.trim();
+
+      if (!name || !password || !message) {
+        alert("모든 항목을 입력해 주세요.");
+        return;
+      }
+      if (password.length < 4) {
+        alert("삭제 비밀번호는 4자리 이상 입력해 주세요.");
+        return;
+      }
+
+      const submitBtn = document.getElementById("gbSubmitBtn");
+      submitBtn.disabled = true;
+      submitBtn.textContent = "등록 중...";
+
+      try {
+        const { data, error } = await supabaseClient.rpc("add_guestbook_entry", {
+          p_name: name,
+          p_password: password,
+          p_message: message
+        });
+
+        if (error) throw error;
+
+        alert("방명록이 등록되었습니다! 🎉");
+        document.getElementById("gbMessage").value = "";
+        document.getElementById("gbPassword").value = "";
+        document.getElementById("gbCharCount").textContent = "0";
+        lastSubmitTime = Date.now();
+        startCooldownTimer(30);
+
+        await loadGuestbookFeed();
+
+      } catch (err) {
+        console.error("등록 오류:", err);
+        alert(`등록 실패: ${err.message}`);
+      } finally {
+        if (Date.now() - lastSubmitTime >= 30000) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = "방명록 남기기";
+        }
+      }
+    }
+
+    function startCooldownTimer(seconds) {
+      // 30초 쿨타임 카운트다운을 표시하는 함수
+      const submitBtn = document.getElementById("gbSubmitBtn");
+      const notice = document.getElementById("cooldownNotice");
+      const timerSpan = document.getElementById("cooldownTimer");
+
+      submitBtn.disabled = true;
+      notice.style.display = "inline";
+
+      let remaining = seconds;
+      timerSpan.textContent = remaining;
+
+      const interval = setInterval(() => {
+        remaining--;
+        timerSpan.textContent = remaining;
+        if (remaining <= 0) {
+          clearInterval(interval);
+          submitBtn.disabled = false;
+          submitBtn.textContent = "방명록 남기기";
+          notice.style.display = "none";
+        }
+      }, 1000);
+    }
+
+    function triggerDelModal(id) {
+      // 삭제 모달 창을 띄우는 함수
+      if (isLockedOut) {
+        alert("비밀번호 5회 연속 오류로 현재 삭제가 잠겨 있습니다.");
+        return;
+      }
+      activeDelId = id;
+      document.getElementById("delPasswordInput").value = "";
+      document.getElementById("delModal").style.display = "flex";
+      document.getElementById("delPasswordInput").focus();
+    }
+
+    function hideDelModal() {
+      // 삭제 모달 창을 닫는 함수
+      activeDelId = null;
+      document.getElementById("delModal").style.display = "none";
+    }
+
+    async function executeDelItem() {
+      // 서버 RPC(delete_guestbook_item)를 실행해 비밀번호 검증 후 삭제하는 함수
+      if (!activeDelId || isLockedOut) return;
+
+      const inputPwd = document.getElementById("delPasswordInput").value;
+      if (!inputPwd) {
+        alert("비밀번호를 입력해 주세요.");
+        return;
+      }
+
+      const confirmBtn = document.getElementById("btnConfirmDel");
+      confirmBtn.disabled = true;
+      confirmBtn.textContent = "검증 중...";
+
+      try {
+        const { data: isDeleted, error } = await supabaseClient.rpc("delete_guestbook_item", {
+          p_id: activeDelId,
+          p_password: inputPwd
+        });
+
+        if (error) throw error;
+
+        if (isDeleted) {
+          alert("방명록이 삭제되었습니다. 🗑️");
+          failedAttempts = 0;
+          hideDelModal();
+          await loadGuestbookFeed();
+        } else {
+          failedAttempts++;
+          alert(`❌ 비밀번호가 일치하지 않습니다. (오류 횟수: ${failedAttempts}/5)`);
+          if (failedAttempts >= 5) {
+            triggerLockout();
+          }
+        }
+
+      } catch (err) {
+        console.error("삭제 오류:", err);
+        alert(`삭제 실패: ${err.message}`);
+      } finally {
+        confirmBtn.disabled = false;
+        confirmBtn.textContent = "삭제 확인";
+      }
+    }
+
+    function triggerLockout() {
+      // 5회 오류 시 1분 락아웃을 설정하는 함수
+      isLockedOut = true;
+      document.getElementById("lockoutNotice").style.display = "block";
+      document.getElementById("btnConfirmDel").disabled = true;
+      setTimeout(() => {
+        isLockedOut = false;
+        failedAttempts = 0;
+        document.getElementById("lockoutNotice").style.display = "none";
+        document.getElementById("btnConfirmDel").disabled = false;
+      }, 60000);
+    }
+
+    // 이벤트 리스너 바인딩
+    document.getElementById("gbMessage").addEventListener("input", (e) => {
+      document.getElementById("gbCharCount").textContent = e.target.value.length;
+    });
+
+    document.getElementById("gbForm").addEventListener("submit", submitGuestbookEntry);
+    document.getElementById("gbRefreshBtn").addEventListener("click", loadGuestbookFeed);
+    document.getElementById("btnCancelDel").addEventListener("click", hideDelModal);
+    document.getElementById("btnConfirmDel").addEventListener("click", executeDelItem);
+
+    // 초기 로드
+    loadGuestbookFeed();
+  </script>
+
+</body>
+</html>
