@@ -1,17 +1,8 @@
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css");
-@import url("https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@600;700;900&family=Nanum+Myeongjo:wght@700;800&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap");
-
-@font-face {
-  font-family: "MaruBuri";
-  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_20-10-21@main/MaruBuri-Regular.woff") format("woff");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
+@import url("https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;600;700;800;900&family=Nanum+Myeongjo:wght@700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap");
 
 /* ==========================================================================
-   🌲 Everforest Boreal Light — Style B (마루부리 세리프 + 프리텐다드 서재형)
+   🌲 Everforest Boreal Light — 2안: 정통 블랙 명조 (Noto Serif KR 900)
    ========================================================================== */
 :root {
   --bg: #f8f5ec;               /* 린넨 미색 (자작나무/양피지 톤) */
@@ -28,10 +19,10 @@
   --nav-bg: rgba(248, 245, 236, 0.94);
   --nav-height: 70px;
 
-  /* 🔤 서체 시스템: B안 (에디토리얼 서재형) */
+  /* 🔤 서체 시스템: 2안 (정통 하이엔드 블랙 명조 + 프리텐다드 본문) */
   --font-body: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
-  --font-serif: "MaruBuri", "Noto Serif KR", "Nanum Myeongjo", Georgia, serif;
-  --font-mono: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  --font-serif: "Noto Serif KR", "Nanum Myeongjo", "Batang", serif;
+  --font-mono: "DM Mono", SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
 * {
