@@ -312,45 +312,52 @@ footer.site-footer {
 
 /* ==========================================================================
    🏛️ Architectural Editorial Case Study System (riversideulsan inspired)
+   - 1안: 중앙 박스(Container)를 없앤 풀와이드 브로드시트(Broadsheet) 여백감
    ========================================================================== */
+.nav-container-broadsheet {
+  max-width: 1680px;
+  padding: 0 clamp(24px, 10vw, 160px);
+}
+
 .case-study-wrap {
-  max-width: 1040px;
-  margin: 20px auto 100px;
-  padding: 0 24px;
+  width: 100%;
+  max-width: 1680px;
+  margin: 0 auto 120px;
+  padding: clamp(60px, 8vw, 120px) clamp(24px, 10vw, 160px);
 }
 
 .case-study-label {
   font-family: "DM Mono", monospace;
-  font-size: 0.72rem;
-  letter-spacing: 0.08em;
+  font-size: 0.76rem;
+  letter-spacing: 0.09em;
   color: var(--primary);
   text-transform: uppercase;
   font-weight: 500;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
 }
 
 .case-study-label::before {
   content: "";
   display: inline-block;
-  width: 7px;
-  height: 7px;
+  width: 8px;
+  height: 8px;
   background: var(--accent);
   border-radius: 50%;
 }
 
 .case-study-title {
-  max-width: 1000px;
-  font-size: clamp(2.2rem, 5vw, 4.2rem);
+  max-width: 1280px;
+  font-size: clamp(2.6rem, 5.8vw, 6.4rem);
   font-family: var(--font-serif);
   font-weight: 700;
-  line-height: 1.12;
+  line-height: 1.04;
   letter-spacing: -0.04em;
   color: var(--text);
   word-break: keep-all;
-  margin: 0 0 44px 0;
+  margin: 0 0 54px 0;
 }
 
 .case-study-title em {
@@ -363,45 +370,46 @@ footer.site-footer {
 .case-meta-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
-  padding: 24px 0;
+  gap: clamp(20px, 3vw, 40px);
+  margin-top: clamp(48px, 6vw, 90px);
+  padding: 28px 0;
   border-top: 1.5px solid #2d353b;
   border-bottom: 1px solid var(--border);
 }
 
 .case-meta-item {
   display: grid;
-  gap: 6px;
+  gap: 8px;
 }
 
 .case-meta-item span {
   font-family: "DM Mono", monospace;
   font-size: 0.68rem;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
   color: var(--text-muted);
   text-transform: uppercase;
 }
 
 .case-meta-item strong {
-  font-size: 0.88rem;
+  font-size: 0.92rem;
   font-weight: 600;
-  line-height: 1.5;
+  line-height: 1.55;
   color: var(--text);
   word-break: keep-all;
 }
 
 .case-tech-section {
-  margin-top: 36px;
-  padding-top: 20px;
-  border-top: 1px solid #2d353b;
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1.5px solid #2d353b;
 }
 
 .case-tech-section .tech-label {
   font-family: "DM Mono", monospace;
-  font-size: 0.68rem;
-  letter-spacing: 0.08em;
+  font-size: 0.72rem;
+  letter-spacing: 0.09em;
   color: var(--primary);
-  margin-bottom: 18px;
+  margin-bottom: 20px;
   font-weight: 600;
 }
 
@@ -414,12 +422,12 @@ footer.site-footer {
 
 .case-tech-grid article {
   min-width: 0;
-  padding: 20px 20px 22px 0;
+  padding: 24px 24px 28px 0;
   border-right: 1px solid var(--border);
 }
 
 .case-tech-grid article + article {
-  padding-left: 20px;
+  padding-left: 24px;
 }
 
 .case-tech-grid article:last-child {
@@ -429,60 +437,60 @@ footer.site-footer {
 .case-tech-grid span {
   display: block;
   font-family: "DM Mono", monospace;
-  font-size: 0.65rem;
+  font-size: 0.68rem;
   color: var(--accent);
-  letter-spacing: 0.05em;
-  margin-bottom: 8px;
+  letter-spacing: 0.06em;
+  margin-bottom: 10px;
 }
 
 .case-tech-grid strong {
   display: block;
-  font-size: 1.05rem;
+  font-size: 1.15rem;
   font-family: var(--font-serif);
   font-weight: 600;
   line-height: 1.35;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   color: var(--text);
 }
 
 .case-tech-grid p {
-  font-size: 0.82rem;
+  font-size: 0.86rem;
   color: var(--text-muted);
-  line-height: 1.55;
+  line-height: 1.6;
   margin: 0;
 }
 
 .case-lede-text {
-  max-width: 840px;
-  margin: 54px 0 60px auto;
-  font-size: clamp(1.15rem, 1.8vw, 1.45rem);
+  max-width: 900px;
+  margin: clamp(64px, 8vw, 120px) 0 0 auto;
+  font-size: clamp(1.25rem, 2vw, 1.8rem);
   font-family: var(--font-serif);
-  line-height: 1.78;
-  letter-spacing: -0.03em;
+  line-height: 1.76;
+  letter-spacing: -0.035em;
   color: #2b3339;
   word-break: keep-all;
-  padding-left: 24px;
+  padding-left: 28px;
   border-left: 3px solid var(--primary);
 }
 
 .case-chapter-row {
   display: grid;
   grid-template-columns: 1fr 2.4fr;
-  gap: 48px;
-  margin-top: 72px;
-  padding-top: 32px;
+  gap: clamp(40px, 8vw, 130px);
+  margin-top: clamp(80px, 10vw, 160px);
+  padding-top: 36px;
   border-top: 1.5px solid #2d353b;
 }
 
 .chapter-side-index {
   display: grid;
   align-content: start;
-  gap: 8px;
+  gap: 10px;
 }
 
 .chapter-side-index span {
   font-family: "DM Mono", monospace;
-  font-size: 0.72rem;
+  font-size: 0.8rem;
   font-weight: 600;
   letter-spacing: 0.08em;
   color: var(--primary);
@@ -490,23 +498,23 @@ footer.site-footer {
 
 .chapter-side-index time {
   font-family: "DM Mono", monospace;
-  font-size: 0.72rem;
+  font-size: 0.78rem;
   color: var(--text-muted);
 }
 
 .chapter-side-index .chapter-subtag {
-  font-size: 0.75rem;
+  font-size: 0.82rem;
   color: var(--accent);
   font-weight: 600;
   margin-top: 6px;
 }
 
 .chapter-main-body h2 {
-  margin: 0 0 24px 0;
+  margin: 0 0 28px 0;
   font-family: var(--font-serif);
-  font-size: clamp(1.5rem, 2.4vw, 2.2rem);
+  font-size: clamp(1.75rem, 3vw, 2.75rem);
   font-weight: 600;
-  line-height: 1.28;
+  line-height: 1.25;
   letter-spacing: -0.04em;
   color: var(--text);
   word-break: keep-all;
@@ -515,10 +523,10 @@ footer.site-footer {
 .chapter-narrative-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 24px;
-  margin-top: 16px;
-  font-size: 0.94rem;
-  line-height: 1.8;
+  gap: clamp(24px, 4vw, 56px);
+  margin-top: 22px;
+  font-size: clamp(0.96rem, 1.1vw, 1.08rem);
+  line-height: 1.85;
   color: #38434a;
 }
 
@@ -528,22 +536,22 @@ footer.site-footer {
 }
 
 .chapter-main-body blockquote {
-  margin: 32px 0 0;
-  padding: 20px 0 0;
+  margin: 44px 0 0;
+  padding: 24px 0 0;
   border-top: 1px solid var(--border);
   font-family: var(--font-serif);
-  font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+  font-size: clamp(1.15rem, 1.7vw, 1.45rem);
   line-height: 1.65;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
   color: var(--primary);
   font-style: italic;
 }
 
 .chapter-main-body cite {
   display: block;
-  margin-top: 8px;
+  margin-top: 10px;
   font-family: "DM Mono", monospace;
-  font-size: 0.72rem;
+  font-size: 0.76rem;
   color: var(--text-muted);
   font-style: normal;
   letter-spacing: 0.02em;
@@ -551,34 +559,34 @@ footer.site-footer {
 
 .decision-flow-list {
   display: grid;
-  gap: 16px;
-  margin: 28px 0 0;
+  gap: 18px;
+  margin: 32px 0 0;
   padding: 0;
   list-style: none;
 }
 
 .decision-flow-list li {
   display: grid;
-  grid-template-columns: 36px 1fr;
-  gap: 14px;
-  padding-top: 14px;
+  grid-template-columns: 40px 1fr;
+  gap: 16px;
+  padding-top: 16px;
   border-top: 1px solid var(--border);
-  font-size: 0.88rem;
+  font-size: 0.92rem;
   line-height: 1.65;
 }
 
 .decision-flow-list li span {
   font-family: "DM Mono", monospace;
-  font-size: 0.78rem;
+  font-size: 0.82rem;
   font-weight: 600;
   color: var(--accent);
 }
 
 .decision-flow-list li strong {
   display: block;
-  font-size: 0.95rem;
+  font-size: 1rem;
   color: var(--text);
-  margin-bottom: 4px;
+  margin-bottom: 5px;
 }
 
 .decision-flow-list li p {
@@ -587,27 +595,27 @@ footer.site-footer {
 }
 
 .case-callout-box {
-  margin-top: 36px;
-  padding: 24px 28px;
+  margin-top: 44px;
+  padding: clamp(26px, 4vw, 48px);
   border: 1px solid #c2d6be;
   background: #f1f6ed;
-  border-radius: 12px;
+  border-radius: 14px;
 }
 
 .case-callout-box span {
   font-family: "DM Mono", monospace;
-  font-size: 0.68rem;
+  font-size: 0.72rem;
   letter-spacing: 0.06em;
   color: var(--primary);
   font-weight: 600;
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 
 .case-callout-box p {
   margin: 0;
   font-family: var(--font-serif);
-  font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+  font-size: clamp(1.15rem, 1.7vw, 1.5rem);
   line-height: 1.6;
   color: var(--text);
   word-break: keep-all;
@@ -619,26 +627,26 @@ footer.site-footer {
 }
 
 .case-outcome-panel {
-  margin-top: 80px;
-  padding: clamp(36px, 5vw, 64px);
+  margin-top: clamp(80px, 11vw, 160px);
+  padding: clamp(48px, 6vw, 90px);
   background: #243429;
   color: #f8f5ec;
-  border-radius: 18px;
+  border-radius: 20px;
 }
 
 .case-outcome-panel .outcome-label {
   font-family: "DM Mono", monospace;
-  font-size: 0.72rem;
-  letter-spacing: 0.08em;
+  font-size: 0.76rem;
+  letter-spacing: 0.09em;
   color: #9ecc94;
-  margin-bottom: 16px;
+  margin-bottom: 18px;
 }
 
 .case-outcome-panel h2 {
   font-family: var(--font-serif);
-  font-size: clamp(1.8rem, 3.2vw, 2.8rem);
+  font-size: clamp(2rem, 3.8vw, 3.5rem);
   font-weight: 600;
-  line-height: 1.2;
+  line-height: 1.18;
   letter-spacing: -0.035em;
   color: #ffffff;
   word-break: keep-all;
@@ -655,24 +663,24 @@ footer.site-footer {
 .outcome-metrics-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-  margin-top: 44px;
+  gap: clamp(24px, 4vw, 56px);
+  margin-top: clamp(44px, 6vw, 72px);
 }
 
 .outcome-metrics-grid article {
-  padding-top: 18px;
+  padding-top: 20px;
   border-top: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .outcome-metrics-grid strong {
   display: block;
   font-family: "DM Mono", monospace;
-  font-size: clamp(2.4rem, 4.5vw, 4.2rem);
+  font-size: clamp(2.8rem, 5.5vw, 5.5rem);
   font-weight: 500;
   line-height: 1;
   color: #ffffff;
-  letter-spacing: -0.06em;
-  margin-bottom: 12px;
+  letter-spacing: -0.08em;
+  margin-bottom: 14px;
 }
 
 .outcome-metrics-grid strong span {
@@ -681,41 +689,41 @@ footer.site-footer {
 }
 
 .outcome-metrics-grid p {
-  font-size: 0.85rem;
+  font-size: 0.92rem;
   color: #d1decb;
-  line-height: 1.65;
+  line-height: 1.7;
   margin: 0;
   word-break: keep-all;
 }
 
 /* 2차 프로젝트 섹션 (Secondary Architectural Cards) */
 .secondary-projects-section {
-  margin-top: 100px;
-  padding-top: 36px;
+  margin-top: clamp(90px, 12vw, 170px);
+  padding-top: 40px;
   border-top: 2px solid #2d353b;
 }
 
 .section-eyebrow {
   font-family: "DM Mono", monospace;
-  font-size: 0.72rem;
-  letter-spacing: 0.08em;
+  font-size: 0.76rem;
+  letter-spacing: 0.09em;
   color: var(--primary);
   font-weight: 600;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
 
 .secondary-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 24px;
-  margin-top: 28px;
+  gap: clamp(24px, 3.5vw, 44px);
+  margin-top: 32px;
 }
 
 .arch-project-card {
   background: #ffffff;
   border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 30px;
+  border-radius: 16px;
+  padding: clamp(28px, 3.5vw, 42px);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -725,60 +733,60 @@ footer.site-footer {
 .arch-project-card:hover {
   border-color: var(--primary);
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(45, 53, 59, 0.06);
+  box-shadow: 0 10px 30px rgba(45, 53, 59, 0.07);
 }
 
 .arch-card-header {
-  margin-bottom: 16px;
+  margin-bottom: 18px;
 }
 
 .arch-card-index {
   font-family: "DM Mono", monospace;
-  font-size: 0.7rem;
+  font-size: 0.74rem;
   color: var(--accent);
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
   font-weight: 600;
   display: block;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }
 
 .arch-card-title {
   font-family: var(--font-serif);
-  font-size: 1.35rem;
+  font-size: 1.45rem;
   font-weight: 700;
-  line-height: 1.32;
+  line-height: 1.34;
   color: var(--text);
   word-break: keep-all;
 }
 
 .arch-card-desc {
-  font-size: 0.92rem;
+  font-size: 0.94rem;
   color: #48545c;
-  line-height: 1.7;
-  margin-bottom: 20px;
+  line-height: 1.75;
+  margin-bottom: 24px;
   word-break: keep-all;
 }
 
 .arch-card-meta {
-  padding: 12px 14px;
+  padding: 14px 16px;
   background: #fbf9f4;
-  border-radius: 8px;
+  border-radius: 10px;
   border: 1px solid var(--border);
-  font-size: 0.82rem;
-  margin-bottom: 20px;
+  font-size: 0.85rem;
+  margin-bottom: 24px;
   display: grid;
-  gap: 6px;
+  gap: 8px;
 }
 
 .arch-card-meta div {
   display: flex;
-  gap: 8px;
+  gap: 10px;
 }
 
 .arch-card-meta span {
   font-family: "DM Mono", monospace;
   color: var(--text-muted);
-  font-size: 0.72rem;
+  font-size: 0.74rem;
   min-width: 65px;
 }
 
@@ -794,23 +802,28 @@ footer.site-footer {
 }
 
 /* 반응형 미디어 쿼리 */
-@media (max-width: 860px) {
+@media (max-width: 960px) {
+  .nav-container-broadsheet,
+  .case-study-wrap {
+    padding-left: clamp(20px, 5vw, 36px);
+    padding-right: clamp(20px, 5vw, 36px);
+  }
   .case-meta-grid,
   .case-tech-grid {
     grid-template-columns: 1fr 1fr;
-    gap: 16px;
+    gap: 20px;
   }
   .case-tech-grid article {
     border-right: none;
     border-bottom: 1px solid var(--border);
-    padding: 16px 0;
+    padding: 18px 0;
   }
   .case-tech-grid article + article {
     padding-left: 0;
   }
   .case-chapter-row {
     grid-template-columns: 1fr;
-    gap: 20px;
+    gap: 24px;
   }
   .chapter-narrative-grid {
     grid-template-columns: 1fr;
@@ -819,8 +832,16 @@ footer.site-footer {
   .outcome-metrics-grid,
   .secondary-grid {
     grid-template-columns: 1fr;
-    gap: 18px;
+    gap: 24px;
   }
 }
+
+@media (max-width: 600px) {
+  .case-meta-grid,
+  .case-tech-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 
 
