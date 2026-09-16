@@ -6,3 +6,12 @@ _tts_exec.ps1
 _clean_tts.wav
 *.lnk
 
+# 🛡️ 극보수 보안: 민감 관리자 키 및 환경변수 차단
+*.json
+!package.json
+!manifest.json
+.env
+.env.*
+*.secret
+*.key
+__pycache__/
