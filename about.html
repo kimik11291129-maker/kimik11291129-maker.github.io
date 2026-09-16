@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=20260916_07">
+  <link rel="stylesheet" href="css/style.css?v=20260917_taiga">
 
   <style>
     /* 👤 자기소개 하이엔드 에디토리얼 스타일 (Everforest Boreal) */
@@ -29,10 +29,10 @@
       height: 140px;
       border-radius: 22px;
       overflow: hidden;
-      border: 3px solid #ffffff;
-      box-shadow: 0 8px 24px rgba(45, 53, 59, 0.12);
+      border: 3px solid var(--border-light);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
       flex-shrink: 0;
-      background: #eaf0e6;
+      background: #152019;
     }
 
     .profile-img-frame img {
@@ -92,18 +92,18 @@
     }
 
     .gallery-card {
-      background: #ffffff;
+      background: var(--card-bg);
       border: 1px solid var(--border);
       border-radius: 16px;
       overflow: hidden;
-      box-shadow: 0 4px 14px rgba(45, 53, 59, 0.04);
+      box-shadow: var(--shadow-forest);
       transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .gallery-card:hover {
       transform: translateY(-4px);
-      box-shadow: 0 14px 30px -4px rgba(67, 100, 54, 0.14);
-      border-color: rgba(67, 100, 54, 0.4);
+      box-shadow: 0 14px 30px -4px rgba(0, 0, 0, 0.5), 0 0 20px rgba(74, 222, 128, 0.1);
+      border-color: var(--primary);
     }
 
     .gallery-img-wrap {
@@ -111,7 +111,7 @@
       height: 250px;
       overflow: hidden;
       border-bottom: 1px solid var(--border);
-      background: #fbf9f4;
+      background: #0d1611;
     }
 
     .gallery-card img {
@@ -138,11 +138,11 @@
       color: var(--primary);
       text-transform: uppercase;
       letter-spacing: 0.06em;
-      background: #eaf0e6;
+      background: rgba(74, 222, 128, 0.12);
       padding: 3px 8px;
       border-radius: 4px;
       margin-bottom: 8px;
-      border: 1px solid #d4dfce;
+      border: 1px solid rgba(74, 222, 128, 0.25);
     }
 
     .gallery-caption strong {
@@ -162,11 +162,11 @@
     /* 서사 챕터 카드 */
     .chapter-block {
       margin-top: 30px;
-      background: #ffffff;
+      background: var(--card-bg);
       border: 1px solid var(--border);
       border-radius: 22px;
       padding: 36px;
-      box-shadow: 0 4px 18px rgba(45, 53, 59, 0.03);
+      box-shadow: var(--shadow-forest);
     }
 
     .chapter-eyebrow {
@@ -190,14 +190,14 @@
 
     .chapter-desc {
       font-size: 0.98rem;
-      color: #38434a;
+      color: var(--text-muted);
       line-height: 1.78;
       margin-bottom: 18px;
     }
 
     /* MOU 파트너 리스트 박스 */
     .mou-box {
-      background: #fbf9f4;
+      background: rgba(18, 30, 23, 0.7);
       border: 1px solid var(--border);
       border-radius: 16px;
       padding: 24px;
@@ -231,12 +231,12 @@
     .mou-pill {
       font-size: 0.82rem;
       font-weight: 700;
-      background: #ffffff;
+      background: #17241c;
       padding: 5px 12px;
       border-radius: 8px;
       border: 1px solid var(--border);
-      color: #334155;
-      box-shadow: 0 1px 2px rgba(45, 53, 59, 0.02);
+      color: var(--text);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
       transition: all 0.15s ease;
     }
 
@@ -255,7 +255,7 @@
     }
 
     .strategy-card {
-      background: #fbf9f4;
+      background: rgba(18, 30, 23, 0.7);
       border: 1px solid var(--border);
       border-radius: 16px;
       padding: 22px;
@@ -273,11 +273,11 @@
       font-size: 0.82rem;
       font-weight: 800;
       color: var(--primary);
-      background: #eaf0e6;
+      background: rgba(74, 222, 128, 0.12);
       padding: 3px 10px;
       border-radius: 6px;
       margin-bottom: 10px;
-      border: 1px solid #d4dfce;
+      border: 1px solid rgba(74, 222, 128, 0.25);
     }
 
     .strategy-title {
@@ -290,7 +290,7 @@
 
     .strategy-desc {
       font-size: 0.9rem;
-      color: #475569;
+      color: var(--text-muted);
       line-height: 1.68;
     }
   </style>

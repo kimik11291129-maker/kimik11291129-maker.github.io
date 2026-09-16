@@ -10,7 +10,7 @@
   <meta name="referrer" content="no-referrer">
 
   <title>방명록 (Guestbook) — 김호선 (Ho-seon Kim)</title>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css?v=20260917_taiga">
 
   <!-- Supabase 공식 클라이언트 (v2) -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -18,11 +18,11 @@
   <style>
     /* 📝 방명록 전용 스타일 (Everforest Boreal) */
     .guestbook-card {
-      background: #ffffff;
+      background: var(--card-bg);
       border: 1px solid var(--border);
       border-radius: 20px;
       padding: 32px;
-      box-shadow: 0 4px 14px rgba(45, 53, 59, 0.04);
+      box-shadow: var(--shadow-forest);
       margin-bottom: 30px;
     }
 
@@ -40,14 +40,14 @@
       border-radius: 10px;
       font-size: 0.92rem;
       outline: none;
-      background: #ffffff;
+      background: #111a14;
       color: var(--text);
       transition: border-color 0.15s, box-shadow 0.15s;
     }
 
     input:focus, textarea:focus {
       border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(67, 100, 54, 0.12);
+      box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.15);
     }
 
     textarea {
@@ -75,13 +75,13 @@
       width: 100%;
       padding: 13px;
       background: var(--primary);
-      color: #ffffff;
+      color: #0b140e;
       font-size: 0.95rem;
       font-weight: 800;
       border: none;
       border-radius: 10px;
       cursor: pointer;
-      box-shadow: 0 2px 6px rgba(67, 100, 54, 0.2);
+      box-shadow: 0 2px 6px rgba(74, 222, 128, 0.2);
       transition: background-color 0.15s;
     }
 
@@ -90,7 +90,8 @@
     }
 
     .btn-submit-gb:disabled {
-      background: #94a3b8;
+      background: #2a3d30;
+      color: #5a7061;
       cursor: not-allowed;
     }
 
@@ -120,7 +121,7 @@
     }
 
     .gb-item {
-      background: #fbf9f4;
+      background: rgba(18, 30, 23, 0.7);
       border: 1px solid var(--border);
       border-radius: 12px;
       padding: 16px 18px;
@@ -169,7 +170,7 @@
     }
 
     .btn-del-item:hover {
-      background: #fdf2f2;
+      background: rgba(248, 113, 113, 0.15);
       border-color: var(--danger);
     }
 
@@ -177,7 +178,7 @@
       font-size: 0.93rem;
       white-space: pre-wrap;
       word-break: break-word;
-      color: #38434a;
+      color: var(--text-muted);
       line-height: 1.65;
     }
 
