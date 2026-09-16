@@ -74,18 +74,24 @@
       text-decoration: underline;
     }
 
-    /* 📸 현장 실물 사진 갤러리 그리드 (Magazine Cards) */
+    /* 📸 현장 실물 사진 갤러리 그리드 (2x2 Architectural Grid) */
     .gallery-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
-      gap: 20px;
-      margin: 22px 0 14px 0;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 22px;
+      margin: 28px 0 20px 0;
+    }
+
+    @media (max-width: 768px) {
+      .gallery-grid {
+        grid-template-columns: 1fr;
+      }
     }
 
     .gallery-card {
       background: #ffffff;
       border: 1px solid var(--border);
-      border-radius: 18px;
+      border-radius: 16px;
       overflow: hidden;
       box-shadow: 0 4px 14px rgba(45, 53, 59, 0.04);
       transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
@@ -93,13 +99,13 @@
 
     .gallery-card:hover {
       transform: translateY(-4px);
-      box-shadow: 0 12px 28px -4px rgba(67, 100, 54, 0.12);
-      border-color: rgba(67, 100, 54, 0.35);
+      box-shadow: 0 14px 30px -4px rgba(67, 100, 54, 0.14);
+      border-color: rgba(67, 100, 54, 0.4);
     }
 
     .gallery-img-wrap {
       width: 100%;
-      height: 220px;
+      height: 250px;
       overflow: hidden;
       border-bottom: 1px solid var(--border);
       background: #fbf9f4;
@@ -114,7 +120,7 @@
     }
 
     .gallery-card:hover img {
-      transform: scale(1.04);
+      transform: scale(1.03);
     }
 
     .gallery-caption {
@@ -123,15 +129,17 @@
 
     .gallery-tag {
       display: inline-block;
+      font-family: "DM Mono", monospace;
       font-size: 0.72rem;
-      font-weight: 800;
+      font-weight: 700;
       color: var(--primary);
       text-transform: uppercase;
       letter-spacing: 0.06em;
       background: #eaf0e6;
-      padding: 2px 8px;
+      padding: 3px 8px;
       border-radius: 4px;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
+      border: 1px solid #d4dfce;
     }
 
     .gallery-caption strong {
@@ -349,26 +357,53 @@
         임상 현장에서 멈췄던 환자의 걸음을 직접 회복시키며 서비스 전달 프로토콜을 정립했고, 대기업 및 지자체와의 공식 협약을 전담 성사시켰습니다.
       </p>
 
-      <!-- 실제 임상 치료 현장 실물 사진 갤러리 -->
+      <!-- 실제 임상 치료 현장 실물 사진 갤러리 (4대 원본 풀세트) -->
       <div class="gallery-grid">
+        <!-- 01. 방문재활 상지 밴드 스트레칭 -->
         <div class="gallery-card">
           <div class="gallery-img-wrap">
-            <img src="images/profile_clinical.png" alt="구글 대표 치료 사진">
+            <img src="images/rehab_band_stretch.png" alt="가정 방문 임상 재활 (상지 밴드 스트레칭)">
           </div>
           <div class="gallery-caption">
-            <span class="gallery-tag">Official Record</span>
-            <strong>구글 검색 대표 사진 (임상 치료 현장)</strong>
-            <p>가정 방문 침상에서 뇌졸중·마비 환자의 하지 관절 가동 및 보행 기능 회복 치료</p>
+            <span class="gallery-tag">01 / HOME CLINICAL CARE</span>
+            <strong>가정 방문 임상 재활 (상지 밴드 스트레칭)</strong>
+            <p>침상 환자의 견관절 가동 범위 확보 및 상지 근력 회복을 위한 1:1 탄성 밴드 기능 코칭</p>
           </div>
         </div>
+
+        <!-- 02. 하지 도수 거상 치료 (구글 대표 사진) -->
         <div class="gallery-card">
           <div class="gallery-img-wrap">
-            <img src="images/profile_rehab_squat.png" alt="1:1 맞춤 재활 코칭 사진">
+            <img src="images/rehab_leg_elevation.png" alt="뇌졸중·마비 환자 하지 도수 거상 치료">
           </div>
           <div class="gallery-caption">
-            <span class="gallery-tag">Center Coaching</span>
-            <strong>공식 센터 현장 (1:1 기능 회복 코칭)</strong>
-            <p>근골격계 및 수술 후 환자의 정밀 보행과 자세 안정을 위한 1:1 맞춤 운동 지도</p>
+            <span class="gallery-tag">02 / BED MOBILITY &amp; GAIT</span>
+            <strong>뇌졸중·마비 환자 하지 도수 거상 치료</strong>
+            <p>구글 공식 검색 대표 기록 — 하지 관절 구축 예방 및 자립 보행 기초 회복 도수 치료</p>
+          </div>
+        </div>
+
+        <!-- 03. 첨단 보행 재활 트레드밀 코칭 -->
+        <div class="gallery-card">
+          <div class="gallery-img-wrap">
+            <img src="images/rehab_gait_robot.png" alt="첨단 보행 재활 트레드밀 1:1 코칭">
+          </div>
+          <div class="gallery-caption">
+            <span class="gallery-tag">03 / ADVANCED GAIT REHAB</span>
+            <strong>첨단 보행 재활 트레드밀 1:1 코칭</strong>
+            <p>하네스 안전 장치 기반의 정밀 보행 주기 분석 및 신체 밸런스·체간 안정화 훈련</p>
+          </div>
+        </div>
+
+        <!-- 04. Fittrix 스마트 미러 스쿼트 코칭 -->
+        <div class="gallery-card">
+          <div class="gallery-img-wrap">
+            <img src="images/rehab_smart_squat.png" alt="Fittrix 스마트 미러 맞춤 운동 지도">
+          </div>
+          <div class="gallery-caption">
+            <span class="gallery-tag">04 / DIGITAL SMART HEALTHCARE</span>
+            <strong>Fittrix 스마트 미러 맞춤 운동 지도</strong>
+            <p>디지털 스크린 바이오피드백 기반의 1:1 스쿼트 자세 교정 및 근골격계 강화 코칭</p>
           </div>
         </div>
       </div>
