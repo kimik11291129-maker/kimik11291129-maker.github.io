@@ -12,115 +12,168 @@
   <link rel="stylesheet" href="css/style.css">
 
   <style>
-    .profile-card {
+    /* 👤 자기소개 전용 스타일 (Everforest Boreal) */
+    .profile-hero {
       display: flex;
-      gap: 28px;
+      gap: 32px;
       align-items: center;
-      margin-bottom: 28px;
+      margin-bottom: 24px;
       flex-wrap: wrap;
     }
 
-    .profile-avatar {
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #2563eb 0%, #10b981 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 3rem;
-      color: #ffffff;
-      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+    .profile-img-frame {
+      width: 130px;
+      height: 130px;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 3px solid #ffffff;
+      box-shadow: 0 6px 16px rgba(45, 53, 59, 0.12);
+      flex-shrink: 0;
+      background: #eaf0e6;
     }
 
-    .profile-info h1 {
-      font-size: 1.8rem;
+    .profile-img-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .profile-intro h1 {
+      font-size: 2rem;
       font-weight: 900;
       letter-spacing: -0.5px;
-      margin-bottom: 4px;
+      color: var(--text);
+      margin-bottom: 6px;
     }
 
-    .profile-role {
+    .profile-role-text {
       font-size: 1.05rem;
       font-weight: 700;
       color: var(--primary);
-      margin-bottom: 10px;
+      margin-bottom: 12px;
+      line-height: 1.5;
     }
 
-    .profile-meta-list {
+    .profile-contacts {
       display: flex;
       flex-wrap: wrap;
-      gap: 14px;
+      gap: 16px;
       font-size: 0.9rem;
-      color: #475569;
+      color: var(--text-muted);
     }
 
-    .meta-item {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .meta-item a {
+    .profile-contacts a {
       color: var(--primary);
       text-decoration: none;
       font-weight: 700;
     }
 
-    .meta-item a:hover {
+    .profile-contacts a:hover {
       text-decoration: underline;
     }
 
-    .section-block {
-      margin-top: 32px;
+    /* 📸 현장 실물 사진 갤러리 그리드 */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 18px;
+      margin: 20px 0 10px 0;
     }
 
-    .section-title {
-      font-size: 1.35rem;
-      font-weight: 800;
+    .gallery-card {
+      background: #fdfcf9;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 2px 6px rgba(45, 53, 59, 0.04);
+    }
+
+    .gallery-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .gallery-caption {
+      padding: 12px 14px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .gallery-caption strong {
+      display: block;
       color: var(--text);
-      margin-bottom: 16px;
+      font-size: 0.9rem;
+      margin-bottom: 2px;
+    }
+
+    /* 서사 챕터 카드 */
+    .chapter-block {
+      margin-top: 28px;
+    }
+
+    .chapter-title {
+      font-size: 1.35rem;
+      font-weight: 900;
+      color: var(--text);
+      margin-bottom: 14px;
       display: flex;
       align-items: center;
       gap: 8px;
     }
 
-    .philosophy-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 16px;
+    .chapter-desc {
+      font-size: 0.98rem;
+      color: #38434a;
+      line-height: 1.75;
+      margin-bottom: 16px;
+    }
+
+    /* MOU 파트너 리스트 박스 */
+    .mou-box {
+      background: #fbf9f4;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
       margin-top: 14px;
     }
 
-    .philosophy-item {
-      background: #f8fafc;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 18px;
+    .mou-category {
+      margin-bottom: 14px;
     }
 
-    .philosophy-item h3 {
-      font-size: 1.05rem;
-      font-weight: 800;
-      color: var(--text);
-      margin-bottom: 8px;
+    .mou-category:last-child {
+      margin-bottom: 0;
     }
 
-    .philosophy-item p {
+    .mou-category-title {
       font-size: 0.88rem;
-      color: #475569;
-      line-height: 1.6;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
-    .tech-stack-group {
-      margin-bottom: 18px;
+    .mou-pill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
     }
 
-    .tech-stack-title {
-      font-size: 0.95rem;
+    .mou-pill {
+      font-size: 0.8rem;
       font-weight: 700;
+      background: #ffffff;
+      padding: 4px 10px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
       color: #334155;
-      margin-bottom: 8px;
     }
   </style>
 </head>
@@ -131,7 +184,7 @@
     <div class="nav-container">
       <a href="index.html" class="brand-logo">
         <span>김호선</span>
-        <span class="role-pill">Data & Fullstack</span>
+        <span class="role-pill">Everforest Boreal</span>
       </a>
       <nav>
         <ul class="tab-group">
@@ -149,99 +202,158 @@
   <main class="main-container">
     <div class="page-header">
       <h1 class="page-title">👤 자기소개 (About Me)</h1>
-      <p class="page-desc">문제를 데이터로 정의하고, 견고한 코드와 무인 자동화로 증명하는 엔지니어입니다.</p>
+      <p class="page-desc">
+        사유하는 사색가, 시스템을 짓는 비즈니스 아키텍트, 문제를 치료(물리)하는 빌더 김호선입니다.
+      </p>
     </div>
 
-    <!-- 개발자 프로필 카드 -->
+    <!-- 개발자 프로필 히어로 카드 -->
     <div class="content-card">
-      <div class="profile-card">
-        <div class="profile-avatar">👨‍💻</div>
-        <div class="profile-info">
+      <div class="profile-hero">
+        <div class="profile-img-frame">
+          <img src="images/profile_clinical.png" alt="김호선 프로필 사진">
+        </div>
+        <div class="profile-intro">
           <h1>김호선 (Ho-seon Kim)</h1>
-          <div class="profile-role">Data Engineer & Fullstack Builder</div>
-          <div class="profile-meta-list">
-            <span class="meta-item">📍 서울 / 원격</span>
-            <span class="meta-item">✉️ <a href="mailto:kimik11291129@gmail.com">kimik11291129@gmail.com</a></span>
-            <span class="meta-item">🐙 <a href="https://github.com/kimik11291129-maker" target="_blank">github.com/kimik11291129-maker</a></span>
+          <div class="profile-role-text">
+            전 연세방문재활운동센터 부대표 · 물리치료사<br>
+            글로벌 헬스케어 전략가 & 사유하는 창작자
+          </div>
+          <div class="profile-contacts">
+            <span>📍 서울 / 원격</span>
+            <span>✉️ <a href="mailto:kimik11291129@gmail.com">kimik11291129@gmail.com</a></span>
+            <span>🐙 <a href="https://github.com/kimik11291129-maker" target="_blank">github.com/kimik11291129-maker</a></span>
           </div>
         </div>
       </div>
 
-      <p style="font-size: 0.98rem; color: #334155; line-height: 1.7;">
-        단순히 유행하는 기술을 나열하기보다, 복잡한 현실의 문제를 정량적인 데이터(공공 교통 빅데이터, 법령 API, 웹 텍스트)로 정의하고,
-        100% 무료 로컬 오픈소스 스택을 정밀하게 조합하여 지속 가능한 파이프라인으로 완성하는 것을 지향합니다.
-        비동기 백엔드부터 브라우저 단독 실행 웹 애플리케이션까지 제품의 전 생애주기를 직접 설계하고 구축합니다.
+      <p style="font-size: 1.02rem; color: #38434a; line-height: 1.8; margin-top: 14px;">
+        신체의 기능과 통증을 진단하던 물리치료사로서, 국내의 방문재활 공백을 메우기 위해 <strong>연세방문재활운동센터 부대표</strong>로 합류하여 법인화와 대기업·지자체 MOU, 운영 시스템을 설계했습니다. 동시에 러시아와 캐나다 등 북방의 고요 속에서 책을 읽고 사유하며 소설을 쓰는 창작자입니다.<br>
+        이제는 경영과 임상 현장에서 다져진 '결핍을 잇는 통찰'을 <strong>공공 빅데이터와 무인 자동화 코딩</strong>으로 확장하여, 세상의 비효율을 직접 <strong>'치료(물리)'</strong>하는 디지털 빌더로 나아가고 있습니다.
       </p>
     </div>
 
-    <!-- 엔지니어링 철학 3원칙 -->
-    <div class="content-card section-block">
-      <h2 class="section-title">💡 핵심 개발 철학</h2>
-      <div class="philosophy-grid">
-        <div class="philosophy-item">
-          <h3>📊 데이터 기반 실증 문제 해결</h3>
-          <p>
-            추측이나 직관에 의존하지 않고, 교통카드 승하차 데이터, GIS 공간 분석 등 객관적인 숫자를 통해 사각지대와 비효율을 도출하고 3-Win 상생 모델을 제안합니다.
+    <!-- Chapter 1. 🏥 임상 현장과 재활 경영 리더십 -->
+    <div class="content-card chapter-block">
+      <h2 class="chapter-title">🏥 01. 방문재활 공백을 채운 비즈니스 아키텍트</h2>
+      <p class="chapter-desc">
+        거동이 불편해 병원을 찾지 못하는 환자들의 거대한 '방문재활 수요 공백'을 포착하고, 대표와 함께 연세방문재활운동센터의 초기 법인화와 대외 확장을 총괄했습니다.
+        임상 현장에서 멈췄던 환자의 걸음을 직접 회복시키며 서비스 전달 프로토콜을 정립했고, 대기업 및 지자체와의 공식 협약을 전담 성사시켰습니다.
+      </p>
+
+      <!-- 실제 임상 치료 현장 실물 사진 갤러리 -->
+      <div class="gallery-grid">
+        <div class="gallery-card">
+          <img src="images/profile_clinical.png" alt="구글 대표 치료 사진">
+          <div class="gallery-caption">
+            <strong>구글 검색 대표 사진 (임상 치료 현장)</strong>
+            가정 방문 침상에서 뇌졸중·마비 환자의 하지 관절 가동 및 보행 기능 회복 치료
+          </div>
+        </div>
+        <div class="gallery-card">
+          <img src="images/profile_rehab_squat.png" alt="1:1 맞춤 재활 코칭 사진">
+          <div class="gallery-caption">
+            <strong>공식 센터 현장 (1:1 기능 회복 코칭)</strong>
+            근골격계 및 수술 후 환자의 정밀 보행과 자세 안정을 위한 1:1 맞춤 운동 지도
+          </div>
+        </div>
+      </div>
+
+      <!-- 직접 체결한 주요 MOU 목록 -->
+      <div class="mou-box">
+        <div style="font-weight: 900; font-size: 0.95rem; color: var(--text); margin-bottom: 12px;">
+          🤝 부대표로서 직접 체결 및 총괄한 전략적 제휴 (MOU) 실적
+        </div>
+
+        <div class="mou-category">
+          <div class="mou-category-title">🏢 대기업 & 혁신 헬스케어 플랫폼 (B2B)</div>
+          <div class="mou-pill-list">
+            <span class="mou-pill">삼성전자 & 지아이비타</span>
+            <span class="mou-pill">케어닥 (Caredoc - 시니어 1위)</span>
+            <span class="mou-pill">레드밸런스 (글로벌 메디컬 슬링)</span>
+            <span class="mou-pill">한국EAP협회</span>
+            <span class="mou-pill">피카토</span>
+            <span class="mou-pill">강남퍼스트재활의학과</span>
+          </div>
+        </div>
+
+        <div class="mou-category">
+          <div class="mou-category-title">🏛️ 지자체 공공 통합돌봄 협약 (B2G)</div>
+          <div class="mou-pill-list">
+            <span class="mou-pill">성북구청 (기억쏙쏙 방문인지강화서비스 협업)</span>
+            <span class="mou-pill">동작구청 (동작형 통합돌봄 지역특화서비스 제공기관 공식 협약)</span>
+          </div>
+        </div>
+
+        <div class="mou-category">
+          <div class="mou-category-title">🎓 대학 보건의료 산·학 협력 파이프라인 (Academia)</div>
+          <div class="mou-pill-list">
+            <span class="mou-pill">서울대학교 (Seoul National University)</span>
+            <span class="mou-pill">가천대학교</span>
+            <span class="mou-pill">건양대학교</span>
+            <span class="mou-pill">경복대학교</span>
+            <span class="mou-pill">선린대학교</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chapter 2. 🌐 북방을 향한 글로벌 헬스케어 전략가 -->
+    <div class="content-card chapter-block">
+      <h2 class="chapter-title">🌐 02. 러시아와 캐나다를 내다본 글로벌 헬스케어 전략</h2>
+      <p class="chapter-desc">
+        국내에 안주하지 않고, 지리적·환경적 결핍이 뚜렷한 북방 국가들의 보건의료 시장을 분석하여 양방향 상생을 꾀하는 글로벌 사업 모델을 기획했습니다.
+      </p>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; margin-top: 10px;">
+        <div style="background: #fbf9f4; border: 1px solid var(--border); border-radius: 12px; padding: 18px;">
+          <h3 style="font-size: 1rem; font-weight: 800; color: var(--primary); margin-bottom: 8px;">🇷🇺 러시아: 중소병원 의료관광 브릿지</h3>
+          <p style="font-size: 0.88rem; color: #475569; line-height: 1.6;">
+            국내 중소병원의 종합검진 및 헬스케어센터를 기반으로, 현지 대학병원 및 호텔과 협력해 1차 의료 서비스를 체험하게 한 뒤 한국 본원으로 정밀 검진과 치료를 유도하는 해외 의료관광 인바운드 모델을 수립했습니다.
           </p>
         </div>
-        <div class="philosophy-item">
-          <h3>⚡ 100% 무료 무인 자동화</h3>
-          <p>
-            외부 유료 SaaS나 API 과금 없이, Python 오픈소스 스택(Edge-TTS, FFmpeg, libass, Windows Scheduler)을 조합해 비용 0원으로 매일 아침 가동되는 파이프라인을 완성합니다.
-          </p>
-        </div>
-        <div class="philosophy-item">
-          <h3>🛡️ 방어적 설계 & 안전 거버넌스</h3>
-          <p>
-            정적 호스팅 환경에서도 클라우드 DB의 RLS(Row Level Security) 정책과 pgcrypto 단방향 암호화, RPC 서버 사이드 검증을 통해 보안 취약점을 원천 방어합니다.
+        <div style="background: #fbf9f4; border: 1px solid var(--border); border-radius: 12px; padding: 18px;">
+          <h3 style="font-size: 1rem; font-weight: 800; color: var(--primary); margin-bottom: 8px;">🇨🇦 캐나다: 재활 의료공백 & 산학 파이프라인</h3>
+          <p style="font-size: 0.88rem; color: #475569; line-height: 1.6;">
+            캐나다의 만성적인 재활 의료공백 수요를 파악하고, 국내 물리치료과 인재들을 연계하여 현지 재활운동 서비스를 구축한 뒤 워킹홀리데이(Working Holiday) 비자 발급까지 지원하는 산·학 연계 진출 모델을 설계했습니다.
           </p>
         </div>
       </div>
     </div>
 
-    <!-- 기술 스택 명세 -->
-    <div class="content-card section-block">
-      <h2 class="section-title">🛠️ 기술 스택 (Tech Stacks)</h2>
+    <!-- Chapter 3. 📚 사유와 서사 (소설 창작 & 독서) -->
+    <div class="content-card chapter-block">
+      <h2 class="chapter-title">📚 03. 북방 숲의 고요와 사유, 그리고 소설 집필</h2>
+      <p class="chapter-desc">
+        책을 읽고 쓰는 것을 사랑하며, 다양한 사상과 철학을 깊이 사유(思惟)하는 것이 오랜 취미입니다.
+        러시아와 캐나다 같은 추운 북방의 침엽수림이 주는 차분하고 서늘한 적막 속에서 인간의 본질과 고통, 회복의 서사를 탐구하며 소설을 집필해 왔습니다.<br>
+        이러한 인문학적 사유와 서사력은 기술을 다룰 때도 기계적인 기능에 머물지 않고, <strong>"사용자가 진정으로 겪고 있는 결핍이 무엇인가?"</strong>를 꿰뚫어 보는 기획력의 원천이 됩니다.
+      </p>
+    </div>
 
-      <div class="tech-stack-group">
-        <div class="tech-stack-title">Languages</div>
-        <div class="badge-group">
-          <span class="badge badge-primary">Python (Core)</span>
-          <span class="badge badge-primary">JavaScript (ES6+)</span>
-          <span class="badge">SQL (PostgreSQL / SQLite)</span>
-          <span class="badge">HTML5 / CSS3</span>
-        </div>
-      </div>
+    <!-- Chapter 4. 💻 데이터와 코드로 적는 새로운 처방전 -->
+    <div class="content-card chapter-block">
+      <h2 class="chapter-title">💻 04. 데이터와 코드로 세상을 치료(물리)하는 빌더</h2>
+      <p class="chapter-desc">
+        환자의 신체를 치료하던 손과 조직의 시스템을 세우던 통찰은 이제 <strong>'데이터 엔지니어링과 자동화 소프트웨어'</strong>라는 새로운 처방전으로 진화하고 있습니다.
+      </p>
+      <ul style="padding-left: 20px; font-size: 0.95rem; color: #38434a; line-height: 1.8;">
+        <li><strong>공공 교통 빅데이터 분석</strong>: 울산 시내버스 노선 데이터를 GIS로 분석하여 학생·운송사·지자체의 3-Win 에듀-DRT 정책 모델 도출</li>
+        <li><strong>100% 무료 무인 미디어 자동화</strong>: 외부 유료 API 없이 국회 법안을 9:16 유튜브 세로형 쇼츠로 매일 아침 자동 생산하는 파이프라인 구축</li>
+        <li><strong>풀스택 웹 & 게임 엔진</strong>: 악어 버거 테마의 12라운드 정규 야추 주사위 물리 엔진(HoYatch) 및 Supabase 클라우드 보안 방명록 구현</li>
+      </ul>
 
-      <div class="tech-stack-group">
-        <div class="tech-stack-title">Backend & Cloud BaaS</div>
+      <!-- 기술 스택 -->
+      <div style="margin-top: 24px;">
+        <div style="font-weight: 800; font-size: 0.95rem; color: var(--text); margin-bottom: 8px;">🛠️ 보유 기술 스택</div>
         <div class="badge-group">
-          <span class="badge badge-primary">FastAPI (비동기 엔드포인트)</span>
-          <span class="badge badge-primary">Supabase (PostgreSQL Cloud)</span>
-          <span class="badge">Row Level Security (RLS)</span>
-          <span class="badge">pgcrypto (단방향 솔트 해시)</span>
-          <span class="badge">RESTful API Design</span>
-        </div>
-      </div>
-
-      <div class="tech-stack-group">
-        <div class="tech-stack-title">Data Engineering & Automation</div>
-        <div class="badge-group">
-          <span class="badge badge-accent">Pandas / NumPy (데이터 분석)</span>
-          <span class="badge badge-accent">GIS 공간 분석 (교통 노선 모델링)</span>
-          <span class="badge badge-accent">FFmpeg & libass (무인 영상 자동화)</span>
-          <span class="badge">Edge-TTS (비용 0원 음성 합성)</span>
-          <span class="badge">Pillow (동적 배지/카드 렌더링)</span>
-          <span class="badge">BeautifulSoup (웹 크롤링 & 텍스트 마이닝)</span>
-        </div>
-      </div>
-
-      <div class="tech-stack-group">
-        <div class="tech-stack-title">Environment & Tools</div>
-        <div class="badge-group">
-          <span class="badge">Git / GitHub / GitHub Pages</span>
-          <span class="badge">Windows PowerShell</span>
-          <span class="badge">VS Code / Cursor</span>
+          <span class="badge badge-primary">Python</span>
+          <span class="badge badge-primary">FastAPI</span>
+          <span class="badge badge-primary">Supabase (PostgreSQL / RLS / pgcrypto)</span>
+          <span class="badge badge-accent">GIS 공간 분석 & 빅데이터</span>
+          <span class="badge badge-accent">FFmpeg & libass 무인 자동화</span>
+          <span class="badge">Edge-TTS (비용 0원)</span>
+          <span class="badge">JavaScript (ES6+)</span>
+          <span class="badge">Git / GitHub Pages</span>
         </div>
       </div>
     </div>

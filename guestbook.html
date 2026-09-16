@@ -16,13 +16,13 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
-    /* 📝 방명록 전용 스타일 */
+    /* 📝 방명록 전용 스타일 (Everforest Boreal) */
     .guestbook-card {
       background: #ffffff;
       border: 1px solid var(--border);
       border-radius: 20px;
       padding: 32px;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
+      box-shadow: 0 4px 14px rgba(45, 53, 59, 0.04);
       margin-bottom: 30px;
     }
 
@@ -35,23 +35,24 @@
 
     input, textarea {
       width: 100%;
-      padding: 10px 14px;
+      padding: 11px 15px;
       border: 1px solid var(--border);
       border-radius: 10px;
       font-size: 0.92rem;
       outline: none;
       background: #ffffff;
+      color: var(--text);
       transition: border-color 0.15s, box-shadow 0.15s;
     }
 
     input:focus, textarea:focus {
       border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+      box-shadow: 0 0 0 3px rgba(67, 100, 54, 0.12);
     }
 
     textarea {
       resize: vertical;
-      min-height: 90px;
+      min-height: 95px;
       margin-bottom: 10px;
     }
 
@@ -60,19 +61,19 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 14px;
-      font-size: 0.82rem;
+      font-size: 0.84rem;
       color: var(--text-muted);
     }
 
     .cooldown-text {
-      color: var(--warning);
+      color: var(--accent);
       font-weight: 700;
       display: none;
     }
 
     .btn-submit-gb {
       width: 100%;
-      padding: 12px;
+      padding: 13px;
       background: var(--primary);
       color: #ffffff;
       font-size: 0.95rem;
@@ -80,6 +81,7 @@
       border: none;
       border-radius: 10px;
       cursor: pointer;
+      box-shadow: 0 2px 6px rgba(67, 100, 54, 0.2);
       transition: background-color 0.15s;
     }
 
@@ -104,7 +106,7 @@
 
     .feed-title {
       font-size: 1.05rem;
-      font-weight: 800;
+      font-weight: 900;
       color: var(--text);
     }
 
@@ -112,13 +114,13 @@
       background: none;
       border: none;
       color: var(--primary);
-      font-weight: 700;
+      font-weight: 800;
       cursor: pointer;
       font-size: 0.88rem;
     }
 
     .gb-item {
-      background: #f8fafc;
+      background: #fbf9f4;
       border: 1px solid var(--border);
       border-radius: 12px;
       padding: 16px 18px;
@@ -127,7 +129,7 @@
     }
 
     .gb-item:hover {
-      border-color: #cbd5e1;
+      border-color: var(--primary);
     }
 
     .gb-item-top {
@@ -138,8 +140,8 @@
     }
 
     .gb-author {
-      font-weight: 800;
-      font-size: 0.95rem;
+      font-weight: 900;
+      font-size: 0.96rem;
       color: var(--text);
     }
 
@@ -167,16 +169,16 @@
     }
 
     .btn-del-item:hover {
-      background: #fef2f2;
+      background: #fdf2f2;
       border-color: var(--danger);
     }
 
     .gb-message-text {
-      font-size: 0.92rem;
+      font-size: 0.93rem;
       white-space: pre-wrap;
       word-break: break-word;
-      color: #1e293b;
-      line-height: 1.6;
+      color: #38434a;
+      line-height: 1.65;
     }
 
     /* 삭제 모달 */
@@ -184,7 +186,7 @@
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.5);
+      background: rgba(0, 0, 0, 0.45);
       z-index: 2000;
       align-items: center;
       justify-content: center;
@@ -192,12 +194,13 @@
 
     .modal-box {
       background: #ffffff;
-      padding: 24px;
-      border-radius: 16px;
+      padding: 26px;
+      border-radius: 18px;
       max-width: 360px;
       width: 90%;
       text-align: center;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      border: 1px solid var(--border);
     }
 
     @media (max-width: 768px) {
@@ -214,7 +217,7 @@
     <div class="nav-container">
       <a href="index.html" class="brand-logo">
         <span>김호선</span>
-        <span class="role-pill">Data & Fullstack</span>
+        <span class="role-pill">Everforest Boreal</span>
       </a>
       <nav>
         <ul class="tab-group">
@@ -232,7 +235,7 @@
   <main class="main-container">
     <div class="page-header">
       <h1 class="page-title">📝 오픈 방명록 (Guestbook)</h1>
-      <p class="page-desc">포트폴리오에 방문해 주셔서 감사합니다. 자유롭게 응원의 한마디나 피드백을 남겨주세요.</p>
+      <p class="page-desc">포트폴리오에 방문해 주셔서 감사합니다. 자유롭게 응원의 한마디나 피드백, 인사를 남겨주세요.</p>
     </div>
 
     <!-- 방명록 메인 카드 -->
@@ -260,7 +263,7 @@
       </div>
 
       <div id="gbList">
-        <div style="text-align: center; color: var(--text-muted); padding: 32px;">방명록을 불러오는 중...</div>
+        <div style="text-align: center; color: var(--text-muted); padding: 36px;">방명록을 불러오는 중...</div>
       </div>
     </div>
   </main>
@@ -334,7 +337,7 @@
         if (!data || data.length === 0) {
           listContainer.innerHTML = `
             <div style="text-align: center; color: var(--text-muted); padding: 36px;">
-              아직 작성된 방명록이 없습니다.<br>첫 번째 발자취를 남겨보세요! ✨
+              아직 작성된 방명록이 없습니다.<br>따뜻한 첫 번째 발자취를 남겨보세요! 🌲
             </div>
           `;
           return;

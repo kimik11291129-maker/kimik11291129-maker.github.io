@@ -12,29 +12,41 @@
   <link rel="stylesheet" href="css/style.css">
 
   <style>
-    /* 🏠 홈 전용 스타일 */
+    /* 🌲 홈 전용 스타일 (Everforest Boreal Light) */
     .hero-section {
       background: #ffffff;
       border: 1px solid var(--border);
       border-radius: 20px;
-      padding: 44px 36px;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
+      padding: 44px 38px;
+      box-shadow: 0 3px 12px rgba(45, 53, 59, 0.04);
       margin-bottom: 36px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-section::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
     }
 
     .hero-subtitle {
-      font-size: 1.05rem;
-      font-weight: 700;
+      font-size: 0.95rem;
+      font-weight: 800;
       color: var(--primary);
       text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 8px;
+      letter-spacing: 0.06em;
+      margin-bottom: 10px;
     }
 
     .hero-headline {
       font-size: 2.2rem;
       font-weight: 900;
-      line-height: 1.3;
+      line-height: 1.35;
       letter-spacing: -0.8px;
       color: var(--text);
       margin-bottom: 16px;
@@ -42,9 +54,9 @@
 
     .hero-desc {
       font-size: 1.05rem;
-      color: #334155;
-      line-height: 1.7;
-      max-width: 720px;
+      color: #38434a;
+      line-height: 1.75;
+      max-width: 780px;
       margin-bottom: 24px;
     }
 
@@ -66,11 +78,11 @@
       background: #ffffff;
       border: 1px solid var(--border);
       border-radius: 16px;
-      padding: 24px;
+      padding: 26px;
       text-decoration: none;
       color: inherit;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
-      transition: all 0.2s ease;
+      box-shadow: 0 2px 8px rgba(45, 53, 59, 0.03);
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -79,31 +91,31 @@
     .shortcut-card:hover {
       border-color: var(--primary);
       transform: translateY(-3px);
-      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.08);
+      box-shadow: 0 8px 20px rgba(67, 100, 54, 0.1);
     }
 
     .card-icon {
-      font-size: 2rem;
-      margin-bottom: 12px;
+      font-size: 2.2rem;
+      margin-bottom: 14px;
     }
 
     .card-title {
-      font-size: 1.2rem;
-      font-weight: 800;
+      font-size: 1.22rem;
+      font-weight: 900;
       color: var(--text);
       margin-bottom: 8px;
     }
 
     .card-desc {
-      font-size: 0.92rem;
+      font-size: 0.93rem;
       color: var(--text-muted);
-      line-height: 1.55;
+      line-height: 1.6;
       margin-bottom: 16px;
       flex: 1;
     }
 
     .card-link-text {
-      font-size: 0.85rem;
+      font-size: 0.88rem;
       font-weight: 800;
       color: var(--primary);
       display: flex;
@@ -119,7 +131,7 @@
     <div class="nav-container">
       <a href="index.html" class="brand-logo">
         <span>김호선</span>
-        <span class="role-pill">Data & Fullstack</span>
+        <span class="role-pill">Everforest Boreal</span>
       </a>
       <nav>
         <ul class="tab-group">
@@ -137,31 +149,29 @@
   <main class="main-container">
     <!-- 메인 히어로 -->
     <section class="hero-section">
-      <div class="hero-subtitle">Data Engineer & Fullstack Builder</div>
+      <div class="hero-subtitle">Boreal Contemplator & Digital System Builder</div>
       <h1 class="hero-headline">
-        현실의 문제를 데이터로 분석하고,<br>
-        100% 무인 자동화 파이프라인으로 완성합니다.
+        북방의 숲에서 사유하고, 환자의 걸음을 되찾아주던 손길로.<br>
+        이제는 데이터와 코드로 세상의 비효율을 치료(물리)합니다.
       </h1>
       <p class="hero-desc">
-        울산 시내버스 개편 공공 빅데이터 기반의 3-Win 에듀-DRT 정책 제안부터,
-        외부 유료 API 없이 대한민국 국회 입법쇼츠를 100% 무료 무인 대량 자동 생산하는 파이프라인,
-        그리고 12라운드 정통 주사위 아케이드 게임(HoYatch)과 Supabase 보안 방명록까지.
-        배운 지식을 온전히 동작하는 제품과 엔지니어링으로 증명합니다.
+        국내 방문재활 공백을 메우기 위해 <strong>연세방문재활운동센터 부대표</strong>로서 초기 법인화와 삼성전자·서울대·지자체 MOU를 완수하고, 러시아·캐나다 글로벌 헬스케어 전략을 설계했던 비즈니스 아키텍트이자 물리치료사입니다.<br>
+        책을 읽고 사유하며 소설을 짓던 상상력에 <strong>공공 빅데이터 분석과 100% 무료 무인 자동화 엔지니어링</strong>을 결합하여, 세상의 막힌 곳을 시원하게 풀어내는 구체적인 해법을 완성합니다.
       </p>
 
       <div class="hero-cta-group">
         <a href="portfolio.html" class="btn-action btn-primary">📁 5대 프로젝트 팩트시트 보기</a>
-        <a href="game.html" class="btn-action">🐊 HoYatch 주사위 게임 하기</a>
-        <a href="https://github.com/kimik11291129-maker" target="_blank" class="btn-action">🐙 GitHub</a>
+        <a href="about.html" class="btn-action">👤 김호선 스토리 & 실물 갤러리</a>
+        <a href="game.html" class="btn-action">🐊 HoYatch 주사위 게임</a>
       </div>
 
       <div class="badge-group">
-        <span class="badge badge-primary">Python</span>
-        <span class="badge badge-primary">FastAPI</span>
-        <span class="badge badge-primary">Supabase (PostgreSQL)</span>
-        <span class="badge">Big Data & GIS</span>
-        <span class="badge">Automation (FFmpeg / Edge-TTS)</span>
-        <span class="badge">Vanilla JS</span>
+        <span class="badge badge-primary">🏥 전 연세방문재활 부대표</span>
+        <span class="badge badge-primary">🤝 삼성전자·서울대·지자체 MOU 총괄</span>
+        <span class="badge badge-primary">🌐 러시아·캐나다 글로벌 헬스케어 전략</span>
+        <span class="badge badge-accent">🌿 치료(물리) 전문가</span>
+        <span class="badge badge-accent">📚 사유하는 소설 창작자</span>
+        <span class="badge">💻 공공 빅데이터 & 무인 자동화</span>
       </div>
     </section>
 
@@ -172,10 +182,10 @@
           <div class="card-icon">👤</div>
           <h2 class="card-title">자기소개 (About Me)</h2>
           <p class="card-desc">
-            문제 해결 지향의 개발 철학, 데이터 마이닝 및 웹 풀스택 기술 스택, 엔지니어링 여정을 소개합니다.
+            실제 임상 치료 현장 실물 사진, 대기업·지자체 MOU 실적, 러시아·캐나다 글로벌 전략과 소설 창작 이야기를 만나보세요.
           </p>
         </div>
-        <div class="card-link-text">자세히 알아보기 &rarr;</div>
+        <div class="card-link-text">상세 스토리 읽기 &rarr;</div>
       </a>
 
       <a href="portfolio.html" class="shortcut-card">
@@ -183,7 +193,7 @@
           <div class="card-icon">📁</div>
           <h2 class="card-title">포트폴리오 (Portfolio)</h2>
           <p class="card-desc">
-            울산 버스 에듀-DRT, 입법쇼츠 0원 파이프라인, 나폴리탄 AI 등 5대 프로젝트 팩트시트를 확인하세요.
+            울산 버스 에듀-DRT 정책 제안, 입법쇼츠 0원 무인 파이프라인, 나폴리탄 AI 등 5대 프로젝트 팩트시트를 확인하세요.
           </p>
         </div>
         <div class="card-link-text">팩트시트 열람하기 &rarr;</div>

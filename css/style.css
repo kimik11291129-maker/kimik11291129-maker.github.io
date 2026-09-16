@@ -1,21 +1,22 @@
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap");
 
 /* ==========================================================================
-   1. 기본 리셋 및 전역 변수 (Clean Modern Theme)
+   🌲 Everforest Boreal Light Design System (에버포레스트 북방 침엽수림 테마)
    ========================================================================== */
 :root {
-  --primary: #2563eb;
-  --primary-hover: #1d4ed8;
-  --accent: #10b981;
-  --accent-hover: #059669;
-  --danger: #ef4444;
-  --warning: #f59e0b;
-  --bg: #f8fafc;
-  --card-bg: #ffffff;
-  --text: #0f172a;
-  --text-muted: #64748b;
-  --border: #e2e8f0;
-  --nav-height: 64px;
+  --bg: #f8f5ec;               /* 린넨 미색 (자작나무/양피지 톤) */
+  --card-bg: #ffffff;          /* 순백 리넨 서피스 */
+  --text: #2d353b;             /* 깊은 나무껍질 슬레이트 (편안한 가독성) */
+  --text-muted: #5c6a72;       /* 고요한 숲의 조약돌 회색 */
+  --primary: #436436;          /* 북방 침엽수 상록수 그린 */
+  --primary-hover: #335228;
+  --accent: #c77a32;           /* 따뜻한 오두막 벽난로 앰버 */
+  --accent-hover: #a86221;
+  --danger: #e65552;           /* 부드러운 산딸기 레드 */
+  --warning: #dfa000;          /* 황금빛 단풍 옐로 */
+  --border: #e2ded3;           /* 연한 흙빛 돌담 테두리 */
+  --nav-bg: rgba(248, 245, 236, 0.94);
+  --nav-height: 68px;
   --font-mono: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
 }
 
@@ -33,19 +34,19 @@ html {
 body {
   background-color: var(--bg);
   color: var(--text);
-  line-height: 1.6;
+  line-height: 1.65;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
 /* ==========================================================================
-   2. 상단 고정 헤더 & 네비게이션 탭 (Sticky Tab Nav)
+   🧭 상단 고정 네비게이션 헤더 (Frosted Boreal Header)
    ========================================================================== */
 .header {
-  background-color: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background-color: var(--nav-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
   position: sticky;
   top: 0;
@@ -55,7 +56,7 @@ body {
 .nav-container {
   max-width: 1024px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 24px;
   height: var(--nav-height);
   display: flex;
   align-items: center;
@@ -65,27 +66,27 @@ body {
 .brand-logo {
   font-size: 1.15rem;
   font-weight: 900;
-  color: var(--text);
+  color: var(--primary);
   text-decoration: none;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   letter-spacing: -0.5px;
 }
 
 .brand-logo span.role-pill {
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   font-weight: 700;
-  background: #eff6ff;
+  background: #eaf0e6;
   color: var(--primary);
-  padding: 2px 8px;
+  padding: 3px 9px;
   border-radius: 6px;
-  border: 1px solid #dbeafe;
+  border: 1px solid #d4dfce;
 }
 
 .tab-group {
   display: flex;
-  gap: clamp(0.8rem, 2.5vw, 2rem);
+  gap: clamp(0.6rem, 2.2vw, 1.8rem);
   list-style: none;
 }
 
@@ -98,18 +99,18 @@ body {
   font-weight: 500;
   padding: 8px 12px;
   border-radius: 8px;
-  transition: all 0.2s ease;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .tab-item a:hover {
   color: var(--primary);
-  background-color: #f1f5f9;
+  background-color: #ede9de;
 }
 
 .tab-item a.active {
   color: var(--primary);
-  background-color: #eff6ff;
-  font-weight: 700;
+  background-color: #eaf0e6;
+  font-weight: 800;
 }
 
 .tab-item a.active::after {
@@ -126,13 +127,13 @@ body {
 
 @media (max-width: 768px) {
   .nav-container {
-    padding: 0 12px;
+    padding: 0 14px;
   }
   .brand-logo span.role-pill {
     display: none;
   }
   .tab-group {
-    gap: 4px;
+    gap: 2px;
   }
   .tab-item a {
     padding: 6px 8px;
@@ -140,16 +141,16 @@ body {
   }
   .tab-item a.active::after {
     bottom: -6px;
-    width: 18px;
+    width: 16px;
   }
 }
 
 /* ==========================================================================
-   3. 메인 콘텐츠 레이아웃 (Main Container)
+   📦 메인 컨테이너 & 카드 레이아웃
    ========================================================================== */
 .main-container {
   flex: 1;
-  max-width: 960px;
+  max-width: 980px;
   width: 100%;
   margin: 36px auto 60px auto;
   padding: 0 20px;
@@ -175,18 +176,19 @@ body {
   font-size: 1rem;
   color: var(--text-muted);
   margin-top: 6px;
+  line-height: 1.6;
 }
 
 .content-card {
   background-color: var(--card-bg);
   border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 28px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+  border-radius: 18px;
+  padding: 30px;
+  box-shadow: 0 2px 8px rgba(45, 53, 59, 0.03);
   margin-bottom: 24px;
 }
 
-/* 뱃지 및 유틸리티 */
+/* 뱃지 시스템 */
 .badge-group {
   display: flex;
   flex-wrap: wrap;
@@ -195,36 +197,37 @@ body {
 }
 
 .badge {
-  background: #e2e8f0;
-  color: #334155;
+  background: #ecebe6;
+  color: #434e55;
   font-size: 0.8rem;
   font-weight: 700;
   padding: 4px 10px;
   border-radius: 6px;
+  border: 1px solid #dedcd3;
   font-family: var(--font-mono);
 }
 
 .badge-primary {
-  background: #eff6ff;
+  background: #eaf0e6;
   color: var(--primary);
-  border: 1px solid #dbeafe;
+  border: 1px solid #d4dfce;
 }
 
 .badge-accent {
-  background: #ecfdf5;
+  background: #faeedd;
   color: var(--accent);
-  border: 1px solid #a7f3d0;
+  border: 1px solid #ebd7bc;
 }
 
-/* 링크 버튼 */
+/* 버튼 시스템 */
 .btn-action {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 9px 16px;
-  font-size: 0.9rem;
+  padding: 10px 18px;
+  font-size: 0.92rem;
   font-weight: 700;
-  border-radius: 8px;
+  border-radius: 10px;
   text-decoration: none;
   cursor: pointer;
   border: 1px solid var(--border);
@@ -234,14 +237,15 @@ body {
 }
 
 .btn-action:hover {
-  background: #f1f5f9;
-  border-color: #cbd5e1;
+  background: #f2eee3;
+  border-color: #d1cbc0;
 }
 
 .btn-primary {
   background: var(--primary);
   color: #ffffff;
   border: 1px solid var(--primary);
+  box-shadow: 0 2px 6px rgba(67, 100, 54, 0.2);
 }
 
 .btn-primary:hover {
@@ -249,11 +253,22 @@ body {
   color: #ffffff;
 }
 
+.btn-accent {
+  background: var(--accent);
+  color: #ffffff;
+  border: 1px solid var(--accent);
+}
+
+.btn-accent:hover {
+  background: var(--accent-hover);
+  color: #ffffff;
+}
+
 /* 푸터 */
 footer.site-footer {
   text-align: center;
-  padding: 28px 0;
-  font-size: 0.85rem;
+  padding: 32px 0;
+  font-size: 0.88rem;
   color: var(--text-muted);
   border-top: 1px solid var(--border);
   background: #ffffff;
