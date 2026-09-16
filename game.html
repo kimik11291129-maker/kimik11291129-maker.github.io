@@ -9,241 +9,17 @@
   <meta name="referrer" content="no-referrer">
 
   <title>게임 (All I Gator HoYatch) — 김호선 (Ho-seon Kim)</title>
-  <link rel="stylesheet" href="css/style.css">
-
-  <style>
-    /* 🐊 HoYatch 전용 스타일 (Everforest Boreal) */
-    .hoyatch-stage {
-      background: #ffffff;
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 32px;
-      box-shadow: 0 4px 14px rgba(45, 53, 59, 0.04);
-      margin-bottom: 30px;
-    }
-
-    .game-status-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 24px;
-      flex-wrap: wrap;
-      gap: 12px;
-      padding-bottom: 16px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .game-mode-title {
-      font-size: 1.15rem;
-      font-weight: 900;
-      color: var(--primary);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .game-stat-group {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .stat-badge {
-      background: #fbf9f4;
-      padding: 6px 14px;
-      border-radius: 8px;
-      font-weight: 800;
-      font-size: 0.9rem;
-      border: 1px solid var(--border);
-    }
-
-    /* 북방 침엽수림 벨벳 주사위 테이블 */
-    .dice-table {
-      background: radial-gradient(circle at 50% 50%, #1e3825 0%, #132418 100%);
-      border-radius: 16px;
-      padding: 32px 20px;
-      text-align: center;
-      margin-bottom: 24px;
-      box-shadow: inset 0 0 24px rgba(0, 0, 0, 0.5), 0 4px 12px rgba(30, 56, 37, 0.15);
-      border: 2px solid #2d4e34;
-    }
-
-    .dice-container {
-      display: flex;
-      justify-content: center;
-      gap: 16px;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-    }
-
-    .dice-box {
-      width: 72px;
-      height: 72px;
-      background: #ffffff;
-      border-radius: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-      border: 3px solid #ffffff;
-      transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-      position: relative;
-      user-select: none;
-    }
-
-    .dice-box:hover {
-      transform: translateY(-4px);
-    }
-
-    .dice-box.kept {
-      border-color: var(--accent);
-      box-shadow: 0 0 16px rgba(199, 122, 50, 0.85);
-      background: #fef7ed;
-      transform: translateY(-6px);
-    }
-
-    .dice-val-text {
-      font-size: 2.3rem;
-      font-weight: 900;
-      color: #0f172a;
-      line-height: 1;
-    }
-
-    .kept-badge {
-      position: absolute;
-      top: -10px;
-      background: var(--accent);
-      color: #ffffff;
-      font-size: 0.68rem;
-      font-weight: 800;
-      padding: 2px 7px;
-      border-radius: 6px;
-      display: none;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    }
-
-    .dice-box.kept .kept-badge {
-      display: block;
-    }
-
-    .dice-actions {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-
-    .btn-roll {
-      background: var(--primary);
-      color: #ffffff;
-      font-size: 1.05rem;
-      font-weight: 800;
-      padding: 12px 28px;
-      border-radius: 12px;
-      border: none;
-      cursor: pointer;
-      box-shadow: 0 4px 12px rgba(67, 100, 54, 0.3);
-      transition: all 0.15s;
-    }
-
-    .btn-roll:hover:not(:disabled) {
-      background: var(--primary-hover);
-      transform: scale(1.02);
-    }
-
-    .btn-roll:disabled {
-      background: #64748b;
-      cursor: not-allowed;
-      box-shadow: none;
-      opacity: 0.7;
-    }
-
-    .rolls-left-text {
-      color: #eaf0e6;
-      font-weight: 700;
-      font-size: 0.95rem;
-    }
-
-    /* 12대 족보 스코어보드 그리드 */
-    .scoreboard-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-
-    .score-group {
-      background: #fbf9f4;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 16px;
-    }
-
-    .group-header {
-      font-size: 0.9rem;
-      font-weight: 800;
-      color: #334155;
-      padding-bottom: 8px;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 8px;
-    }
-
-    .score-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 8px 12px;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      cursor: pointer;
-      transition: background-color 0.15s;
-      user-select: none;
-    }
-
-    .score-item:hover:not(.locked) {
-      background: #ede9de;
-    }
-
-    .score-item.locked {
-      cursor: default;
-      background: #ecebe6;
-      color: var(--text-muted);
-    }
-
-    .score-num {
-      font-weight: 800;
-      min-width: 32px;
-      text-align: right;
-    }
-
-    .score-num.preview {
-      color: var(--primary);
-    }
-
-    .score-num.fixed {
-      color: var(--accent);
-    }
-
-    @media (max-width: 768px) {
-      .scoreboard-grid {
-        grid-template-columns: 1fr;
-      }
-      .dice-box {
-        width: 58px;
-        height: 58px;
-      }
-      .dice-val-text {
-        font-size: 1.8rem;
-      }
-    }
-  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Pretendard:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css?v=20260916_08">
+  <link rel="stylesheet" href="css/hoyatch.css?v=20260917_01">
 </head>
-<body>
+<body class="game-page-body">
 
-  <!-- 🧭 상단 공통 네비게이션 헤더 -->
+  <!-- 🧭 상단 공통 네비게이션 헤더 (브로드시트 폭 정렬) -->
   <header class="header">
-    <div class="nav-container">
+    <div class="nav-container nav-container-broadsheet">
       <a href="index.html" class="brand-logo">
         <span>김호선</span>
         <span class="role-pill">Everforest Boreal</span>
@@ -260,349 +36,686 @@
     </div>
   </header>
 
-  <!-- 📦 메인 콘텐츠 영역 -->
-  <main class="main-container">
-    <div class="page-header">
-      <h1 class="page-title">🐊 All I Gator HoYatch (호야추 다이스)</h1>
-      <p class="page-desc">정식 12라운드 야추 족보, 킵(Keep) 주사위 물리, 상단 보너스(+35점)를 즐겨보세요.</p>
+  <!-- 🎮 HoYatch 메인 풀와이드 컨테이너 -->
+  <main class="hoyatch-page-main">
+            <div class="hoyatch-wrapper">
+<div class="game-container">
+    <!-- 헤더 영역 -->
+    <!-- 🐊 All I gator Ham Burger 시네마틱 배너 -->
+    <div class="site-header-banner">
+      <div class="banner-arcade-badge">🎲 RETRO SWAMP ARCADE · 2026 EDITION</div>
+      <div class="banner-arcade-title">🐊 ALL I GATOR : HO-YATCH 🍔</div>
+      <div class="banner-arcade-sub">17대 정통 족보 × 덱 빌딩 × 5대 보스 레이드 로그라이트</div>
     </div>
 
-    <!-- 호야추 단독 게임 스테이지 -->
-    <div class="hoyatch-stage">
-      <!-- 게임 상단 정보 바 -->
-      <div class="game-status-bar">
-        <div class="game-mode-title">🎲 12라운드 정통 야추 승부</div>
-        <div class="game-stat-group">
-          <span class="stat-badge">라운드: <strong id="hyRound" style="color: var(--primary);">1</strong> / 12</span>
-          <span class="stat-badge">가넷: <strong id="hyGarnet" style="color: var(--danger);">🔴 0</strong></span>
-          <span class="stat-badge">총점: <strong id="hyTotalScore" style="color: var(--accent);">0</strong>점</span>
+    <!-- 헤더 영역 -->
+    <header class="game-header">
+      <div class="header-left">
+        <div class="title-row">
+          <h1>🐊 All I Gator HoYatch 🍔</h1>
+          <span class="mode-title-tag" id="modeTitleTag">🏆 솔로 모드</span>
+          <button id="btnGoLobby" class="btn-lobby" title="게임 모드 선택 로비로 이동">🏠 모드 선택</button>
+          <button id="btnHelp" class="btn-help" title="게임 룰북 보기">❓ 버거 룰북</button>
+        </div>
+        <p class="subtitle" id="headerSubtitle">늪지대 악어버거 덱빌딩 & 17대 족보 챌린지</p>
+      </div>
+      <div class="header-right">
+        <!-- 가넷 지갑 -->
+        <div class="stat-badge garnet-badge" id="garnetBadge" title="점수를 얻고 업적을 클리어하면 버거 가넷이 쌓입니다!">
+          <span class="label">GARNETS</span>
+          <span class="value garnet-val" id="garnetCount">🔴 20</span>
+        </div>
+        <button id="btnOpenLeaderboard" class="btn-leaderboard" title="명예의 전당 점수 랭킹을 확인하세요!">
+          👑 명예의 전당
+        </button>
+        <button id="btnOpenAchievements" class="btn-achievements" title="업적을 확인하고 가넷 보상을 획득하세요!">
+          🏆 업적
+        </button>
+        <button id="btnOpenShop" class="btn-shop" title="상점에서 주사위와 능력을 강화하세요!">
+          🛒 셰프 상점
+        </button>
+
+        <div class="stat-badge" id="headerRoundBadge">
+          <span class="label">ROUND</span>
+          <span class="value" id="currentRound">1</span><span class="total" id="roundTotalText">/17</span>
+        </div>
+        <div class="stat-badge" id="headerScoreBadge">
+          <span class="label" id="scoreBadgeLabel">TOTAL SCORE</span>
+          <span class="value highlight" id="totalScore">0</span>
+        </div>
+        <button id="btnReset" class="btn-secondary" title="게임 재시작">🔄 새 게임</button>
+      </div>
+    </header>
+
+    <!-- 1. 초보자 친절 안내 가이드 바 (솔로 모드 전용) -->
+    <div class="step-guide-bar" id="stepGuideBar">
+      <div class="guide-step active" id="guideStep1">
+        <span class="step-num">1</span> <strong>[주사위 굴리기]</strong> 버튼을 누르세요!
+      </div>
+      <div class="guide-arrow">➔</div>
+      <div class="guide-step" id="guideStep2">
+        <span class="step-num">2</span> 남겨둘 주사위를 <strong>클릭해 고정(KEEP)</strong>하세요!
+      </div>
+      <div class="guide-arrow">➔</div>
+      <div class="guide-step" id="guideStep3">
+        <span class="step-num">3</span> 우측 스코어보드에서 <strong>[⭐ 추천!] 칸</strong>을 눌러 점수를 기록하세요!
+      </div>
+    </div>
+
+    <!-- 2. 1vs1 대전 모드 전용 턴 & 점수 비교 바 -->
+    <div class="pvp-status-bar" id="pvpStatusBar" style="display: none;">
+      <div class="pvp-player-card p1 active" id="pvpCardP1">
+        <div class="pvp-avatar">🔴</div>
+        <div class="pvp-info">
+          <div class="pvp-name" id="pvpNameP1">Player 1 (나)</div>
+          <div class="pvp-score" id="pvpScoreP1">0점</div>
+        </div>
+        <div class="pvp-turn-tag" id="pvpTurnP1">공격 중 🎯</div>
+      </div>
+      <div class="pvp-center-info">
+        <div class="pvp-vs-badge">VS</div>
+        <div class="pvp-timer-badge" id="pvpTimerBadge">⏱️ 45초</div>
+      </div>
+      <div class="pvp-player-card p2" id="pvpCardP2">
+        <div class="pvp-avatar">🔵</div>
+        <div class="pvp-info">
+          <div class="pvp-name" id="pvpNameP2">Player 2 (상대)</div>
+          <div class="pvp-score" id="pvpScoreP2">0점</div>
+        </div>
+        <div class="pvp-turn-tag" id="pvpTurnP2" style="display: none;">공격 중 🎯</div>
+      </div>
+      <div class="pvp-round-badge">
+        라운드 <strong id="pvpRoundText">1</strong> / 17
+      </div>
+    </div>
+
+    <!-- 3. 모험 모드(보스 디펜스) 전용 보스 HP 및 유물 상태 바 -->
+    <div class="adventure-status-bar" id="adventureStatusBar" style="display: none;">
+      <div class="boss-profile">
+        <div class="boss-avatar-wrap">
+          <div class="boss-avatar-badge" id="advBossAvatarBadge">
+            <span class="boss-avatar-emoji" id="advBossAvatarEmoji">🐊</span>
+          </div>
+          <span class="boss-icon-badge" id="advBossIcon">🍔</span>
+        </div>
+        <div class="boss-details">
+          <div class="boss-header-row">
+            <span class="stage-tag" id="advStageTag">Stage 1 / 5</span>
+            <strong class="boss-name" id="advBossName">버거 먹는 아기 악어</strong>
+            <span class="boss-gimmick" id="advBossGimmick">초반 탐험: 기본 족보로 워밍업 타격!</span>
+          </div>
+          <div class="boss-hp-container">
+            <div class="boss-hp-bar" id="advBossHpBar" style="width: 100%;"></div>
+            <span class="boss-hp-label" id="advBossHpLabel">100 / 100 HP</span>
+          </div>
         </div>
       </div>
-
-      <!-- 주사위 테이블 -->
-      <div class="dice-table">
-        <div class="dice-container" id="hyDiceContainer">
-          <div class="dice-box" data-idx="0" onclick="toggleKeepDice(0)">
-            <span class="kept-badge">KEEP</span>
-            <span class="dice-val-text" id="dice0">?</span>
-          </div>
-          <div class="dice-box" data-idx="1" onclick="toggleKeepDice(1)">
-            <span class="kept-badge">KEEP</span>
-            <span class="dice-val-text" id="dice1">?</span>
-          </div>
-          <div class="dice-box" data-idx="2" onclick="toggleKeepDice(2)">
-            <span class="kept-badge">KEEP</span>
-            <span class="dice-val-text" id="dice2">?</span>
-          </div>
-          <div class="dice-box" data-idx="3" onclick="toggleKeepDice(3)">
-            <span class="kept-badge">KEEP</span>
-            <span class="dice-val-text" id="dice3">?</span>
-          </div>
-          <div class="dice-box" data-idx="4" onclick="toggleKeepDice(4)">
-            <span class="kept-badge">KEEP</span>
-            <span class="dice-val-text" id="dice4">?</span>
-          </div>
+      <div class="adv-meta-group">
+        <div class="adv-turn-pill">
+          남은 공격: <strong id="advTurnsLeft">4</strong>회
         </div>
-
-        <div class="dice-actions">
-          <button type="button" class="btn-roll" id="btnRollDice" onclick="rollDice()">🎲 주사위 굴리기</button>
-          <span class="rolls-left-text">남은 굴리기: <strong id="hyRollsLeft">3</strong>회</span>
-          <button type="button" class="btn-action" style="padding: 8px 14px; font-size: 0.85rem;" onclick="resetHoyatchGame()">새 게임 🔄</button>
-        </div>
-      </div>
-
-      <!-- 12대 족보 스코어보드 -->
-      <div class="scoreboard-grid">
-        <!-- 상단 족보 -->
-        <div class="score-group">
-          <div class="group-header">🍔 상단 족보 (숫자 눈의 합)</div>
-          <div class="score-item" id="row_aces" onclick="chooseCategory('aces')">
-            <span>Aces (1의 눈)</span>
-            <span class="score-num" id="val_aces">-</span>
-          </div>
-          <div class="score-item" id="row_deuces" onclick="chooseCategory('deuces')">
-            <span>Deuces (2의 눈)</span>
-            <span class="score-num" id="val_deuces">-</span>
-          </div>
-          <div class="score-item" id="row_threes" onclick="chooseCategory('threes')">
-            <span>Threes (3의 눈)</span>
-            <span class="score-num" id="val_threes">-</span>
-          </div>
-          <div class="score-item" id="row_fours" onclick="chooseCategory('fours')">
-            <span>Fours (4의 눈)</span>
-            <span class="score-num" id="val_fours">-</span>
-          </div>
-          <div class="score-item" id="row_fives" onclick="chooseCategory('fives')">
-            <span>Fives (5의 눈)</span>
-            <span class="score-num" id="val_fives">-</span>
-          </div>
-          <div class="score-item" id="row_sixes" onclick="chooseCategory('sixes')">
-            <span>Sixes (6의 눈)</span>
-            <span class="score-num" id="val_sixes">-</span>
-          </div>
-          <div style="display: flex; justify-content: space-between; font-size: 0.82rem; font-weight: 700; color: var(--text-muted); padding-top: 8px; border-top: 1px dashed var(--border); margin-top: 6px;">
-            <span>상단 보너스 (63점 이상 시 +35)</span>
-            <span id="upperBonusVal">0 / 63 (+0)</span>
-          </div>
-        </div>
-
-        <!-- 하단 족보 -->
-        <div class="score-group">
-          <div class="group-header">🐊 특수 족보 (조합 점수)</div>
-          <div class="score-item" id="row_choice" onclick="chooseCategory('choice')">
-            <span>Choice (주사위 총합)</span>
-            <span class="score-num" id="val_choice">-</span>
-          </div>
-          <div class="score-item" id="row_fourKind" onclick="chooseCategory('fourKind')">
-            <span>4 of a Kind (동일 4개)</span>
-            <span class="score-num" id="val_fourKind">-</span>
-          </div>
-          <div class="score-item" id="row_fullHouse" onclick="chooseCategory('fullHouse')">
-            <span>Full House (3개 + 2개)</span>
-            <span class="score-num" id="val_fullHouse">-</span>
-          </div>
-          <div class="score-item" id="row_sStraight" onclick="chooseCategory('sStraight')">
-            <span>Small Straight (연속 4개)</span>
-            <span class="score-num" id="val_sStraight">-</span>
-          </div>
-          <div class="score-item" id="row_lStraight" onclick="chooseCategory('lStraight')">
-            <span>Large Straight (연속 5개)</span>
-            <span class="score-num" id="val_lStraight">-</span>
-          </div>
-          <div class="score-item" id="row_yacht" onclick="chooseCategory('yacht')" style="background: #fdf5f5;">
-            <span style="color: var(--danger); font-weight: 800;">🐊 HoYatch (5개 동일!)</span>
-            <span class="score-num" id="val_yacht" style="color: var(--danger); font-weight: 900;">-</span>
-          </div>
+        <div class="adv-relics-list" id="advRelicsList">
+          <!-- 획득한 유물 아이콘들이 표시됨 -->
         </div>
       </div>
     </div>
+
+    <!-- 메인 보드 -->
+    <main class="game-main">
+      <!-- 좌측: 주사위 플레이 영역 -->
+      <section class="table-section">
+        <!-- 상단 정보 바 -->
+        <div class="table-info-bar">
+          <div class="rolls-left-display">
+            남은 굴리기: 
+            <div id="rollDotsContainer" class="dots-box">
+              <span class="roll-dot"></span>
+              <span class="roll-dot"></span>
+              <span class="roll-dot"></span>
+            </div>
+            <strong id="rollsLeftText">3회</strong>
+          </div>
+          <div class="pool-status" id="poolStatusText">
+            주머니: 🔴 빨강 5개 | ⚫ 검정 5개 | 🌟 특수 1개
+          </div>
+        </div>
+
+        <!-- 굴려진 주사위 영역 (Active Dice Table) -->
+        <div class="dice-table" id="diceTable">
+          <div class="table-label">🎲 활성 주사위 <span class="tip-badge">클릭하면 아래로 고정(KEEP)됩니다</span></div>
+          <div class="dice-slots" id="activeDiceContainer">
+            <!-- 5개 주사위가 동적으로 렌더링됨 -->
+          </div>
+        </div>
+
+        <!-- 킵(Keep) 보관함 영역 -->
+        <div class="keep-tray" id="keepTray">
+          <div class="tray-label">🔒 고정된 주사위 (다시 굴릴 때 바뀌지 않음 • 클릭하면 해제)</div>
+          <div class="dice-slots" id="keptDiceContainer">
+            <!-- 킵된 주사위들이 여기에 배치됨 -->
+          </div>
+        </div>
+
+        <!-- 컨트롤 버튼 바 -->
+        <div class="control-bar">
+          <button id="btnRoll" class="btn-primary">
+            <span class="btn-icon">🎲</span>
+            <span class="btn-text">주사위 5개 뽑고 굴리기 (3회 남음)</span>
+          </button>
+        </div>
+
+        <!-- 알림바 -->
+        <div class="game-notice" id="gameNotice">
+          주사위 굴리기 버튼을 눌러 라운드 1을 시작하세요!
+        </div>
+      </section>
+
+      <!-- 우측: 17대 족보 스코어보드 -->
+      <section class="score-section">
+        <div class="score-card">
+          <div class="card-header-flex">
+            <h2 class="card-title">📜 점수 기록판 (SCORE SHEET)</h2>
+            <span class="auto-tip">초록색 칸은 지금 기록 가능한 점수입니다!</span>
+          </div>
+
+          <!-- 상단 족보 테이블 -->
+          <div class="score-table-group">
+            <div class="group-header">
+              <span>① 상단 족보 (숫자 모으기)</span>
+              <span class="sub-hint">63점 달성 시 <strong>+35점 보너스!</strong></span>
+            </div>
+            <table class="score-table">
+              <thead>
+                <tr>
+                  <th>족보명</th>
+                  <th>쉬운 달성 조건</th>
+                  <th class="col-p1" id="thUpperP1">점수</th>
+                  <th class="col-p2" id="thUpperP2" style="display: none;">P2 점수</th>
+                </tr>
+              </thead>
+              <tbody id="upperTableBody">
+                <!-- 1s ~ 6s -->
+              </tbody>
+              <tfoot>
+                <tr class="summary-row">
+                  <td colspan="2">상단 합계 (현재 / 목표 63점)</td>
+                  <td id="upperSubtotal" class="col-p1">0 / 63</td>
+                  <td id="upperSubtotalP2" class="col-p2" style="display: none;">0 / 63</td>
+                </tr>
+                <tr class="summary-row bonus-row">
+                  <td colspan="2">상단 보너스 달성 (+35점)</td>
+                  <td id="upperBonus" class="col-p1">0</td>
+                  <td id="upperBonusP2" class="col-p2" style="display: none;">0</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+
+          <!-- 하단 족보 테이블 -->
+          <div class="score-table-group">
+            <div class="group-header">
+              <span>② 하단 족보 (포커 & 컬러 콤보)</span>
+              <span class="sub-hint">원페어부터 100점 대박 잭팟까지</span>
+            </div>
+            <table class="score-table">
+              <thead>
+                <tr>
+                  <th>족보명</th>
+                  <th>쉬운 달성 조건</th>
+                  <th class="col-p1" id="thLowerP1">점수</th>
+                  <th class="col-p2" id="thLowerP2" style="display: none;">P2 점수</th>
+                </tr>
+              </thead>
+              <tbody id="lowerTableBody">
+                <!-- One Pair, Two Pair, Choice, 4 of Kind, Full House, S-Str, L-Str, Flush, Yacht, Str-Flush, 5-Card Plus -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- 🛒 가넷 상점 (상점 모달) -->
+    <div class="modal-overlay" id="shopModal">
+      <div class="modal-box shop-box">
+        <div class="shop-header">
+          <div class="modal-icon">🛒</div>
+          <div>
+            <h3>HoYatch 상점 (가넷 덱빌딩)</h3>
+            <p>획득한 가넷(🔴)으로 주사위 덱과 능력을 영구 강화하세요!</p>
+          </div>
+          <div class="shop-garnet-display" id="shopGarnetCount">🔴 20</div>
+        </div>
+
+        <!-- 탭 스위처: 일반 덱빌딩 상점 vs 셰프 연구소 (모험 영구 특성) -->
+        <div class="shop-tab-nav">
+          <button id="tabShopStandard" class="shop-tab-btn active">🛒 일반 덱빌딩 상점</button>
+          <button id="tabShopChefLab" class="shop-tab-btn">🧪 셰프 연구소 (모험 영구 특성)</button>
+        </div>
+
+        <!-- 1. 일반 상점 패널 -->
+        <div id="shopStandardPanel" class="shop-tab-panel active">
+          <div class="shop-items-grid">
+            <!-- 아이템 1: 와일드 주사위 추가 -->
+            <div class="shop-item-card" id="itemWild">
+              <div class="item-icon">🌟</div>
+              <div class="item-info">
+                <div class="item-title">와일드[★] 주사위 추가</div>
+                <div class="item-desc">주머니에 원하는 숫자로 변하는 와일드 주사위를 1개 더 넣습니다. (현재: <span id="shopWildCount">1</span>개 / 최대 3개)</div>
+              </div>
+              <button class="btn-buy" id="btnBuyWild" data-cost="40">40 가넷</button>
+            </div>
+
+            <!-- 아이템 2: 리롤 횟수 +1 -->
+            <div class="shop-item-card" id="itemReroll">
+              <div class="item-icon">🔄</div>
+              <div class="item-info">
+                <div class="item-title">리롤 기회 +1 증가</div>
+                <div class="item-desc">한 턴당 굴릴 수 있는 횟수를 1회 늘립니다. (현재: <span id="shopMaxRolls">3</span>회 / 최대 5회)</div>
+              </div>
+              <button class="btn-buy" id="btnBuyReroll" data-cost="50">50 가넷</button>
+            </div>
+
+            <!-- 아이템 3: 빨간색 염색약 -->
+            <div class="shop-item-card" id="itemDye">
+              <div class="item-icon">🔴</div>
+              <div class="item-info">
+                <div class="item-title">주사위 빨간색 염색</div>
+                <div class="item-desc">검은 주사위 1개를 빨간 주사위로 영구 개조하여 플러시 확률을 대폭 올립니다. (빨강: <span id="shopRedCount">5</span>개)</div>
+              </div>
+              <button class="btn-buy" id="btnBuyDye" data-cost="30">30 가넷</button>
+            </div>
+
+            <!-- 아이템 4: 족보 파워업 연구 -->
+            <div class="shop-item-card" id="itemPowerup">
+              <div class="item-icon">📈</div>
+              <div class="item-info">
+                <div class="item-title">족보 공격력 연구 (+10점)</div>
+                <div class="item-desc">플러시, 스트레이트, 요트 점수가 영구히 +10점씩 증가합니다! (현재 레벨: Lv.<span id="shopPowerLvl">0</span>)</div>
+              </div>
+              <button class="btn-buy" id="btnBuyPowerup" data-cost="35">35 가넷</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. 셰프 연구소 (모험 모드 영구 특성) 패널 -->
+        <div id="shopChefLabPanel" class="shop-tab-panel" style="display: none;">
+          <div class="chef-lab-banner">
+            <p>💡 모은 가넷으로 보스 디펜스(모험 모드)의 시작 주사위, 리롤 횟수, 영구 공격력을 연구하여 클리어 확률을 대폭 높이세요!</p>
+          </div>
+          <div class="chef-lab-grid" id="chefLabGrid">
+            <!-- JS 동적 렌더링 -->
+          </div>
+        </div>
+
+        <button class="btn-secondary btn-close-modal" id="btnCloseShop">닫기</button>
+      </div>
+    </div>
+
+    <!-- 🏆 업적 리스트 모달 (클리어 시 가넷 지급) -->
+    <div class="modal-overlay" id="achievementModal">
+      <div class="modal-box achievement-box">
+        <div class="achievement-header">
+          <div class="modal-icon">🏆</div>
+          <div class="header-text-group">
+            <h3>업적 챌린지 (ACHIEVEMENTS)</h3>
+            <p>업적을 달성하면 특별 가넷(🔴) 보상을 획득할 수 있습니다!</p>
+          </div>
+          <div class="achievement-badge-progress" id="achievementProgressBadge">
+            달성 현황: <span id="achievementProgressText">0 / 12</span>
+          </div>
+        </div>
+        <div class="achievement-list" id="achievementList">
+          <!-- 업적 아이템들이 JS로 동적 생성됨 -->
+        </div>
+        <button class="btn-secondary btn-close-modal" id="btnCloseAchievements">닫기</button>
+      </div>
+    </div>
+
+    <!-- ❓ 초보자 쉬운 룰북 모달 -->
+    <div class="modal-overlay" id="helpModal">
+      <div class="modal-box help-box">
+        <div class="modal-icon">📖</div>
+        <h3>30초 만에 배우는 요트 다이스</h3>
+        <div class="help-content">
+          <div class="help-item">
+            <strong>1. 주사위 굴리기:</strong> 한 턴에 최대 3번 굴릴 수 있습니다.
+          </div>
+          <div class="help-item">
+            <strong>2. 고정(KEEP):</strong> 마음에 드는 주사위를 클릭하면 아래 보관함에 고정되고, 나머지 주사위만 다시 굴립니다.
+          </div>
+          <div class="help-item">
+            <strong>3. 특수 주사위(★):</strong> 별이 나오면 1~6 중 원하는 숫자로 바꿀 수 있는 치트키 주사위입니다!
+          </div>
+          <div class="help-item">
+            <strong>4. 플러시(Flush):</strong> 5개 주사위 색깔이 전부 빨강이거나 전부 검정이면 <strong>70점</strong> 획득!
+          </div>
+          <div class="help-item">
+            <strong>5. 추천 뱃지:</strong> 점수판에서 <strong>[⭐ 추천!]</strong>이 붙은 칸을 누르면 누구나 쉽게 고득점을 낼 수 있습니다!
+          </div>
+        </div>
+        <button class="btn-primary" id="btnCloseHelp" style="width: 100%; margin-top: 16px;">알겠습니다, 플레이 시작!</button>
+      </div>
+    </div>
+
+    <!-- 특수 와일드[★] 주사위 숫자 선택 모달 -->
+    <div class="modal-overlay" id="wildModal">
+      <div class="modal-box wild-modal-box">
+        <div class="modal-icon">🌟</div>
+        <h3>특수 와일드[★] 주사위 눈금 변경</h3>
+        <p class="wild-modal-desc">
+          원하는 눈금(1~6)을 선택하세요.<br>
+          <span style="font-size: 12px; color: #38bdf8; display: inline-block; margin-top: 4px;">
+            ✨ 턴 진행 중 언제든 원하는 숫자로 자유롭게 다시 변경할 수 있습니다!
+          </span>
+        </p>
+        <div class="wild-choices">
+          <button class="btn-wild-choice" data-val="1">1</button>
+          <button class="btn-wild-choice" data-val="2">2</button>
+          <button class="btn-wild-choice" data-val="3">3</button>
+          <button class="btn-wild-choice" data-val="4">4</button>
+          <button class="btn-wild-choice" data-val="5">5</button>
+          <button class="btn-wild-choice" data-val="6">6</button>
+        </div>
+        <button class="btn-secondary btn-close-modal" id="btnCloseWild" style="width: 100%; margin-top: 16px;">
+          닫기 (현재 눈금 유지)
+        </button>
+      </div>
+    </div>
+
+    <!-- 게임 종료 승리 팝업 모달 -->
+    <div class="modal-overlay" id="gameOverModal">
+      <div class="modal-box game-over-box">
+        <div class="modal-icon">🏆</div>
+        <h2>17라운드 완주!</h2>
+        <p class="final-score-lead">당신의 최종 점수는</p>
+        <div class="final-score-display" id="finalScoreDisplay">0점</div>
+        <div class="score-breakdown" id="finalBreakdown">
+          <!-- 상세 기록 -->
+        </div>
+
+        <!-- 명예의 전당 랭킹 등록 박스 -->
+        <div class="ranking-register-box" id="rankingRegisterBox">
+          <div class="register-title">👑 명예의 전당 랭킹 등록</div>
+          <p class="register-subtitle">닉네임을 입력하고 명예의 전당에 전설의 기록을 남기세요!</p>
+          <div class="register-input-row">
+            <input type="text" id="rankingPlayerName" placeholder="도전자 닉네임 (최대 8자)" maxlength="8" value="도전자">
+            <button id="btnSaveRanking" class="btn-register-rank">🏆 랭킹 등록</button>
+          </div>
+          <div class="ranking-registered-msg" id="rankingRegisteredMsg" style="display: none;">
+            ✨ 명예의 전당에 성공적으로 등록되었습니다!
+          </div>
+        </div>
+
+        <div class="game-over-btn-row">
+          <button id="btnViewLeaderboardFromOver" class="btn-secondary" style="flex: 1;">
+            👑 랭킹 보기
+          </button>
+          <button id="btnModalRestart" class="btn-primary" style="flex: 1.5;">
+            🎉 다시 도전하기
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 👑 명예의 전당 모달 (점수 랭킹 기록) -->
+    <div class="modal-overlay" id="leaderboardModal">
+      <div class="modal-box leaderboard-box">
+        <div class="leaderboard-header">
+          <div class="modal-icon">👑</div>
+          <div class="header-text-group">
+            <h3>명예의 전당 (HALL OF FAME)</h3>
+            <p>역대 최고 점수를 기록한 도전자들의 랭킹 보드입니다.</p>
+          </div>
+          <button id="btnClearLeaderboard" class="btn-clear-rank" title="기록 초기화">기록 초기화</button>
+        </div>
+
+        <div class="leaderboard-table-container">
+          <table class="leaderboard-table">
+            <thead>
+              <tr>
+                <th style="width: 55px;">순위</th>
+                <th>도전자</th>
+                <th>최종 점수</th>
+                <th>핵심 족보</th>
+                <th>보유 가넷</th>
+                <th>달성일</th>
+              </tr>
+            </thead>
+            <tbody id="leaderboardBody">
+              <!-- JS로 랭킹 행 동적 렌더링 -->
+            </tbody>
+          </table>
+          <div class="empty-leaderboard" id="emptyLeaderboard" style="display: none;">
+            아직 등록된 랭킹 기록이 없습니다.<br>
+            17라운드를 완주하고 첫 번째 챔피언이 되어보세요!
+          </div>
+        </div>
+
+        <button class="btn-secondary btn-close-modal" id="btnCloseLeaderboard">닫기</button>
+      </div>
+    </div>
+
+    <!-- ⚔️ 1:1 온라인 대전 매칭 모달 -->
+    <div class="modal-overlay" id="pvpMatchModal">
+      <div class="modal-box pvp-match-box">
+        <div class="pvp-match-header">
+          <div class="modal-icon">⚔️</div>
+          <div>
+            <h3>1:1 실시간 온라인 대전 🍔</h3>
+            <p>전국의 악어버거 셰프들과 실시간 주사위 족보 진검승부를 펼치세요!</p>
+          </div>
+        </div>
+
+        <!-- 닉네임 설정 -->
+        <div class="pvp-nickname-row">
+          <label for="pvpNicknameInput">내 닉네임:</label>
+          <input type="text" id="pvpNicknameInput" maxlength="8" value="늪지대 악어" placeholder="닉네임 (최대 8자)">
+        </div>
+
+        <!-- 매칭 탭: [ ⚡ 빠른 랜덤 매칭 ] / [ 🔑 친구 초대 (방 코드) ] -->
+        <div class="pvp-match-tabs">
+          <button id="tabPvpQuick" class="pvp-tab-btn active">⚡ 빠른 랜덤 매칭</button>
+          <button id="tabPvpCustom" class="pvp-tab-btn">🔑 친구 초대 (방 코드)</button>
+        </div>
+
+        <!-- 1. 빠른 매칭 패널 -->
+        <div id="panelPvpQuick" class="pvp-match-panel active">
+          <div id="pvpQueueInitial">
+            <p class="pvp-mode-intro">접속 중인 다른 플레이어와 즉시 1:1 승부를 시작합니다.<br>승리 시 챔피언 상금 🔴 +50 가넷을 획득합니다!</p>
+            <button id="btnStartQuickMatch" class="btn-primary" style="width: 100%; padding: 14px; font-size: 15px; font-weight: 800; margin: 12px 0;">⚡ 대전 상대 찾기 (매칭 시작)</button>
+          </div>
+
+          <!-- 대기열 탐색 펄스 레이더 -->
+          <div id="pvpQueueSearching" style="display: none;">
+            <div class="radar-box">
+              <div class="radar-circle c1"></div>
+              <div class="radar-circle c2"></div>
+              <div class="radar-circle c3"></div>
+              <div class="radar-center">🐊</div>
+            </div>
+            <div class="radar-status-title" id="pvpQueueStatusText">상대 플레이어 탐색 중...</div>
+            <div class="radar-timer" id="pvpQueueTimeText">⏱️ 00:00</div>
+            <p class="radar-subtext">원격 접속 플레이어가 발견되면 자동으로 대전이 시작됩니다.</p>
+            <div class="radar-btn-group">
+              <button id="btnPlayWithAiBot" class="btn-primary" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">🐊 대기 중 악어 AI 봇과 즉시 대전</button>
+              <button id="btnCancelQueue" class="btn-secondary">매칭 취소</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. 친구 초대 방 코드 패널 -->
+        <div id="panelPvpCustom" class="pvp-match-panel" style="display: none;">
+          <div class="custom-room-grid">
+            <div class="custom-room-card">
+              <h4>🔑 방 만들기 (초대)</h4>
+              <p>비공개 방을 만들고 친구에게 4자리 코드를 알려주세요.</p>
+              <button id="btnCreateCustomRoom" class="btn-primary" style="width: 100%; margin-top: 8px;">방 생성하기</button>
+              <div id="roomCodeDisplayBox" style="display: none; margin-top: 10px;">
+                <span>초대 코드: </span><strong id="createdRoomCodeText" class="room-code-tag">----</strong>
+                <p class="code-copy-hint">친구가 아래 코드로 입장하면 대전이 시작됩니다!</p>
+              </div>
+            </div>
+            <div class="custom-room-card">
+              <h4>🚪 코드로 입장하기</h4>
+              <p>친구가 알려준 4자리 코드를 입력하세요.</p>
+              <div class="code-input-group" style="display: flex; gap: 8px; margin-top: 8px;">
+                <input type="text" id="inputJoinRoomCode" maxlength="6" placeholder="4자리 코드" style="flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #334155; background: #0f172a; color: #fff; text-align: center; font-weight: 800; font-size: 16px;">
+                <button id="btnJoinCustomRoom" class="btn-primary">입장</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn-secondary btn-close-modal" id="btnClosePvpMatch" style="margin-top: 16px;">닫기</button>
+      </div>
+    </div>
+
+    <!-- 🎲 HoYatch 메인 로비 (모드 선택 허브 모달) -->
+    <div class="modal-overlay" id="lobbyModal">
+      <div class="modal-box lobby-box">
+        <div class="lobby-header">
+          <div class="lobby-badge">🎲 HoYatch (호야추 다이스)</div>
+          <h2>게임 모드를 선택하세요</h2>
+          <p>원하는 플레이 방식을 선택하여 주사위 전략 승부를 펼쳐보세요!</p>
+        </div>
+
+        <div class="mode-cards-grid">
+          <!-- 모드 1: 솔로 랭킹 모드 -->
+          <div class="mode-card mode-solo" id="btnSelectSolo">
+            <div class="mode-badge-pill">혼자 도전</div>
+            <div class="mode-icon">🏆</div>
+            <div class="mode-title">솔로 랭킹 모드</div>
+            <div class="mode-desc">
+              17대 족보를 전략적으로 완성하여 최고 점수를 달성하고 명예의 전당 Top 10에 등극하세요!
+            </div>
+            <div class="mode-tags">
+              <span>#17R 완주</span>
+              <span>#명예의전당</span>
+              <span>#가넷파밍</span>
+            </div>
+            <button class="btn-mode-start">솔로 시작 ➔</button>
+          </div>
+
+          <!-- 모드 2: 1vs1 실시간 온라인 대전 -->
+          <div class="mode-card mode-pvp" id="btnSelectPvP">
+            <div class="mode-badge-pill pvp">실시간 온라인 매칭</div>
+            <div class="mode-icon">⚔️</div>
+            <div class="mode-title">1vs1 온라인 대전</div>
+            <div class="mode-desc">
+              랜덤 플레이어 매칭 또는 비밀 방 코드로 친구를 초대하여 실시간 주사위 족보 두뇌 승부를 겨루세요!
+            </div>
+            <div class="mode-tags">
+              <span>#실시간매칭</span>
+              <span>#초대방코드</span>
+              <span>#AI봇연습</span>
+            </div>
+            <button class="btn-mode-start">매칭 로비 입장 ➔</button>
+          </div>
+
+          <!-- 모드 3: 악어 버거 보스 디펜스 모드 -->
+          <div class="lobby-card" id="btnSelectAdventure">
+            <div class="mode-badge badge-adv">PVE 보스 디펜스</div>
+            <div class="mode-icon">🐊</div>
+            <div class="mode-title">악어 버거 보스 디펜스</div>
+            <div class="mode-desc">
+              5대 악어 보스와의 혈투! 17대 족보로 공격력을 뿜어내고, 보스 처치 시 버거 유물을 획득하여 덱빌딩 시너지를 폭발시키세요!
+            </div>
+            <div class="mode-features">
+              <span>#5대악어보스</span>
+              <span>#실물사진배틀</span>
+              <span>#버거유물시너지</span>
+            </div>
+            <button class="btn-primary mode-enter-btn">모험 시작하기</button>
+          </div>
+        </div>
+
+        <div class="lobby-footer" style="display: flex; justify-content: center; gap: 12px; margin-top: 16px; flex-wrap: wrap;">
+          <button id="btnOpenChefLabFromLobby" class="btn-primary" style="background: linear-gradient(135deg, #059669 0%, #047857 100%);">🧪 셰프 연구소 (모험 영구 특성)</button>
+          <button id="btnCloseLobby" class="btn-secondary">닫기 (현재 게임으로 복귀)</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 💎 모험 모드 유물(Relic) 선택 모달 -->
+    <div class="modal-overlay" id="relicModal">
+      <div class="modal-box relic-box">
+        <div class="modal-icon">🍔</div>
+        <h2>보스 격파 완료! 전리품 유물 선택</h2>
+        <p>이번 모험을 승리로 이끌 강력한 버거 시너지 유물 1개를 선택하세요:</p>
+        <div class="relic-cards-grid" id="relicChoicesGrid">
+          <!-- JS로 동적 생성 -->
+        </div>
+        <div class="relic-modal-footer" style="margin-top: 16px; text-align: center;">
+          <button id="btnRerollRelics" class="btn-secondary" style="display: none; border-color: #f59e0b; color: #f59e0b; font-weight: 800;">
+            🔄 셰프의 감각 (유물 다시 뽑기)
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 🎲 보스 처치 주사위 드래프트 모달 -->
+    <div class="modal-overlay" id="diceDraftModal">
+      <div class="modal-box dice-draft-box">
+        <div class="modal-icon">🎲</div>
+        <h2>보스 처치 주사위 영입!</h2>
+        <p>전투에서 승리했습니다! 모험 덱을 강화할 전리품 주사위를 1개 선택하세요.</p>
+        <div class="dice-draft-grid" id="diceDraftGrid">
+          <!-- JS로 동적 생성 -->
+        </div>
+      </div>
+    </div>
+
+    <!-- ⚔️ 1vs1 대전 결과 모달 -->
+    <div class="modal-overlay" id="pvpGameOverModal">
+      <div class="modal-box pvp-over-box">
+        <div class="modal-icon">🏆</div>
+        <h2 id="pvpWinnerText">Player 1 승리!</h2>
+        <div class="pvp-result-comparison">
+          <div class="pvp-result-col p1">
+            <div class="player-label">Player 1 (🔴)</div>
+            <div class="player-final-score" id="pvpFinalScoreP1">0점</div>
+            <div class="player-final-sub" id="pvpFinalDetailP1">상단 0 / 하단 0</div>
+          </div>
+          <div class="pvp-vs-divider">VS</div>
+          <div class="pvp-result-col p2">
+            <div class="player-label">Player 2 (🔵)</div>
+            <div class="player-final-score" id="pvpFinalScoreP2">0점</div>
+            <div class="player-final-sub" id="pvpFinalDetailP2">상단 0 / 하단 0</div>
+          </div>
+        </div>
+        <p class="pvp-reward-msg" id="pvpRewardMsg">승자에게 챔피언 상금 🔴 +50 가넷 지급 완료!</p>
+        <div class="game-over-btn-row">
+          <button id="btnPvpRestart" class="btn-primary" style="flex: 1.2;">⚔️ 다시 대결하기</button>
+          <button id="btnPvpGoLobby" class="btn-secondary" style="flex: 1;">🏠 모드 선택으로</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 🗺️ 모험 모드 결과 모달 (승리 / 패배) -->
+    <div class="modal-overlay" id="advGameOverModal">
+      <div class="modal-box adv-over-box">
+        <div class="modal-icon" id="advOverIcon">🎉</div>
+        <h2 id="advOverTitle">모험 성공!</h2>
+        <p id="advOverDesc">5대 악어 보스를 모두 물리치고 올아이가토르 버거 왕국을 구원했습니다!</p>
+        <div class="adv-over-stats" id="advOverStats">
+          <!-- 도달 스테이지, 총 누적 피해량, 획득 가넷 -->
+        </div>
+        <div class="game-over-btn-row">
+          <button id="btnAdvRestart" class="btn-primary" style="flex: 1.2;">🔄 다시 모험하기</button>
+          <button id="btnAdvGoLobby" class="btn-secondary" style="flex: 1;">🏠 모드 선택으로</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 업적 달성 토스트 알림 컨테이너 -->
+    <div class="toast-container" id="toastContainer"></div>
+  </div>
+            </div>
+
   </main>
 
-  <!-- 🏷️ 푸터 -->
-  <footer class="site-footer">
-    <div class="main-container" style="margin: 0 auto; padding: 0 20px;">
-      <p>&copy; 2026 김호선 (Ho-seon Kim). All rights reserved.</p>
-    </div>
-  </footer>
-
-  <script>
-    // ==========================================================================
-    // 🐊 All I Gator HoYatch 주사위 게임 엔진 (순수 브라우저 실행)
-    // ==========================================================================
-    let hyDice = [1, 2, 3, 4, 5];
-    let hyKept = [false, false, false, false, false];
-    let hyRollsLeft = 3;
-    let hyRound = 1;
-    let hyTotalScore = 0;
-    let hyGarnets = 0;
-
-    const categories = {
-      aces: { name: "Aces", val: null },
-      deuces: { name: "Deuces", val: null },
-      threes: { name: "Threes", val: null },
-      fours: { name: "Fours", val: null },
-      fives: { name: "Fives", val: null },
-      sixes: { name: "Sixes", val: null },
-      choice: { name: "Choice", val: null },
-      fourKind: { name: "4 of a Kind", val: null },
-      fullHouse: { name: "Full House", val: null },
-      sStraight: { name: "Small Straight", val: null },
-      lStraight: { name: "Large Straight", val: null },
-      yacht: { name: "HoYatch", val: null }
-    };
-
-    function rollDice() {
-      // 주사위를 굴리고 남은 횟수를 차감하는 함수
-      if (hyRollsLeft <= 0) return;
-
-      for (let i = 0; i < 5; i++) {
-        if (!hyKept[i]) {
-          hyDice[i] = Math.floor(Math.random() * 6) + 1;
-          document.getElementById(`dice${i}`).textContent = hyDice[i];
-        }
-      }
-
-      hyRollsLeft--;
-      document.getElementById("hyRollsLeft").textContent = hyRollsLeft;
-      if (hyRollsLeft === 0) {
-        document.getElementById("btnRollDice").disabled = true;
-      }
-
-      updateScorePreviews();
-    }
-
-    function toggleKeepDice(idx) {
-      // 주사위 킵(Keep) 상태를 토글하는 함수
-      if (hyRollsLeft === 3) return; // 굴리기 전에는 킵 불가
-
-      hyKept[idx] = !hyKept[idx];
-      const box = document.querySelector(`.dice-box[data-idx="${idx}"]`);
-      if (hyKept[idx]) {
-        box.classList.add("kept");
-      } else {
-        box.classList.remove("kept");
-      }
-    }
-
-    function calculateCategoryScore(catKey) {
-      // 현재 주사위 눈을 기준으로 특정 족보의 점수를 판정하는 함수
-      const counts = [0, 0, 0, 0, 0, 0, 0];
-      let sum = 0;
-      hyDice.forEach(v => {
-        counts[v]++;
-        sum += v;
-      });
-
-      switch (catKey) {
-        case "aces": return counts[1] * 1;
-        case "deuces": return counts[2] * 2;
-        case "threes": return counts[3] * 3;
-        case "fours": return counts[4] * 4;
-        case "fives": return counts[5] * 5;
-        case "sixes": return counts[6] * 6;
-        case "choice": return sum;
-        case "fourKind":
-          return counts.some(c => c >= 4) ? sum : 0;
-        case "fullHouse":
-          const has3 = counts.some(c => c === 3);
-          const has2 = counts.some(c => c === 2);
-          const has5 = counts.some(c => c === 5);
-          return (has3 && has2) || has5 ? sum : 0;
-        case "sStraight":
-          const s1 = counts[1] && counts[2] && counts[3] && counts[4];
-          const s2 = counts[2] && counts[3] && counts[4] && counts[5];
-          const s3 = counts[3] && counts[4] && counts[5] && counts[6];
-          return (s1 || s2 || s3) ? 15 : 0;
-        case "lStraight":
-          const l1 = counts[1] && counts[2] && counts[3] && counts[4] && counts[5];
-          const l2 = counts[2] && counts[3] && counts[4] && counts[5] && counts[6];
-          return (l1 || l2) ? 30 : 0;
-        case "yacht":
-          return counts.some(c => c === 5) ? 50 : 0;
-        default:
-          return 0;
-      }
-    }
-
-    function updateScorePreviews() {
-      // 선택되지 않은 족보 항목들에 예상 점수를 표시하는 함수
-      Object.keys(categories).forEach(cat => {
-        if (categories[cat].val === null) {
-          const previewScore = calculateCategoryScore(cat);
-          const elem = document.getElementById(`val_${cat}`);
-          elem.textContent = previewScore;
-          elem.className = "score-num preview";
-        }
-      });
-    }
-
-    function chooseCategory(catKey) {
-      // 주사위를 최소 한 번 굴린 후 족보를 확정 선택하는 함수
-      if (hyRollsLeft === 3) {
-        alert("주사위를 먼저 한 번 이상 굴려주세요! 🎲");
-        return;
-      }
-      if (categories[catKey].val !== null) return;
-
-      const score = calculateCategoryScore(catKey);
-      categories[catKey].val = score;
-
-      const row = document.getElementById(`row_${catKey}`);
-      row.classList.add("locked");
-      const valElem = document.getElementById(`val_${catKey}`);
-      valElem.textContent = score;
-      valElem.className = "score-num fixed";
-
-      if (catKey === "yacht" && score === 50) {
-        alert("🎉 대박! HoYatch(야추) 50점 잭팟 달성! 🐊🍔");
-        hyGarnets += 3;
-        document.getElementById("hyGarnet").textContent = `🔴 ${hyGarnets}`;
-      }
-
-      calculateTotals();
-
-      if (hyRound < 12) {
-        hyRound++;
-        document.getElementById("hyRound").textContent = hyRound;
-        startNextRound();
-      } else {
-        alert(`🏆 12라운드 게임 종료! 최종 점수: ${hyTotalScore}점입니다!`);
-        document.getElementById("btnRollDice").disabled = true;
-      }
-    }
-
-    function calculateTotals() {
-      // 상단 보너스 및 전체 점수 합계를 산출하는 함수
-      const upperKeys = ["aces", "deuces", "threes", "fours", "fives", "sixes"];
-      let upperSum = 0;
-      let allSum = 0;
-
-      upperKeys.forEach(k => {
-        if (categories[k].val !== null) upperSum += categories[k].val;
-      });
-
-      let bonus = 0;
-      if (upperSum >= 63) {
-        bonus = 35;
-        document.getElementById("upperBonusVal").textContent = `${upperSum} / 63 (+35 완료!) 🎉`;
-        document.getElementById("upperBonusVal").style.color = "var(--primary)";
-      } else {
-        document.getElementById("upperBonusVal").textContent = `${upperSum} / 63 (+0)`;
-      }
-
-      Object.keys(categories).forEach(k => {
-        if (categories[k].val !== null) allSum += categories[k].val;
-      });
-
-      hyTotalScore = allSum + bonus;
-      document.getElementById("hyTotalScore").textContent = hyTotalScore;
-    }
-
-    function startNextRound() {
-      // 라운드를 전환하고 주사위 상태를 초기화하는 함수
-      hyRollsLeft = 3;
-      hyKept = [false, false, false, false, false];
-      document.getElementById("hyRollsLeft").textContent = hyRollsLeft;
-      document.getElementById("btnRollDice").disabled = false;
-
-      for (let i = 0; i < 5; i++) {
-        const box = document.querySelector(`.dice-box[data-idx="${i}"]`);
-        box.classList.remove("kept");
-        document.getElementById(`dice${i}`).textContent = "?";
-      }
-
-      Object.keys(categories).forEach(cat => {
-        if (categories[cat].val === null) {
-          const elem = document.getElementById(`val_${cat}`);
-          elem.textContent = "-";
-          elem.className = "score-num";
-        }
-      });
-    }
-
-    function resetHoyatchGame() {
-      // 게임 전체를 1라운드부터 리셋하는 함수
-      hyRound = 1;
-      hyTotalScore = 0;
-      hyGarnets = 0;
-      document.getElementById("hyRound").textContent = hyRound;
-      document.getElementById("hyTotalScore").textContent = "0";
-      document.getElementById("hyGarnet").textContent = "🔴 0";
-      document.getElementById("upperBonusVal").textContent = "0 / 63 (+0)";
-      document.getElementById("upperBonusVal").style.color = "var(--text-muted)";
-
-      Object.keys(categories).forEach(k => {
-        categories[k].val = null;
-        const row = document.getElementById(`row_${k}`);
-        row.classList.remove("locked");
-        const elem = document.getElementById(`val_${k}`);
-        elem.textContent = "-";
-        elem.className = "score-num";
-      });
-
-      startNextRound();
-    }
-  </script>
-
+  <!-- 🎲 HoYatch 엔진 스크립트 -->
+  <script src="js/hoyatch.js?v=20260917_01"></script>
 </body>
 </html>
