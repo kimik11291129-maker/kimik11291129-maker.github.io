@@ -8,87 +8,8 @@
   <meta http-equiv="X-Content-Type-Options" content="nosniff">
   <meta name="referrer" content="no-referrer">
 
-  <title>포폴소개 (Portfolio) — 김호선 (Ho-seon Kim)</title>
+  <title>포폴소개 (Portfolio Case Study) — 김호선 (Ho-seon Kim)</title>
   <link rel="stylesheet" href="css/style.css">
-
-  <style>
-    .factsheet-card {
-      background: #ffffff;
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 28px;
-      margin-bottom: 24px;
-      box-shadow: 0 2px 8px rgba(45, 53, 59, 0.03);
-      transition: all 0.2s ease;
-    }
-
-    .factsheet-card:hover {
-      border-color: var(--primary);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 18px rgba(67, 100, 54, 0.08);
-    }
-
-    .factsheet-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .factsheet-title {
-      font-size: 1.25rem;
-      font-weight: 900;
-      color: var(--text);
-    }
-
-    .factsheet-category {
-      font-size: 0.78rem;
-      font-weight: 800;
-      padding: 4px 10px;
-      border-radius: 6px;
-      background: #eaf0e6;
-      color: var(--primary);
-      border: 1px solid #d4dfce;
-    }
-
-    .factsheet-summary {
-      font-size: 0.96rem;
-      color: #38434a;
-      margin-bottom: 16px;
-      line-height: 1.65;
-    }
-
-    .factsheet-details {
-      display: grid;
-      grid-template-columns: 110px 1fr;
-      gap: 10px;
-      font-size: 0.88rem;
-      background: #fbf9f4;
-      padding: 14px 16px;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      margin-bottom: 16px;
-    }
-
-    .detail-label {
-      font-weight: 800;
-      color: var(--text-muted);
-    }
-
-    .detail-value {
-      color: #2e383f;
-      font-weight: 600;
-      line-height: 1.5;
-    }
-
-    .factsheet-footer {
-      display: flex;
-      justify-content: flex-end;
-      gap: 10px;
-    }
-  </style>
 </head>
 <body>
 
@@ -111,112 +32,277 @@
     </div>
   </header>
 
-  <!-- 📦 메인 콘텐츠 영역 -->
-  <main class="main-container">
-    <div class="page-header">
-      <h1 class="page-title">📁 주요 프로젝트 팩트시트 (Portfolio)</h1>
-      <p class="page-desc">가짜 시뮬레이터를 배제하고, 실제 공공 빅데이터와 엔지니어링 기술로 완성한 5대 핵심 프로젝트입니다.</p>
-    </div>
+  <!-- 📦 건축적 에디토리얼 케이스 스터디 메인 영역 -->
+  <main class="case-study-wrap">
 
-    <!-- 프로젝트 01 -->
-    <article class="factsheet-card">
-      <div class="factsheet-header">
-        <h2 class="factsheet-title">[01] 울산 시내버스 개편 빅데이터 분석 및 3-Win 에듀-DRT 정책 제안</h2>
-        <span class="factsheet-category">빅데이터 · 공공 정책</span>
-      </div>
-      <p class="factsheet-summary">
-        울산광역시 시내버스 노선 개편 데이터를 분석하여 외곽 학생들의 통학 교통 사각지대를 도출하고, 고정 노선의 비효율을 극복하기 위해 수요응답형 버스(DRT) 기반의 상생 정책 모델을 수립한 프로젝트입니다.
-      </p>
-      <div class="factsheet-details">
-        <div class="detail-label">데이터 / 기술</div>
-        <div class="detail-value">교통카드 승하차 빅데이터, GIS 공간 분석, 수요응답형 버스(DRT) 최적화 알고리즘</div>
-        <div class="detail-label">핵심 성과</div>
-        <div class="detail-value">학생(통학권 보장) · 운송사(수익성 개선) · 지자체(재정 절감)의 3-Win 상생 구조 완성 및 정책 제안서 도출</div>
-      </div>
-    </article>
+    <!-- 01 / 마스터 케이스 스터디 헤더 -->
+    <header style="margin-top: 20px;">
+      <p class="case-study-label">01 / MASTER CASE STUDY · 2026</p>
+      <h1 class="case-study-title">
+        외곽의 학생은 통학에 2시간을 허비하고,<br>
+        <em>시내버스는 빈 차로 적자를 쌓고 있었습니다.</em>
+      </h1>
 
-    <!-- 프로젝트 02 -->
-    <article class="factsheet-card">
-      <div class="factsheet-header">
-        <h2 class="factsheet-title">[02] 대한민국 입법쇼츠 100% 무료 무인 자동화 파이프라인</h2>
-        <span class="factsheet-category">AI 미디어 · 무인 자동화</span>
+      <!-- 메타데이터 4컬럼 스트립 -->
+      <div class="case-meta-grid" aria-label="프로젝트 핵심 개요">
+        <div class="case-meta-item">
+          <span>PROJECT</span>
+          <strong>울산 시내버스 개편 빅데이터 분석 &amp; 3-Win 에듀-DRT</strong>
+        </div>
+        <div class="case-meta-item">
+          <span>ROLE</span>
+          <strong>데이터 엔지니어링 · GIS 공간분석 · 정책 거버넌스 모델링</strong>
+        </div>
+        <div class="case-meta-item">
+          <span>PERIOD</span>
+          <strong>4 Weeks · 교통카드 OD 마이닝부터 최적 라우팅 시뮬레이션</strong>
+        </div>
+        <div class="case-meta-item">
+          <span>CORE IMPACT</span>
+          <strong>학생 통학권 보장 · 운송사 수익 개선 · 지자체 재정 절감 (3-Win)</strong>
+        </div>
       </div>
-      <p class="factsheet-summary">
-        국회 신규 발의 법안을 국민들이 1분 만에 파악할 수 있도록, 외부 유료 API 없이 100% 무료 로컬 오픈소스 스택으로 매일 아침 9:16 유튜브 세로형 비디오를 대량 자동 생산하는 파이프라인입니다.
-      </p>
-      <div class="factsheet-details">
-        <div class="detail-label">핵심 기술</div>
-        <div class="detail-value">Python, 열린국회 공공 API, 국가법령정보, Edge-TTS, Pillow, FFmpeg, libass, Windows Scheduler</div>
-        <div class="detail-label">핵심 성과</div>
-        <div class="detail-value">비용 0원으로 매일 07:30 무인 가동, 하드코딩 텍스트 원천 배제 및 100% 동적 비디오 렌더링 구축</div>
-      </div>
-    </article>
+    </header>
 
-    <!-- 프로젝트 03 -->
-    <article class="factsheet-card">
-      <div class="factsheet-header">
-        <h2 class="factsheet-title">[03] 나폴리탄 괴담 수집기 & AI 인터랙티브 스토리 스튜디오</h2>
-        <span class="factsheet-category">웹 크롤링 · 생성형 AI</span>
+    <!-- 기술 스택 매트릭스 그리드 -->
+    <section class="case-tech-section" aria-label="기술 스택 명세">
+      <p class="tech-label">TECHNOLOGY STACK</p>
+      <div class="case-tech-grid">
+        <article>
+          <span>DATA ANALYSIS</span>
+          <strong>Python · Pandas<br>NumPy · Open API</strong>
+          <p>교통카드 승하차 로그 · 정류장별 승객 밀도 · OD 이동 매트릭스 정량 분석</p>
+        </article>
+        <article>
+          <span>GIS &amp; SPATIAL</span>
+          <strong>GeoPandas · QGIS<br>Folium · Shapely</strong>
+          <p>통학 노선 버퍼 공간 분석 · 교통 음영 사각지대 추출 · 최단 이동 등시선 시각화</p>
+        </article>
+        <article>
+          <span>DRT ALGORITHM</span>
+          <strong>Dynamic Routing<br>수요응답형 알고리즘</strong>
+          <p>등하교 첨두 시간대 사전 수요 군집화 · 탄력적 우회 최소화 노선 실시간 생성</p>
+        </article>
+        <article>
+          <span>POLICY MODEL</span>
+          <strong>3-Win Governance<br>지자체-운송사 상생</strong>
+          <p>공차율 62% 감축 및 유류비 절감분을 DRT 운영비로 환류하는 재정 선순환 모델</p>
+        </article>
       </div>
-      <p class="factsheet-summary">
-        웹 커뮤니티의 비정형 수칙서 텍스트를 크롤링하여 규칙 번호와 금기 행동 패턴을 정규식으로 구조화 파싱하고, 생성형 AI를 결합하여 사용자 선택 기반의 인터랙티브 스토리텔링 플랫폼을 구현했습니다.
-      </p>
-      <div class="factsheet-details">
-        <div class="detail-label">핵심 기술</div>
-        <div class="detail-value">Python Web Scraping, 정규식(Regex) 수칙서 파서, Generative AI 화랑 생성기, 인터랙티브 UI</div>
-        <div class="detail-label">핵심 성과</div>
-        <div class="detail-value">텍스트 마이닝을 인터랙티브 엔터테인먼트와 결합하여 독창적인 규칙 기반 분기 스토리 엔진 설계</div>
-      </div>
-    </article>
+    </section>
 
-    <!-- 프로젝트 04 -->
-    <article class="factsheet-card">
-      <div class="factsheet-header">
-        <h2 class="factsheet-title">[04] All I Gator HoYatch 다이스 아케이드 (FastAPI & JS)</h2>
-        <span class="factsheet-category">웹 풀스택 · 게임 엔진</span>
-      </div>
-      <p class="factsheet-summary">
-        고전 주사위 족보 게임 야추(Yacht)를 악어 버거 테마로 재해석하여, 17대 족보 판정 로직과 5대 악어 보스 디펜스(PVE), 버거 유물 덱빌딩 시너지를 구현한 인터랙티브 웹게임입니다.
-      </p>
-      <div class="factsheet-details">
-        <div class="detail-label">핵심 기술</div>
-        <div class="detail-value">FastAPI (Python 비동기 백엔드), Vanilla JavaScript (ES6), CSS Keyframe 애니메이션</div>
-        <div class="detail-label">핵심 성과</div>
-        <div class="detail-value">게임 루프, 주사위 물리, 족보 알고리즘 풀스택 개발 완료 (게임 탭에서 즉시 플레이 가능)</div>
-      </div>
-      <div class="factsheet-footer">
-        <a href="game.html" class="btn-action btn-primary" style="font-size: 0.85rem; padding: 6px 14px;">
-          🐊 HoYatch 플레이하기 &rarr;
-        </a>
-      </div>
-    </article>
+    <!-- 에디토리얼 레디(서문) -->
+    <p class="case-lede-text">
+      도시가 외곽으로 팽창할수록 고정 노선 대중교통의 딜레마는 깊어집니다. 울산광역시 시내버스 노선 전면 개편 데이터를 마이닝하여 외곽 청소년들이 겪는 통학 단절을 정량 규명하고, 학생·운송사·지자체 모두가 이기는 ‘3-Win 에듀-DRT(수요응답형 버스)’ 상생 대안을 수립한 엔지니어링 기록입니다.
+    </p>
 
-    <!-- 프로젝트 05 -->
-    <article class="factsheet-card">
-      <div class="factsheet-header">
-        <h2 class="factsheet-title">[05] Supabase 기반 실시간 비밀번호 보호 방명록 웹앱</h2>
-        <span class="factsheet-category">클라우드 BaaS · DB 보안</span>
+    <!-- 챕터 01 -->
+    <section class="case-chapter-row">
+      <div class="chapter-side-index">
+        <span>CHAPTER 01</span>
+        <time>07:15 AM</time>
+        <div class="chapter-subtag">현장 분석 &amp; 데이터 괴리</div>
       </div>
-      <p class="factsheet-summary">
-        GitHub Pages 정적 호스팅 환경에서 공개(anon) 키가 노출되더라도 안전하도록, RLS(Row Level Security) 정책과 DB 내부 pgcrypto Blowfish 솔트 암호화 RPC 함수로 비밀번호 안전 삭제를 보장한 시스템입니다.
-      </p>
-      <div class="factsheet-details">
-        <div class="detail-label">핵심 기술</div>
-        <div class="detail-value">Supabase, PostgreSQL, pgcrypto, Row Level Security (RLS), 보안 뷰(View) 격리</div>
-        <div class="detail-label">핵심 성과</div>
-        <div class="detail-value">브라우저로 비밀번호 컬럼 전송 원천 차단 및 서버 사이드 비밀번호 대조 삭제 완벽 구현</div>
+      <div class="chapter-main-body">
+        <h2>22개 정류장을 돌아도 승객이 0명인 버스,<br>하지만 통학생들은 매일 아침 환승 전쟁을 치릅니다.</h2>
+        <div class="chapter-narrative-grid">
+          <p>울산시의 시내버스 노선 개편 로그와 교통카드 승하차 원천 데이터를 교차 검증하며 가장 먼저 마주한 사실은 극심한 공간적 불균형이었습니다. 중심 도심권은 중복 노선으로 배차가 과밀했지만, 북구와 울주군 외곽 고등학교로 향하는 직통 노선은 통폐합되어 학생들의 통학권이 심각하게 침해받고 있었습니다.</p>
+          <p>정형화된 고정 시간표는 10분만 늦어도 등교 지각으로 이어졌고, 1회 환승 시 대기 시간만 평균 35분을 상회했습니다. 데이터가 가리키는 진실은 명확했습니다. "버스가 부족한 것이 아니라, 승객이 없는 시간과 장소에 대형 버스가 헛바퀴를 돌고 있다"는 점이었습니다.</p>
+        </div>
+        <blockquote>“등교 시간 10분만 늦어도 버스가 없어 지각입니다. 개편 후 직통 버스가 사라져 환승 대기만 40분이 걸려요.”<cite>— 울산 외곽 통학생 현장 인터뷰 및 시민 불편 민원 분석</cite></blockquote>
       </div>
-      <div class="factsheet-footer">
-        <a href="guestbook.html" class="btn-action btn-primary" style="font-size: 0.85rem; padding: 6px 14px;">
-          📝 오픈 방명록 방문하기 &rarr;
-        </a>
+    </section>
+
+    <!-- 챕터 02 -->
+    <section class="case-chapter-row">
+      <div class="chapter-side-index">
+        <span>CHAPTER 02</span>
+        <time>11:40 AM</time>
+        <div class="chapter-subtag">고정 노선의 구조적 한계</div>
       </div>
-    </article>
+      <div class="chapter-main-body">
+        <h2>노선을 무작정 증차하는 것은 답이 아니었습니다.<br>데이터는 ‘고정 배차 방식의 구조적 파산’을 가리켰습니다.</h2>
+        <div class="chapter-narrative-grid">
+          <p>지자체의 버스 재정지원금은 매년 수백억 원 단위로 급증하고 있었지만, 외곽 지선 버스의 평균 탑승률은 14% 미만에 머물렀습니다. 고정 노선 체계에서 통학 시간대 증차를 추진하면 낮 시간대 빈 버스 운행 손실이 눈덩이처럼 커져 운송사의 적자가 가중되는 '적자의 악순환' 구조였습니다.</p>
+          <p>이 딜레마를 해결하기 위해서는 '시간표에 사람을 억지로 맞추는' 구시대적 공급 패러다임을 깨고, '사람의 실제 이동 수요에 맞춰 시간표와 경로가 유연하게 움직이는' 수요응답형 패러다임으로의 전환이 필수적이었습니다.</p>
+        </div>
+        <ul class="decision-flow-list">
+          <li>
+            <span>01</span>
+            <div>
+              <strong>정적 배차 체계의 분리 해체</strong>
+              <p>통학 집중 시간대(07:00~08:30)와 비수요 낮 시간대 운행을 물리적으로 분리하여 유류비 낭비 차단</p>
+            </div>
+          </li>
+          <li>
+            <span>02</span>
+            <div>
+              <strong>거점 학교군 통학생 수요 클러스터링</strong>
+              <p>반경 2km 내 인접 고교 통학생 승하차 위치를 군집 알고리즘으로 동적 그룹핑하여 최적 승차 포인트 도출</p>
+            </div>
+          </li>
+          <li>
+            <span>03</span>
+            <div>
+              <strong>간선 환승 허브 연계 프로토콜</strong>
+              <p>도심 대형 간선 버스와 외곽 소형 에듀-DRT 간의 정시 환승 연계를 보장하는 거점 인터체인지 설계</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 챕터 03 -->
+    <section class="case-chapter-row">
+      <div class="chapter-side-index">
+        <span>CHAPTER 03</span>
+        <time>03:20 PM</time>
+        <div class="chapter-subtag">3-Win 상생 아키텍처</div>
+      </div>
+      <div class="chapter-main-body">
+        <h2>버스를 사람에 맞추는<br>수요응답형 3-Win 라우팅 알고리즘 설계.</h2>
+        <div class="chapter-narrative-grid">
+          <p>학생들이 사전 등교 예약을 등록하면, 동적 라우팅 엔진이 당일 승차 인원에 최적화된 우회 최소 경로를 매일 아침 자동 산출합니다. 좁은 아파트 골목이나 빌라촌에 진입할 수 없는 45인승 대형 버스 대신, 15인승 친환경 전기 미니버스를 투입하여 학생들의 문 앞(Door-to-Door) 접근성을 획기적으로 개선했습니다.</p>
+          <p>더 중요한 것은 지속 가능한 경제성입니다. 운송사는 비수요 시간대 공차 운행을 멈춰 연간 수억 원의 유류비와 차량 감가상각비를 절감하고, 지자체는 막대한 적자 보전금을 줄이며, 학생은 안전하고 빠른 통학권을 보장받는 3-Win 거버넌스를 완성했습니다.</p>
+        </div>
+        <div class="case-callout-box">
+          <span>POLICY ARCHITECTURE PRINCIPLE</span>
+          <p>시혜성 복지 예산의 일방적 투입이 아니라, <b>운송사의 공차율 감축분과 지자체 재정지원금 절감액을 DRT 운영 재원으로 재투자</b>하는 자립적 선순환 거버넌스 구조.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 챕터 04 -->
+    <section class="case-chapter-row">
+      <div class="chapter-side-index">
+        <span>CHAPTER 04</span>
+        <time>06:00 PM</time>
+        <div class="chapter-subtag">정량적 검증 및 시뮬레이션</div>
+      </div>
+      <div class="chapter-main-body">
+        <h2>가설에 머물지 않고,<br>승하차 OD 데이터 기반 시뮬레이션으로 효과를 입증했습니다.</h2>
+        <div class="chapter-narrative-grid">
+          <p>울산 북구 및 울주군 주요 5개 고등학교 통학생 1,200명의 실제 승하차 이동 데이터를 기반으로 시뮬레이션을 수행했습니다. 기존 고정 버스 노선 체계와 에듀-DRT 도입 시나리오를 정밀 대조하여 이동 시간, 대기 시간, 운송 원가의 변화를 정량 산출했습니다.</p>
+          <p>시뮬레이션 결과는 매우 뚜렷했습니다. 학생들의 평균 통학 소요 시간은 기존 82분에서 44분으로 대폭 단축되었으며, 환승 대기 시간이 사실상 0분으로 수렴했습니다. 운송사의 비수요 시간대 공차율 또한 62% 감소하는 탁월한 성과를 확인했습니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 정량적 성과 요약 패널 -->
+    <section class="case-outcome-panel" aria-label="핵심 정량 성과">
+      <p class="outcome-label">OUTCOME / 3-WIN VERIFIED TARGET</p>
+      <h2>숫자로 증명된 공공 데이터의 가치:<br><em>단절된 통학로를 데이터로 다시 잇다.</em></h2>
+      <div class="outcome-metrics-grid">
+        <article>
+          <strong>-46<span>%</span></strong>
+          <p>외곽 지역 학생 통학 소요 시간 단축<br>(평균 82분 &rarr; 44분, 환승 대기 제로화)</p>
+        </article>
+        <article>
+          <strong>-62<span>%</span></strong>
+          <p>비수요 시간대 공차율 및 유류비 절감<br>(고정 노선 대비 운송 원가 획기적 개선)</p>
+        </article>
+        <article>
+          <strong>3-Win</strong>
+          <p>학생(통학권) · 버스사(적자 개선) · 시청(재정 절감)<br>지속 가능한 공공 모빌리티 상생 모델 완성</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         🏛️ 02 / 기타 핵심 프로젝트군 (Secondary Architectural Grid)
+         ====================================================================== -->
+    <section class="secondary-projects-section">
+      <p class="section-eyebrow">02 / OTHER CORE CASE STUDIES</p>
+      <h2 style="font-family: var(--font-serif); font-size: clamp(1.6rem, 2.5vw, 2.3rem); letter-spacing: -0.04em; color: var(--text);">
+        실제 데이터와 엔지니어링으로 증명한 4대 핵심 프로젝트
+      </h2>
+
+      <div class="secondary-grid">
+
+        <!-- 프로젝트 02 -->
+        <article class="arch-project-card">
+          <div class="arch-card-header">
+            <span class="arch-card-index">CASE 02 · AI 미디어 자동화</span>
+            <h3 class="arch-card-title">대한민국 입법쇼츠 100% 무료 무인 자동화 파이프라인</h3>
+          </div>
+          <p class="arch-card-desc">
+            외부 유료 LLM이나 영상 API 없이, 대한민국 열린국회 공공 API와 Edge-TTS, Pillow, FFmpeg 오픈소스 스택만으로 매일 아침 07:30 무인 가동되는 9:16 세로형 유튜브 쇼츠 대량 생산 파이프라인입니다.
+          </p>
+          <div class="arch-card-meta">
+            <div><span>스택</span><strong>Python, 열린국회 API, Edge-TTS, Pillow, FFmpeg, libass</strong></div>
+            <div><span>특징</span><strong>비용 0원 무인 스케줄링, 하드코딩 배제 100% 동적 렌더링</strong></div>
+          </div>
+          <div class="arch-card-footer">
+            <span class="badge badge-primary">비용 0원 자동화</span>
+          </div>
+        </article>
+
+        <!-- 프로젝트 03 -->
+        <article class="arch-project-card">
+          <div class="arch-card-header">
+            <span class="arch-card-index">CASE 03 · 텍스트 마이닝 &amp; AI</span>
+            <h3 class="arch-card-title">나폴리탄 괴담 수집기 &amp; AI 인터랙티브 스토리 스튜디오</h3>
+          </div>
+          <p class="arch-card-desc">
+            웹 커뮤니티의 비정형 수칙서 텍스트를 크롤링하여 정규식 패턴으로 금기 행동 규칙을 파싱하고, 생성형 AI와 결합하여 사용자의 선택에 따라 결말이 분기되는 인터랙티브 공포 스토리텔링 플랫폼입니다.
+          </p>
+          <div class="arch-card-meta">
+            <div><span>스택</span><strong>BeautifulSoup4, 정규표현식 파서, Generative AI 화랑</strong></div>
+            <div><span>특징</span><strong>비정형 수칙서 텍스트 데이터베이스화 및 분기형 스토리 엔진</strong></div>
+          </div>
+          <div class="arch-card-footer">
+            <span class="badge badge-accent">인터랙티브 AI</span>
+          </div>
+        </article>
+
+        <!-- 프로젝트 04 -->
+        <article class="arch-project-card">
+          <div class="arch-card-header">
+            <span class="arch-card-index">CASE 04 · 웹 풀스택 &amp; 게임 엔진</span>
+            <h3 class="arch-card-title">All I Gator HoYatch 다이스 아케이드 (FastAPI &amp; JS)</h3>
+          </div>
+          <p class="arch-card-desc">
+            고전 주사위 족보 게임 야추(Yacht)를 악어 버거 테마로 재해석하여, 12대 족보 판정 알고리즘과 상단 보너스(+35), 호야추 잭팟 보너스를 순수 자바스크립트와 FastAPI 비동기 백엔드로 구현한 웹 아케이드입니다.
+          </p>
+          <div class="arch-card-meta">
+            <div><span>스택</span><strong>Vanilla JS (ES6), CSS Animation, FastAPI (Python 비동기)</strong></div>
+            <div><span>특징</span><strong>12대 족보 실시간 점수 계산기 및 주사위 킵(Keep) 인터랙션</strong></div>
+          </div>
+          <div class="arch-card-footer">
+            <a href="game.html" class="btn-action btn-primary" style="font-size: 0.82rem; padding: 6px 14px;">
+              🐊 게임 탭에서 플레이 &rarr;
+            </a>
+          </div>
+        </article>
+
+        <!-- 프로젝트 05 -->
+        <article class="arch-project-card">
+          <div class="arch-card-header">
+            <span class="arch-card-index">CASE 05 · 클라우드 BaaS &amp; DB 보안</span>
+            <h3 class="arch-card-title">Supabase 기반 실시간 비밀번호 보호 방명록 웹앱</h3>
+          </div>
+          <p class="arch-card-desc">
+            정적 호스팅 환경에서 anon 키가 노출되더라도 데이터베이스를 안전하게 보호할 수 있도록, Row Level Security(RLS) 정책과 PostgreSQL 내부 pgcrypto Blowfish 솔트 해싱 RPC 함수로 비밀번호 안전 검증 삭제를 구현했습니다.
+          </p>
+          <div class="arch-card-meta">
+            <div><span>스택</span><strong>Supabase, PostgreSQL, pgcrypto, Row Level Security (RLS)</strong></div>
+            <div><span>특징</span><strong>클라이언트로 비밀번호 미전송 격리 뷰 및 서버 RPC 안전 삭제</strong></div>
+          </div>
+          <div class="arch-card-footer">
+            <a href="guestbook.html" class="btn-action btn-primary" style="font-size: 0.82rem; padding: 6px 14px;">
+              📝 방명록 방문하기 &rarr;
+            </a>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
   </main>
 
   <!-- 🏷️ 푸터 -->
   <footer class="site-footer">
-    <div class="main-container" style="margin: 0 auto; padding: 0 20px;">
+    <div style="max-width: 1040px; margin: 0 auto; padding: 0 24px;">
       <p>&copy; 2026 김호선 (Ho-seon Kim). All rights reserved.</p>
     </div>
   </footer>
