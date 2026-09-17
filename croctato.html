@@ -690,9 +690,9 @@
 
     <!-- 하단 조작 안내 바 -->
     <div class="controls-bar">
-      <div><strong>🎮 조작:</strong> [W,A,S,D] / 방향키 / 마우스 드래그 (무기가 햄버거 나무 및 적 자동 조준!)</div>
-      <div><strong>🍔 햄버거 타겟팅:</strong> 사거리 내 햄버거를 무기로 부수거나 몸으로 짓밟아 회복 버거(🍔) 획득!</div>
-      <div><strong>👑 보스 라운드:</strong> 5, 10, 15, 20 라운드 보스 처치 시 대량 상금 & 전설 상자 드롭!</div>
+      <div><strong>🎮 조작:</strong> [W,A,S,D] / 방향키 / 마우스·터치 드래그 / <strong>[P 또는 ESC]</strong> 일시 정지</div>
+      <div><strong>🍔 햄버거 타겟팅:</strong> 사거리 내 햄버거를 무기로 부수거나 몸으로 짓밟아 회복 버거(🍔) &amp; 상자 획득!</div>
+      <div><strong>👑 5단계 보스 레이드:</strong> 5, 10, 15, 20 라운드 보스 특수 스킬(돌진/탄막/충격파) 회피 &amp; 전설 보상!</div>
     </div>
   </div>
 
@@ -1218,6 +1218,18 @@
       drops: [],
       damageTexts: [],
 
+      // 💥 주스(Juice) & 플레이어블 연출 변수
+      shake: 0,
+      bannerText: '',
+      bannerSub: '',
+      bannerTimer: 0,
+      isPaused: false,
+      enemyProjectiles: [],
+      shockwaves: [],
+      bossTelegraphs: [],
+      particles: [],
+      pointerControl: { active: false, x: 0, y: 0 },
+
       keys: {},
       lastSpawn: 0,
       lastTreeSpawn: 0,
@@ -1230,10 +1242,58 @@
         Wallet.init();
         LobbyUI.render();
 
-        window.addEventListener('keydown', (e) => { this.keys[e.key.toLowerCase()] = true; });
+        window.addEventListener('keydown', (e) => {
+          const k = e.key.toLowerCase();
+          this.keys[k] = true;
+          if (k === 'p' || k === 'escape') {
+            if (this.state === 'playing') this.togglePause();
+          }
+        });
         window.addEventListener('keyup', (e) => { this.keys[e.key.toLowerCase()] = false; });
 
+        // 마우스 및 터치 가상 이동 컨트롤러 (모바일/터치 완벽 호환)
+        const updatePointer = (clientX, clientY) => {
+          const rect = this.canvas.getBoundingClientRect();
+          const scaleX = this.canvas.width / rect.width;
+          const scaleY = this.canvas.height / rect.height;
+          this.pointerControl.x = (clientX - rect.left) * scaleX;
+          this.pointerControl.y = (clientY - rect.top) * scaleY;
+        };
+
+        this.canvas.addEventListener('mousedown', (e) => {
+          if (this.state === 'playing') {
+            this.pointerControl.active = true;
+            updatePointer(e.clientX, e.clientY);
+          }
+        });
+        window.addEventListener('mousemove', (e) => {
+          if (this.pointerControl.active) updatePointer(e.clientX, e.clientY);
+        });
+        window.addEventListener('mouseup', () => { this.pointerControl.active = false; });
+
+        this.canvas.addEventListener('touchstart', (e) => {
+          if (this.state === 'playing' && e.touches.length > 0) {
+            this.pointerControl.active = true;
+            updatePointer(e.touches[0].clientX, e.touches[0].clientY);
+          }
+        }, { passive: true });
+        this.canvas.addEventListener('touchmove', (e) => {
+          if (this.pointerControl.active && e.touches.length > 0) {
+            updatePointer(e.touches[0].clientX, e.touches[0].clientY);
+          }
+        }, { passive: true });
+        this.canvas.addEventListener('touchend', () => { this.pointerControl.active = false; });
+
         requestAnimationFrame(() => this.loop());
+      },
+
+      togglePause() {
+        this.isPaused = !this.isPaused;
+        if (this.isPaused) {
+          Sound.playBurgerBreak();
+        } else {
+          Sound.playCoin();
+        }
       },
 
       startRun() {
@@ -1255,6 +1315,9 @@
           radius: 22,
           charId: charData.id,
           avatar: charData.avatar,
+          facing: 1,
+          walkCycle: 0,
+          isMoving: false,
           stats: JSON.parse(JSON.stringify(charData.baseStats)),
           hp: charData.baseStats.maxHp,
           weapons: [ JSON.parse(JSON.stringify(WEAPONS_DB[charData.startWeapon])) ],
@@ -1262,14 +1325,19 @@
           burgerBonus: charData.burgerBonus || false,
           discount: charData.discount || 1.0
         };
-        this.player.weapons.forEach(w => w.cooldown = 0);
+        this.player.weapons.forEach(w => { w.cooldown = 0; w.recoil = 0; });
 
         this.enemies = [];
         this.burgerTrees = [];
         this.projectiles = [];
+        this.enemyProjectiles = [];
+        this.shockwaves = [];
+        this.bossTelegraphs = [];
+        this.particles = [];
         this.slashes = [];
         this.drops = [];
         this.damageTexts = [];
+        this.isPaused = false;
 
         document.getElementById('lobbyOverlay').classList.remove('active');
         document.getElementById('shopOverlay').classList.remove('active');
@@ -1280,10 +1348,15 @@
 
       startWave() {
         this.state = 'playing';
+        this.isPaused = false;
         this.waveTimer = 20 + Math.min(25, this.wave * 2);
+        this.totalWaveTimer = this.waveTimer;
         this.enemies = [];
         this.burgerTrees = [];
         this.projectiles = [];
+        this.enemyProjectiles = [];
+        this.shockwaves = [];
+        this.bossTelegraphs = [];
         this.slashes = [];
 
         // 보스 라운드 체크 (5, 10, 15, 20 라운드)
@@ -1292,9 +1365,18 @@
         if (isBossWave) {
           card.classList.add('boss-alert');
           this.spawnBoss();
+          this.shake = 12;
+          this.bannerText = `👑 WAVE ${this.wave} [BOSS RAID]`;
+          this.bannerSub = '강력한 보스가 출현했습니다! 탄막과 돌진을 회피하세요!';
+          Sound.playBossSlain();
         } else {
           card.classList.remove('boss-alert');
+          this.shake = 5;
+          this.bannerText = `🌊 WAVE ${this.wave} START!`;
+          this.bannerSub = '햄버거 나무를 짓밟고 몰려오는 적들을 섬멸하세요!';
+          Sound.playLevelup();
         }
+        this.bannerTimer = 110;
 
         // 시작 시 햄버거 나무 2개 스폰
         this.spawnBurgerTree();
@@ -1302,7 +1384,7 @@
 
         if (this.timerInterval) clearInterval(this.timerInterval);
         this.timerInterval = setInterval(() => {
-          if (this.state === 'playing') {
+          if (this.state === 'playing' && !this.isPaused) {
             this.waveTimer--;
             if (this.waveTimer <= 0) {
               this.completeWave();
@@ -1359,6 +1441,27 @@
         document.getElementById('viewportCard').classList.remove('boss-alert');
         Sound.playLevelup();
 
+        // 🌟 브로테이토식 웨이브 종료 시 필드 잔여 드롭 일괄 자동 수확!
+        this.drops.forEach(d => {
+          if (d.type === 'material') {
+            this.materials += d.val;
+            this.exp += d.val;
+          } else if (d.type === 'crate') {
+            this.materials += d.val;
+            this.bonusCratesCount++;
+          } else if (d.type === 'boss_chest') {
+            this.materials += d.val;
+          }
+        });
+        this.drops = [];
+
+        while (this.exp >= this.expNext) {
+          this.level++;
+          this.exp -= this.expNext;
+          this.expNext = Math.round(this.expNext * 1.35);
+          ShopUI.pendingLevelUps++;
+        }
+
         const harvestGain = Math.round(this.player.stats.harvest || 5);
         this.materials += harvestGain;
 
@@ -1410,23 +1513,44 @@
       },
 
       update() {
-        if (this.state !== 'playing' || !this.player) return;
+        if (this.state !== 'playing' || !this.player || this.isPaused) return;
 
-        // 1. 플레이어 이동
+        if (this.bannerTimer > 0) this.bannerTimer--;
+
+        // 1. 플레이어 이동 (키보드 + 마우스/터치 드래그 가상 컨트롤)
         let dx = 0, dy = 0;
         if (this.keys['w'] || this.keys['arrowup']) dy -= 1;
         if (this.keys['s'] || this.keys['arrowdown']) dy += 1;
         if (this.keys['a'] || this.keys['arrowleft']) dx -= 1;
         if (this.keys['d'] || this.keys['arrowright']) dx += 1;
 
-        if (dx !== 0 && dy !== 0) { dx *= 0.7071; dy *= 0.7071; }
-        this.player.x = Math.max(25, Math.min(935, this.player.x + dx * this.player.stats.speed));
-        this.player.y = Math.max(25, Math.min(515, this.player.y + dy * this.player.stats.speed));
+        if (dx === 0 && dy === 0 && this.pointerControl.active) {
+          const pdx = this.pointerControl.x - this.player.x;
+          const pdy = this.pointerControl.y - this.player.y;
+          const pdist = Math.hypot(pdx, pdy);
+          if (pdist > 18) {
+            dx = pdx / pdist;
+            dy = pdy / pdist;
+          }
+        }
+
+        const isMoving = (dx !== 0 || dy !== 0);
+        this.player.isMoving = isMoving;
+
+        if (isMoving) {
+          if (dx !== 0 && dy !== 0 && !this.pointerControl.active) { dx *= 0.7071; dy *= 0.7071; }
+          this.player.x = Math.max(25, Math.min(935, this.player.x + dx * this.player.stats.speed));
+          this.player.y = Math.max(25, Math.min(515, this.player.y + dy * this.player.stats.speed));
+          if (dx < -0.1) this.player.facing = -1;
+          else if (dx > 0.1) this.player.facing = 1;
+          this.player.walkCycle += 0.24;
+        }
 
         // 2. 플레이어와 햄버거 나무 접촉 시 발로 밟아 자동 파쇄 (손쉬운 햄버거 파괴!)
         this.burgerTrees.forEach(tree => {
           if (Math.hypot(this.player.x - tree.x, this.player.y - tree.y) < this.player.radius + tree.radius + 8) {
-            this.damageEntity(tree, 1.2, false, 0);
+            this.damageEntity(tree, 1.5, false, 0);
+            this.shake = Math.max(this.shake, 2);
           }
         });
 
@@ -1438,8 +1562,8 @@
           }
         }
 
-        // 4. 햄버거 나무 주기적 스폰 (약 9초)
-        if (++this.lastTreeSpawn > 540) {
+        // 4. 햄버거 나무 주기적 스폰 (약 8초)
+        if (++this.lastTreeSpawn > 480) {
           this.lastTreeSpawn = 0;
           this.spawnBurgerTree();
         }
@@ -1461,6 +1585,7 @@
         this.player.weapons.forEach((weapon) => {
           const totalAtkSpd = this.player.stats.atkSpd * (weapon.type === 'ranged' ? gunSpdBonus : 1.0);
           weapon.cooldown = Math.max(0, weapon.cooldown - (1 / 60) * totalAtkSpd);
+          if (weapon.recoil > 0) weapon.recoil = Math.max(0, weapon.recoil - 0.8);
 
           if (weapon.cooldown <= 0 && allTargets.length > 0) {
             let closest = null;
@@ -1477,6 +1602,10 @@
               const isCrit = (Math.random() * 100) < this.player.stats.crit;
               const dmgMult = (weapon.type === 'melee' ? (this.player.stats.meleeDmg * meleeDmgBonus) : (this.player.stats.rangedDmg * gunDmgBonus));
               const dmg = Math.round(weapon.dmg * dmgMult * (isCrit ? 2.0 : 1.0));
+
+              weapon.recoil = 10;
+              weapon.lastAngle = angle;
+              if (isCrit) this.shake = Math.max(this.shake, 4);
 
               if (weapon.type === 'melee') {
                 // 🐊 깨물기 근접 턱 공격
@@ -1512,6 +1641,16 @@
                     color: weapon.color,
                     radius: weapon.aoe ? 7 : 4,
                     life: 60
+                  });
+                }
+                // 머즐 스파크 파티클
+                for (let p = 0; p < 3; p++) {
+                  this.particles.push({
+                    x: this.player.x + Math.cos(angle) * 26,
+                    y: this.player.y + Math.sin(angle) * 26,
+                    vx: Math.cos(angle + (Math.random() - 0.5) * 0.6) * 3,
+                    vy: Math.sin(angle + (Math.random() - 0.5) * 0.6) * 3,
+                    color: '#fde047', radius: 2.5, life: 8
                   });
                 }
               }
@@ -1575,34 +1714,207 @@
             x: sx, y: sy,
             hp: pick.hp, maxHp: pick.hp,
             speed: pick.speed, radius: pick.radius,
-            color: pick.color, icon: pick.icon, isBoss: false
+            color: pick.color, icon: pick.icon, isBoss: false,
+            hitFlash: 0
           });
         }
 
-        // 9. 몬스터 이동 & 플레이어 공격 충돌
+        // 9. 몬스터 AI & 보스 고유 스킬 패턴
         this.enemies.forEach(en => {
-          const angle = Math.atan2(this.player.y - en.y, this.player.x - en.x);
-          en.x += Math.cos(angle) * en.speed;
-          en.y += Math.sin(angle) * en.speed;
+          en.hitFlash = Math.max(0, (en.hitFlash || 0) - 1);
 
+          // 👑 보스 고유 스킬 시스템
+          if (en.isBoss) {
+            en.skillTimer = (en.skillTimer || 0) + 1;
+
+            // WAVE 5 보스: 멧돼지 족장 돌진(Rush Charge)
+            if (en.bossWave === 5) {
+              if (en.chargeState === 'aiming') {
+                if (--en.chargeTime <= 0) {
+                  en.chargeState = 'dashing';
+                  en.chargeTime = 30;
+                  en.chargeVx = Math.cos(en.aimAngle) * 7.5;
+                  en.chargeVy = Math.sin(en.aimAngle) * 7.5;
+                  this.shake = 6;
+                  Sound.playShoot();
+                }
+              } else if (en.chargeState === 'dashing') {
+                en.x += en.chargeVx;
+                en.y += en.chargeVy;
+                if (--en.chargeTime <= 0) en.chargeState = 'none';
+              } else {
+                // 평소 추적
+                const angle = Math.atan2(this.player.y - en.y, this.player.x - en.x);
+                en.x += Math.cos(angle) * en.speed;
+                en.y += Math.sin(angle) * en.speed;
+
+                if (en.skillTimer % 180 === 0) {
+                  en.chargeState = 'aiming';
+                  en.chargeTime = 35;
+                  en.aimAngle = angle;
+                  this.bossTelegraphs.push({
+                    type: 'line',
+                    x1: en.x, y1: en.y,
+                    x2: en.x + Math.cos(angle) * 360,
+                    y2: en.y + Math.sin(angle) * 360,
+                    life: 35
+                  });
+                }
+              }
+            }
+            // WAVE 10 보스: 맹독 여왕 모기 8방향 독침 발사
+            else if (en.bossWave === 10) {
+              const angle = Math.atan2(this.player.y - en.y, this.player.x - en.x);
+              en.x += Math.cos(angle) * en.speed;
+              en.y += Math.sin(angle) * en.speed;
+
+              if (en.skillTimer % 140 === 0) {
+                Sound.playShoot();
+                for (let a = 0; a < 8; a++) {
+                  const rad = (a * Math.PI / 4) + (en.skillTimer * 0.05);
+                  this.enemyProjectiles.push({
+                    x: en.x, y: en.y,
+                    vx: Math.cos(rad) * 3.8, vy: Math.sin(rad) * 3.8,
+                    color: '#c084fc', radius: 5, dmg: 8, life: 140, icon: '🟣'
+                  });
+                }
+              }
+            }
+            // WAVE 15 보스: 고대 공룡 악어 지진 충격파
+            else if (en.bossWave === 15) {
+              const angle = Math.atan2(this.player.y - en.y, this.player.x - en.x);
+              en.x += Math.cos(angle) * en.speed;
+              en.y += Math.sin(angle) * en.speed;
+
+              if (en.skillTimer % 180 === 0) {
+                this.shake = 10;
+                Sound.playBurgerBreak();
+                this.shockwaves.push({
+                  x: en.x, y: en.y,
+                  r: 10, maxR: 240, dmg: 14, color: '#ef4444'
+                });
+              }
+            }
+            // WAVE 20 보스: 메가 버거 타이탄 거대 폭탄 & 탄막
+            else if (en.bossWave === 20) {
+              const angle = Math.atan2(this.player.y - en.y, this.player.x - en.x);
+              en.x += Math.cos(angle) * en.speed;
+              en.y += Math.sin(angle) * en.speed;
+
+              if (en.skillTimer % 170 === 0) {
+                const tx = this.player.x, ty = this.player.y;
+                this.bossTelegraphs.push({
+                  type: 'circle',
+                  x: tx, y: ty, r: 54, life: 50,
+                  onExplode: () => {
+                    this.shake = 14;
+                    Sound.playBossSlain();
+                    this.shockwaves.push({ x: tx, y: ty, r: 10, maxR: 90, dmg: 20, color: '#f59e0b' });
+                    for (let p = 0; p < 8; p++) {
+                      const rad = p * Math.PI / 4;
+                      this.enemyProjectiles.push({
+                        x: tx, y: ty,
+                        vx: Math.cos(rad) * 3.8, vy: Math.sin(rad) * 3.8,
+                        color: '#f59e0b', radius: 6, dmg: 10, life: 90, icon: '🍔'
+                      });
+                    }
+                  }
+                });
+              }
+            }
+          } else {
+            // 일반 몬스터 이동
+            const angle = Math.atan2(this.player.y - en.y, this.player.x - en.x);
+            en.x += Math.cos(angle) * en.speed;
+            en.y += Math.sin(angle) * en.speed;
+          }
+
+          // 플레이어 공격 충돌
           if (Math.hypot(en.x - this.player.x, en.y - this.player.y) < en.radius + this.player.radius) {
             const rawDmg = en.isBoss ? 20 : 7;
             const actualDmg = Math.max(1, rawDmg - (this.player.stats.armor || 0));
             this.player.hp -= actualDmg * (1 / 60);
+            this.shake = Math.max(this.shake, 2);
 
             if (this.player.hp <= 0) { this.endGame(false); }
           }
         });
 
-        // 10. 드롭 아이템 흡수
+        // 10. 적 투사체(Enemy Projectiles) 갱신
+        for (let i = this.enemyProjectiles.length - 1; i >= 0; i--) {
+          const ep = this.enemyProjectiles[i];
+          ep.x += ep.vx; ep.y += ep.vy; ep.life--;
+
+          if (Math.hypot(ep.x - this.player.x, ep.y - this.player.y) < ep.radius + this.player.radius) {
+            const actualDmg = Math.max(1, ep.dmg - (this.player.stats.armor || 0));
+            this.player.hp -= actualDmg;
+            this.shake = 7;
+            Sound.playHit();
+            this.damageTexts.push({ x: this.player.x, y: this.player.y - 12, text: `-${Math.round(actualDmg)}`, color: '#ef4444', life: 25 });
+            this.enemyProjectiles.splice(i, 1);
+            if (this.player.hp <= 0) this.endGame(false);
+            continue;
+          }
+          if (ep.life <= 0 || ep.x < -40 || ep.x > 1000 || ep.y < -40 || ep.y > 600) {
+            this.enemyProjectiles.splice(i, 1);
+          }
+        }
+
+        // 11. 충격파(Shockwaves) 갱신
+        for (let i = this.shockwaves.length - 1; i >= 0; i--) {
+          const sw = this.shockwaves[i];
+          sw.r += 4.5;
+          const pDist = Math.hypot(sw.x - this.player.x, sw.y - this.player.y);
+          if (!sw.hit && Math.abs(pDist - sw.r) < 18) {
+            sw.hit = true;
+            const actualDmg = Math.max(1, sw.dmg - (this.player.stats.armor || 0));
+            this.player.hp -= actualDmg;
+            this.shake = 9;
+            Sound.playHit();
+            this.damageTexts.push({ x: this.player.x, y: this.player.y - 16, text: `-${Math.round(actualDmg)}`, color: '#f87171', life: 30 });
+            if (this.player.hp <= 0) this.endGame(false);
+          }
+          if (sw.r >= sw.maxR) this.shockwaves.splice(i, 1);
+        }
+
+        // 12. 보스 공격 예고선(Telegraphs) 갱신
+        for (let i = this.bossTelegraphs.length - 1; i >= 0; i--) {
+          const bt = this.bossTelegraphs[i];
+          if (--bt.life <= 0) {
+            if (bt.onExplode) bt.onExplode();
+            this.bossTelegraphs.splice(i, 1);
+          }
+        }
+
+        // 13. 파티클(Particles) 갱신
+        for (let i = this.particles.length - 1; i >= 0; i--) {
+          const pt = this.particles[i];
+          pt.x += pt.vx; pt.y += pt.vy;
+          pt.vx *= 0.94; pt.vy *= 0.94;
+          if (--pt.life <= 0) this.particles.splice(i, 1);
+        }
+
+        // 14. 드롭 아이템 흡수 (진공 가속 물리)
         for (let i = this.drops.length - 1; i >= 0; i--) {
           const d = this.drops[i];
           const dist = Math.hypot(d.x - this.player.x, d.y - this.player.y);
-          if (dist < 140) {
-            d.x += (this.player.x - d.x) * 0.16;
-            d.y += (this.player.y - d.y) * 0.16;
+          if (dist < 150) {
+            const pullSpeed = 0.08 + (1 - dist / 150) * 0.22;
+            d.x += (this.player.x - d.x) * pullSpeed;
+            d.y += (this.player.y - d.y) * pullSpeed;
           }
           if (dist < this.player.radius + d.radius) {
+            // 흡수 파티클 팝!
+            for (let k = 0; k < 3; k++) {
+              this.particles.push({
+                x: d.x, y: d.y,
+                vx: (Math.random() - 0.5) * 4,
+                vy: (Math.random() - 0.5) * 4,
+                color: d.type === 'material' ? '#34d399' : '#f59e0b',
+                radius: 2, life: 12
+              });
+            }
+
             if (d.type === 'material') {
               this.materials += d.val;
               this.exp += d.val;
@@ -1651,6 +1963,7 @@
 
       damageEntity(target, dmg, isCrit, hitAngle) {
         target.hp -= dmg;
+        target.hitFlash = 5;
         Sound.playHit();
 
         if (target.speed) {
@@ -1669,7 +1982,29 @@
           life: 25
         });
 
+        // 피격 파티클
+        for (let k = 0; k < (isCrit ? 5 : 2); k++) {
+          this.particles.push({
+            x: target.x, y: target.y,
+            vx: (Math.random() - 0.5) * 4,
+            vy: (Math.random() - 0.5) * 4,
+            color: isCrit ? '#fde047' : '#ef4444',
+            radius: 2, life: 14
+          });
+        }
+
         if (target.hp <= 0) {
+          // 처치 파티클 분출
+          for (let k = 0; k < 6; k++) {
+            this.particles.push({
+              x: target.x, y: target.y,
+              vx: (Math.random() - 0.5) * 5,
+              vy: (Math.random() - 0.5) * 5,
+              color: target.color || '#34d399',
+              radius: Math.random() * 3 + 2,
+              life: 20
+            });
+          }
           if (target.bounceOffset !== undefined) {
             // 🍔 햄버거 나무 파괴
             Sound.playBurgerBreak();
@@ -1725,6 +2060,16 @@
         const ctx = this.ctx;
         ctx.clearRect(0, 0, 960, 540);
 
+        // 💥 1. 카메라 쉐이크(Screen Shake) 적용
+        ctx.save();
+        if (this.shake > 0) {
+          const sx = (Math.random() - 0.5) * this.shake;
+          const sy = (Math.random() - 0.5) * this.shake;
+          ctx.translate(sx, sy);
+          this.shake = Math.max(0, this.shake - 0.5);
+        }
+
+        // 배경 그리드
         ctx.fillStyle = '#0a1a11';
         ctx.fillRect(0, 0, 960, 540);
         ctx.strokeStyle = 'rgba(245, 158, 11, 0.05)';
@@ -1736,13 +2081,62 @@
           ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(960, y); ctx.stroke();
         }
 
-        if (this.state !== 'playing' && this.state !== 'shop') return;
+        if (this.state !== 'playing' && this.state !== 'shop') {
+          ctx.restore();
+          return;
+        }
 
-        // 🍔 햄버거 나무 렌더링
+        // ⚠️ 2. 보스 스킬 공격 예고선 (Telegraphs)
+        this.bossTelegraphs.forEach(bt => {
+          ctx.save();
+          if (bt.type === 'line') {
+            ctx.strokeStyle = 'rgba(239, 68, 68, 0.65)';
+            ctx.lineWidth = 24;
+            ctx.setLineDash([8, 8]);
+            ctx.beginPath();
+            ctx.moveTo(bt.x1, bt.y1);
+            ctx.lineTo(bt.x2, bt.y2);
+            ctx.stroke();
+          } else if (bt.type === 'circle') {
+            const alpha = 0.25 + Math.sin(Date.now() / 80) * 0.2;
+            ctx.fillStyle = `rgba(245, 158, 11, ${alpha})`;
+            ctx.strokeStyle = '#ef4444';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.arc(bt.x, bt.y, bt.r, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+          }
+          ctx.restore();
+        });
+
+        // 🌊 3. 충격파 (Shockwaves)
+        this.shockwaves.forEach(sw => {
+          ctx.save();
+          ctx.strokeStyle = sw.color || '#ef4444';
+          ctx.shadowColor = sw.color || '#ef4444';
+          ctx.shadowBlur = 10;
+          ctx.lineWidth = 4;
+          ctx.beginPath();
+          ctx.arc(sw.x, sw.y, sw.r, 0, Math.PI * 2);
+          ctx.stroke();
+          ctx.restore();
+        });
+
+        // 🍔 4. 햄버거 나무 렌더링
         this.burgerTrees.forEach(tree => {
           ctx.save();
           const bounce = Math.sin(Date.now() / 250 + tree.bounceOffset) * 3;
           ctx.translate(tree.x, tree.y + bounce);
+
+          // 바닥 그림자
+          ctx.fillStyle = 'rgba(0,0,0,0.35)';
+          ctx.beginPath();
+          ctx.ellipse(0, 16, 16, 6, 0, 0, Math.PI * 2);
+          ctx.fill();
+
+          if (tree.hitFlash > 0) ctx.filter = 'brightness(2.2)';
+
           ctx.shadowColor = '#f59e0b';
           ctx.shadowBlur = 14;
           ctx.font = '32px sans-serif';
@@ -1758,7 +2152,7 @@
           ctx.restore();
         });
 
-        // 드롭 아이템
+        // ✨ 5. 드롭 아이템 렌더링
         this.drops.forEach(d => {
           if (d.type === 'material') {
             ctx.fillStyle = '#34d399';
@@ -1780,7 +2174,15 @@
           }
         });
 
-        // 발사체 렌더링
+        // 💥 6. 파티클 이펙트
+        this.particles.forEach(pt => {
+          ctx.fillStyle = pt.color;
+          ctx.beginPath();
+          ctx.arc(pt.x, pt.y, Math.max(1, pt.radius * (pt.life / 20)), 0, Math.PI * 2);
+          ctx.fill();
+        });
+
+        // 🔫 7. 플레이어 발사체
         this.projectiles.forEach(p => {
           ctx.fillStyle = p.color;
           ctx.shadowColor = p.color;
@@ -1791,7 +2193,19 @@
           ctx.shadowBlur = 0;
         });
 
-        // 깨물기 슬래시 이펙트
+        // 🟣 8. 적/보스 발사체
+        this.enemyProjectiles.forEach(ep => {
+          ctx.save();
+          ctx.shadowColor = ep.color;
+          ctx.shadowBlur = 8;
+          ctx.fillStyle = ep.color;
+          ctx.beginPath();
+          ctx.arc(ep.x, ep.y, ep.radius, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        });
+
+        // 🦷 9. 깨물기 슬래시 이펙트
         this.slashes.forEach(s => {
           ctx.save();
           ctx.translate(s.x, s.y);
@@ -1803,28 +2217,58 @@
           ctx.restore();
         });
 
-        // 몬스터 & 보스 렌더링
+        // 👾 10. 몬스터 & 보스 렌더링
         this.enemies.forEach(en => {
           ctx.save();
           ctx.translate(en.x, en.y);
-          ctx.font = en.isBoss ? '44px sans-serif' : '20px sans-serif';
+
+          // 바닥 그림자
+          ctx.fillStyle = 'rgba(0,0,0,0.3)';
+          ctx.beginPath();
+          ctx.ellipse(0, en.radius * 0.7, en.radius * 0.8, en.radius * 0.3, 0, 0, Math.PI * 2);
+          ctx.fill();
+
+          if (en.hitFlash > 0) ctx.filter = 'brightness(2.2)';
+
+          ctx.font = en.isBoss ? '44px sans-serif' : '22px sans-serif';
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
           ctx.fillText(en.icon, 0, 0);
 
           // 체력바
-          const barW = en.isBoss ? 60 : 30;
+          const barW = en.isBoss ? 64 : 32;
           ctx.fillStyle = '#334155';
-          ctx.fillRect(-barW / 2, -en.radius - 10, barW, en.isBoss ? 6 : 4);
+          ctx.fillRect(-barW / 2, -en.radius - 12, barW, en.isBoss ? 6 : 4);
           ctx.fillStyle = en.isBoss ? '#f59e0b' : '#ef4444';
-          ctx.fillRect(-barW / 2, -en.radius - 10, Math.max(0, barW * (en.hp / en.maxHp)), en.isBoss ? 6 : 4);
+          ctx.fillRect(-barW / 2, -en.radius - 12, Math.max(0, barW * (en.hp / en.maxHp)), en.isBoss ? 6 : 4);
+
+          if (en.isBoss) {
+            ctx.font = 'bold 11px Pretendard, sans-serif';
+            ctx.fillStyle = '#fde047';
+            ctx.fillText(en.name || 'BOSS', 0, -en.radius - 16);
+          }
           ctx.restore();
         });
 
-        // 플레이어 호코다일 렌더링
+        // 🐊 11. 플레이어 호코다일 렌더링 (보빙 + 틸트 + 방향 전환 + 조준 무기)
         if (this.player) {
           ctx.save();
           ctx.translate(this.player.x, this.player.y);
+
+          // 바닥 그림자
+          ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
+          ctx.beginPath();
+          ctx.ellipse(0, 22, 20, 7, 0, 0, Math.PI * 2);
+          ctx.fill();
+
+          // 걷기 보빙 & 기우뚱 틸트
+          const bob = this.player.isMoving ? Math.sin(this.player.walkCycle) * 3 : 0;
+          const tilt = this.player.isMoving ? Math.cos(this.player.walkCycle) * 0.07 : 0;
+
+          ctx.save();
+          ctx.translate(0, bob);
+          ctx.rotate(tilt);
+          ctx.scale(this.player.facing || 1, 1);
 
           // 🐊 16-bit 픽셀 아트 스프라이트 로드 완료 시 캐릭터별 스프라이트 출력, 그 외 이모지 폴백
           const curSprite = (window.CHAR_SPRITES && window.CHAR_SPRITES[this.player.charId]) 
@@ -1839,15 +2283,24 @@
             ctx.textBaseline = 'middle';
             ctx.fillText(this.player.avatar, 0, 0);
           }
+          ctx.restore();
 
+          // 무기 조준 및 반동 렌더링
           this.player.weapons.forEach((w, i) => {
-            const angle = (Date.now() / 600) + (i * (Math.PI * 2 / this.player.weapons.length));
-            const wx = Math.cos(angle) * 34;
-            const wy = Math.sin(angle) * 34;
+            const orbitAngle = (Date.now() / 700) + (i * (Math.PI * 2 / this.player.weapons.length));
+            let wx = Math.cos(orbitAngle) * 32;
+            let wy = Math.sin(orbitAngle) * 32;
+
+            if (w.recoil > 0 && w.lastAngle !== undefined) {
+              wx -= Math.cos(w.lastAngle) * w.recoil;
+              wy -= Math.sin(w.lastAngle) * w.recoil;
+            }
+
             ctx.font = '16px sans-serif';
             ctx.fillText(w.icon, wx, wy);
           });
 
+          // 플레이어 체력 바
           ctx.fillStyle = '#0f172a';
           ctx.fillRect(-24, -34, 48, 6);
           ctx.fillStyle = '#22c55e';
@@ -1859,39 +2312,89 @@
           ctx.restore();
         }
 
-        // 대미지 텍스트
+        // 💥 12. 대미지 텍스트
         this.damageTexts.forEach(dt => {
           ctx.font = 'bold 12px Pretendard, sans-serif';
           ctx.fillStyle = dt.color;
           ctx.fillText(dt.text, dt.x - 8, dt.y);
         });
 
-        // HUD 헤더 정보 바
-        ctx.fillStyle = 'rgba(3, 8, 5, 0.78)';
-        ctx.fillRect(0, 0, 960, 38);
+        // 🧭 13. HUD 상단 정보 바
+        ctx.fillStyle = 'rgba(3, 8, 5, 0.85)';
+        ctx.fillRect(0, 0, 960, 40);
 
         const isBossWave = (this.wave % 5 === 0);
         ctx.font = 'bold 14px Pretendard, sans-serif';
         ctx.fillStyle = isBossWave ? '#ef4444' : '#fde047';
-        ctx.fillText(`🌊 WAVE ${this.wave} / ${this.maxWave} ${isBossWave ? '👑 [BOSS]' : ''}`, 20, 24);
+        ctx.fillText(`🌊 WAVE ${this.wave} / ${this.maxWave} ${isBossWave ? '👑 [BOSS]' : ''}`, 20, 25);
 
         ctx.fillStyle = '#fb923c';
-        ctx.fillText(`⏳ ${this.waveTimer}s`, 200, 24);
+        ctx.fillText(`⏳ ${this.waveTimer}s`, 200, 25);
 
         ctx.fillStyle = '#38bdf8';
-        ctx.fillText(`💰 재료: ${this.materials}`, 290, 24);
+        ctx.fillText(`💰 재료: ${this.materials}`, 280, 25);
 
         ctx.fillStyle = '#a855f7';
-        ctx.fillText(`⭐ Lv.${this.level}`, 400, 24);
+        ctx.fillText(`⭐ Lv.${this.level}`, 390, 25);
 
         ctx.fillStyle = '#34d399';
-        ctx.fillText(`🎁 상자: ${this.bonusCratesCount}`, 500, 24);
+        ctx.fillText(`🎁 상자: ${this.bonusCratesCount}`, 490, 25);
 
         // 경험치 바
         ctx.fillStyle = '#1e293b';
-        ctx.fillRect(600, 14, 220, 10);
+        ctx.fillRect(590, 14, 180, 12);
         ctx.fillStyle = '#a855f7';
-        ctx.fillRect(600, 14, Math.min(220, 220 * (this.exp / this.expNext)), 10);
+        ctx.fillRect(590, 14, Math.min(180, 180 * (this.exp / this.expNext)), 12);
+        ctx.font = '10px Pretendard, sans-serif';
+        ctx.fillStyle = '#fff';
+        ctx.fillText(`EXP ${this.exp}/${this.expNext}`, 650, 24);
+
+        // 웨이브 타이머 슬림 바 (상단 맨 위)
+        if (this.totalWaveTimer > 0) {
+          ctx.fillStyle = isBossWave ? '#ef4444' : '#f59e0b';
+          ctx.fillRect(0, 38, Math.max(0, 960 * (this.waveTimer / this.totalWaveTimer)), 3);
+        }
+
+        // 📢 14. 웨이브 시작 드라마틱 배너
+        if (this.bannerTimer > 0) {
+          ctx.save();
+          const alpha = Math.min(1, this.bannerTimer / 25);
+          ctx.globalAlpha = alpha;
+          ctx.fillStyle = 'rgba(15, 23, 42, 0.82)';
+          ctx.fillRect(180, 180, 600, 110);
+          ctx.strokeStyle = isBossWave ? '#ef4444' : '#f59e0b';
+          ctx.lineWidth = 3;
+          ctx.strokeRect(180, 180, 600, 110);
+
+          ctx.font = 'bold 28px Pretendard, sans-serif';
+          ctx.fillStyle = isBossWave ? '#ef4444' : '#fde047';
+          ctx.textAlign = 'center';
+          ctx.fillText(this.bannerText, 480, 230);
+
+          ctx.font = '14px Pretendard, sans-serif';
+          ctx.fillStyle = '#94a3b8';
+          ctx.fillText(this.bannerSub, 480, 265);
+          ctx.restore();
+        }
+
+        // ⏸️ 15. 일시정지 (PAUSE) 오버레이
+        if (this.isPaused) {
+          ctx.save();
+          ctx.fillStyle = 'rgba(0, 0, 0, 0.72)';
+          ctx.fillRect(0, 0, 960, 540);
+
+          ctx.font = 'bold 36px Pretendard, sans-serif';
+          ctx.fillStyle = '#facc15';
+          ctx.textAlign = 'center';
+          ctx.fillText('⏸️ 일시 정지 (PAUSED)', 480, 250);
+
+          ctx.font = '16px Pretendard, sans-serif';
+          ctx.fillStyle = '#94a3b8';
+          ctx.fillText('[P] 키 또는 [ESC]를 눌러 게임을 재개하세요.', 480, 290);
+          ctx.restore();
+        }
+
+        ctx.restore(); // 쉐이크 복원
       },
 
       loop() {
