@@ -867,13 +867,18 @@
       }
     };
 
-    // 🐊 16-bit 레트로 픽셀 아트 호코다일 스프라이트 이미지 프리로드
-    const hrocSpriteImg = new Image();
-    hrocSpriteImg.src = (window.location.port) ? '/static/images/hrocodile_128.png' : 'images/hrocodile_128.png';
-    hrocSpriteImg.onerror = () => {
-      hrocSpriteImg.src = 'images/hrocodile_128.png';
-    };
-    window.HROCODILE_SPRITE = hrocSpriteImg;
+    // 🐊 16-bit 레트로 픽셀 아트 악어 5종 캐릭터 스프라이트 캐시 맵
+    const CHAR_SPRITES = {};
+    const CHAR_IDS = ['croc_default', 'croc_ranger', 'croc_chef', 'croc_gambler', 'croc_emperor'];
+    CHAR_IDS.forEach(id => {
+      const img = new Image();
+      img.src = (window.location.port) ? `/static/images/${id}_128.png` : `images/${id}_128.png`;
+      img.onerror = () => {
+        img.src = `images/${id}_128.png`;
+      };
+      CHAR_SPRITES[id] = img;
+    });
+    window.CHAR_SPRITES = CHAR_SPRITES;
 
     // -------------------------------------------------------------
     // 3. 무기 사전 & 패시브 아이템 데이터베이스
@@ -1248,6 +1253,7 @@
           x: 480,
           y: 270,
           radius: 22,
+          charId: charData.id,
           avatar: charData.avatar,
           stats: JSON.parse(JSON.stringify(charData.baseStats)),
           hp: charData.baseStats.maxHp,
@@ -1820,9 +1826,13 @@
           ctx.save();
           ctx.translate(this.player.x, this.player.y);
 
-          // 🐊 16-bit 픽셀 아트 스프라이트 로드 완료 시 스프라이트 출력, 그 외 이모지 폴백
-          if (window.HROCODILE_SPRITE && window.HROCODILE_SPRITE.complete && window.HROCODILE_SPRITE.naturalWidth > 0) {
-            ctx.drawImage(window.HROCODILE_SPRITE, -26, -26, 52, 52);
+          // 🐊 16-bit 픽셀 아트 스프라이트 로드 완료 시 캐릭터별 스프라이트 출력, 그 외 이모지 폴백
+          const curSprite = (window.CHAR_SPRITES && window.CHAR_SPRITES[this.player.charId]) 
+            ? window.CHAR_SPRITES[this.player.charId] 
+            : (window.CHAR_SPRITES ? window.CHAR_SPRITES['croc_default'] : null);
+
+          if (curSprite && curSprite.complete && curSprite.naturalWidth > 0) {
+            ctx.drawImage(curSprite, -28, -28, 56, 56);
           } else {
             ctx.font = '34px sans-serif';
             ctx.textAlign = 'center';
@@ -1912,7 +1922,13 @@
           const card = document.createElement('div');
           card.className = `roster-card ${isSelected ? 'selected' : ''} ${!isUnlocked ? 'locked' : ''}`;
           card.innerHTML = `
-            <div class="roster-avatar">${char.avatar}</div>
+            <div class="roster-avatar">
+              <img src="${(window.location.port ? '/static/images/' : 'images/') + char.id + '_64.png'}" 
+                   onerror="this.onerror=null; this.src='images/${char.id}_64.png'; if(!this.src.endsWith('64.png')) { this.style.display='none'; this.nextElementSibling.style.display='inline-block'; }" 
+                   alt="${char.name}" 
+                   style="width: 60px; height: 60px; image-rendering: pixelated; object-fit: contain; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5)); margin-bottom: 2px;">
+              <span style="display:none; font-size: 2.3rem;">${char.avatar}</span>
+            </div>
             <div class="roster-name">${char.name}</div>
             <div class="roster-role">${char.role}</div>
             <div class="roster-weapon-badge">${startWeaponData.icon} 시작: ${startWeaponData.name}</div>
