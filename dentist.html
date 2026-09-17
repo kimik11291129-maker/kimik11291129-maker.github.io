@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- 🛡️ 보안 메타 태그 -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta name="referrer" content="no-referrer">
+
+    <!-- 🐊 파비콘 -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐊</text></svg>">
+
+    <title>악어 이빨 룰렛 &amp; 잭팟 카지노 (Gator Dentist) — 김호선</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700;800;900&family=NeoDungGeunMo&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        :root {
+            --casino-bg: #07130c;
+            --casino-felt: #064e3b;
+            --casino-gold: #f59e0b;
+            --casino-gold-light: #fde047;
+            --casino-red: #ef4444;
+            --casino-text: #f8fafc;
+        }
+
+        body.dentist-body {
+            background-color: var(--casino-bg);
+            background-image: 
+                radial-gradient(circle at 50% 20%, rgba(16, 185, 129, 0.15) 0%, transparent 60%),
+                radial-gradient(circle at 80% 80%, rgba(245, 158, 11, 0.08) 0%, transparent 50%),
+                linear-gradient(180deg, #040d08 0%, #081a10 100%);
+            min-height: 100vh;
+            color: var(--casino-text);
+            font-family: 'Pretendard', sans-serif;
+            margin: 0;
+            padding: 0 10px 60px 10px;
+        }
+
+        .dentist-container {
+            max-width: 860px;
+            margin: 20px auto 0 auto;
+        }
+
+        /* 🧭 상단 카지노 헤더 */
+        .casino-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(245, 158, 11, 0.4);
+            border-radius: 18px;
+            padding: 12px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+        }
+
+        .casino-title-group h1 {
+            font-size: 1.35rem;
+            margin: 0;
+            font-weight: 900;
+            color: #facc15;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .casino-title-group p {
+            margin: 3px 0 0 0;
+            font-size: 0.85rem;
+            color: #94a3b8;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .garnet-counter-badge {
+            background: linear-gradient(135deg, #7f1d1d 0%, #991b1b 100%);
+            border: 2px solid #f87171;
+            border-radius: 30px;
+            padding: 6px 14px;
+            font-weight: 800;
+            font-size: 1.05rem;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+        }
+
+        .btn-refill {
+            background: #065f46;
+            color: #34d399;
+            border: 1px solid #059669;
+            border-radius: 20px;
+            padding: 4px 10px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-refill:hover {
+            background: #047857;
+            color: #fff;
+        }
+
+        .btn-nav-link {
+            background: #1e293b;
+            color: #cbd5e1;
+            border: 1px solid #475569;
+            border-radius: 12px;
+            padding: 7px 12px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.2s;
+        }
+        .btn-nav-link:hover {
+            background: #334155;
+            color: #fff;
+            border-color: #94a3b8;
+        }
+
+        /* 🐊 악어 비주얼 극장 (모니터) */
+        .gator-stage-card {
+            background: #020617;
+            border: 3px solid #10b981;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.8), 0 0 30px rgba(16, 185, 129, 0.2);
+            position: relative;
+            margin-bottom: 24px;
+        }
+
+        .gator-stage-card.shake {
+            animation: gatorBiteShake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+            border-color: #ef4444 !important;
+            box-shadow: 0 0 50px rgba(239, 68, 68, 0.8) !important;
+        }
+
+        @keyframes gatorBiteShake {
+            10%, 90% { transform: translate3d(-4px, 0, 0) scale(1.02); }
+            20%, 80% { transform: translate3d(6px, 0, 0) scale(1.01); }
+            30%, 50%, 70% { transform: translate3d(-8px, 0, 0) scale(1.03); }
+            40%, 60% { transform: translate3d(8px, 0, 0) scale(1.01); }
+        }
+
+        .gator-screen {
+            height: 240px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .gator-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 30%;
+            transition: transform 0.2s ease, filter 0.2s ease;
+        }
+
+        .gator-stage-card.shake .gator-img {
+            filter: brightness(1.2) contrast(1.3) hue-rotate(-20deg);
+        }
+
+        .gator-overlay-status {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(0deg, rgba(0,0,0,0.85) 0%, transparent 100%);
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .status-left .status-tag {
+            font-size: 0.75rem;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 6px;
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid #10b981;
+            color: #34d399;
+            display: inline-block;
+            margin-bottom: 4px;
+        }
+
+        .status-left .status-headline {
+            font-size: 1.25rem;
+            font-weight: 900;
+            color: #ffffff;
+            margin: 0;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+        }
+
+        .status-right {
+            text-align: right;
+        }
+
+        .current-pot-label {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            font-weight: 600;
+        }
+
+        .current-pot-val {
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: #facc15;
+            text-shadow: 0 0 12px rgba(250, 204, 21, 0.6);
+        }
+
+        /* 🪜 배율 사다리 (Multiplier Ladder) */
+        .multiplier-ladder-bar {
+            background: rgba(15, 23, 42, 0.95);
+            border-top: 2px solid #1e293b;
+            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            overflow-x: auto;
+            scrollbar-width: thin;
+        }
+
+        .ladder-step {
+            flex-shrink: 0;
+            padding: 5px 10px;
+            border-radius: 8px;
+            background: #1e293b;
+            border: 1px solid #334155;
+            font-size: 0.8rem;
+            font-weight: 800;
+            color: #64748b;
+            transition: all 0.2s ease;
+        }
+
+        .ladder-step.active {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            border-color: #fde047;
+            color: #000;
+            box-shadow: 0 0 12px rgba(245, 158, 11, 0.7);
+            transform: scale(1.08);
+        }
+
+        .ladder-step.cleared {
+            background: #064e3b;
+            border-color: #10b981;
+            color: #6ee7b7;
+        }
+
+        /* 🦷 인터랙티브 악어 입 & 이빨 보드 */
+        .jaw-board {
+            background: radial-gradient(circle at center, #0f3622 0%, #082014 60%, #030d07 100%);
+            border: 4px solid #1e3a29;
+            border-radius: 26px;
+            padding: 30px 20px;
+            box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.8), 0 12px 36px rgba(0, 0, 0, 0.6);
+            margin-bottom: 24px;
+            position: relative;
+        }
+
+        .jaw-label {
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: 800;
+            color: #34d399;
+            margin-bottom: 20px;
+            letter-spacing: 0.5px;
+        }
+
+        .teeth-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            margin: 10px 0;
+            flex-wrap: wrap;
+        }
+
+        /* 🦷 3D 이빨 버튼 (Realistic Relief Tooth) */
+        .tooth-btn {
+            width: 58px;
+            height: 72px;
+            background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 60%, #cbd5e1 100%);
+            border: 2px solid #94a3b8;
+            border-radius: 12px 12px 20px 20px;
+            box-shadow: 0 8px 0 #64748b, 0 12px 16px rgba(0, 0, 0, 0.5);
+            cursor: pointer;
+            transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            padding-bottom: 8px;
+            position: relative;
+            user-select: none;
+        }
+
+        .tooth-btn:hover:not(:disabled) {
+            transform: translateY(-4px);
+            border-color: #f59e0b;
+            box-shadow: 0 12px 0 #64748b, 0 16px 20px rgba(245, 158, 11, 0.35);
+        }
+
+        .tooth-btn:active:not(:disabled) {
+            transform: translateY(4px);
+            box-shadow: 0 4px 0 #64748b, 0 6px 10px rgba(0, 0, 0, 0.4);
+        }
+
+        .tooth-btn .tooth-num {
+            font-size: 0.8rem;
+            font-weight: 900;
+            color: #475569;
+        }
+
+        /* 눌린 안전 이빨 상태 (PRESSED & SAFE) */
+        .tooth-btn.pressed-safe {
+            transform: translateY(6px);
+            background: linear-gradient(180deg, #10b981 0%, #059669 100%) !important;
+            border-color: #34d399 !important;
+            box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.5), 0 2px 0 #047857 !important;
+            cursor: default;
+        }
+
+        .tooth-btn.pressed-safe .tooth-num {
+            color: #ffffff;
+        }
+
+        /* 꽝 터진 함정 이빨 (TRAPPED & BITTEN) */
+        .tooth-btn.pressed-trap {
+            transform: translateY(6px);
+            background: linear-gradient(180deg, #ef4444 0%, #991b1b 100%) !important;
+            border-color: #f87171 !important;
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.8), inset 0 3px 6px rgba(0, 0, 0, 0.6) !important;
+            animation: trapPulse 0.3s infinite alternate;
+        }
+
+        .tooth-btn.pressed-trap .tooth-num {
+            color: #fee2e2;
+        }
+
+        @keyframes trapPulse {
+            0% { transform: translateY(6px) scale(1); }
+            100% { transform: translateY(6px) scale(1.08); }
+        }
+
+        .tooth-btn:disabled {
+            cursor: not-allowed;
+        }
+
+        /* 💰 캐시아웃 & 배팅 컨트롤 패널 */
+        .control-dashboard {
+            background: rgba(15, 23, 42, 0.85);
+            border: 2px solid #334155;
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+        }
+
+        /* 1. 난이도 선택 바 */
+        .difficulty-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .diff-btn {
+            flex: 1;
+            padding: 10px 14px;
+            border-radius: 12px;
+            background: #1e293b;
+            border: 2px solid #334155;
+            color: #94a3b8;
+            font-size: 0.9rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .diff-btn .diff-sub {
+            font-size: 0.72rem;
+            font-weight: 600;
+            opacity: 0.8;
+        }
+
+        .diff-btn:hover:not(:disabled) {
+            border-color: #10b981;
+            color: #f8fafc;
+        }
+
+        .diff-btn.active {
+            background: linear-gradient(135deg, #065f46 0%, #047857 100%);
+            border-color: #34d399;
+            color: #ffffff;
+            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4);
+        }
+
+        /* 2. 칩 배팅 영역 */
+        .bet-selector-area {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            padding-bottom: 18px;
+            border-bottom: 1px solid #334155;
+            margin-bottom: 20px;
+        }
+
+        .chips-container {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        /* 🔴 3D 카지노 칩 토큰 */
+        .casino-chip {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            border: 2px dashed #ffffff;
+            font-weight: 900;
+            font-size: 0.8rem;
+            color: #ffffff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            transition: transform 0.15s, box-shadow 0.15s;
+            user-select: none;
+        }
+
+        .casino-chip:hover:not(:disabled) {
+            transform: translateY(-3px) scale(1.08);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.7);
+        }
+
+        .casino-chip:active:not(:disabled) {
+            transform: translateY(1px) scale(0.95);
+        }
+
+        .chip-5 { background: radial-gradient(circle, #ef4444 30%, #991b1b 100%); }
+        .chip-10 { background: radial-gradient(circle, #3b82f6 30%, #1e40af 100%); }
+        .chip-25 { background: radial-gradient(circle, #10b981 30%, #065f46 100%); }
+        .chip-50 { background: radial-gradient(circle, #f59e0b 30%, #b45309 100%); }
+        .chip-allin { background: radial-gradient(circle, #8b5cf6 30%, #5b21b6 100%); border-style: solid; }
+
+        .bet-display-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .bet-badge {
+            background: #020617;
+            border: 2px solid #f59e0b;
+            border-radius: 12px;
+            padding: 8px 16px;
+            text-align: right;
+        }
+
+        .bet-badge .label {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            font-weight: 700;
+            display: block;
+        }
+
+        .bet-badge .amount {
+            font-size: 1.35rem;
+            font-weight: 900;
+            color: #fde047;
+        }
+
+        .btn-reset-bet {
+            background: #334155;
+            color: #cbd5e1;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-reset-bet:hover { background: #475569; color: #fff; }
+
+        /* 3. 대형 액션 버튼 (배팅 시작 / 캐시아웃) */
+        .action-buttons-row {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-start-game {
+            flex: 1;
+            padding: 16px 24px;
+            font-size: 1.15rem;
+            font-weight: 900;
+            border-radius: 16px;
+            border: 2px solid #34d399;
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            color: #ffffff;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.45);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-start-game:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 26px rgba(16, 185, 129, 0.6);
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        .btn-cashout {
+            flex: 1;
+            padding: 16px 24px;
+            font-size: 1.15rem;
+            font-weight: 900;
+            border-radius: 16px;
+            border: 2px solid #fde047;
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: #000000;
+            cursor: pointer;
+            box-shadow: 0 6px 24px rgba(245, 158, 11, 0.5);
+            transition: all 0.2s ease;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            animation: cashOutPulse 1.2s infinite alternate;
+        }
+
+        @keyframes cashOutPulse {
+            0% { transform: scale(0.99); box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4); }
+            100% { transform: scale(1.02); box-shadow: 0 10px 30px rgba(245, 158, 11, 0.8); }
+        }
+
+        .btn-cashout:hover {
+            transform: translateY(-2px) scale(1.03) !important;
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+        }
+
+        button:disabled {
+            opacity: 0.45;
+            cursor: not-allowed !important;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
+        /* 📜 카지노 안내문 */
+        .casino-footer-guide {
+            text-align: center;
+            margin-top: 24px;
+            font-size: 0.85rem;
+            color: #64748b;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body class="dentist-body">
+
+    <!-- 🧭 상단 공통 네비게이션 헤더 -->
+    <header class="header">
+      <div class="nav-container nav-container-broadsheet">
+        <a href="index.html" class="brand-logo">
+          <span>김호선</span>
+          <span class="role-pill">Retro 2D Pixel</span>
+        </a>
+        <nav>
+          <ul class="tab-group">
+            <li class="tab-item"><a href="index.html">홈</a></li>
+            <li class="tab-item"><a href="about.html">자기소개</a></li>
+            <li class="tab-item"><a href="portfolio.html">포트폴리오</a></li>
+            <li class="tab-item"><a href="game.html">호야추 다이스</a></li>
+            <li class="tab-item"><a href="dentist.html" class="active">악어이빨 룰렛</a></li>
+            <li class="tab-item"><a href="guestbook.html">퀘스트 &amp; 로그 보드</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <div class="dentist-container">
+
+        <!-- 🧭 상단 카지노 헤더 -->
+        <header class="casino-header">
+            <div class="casino-title-group">
+                <h1>🐊 악어 이빨 룰렛 <span>&amp; 잭팟 카지노</span></h1>
+                <p>이빨을 누를 때마다 상금 배율 UP! 물리기 전에 도망치면 잭팟!</p>
+            </div>
+            <div class="header-actions">
+                <div class="garnet-counter-badge" title="현재 보유한 가넷 칩 수량">
+                    <span>💎</span>
+                    <span id="playerGarnets">20</span>
+                </div>
+                <button class="btn-refill" id="btnRefillGarnets" onclick="GatorCasino.refillGarnets()" style="display: none;">
+                    +20 충전
+                </button>
+                <a href="game.html" class="btn-nav-link">
+                    🎲 호야추 다이스
+                </a>
+            </div>
+        </header>
+
+        <!-- 🐊 악어 비주얼 극장 (모니터) -->
+        <section class="gator-stage-card" id="gatorStageCard">
+            <div class="gator-screen">
+                <img src="images/croc_mouth_closed.jpg" id="gatorImg" class="gator-img" alt="야생 악어">
+                <div class="gator-overlay-status">
+                    <div class="status-left">
+                        <span class="status-tag" id="statusBadge">대기 중</span>
+                        <h2 class="status-headline" id="statusHeadline">칩을 배팅하고 악어의 입을 벌리세요!</h2>
+                    </div>
+                    <div class="status-right">
+                        <span class="current-pot-label">현재 누적 상금</span>
+                        <div class="current-pot-val" id="currentPotText">0 💎</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 🪜 배율 사다리 -->
+            <div class="multiplier-ladder-bar" id="multiplierLadder">
+                <!-- 동적으로 단계별 배율 뱃지 주입 -->
+            </div>
+        </section>
+
+        <!-- 🦷 인터랙티브 악어 입 & 이빨 보드 -->
+        <section class="jaw-board" id="jawBoard">
+            <div class="jaw-label" id="jawInstruction">
+                👇 배팅 후 [게임 시작]을 누르면 이빨이 활성화됩니다 👇
+            </div>
+
+            <!-- 상단 이빨 열 -->
+            <div class="teeth-row" id="upperTeethRow"></div>
+            <!-- 하단 이빨 열 -->
+            <div class="teeth-row" id="lowerTeethRow"></div>
+        </section>
+
+        <!-- 💰 대시보드 (난이도, 칩 선택, 액션 버튼) -->
+        <section class="control-dashboard">
+            <!-- 1. 난이도 선택 -->
+            <div class="difficulty-selector">
+                <button class="diff-btn" id="diffBaby" onclick="GatorCasino.setDifficulty('baby')">
+                    <span>🟢 순한맛 아기 악어</span>
+                    <span class="diff-sub">10개 중 꽝 1개 (안전형)</span>
+                </button>
+                <button class="diff-btn active" id="diffBoss" onclick="GatorCasino.setDifficulty('boss')">
+                    <span>🟡 늪지 보스 악어</span>
+                    <span class="diff-sub">12개 중 꽝 2개 (추천 밸런스)</span>
+                </button>
+                <button class="diff-btn" id="diffKing" onclick="GatorCasino.setDifficulty('king')">
+                    <span>🔴 심연의 뼈악어 킹</span>
+                    <span class="diff-sub">14개 중 꽝 3개 (초고배율 잭팟)</span>
+                </button>
+            </div>
+
+            <!-- 2. 배팅 칩 선택 -->
+            <div class="bet-selector-area">
+                <div class="chips-container">
+                    <button class="casino-chip chip-5" onclick="GatorCasino.addBet(5)" id="chip5">+5</button>
+                    <button class="casino-chip chip-10" onclick="GatorCasino.addBet(10)" id="chip10">+10</button>
+                    <button class="casino-chip chip-25" onclick="GatorCasino.addBet(25)" id="chip25">+25</button>
+                    <button class="casino-chip chip-50" onclick="GatorCasino.addBet(50)" id="chip50">+50</button>
+                    <button class="casino-chip chip-allin" onclick="GatorCasino.setAllIn()" id="chipAllIn">ALL</button>
+                </div>
+                <div class="bet-display-box">
+                    <button class="btn-reset-bet" onclick="GatorCasino.resetBet()" id="btnResetBet">배팅 초기화</button>
+                    <div class="bet-badge">
+                        <span class="label">배팅 금액</span>
+                        <span class="amount" id="betAmountText">10 💎</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. 액션 버튼 -->
+            <div class="action-buttons-row">
+                <button class="btn-start-game" id="btnStartGame" onclick="GatorCasino.startGame()">
+                    <span>🐊</span>
+                    <span>배팅 완료! 악어 입 벌리기</span>
+                </button>
+                <button class="btn-cashout" id="btnCashout" onclick="GatorCasino.cashOut()">
+                    <span>💰</span>
+                    <span id="cashoutBtnText">지금 상금 챙겨 도망치기 (0 💎)</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- 📜 카지노 안내문 -->
+        <footer class="casino-footer-guide">
+            💡 <strong>카지노 규칙</strong>: 악어가 입을 벌리면 원하는 이빨을 하나씩 누르세요. 안전할 때마다 배율이 껑충 뜁니다.<br>
+            언제든 <strong>[지금 상금 챙겨 도망치기]</strong>로 승리를 확정할 수 있지만, 함정 이빨을 누르면 악어가 <strong>콰앙!</strong> 입을 닫고 전액 몰수합니다!
+        </footer>
+
+    </div>
+
+    <!-- 🔊 사운드 신디사이저 & 게임 엔진 스크립트 -->
+    <script>
+        // -------------------------------------------------------------
+        // 1. Web Audio API 신디사이저 (손맛 사운드)
+        // -------------------------------------------------------------
+        const CasinoSound = {
+            ctx: null,
+            init() {
+                // 브라우저 오디오 컨텍스트를 초기화합니다.
+                if (!this.ctx) {
+                    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                    if (AudioCtx) this.ctx = new AudioCtx();
+                }
+            },
+            playChip() {
+                // 칩을 올려놓는 딸깍/짤랑 소리를 합성합니다.
+                this.init();
+                if (!this.ctx) return;
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(1200, this.ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(600, this.ctx.currentTime + 0.05);
+                gain.gain.setValueAtTime(0.2, this.ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.05);
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start();
+                osc.stop(this.ctx.currentTime + 0.05);
+            },
+            playToothClick() {
+                // 이빨을 누르는 묵직한 메카니컬 딸깍 소리를 합성합니다.
+                this.init();
+                if (!this.ctx) return;
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(420, this.ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(180, this.ctx.currentTime + 0.06);
+                gain.gain.setValueAtTime(0.35, this.ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.06);
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start();
+                osc.stop(this.ctx.currentTime + 0.06);
+            },
+            playSafe() {
+                // 안전한 이빨을 뽑았을 때 울리는 상승 화음 팡파레를 합성합니다.
+                this.init();
+                if (!this.ctx) return;
+                const now = this.ctx.currentTime;
+                [523.25, 659.25, 783.99, 1046.50].forEach((freq, i) => {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(freq, now + i * 0.05);
+                    gain.gain.setValueAtTime(0.2, now + i * 0.05);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + i * 0.05 + 0.15);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start(now + i * 0.05);
+                    osc.stop(now + i * 0.05 + 0.15);
+                });
+            },
+            playChomp() {
+                // 악어가 턱을 쾅 닫고 물어뜯는 파괴음을 합성합니다.
+                this.init();
+                if (!this.ctx) return;
+                const now = this.ctx.currentTime;
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(140, now);
+                osc.frequency.exponentialRampToValueAtTime(30, now + 0.35);
+                gain.gain.setValueAtTime(0.6, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start(now);
+                osc.stop(now + 0.35);
+            },
+            playCashOut() {
+                // 상금을 챙겨 도망칠 때 카지노 잭팟 코인 소리를 합성합니다.
+                this.init();
+                if (!this.ctx) return;
+                const now = this.ctx.currentTime;
+                const chords = [523.25, 659.25, 783.99, 1046.50, 1318.51];
+                chords.forEach((freq, idx) => {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'square';
+                    osc.frequency.setValueAtTime(freq, now + idx * 0.07);
+                    gain.gain.setValueAtTime(0.25, now + idx * 0.07);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + idx * 0.07 + 0.25);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start(now + idx * 0.07);
+                    osc.stop(now + idx * 0.07 + 0.25);
+                });
+            }
+        };
+
+        // -------------------------------------------------------------
+        // 2. 가넷 영구 저장소 매니저 (HoYatch와 완전 호환)
+        // -------------------------------------------------------------
+        const GarnetManager = {
+            STORAGE_KEY: 'hell_poker_yacht_garnets',
+            get() {
+                // 저장된 가넷 보유량을 불러옵니다 (기본 20개).
+                const val = localStorage.getItem(this.STORAGE_KEY);
+                return val !== null ? parseInt(val, 10) : 20;
+            },
+            set(val) {
+                // 가넷 잔액을 브라우저 로컬스토리지에 저장합니다.
+                localStorage.setItem(this.STORAGE_KEY, val);
+                document.getElementById('playerGarnets').textContent = val;
+                const refillBtn = document.getElementById('btnRefillGarnets');
+                if (refillBtn) refillBtn.style.display = val < 5 ? 'inline-block' : 'none';
+            }
+        };
+
+        // -------------------------------------------------------------
+        // 3. 악어 이빨 룰렛 게임 메인 컨트롤러
+        // -------------------------------------------------------------
+        const GatorCasino = {
+            difficulty: 'boss',
+            bet: 10,
+            isPlaying: false,
+            safeCount: 0,
+            teethTotal: 12,
+            trapCount: 2,
+            trapIndices: new Set(),
+            pressedIndices: new Set(),
+
+            // 난이도별 프리셋 설정
+            CONFIGS: {
+                baby: {
+                    teeth: 10,
+                    traps: 1,
+                    multipliers: [1.15, 1.35, 1.6, 1.95, 2.4, 3.0, 4.0, 6.0, 10.0]
+                },
+                boss: {
+                    teeth: 12,
+                    traps: 2,
+                    multipliers: [1.3, 1.75, 2.4, 3.4, 5.0, 7.5, 12.0, 20.0, 35.0, 60.0]
+                },
+                king: {
+                    teeth: 14,
+                    traps: 3,
+                    multipliers: [1.6, 2.7, 4.5, 8.0, 15.0, 30.0, 65.0, 140.0, 300.0, 500.0, 1000.0]
+                }
+            },
+
+            init() {
+                // 게임 초기 뷰와 이빨 보드를 렌더링합니다.
+                GarnetManager.set(GarnetManager.get());
+                this.updateBetDisplay();
+                this.renderTeethBoard();
+                this.renderLadder();
+            },
+
+            setDifficulty(diffKey) {
+                // 난이도를 변경하고 보드를 재구성합니다.
+                if (this.isPlaying) return;
+                this.difficulty = diffKey;
+                ['baby', 'boss', 'king'].forEach(k => {
+                    const btn = document.getElementById('diff' + k.charAt(0).toUpperCase() + k.slice(1));
+                    if (btn) btn.classList.toggle('active', k === diffKey);
+                });
+                this.renderTeethBoard();
+                this.renderLadder();
+                CasinoSound.playChip();
+            },
+
+            addBet(amount) {
+                // 배팅액을 누적합니다.
+                if (this.isPlaying) return;
+                const currentGarnets = GarnetManager.get();
+                if (this.bet + amount > currentGarnets) {
+                    this.bet = currentGarnets;
+                } else {
+                    this.bet += amount;
+                }
+                if (this.bet < 1) this.bet = 1;
+                this.updateBetDisplay();
+                CasinoSound.playChip();
+            },
+
+            setAllIn() {
+                // 보유 가넷 전액을 올인 배팅합니다.
+                if (this.isPlaying) return;
+                this.bet = GarnetManager.get();
+                this.updateBetDisplay();
+                CasinoSound.playChip();
+            },
+
+            resetBet() {
+                // 배팅액을 기본값으로 초기화합니다.
+                if (this.isPlaying) return;
+                this.bet = 5;
+                this.updateBetDisplay();
+                CasinoSound.playChip();
+            },
+
+            refillGarnets() {
+                // 가넷이 부족할 때 긴급 보충금 20개를 지급합니다.
+                GarnetManager.set(GarnetManager.get() + 20);
+                CasinoSound.playCashOut();
+            },
+
+            updateBetDisplay() {
+                // 배팅 금액 텍스트와 시작 버튼 활성화 상태를 동기화합니다.
+                document.getElementById('betAmountText').textContent = `${this.bet} 💎`;
+                const startBtn = document.getElementById('btnStartGame');
+                const totalGarnets = GarnetManager.get();
+                startBtn.disabled = this.bet <= 0 || this.bet > totalGarnets;
+            },
+
+            renderLadder() {
+                // 현재 난이도의 배율 사다리를 표시합니다.
+                const config = this.CONFIGS[this.difficulty];
+                const ladder = document.getElementById('multiplierLadder');
+                ladder.innerHTML = '';
+                config.multipliers.forEach((mul, idx) => {
+                    const step = document.createElement('div');
+                    step.className = 'ladder-step' + (idx === this.safeCount - 1 ? ' active' : (idx < this.safeCount - 1 ? ' cleared' : ''));
+                    step.textContent = `${idx + 1}단계 ${mul}x`;
+                    ladder.appendChild(step);
+                });
+            },
+
+            renderTeethBoard() {
+                // 악어 입 모양에 맞춰 상단/하단 이빨 버튼을 렌더링합니다.
+                const config = this.CONFIGS[this.difficulty];
+                const total = config.teeth;
+                const half = Math.ceil(total / 2);
+
+                const upperRow = document.getElementById('upperTeethRow');
+                const lowerRow = document.getElementById('lowerTeethRow');
+                upperRow.innerHTML = '';
+                lowerRow.innerHTML = '';
+
+                for (let i = 0; i < total; i++) {
+                    const btn = document.createElement('button');
+                    btn.className = 'tooth-btn';
+                    btn.id = `tooth_${i}`;
+                    btn.disabled = !this.isPlaying;
+                    btn.innerHTML = `<span class="tooth-num">#${i + 1}</span>`;
+                    btn.onclick = () => this.pressTooth(i);
+
+                    if (i < half) {
+                        upperRow.appendChild(btn);
+                    } else {
+                        lowerRow.appendChild(btn);
+                    }
+                }
+            },
+
+            startGame() {
+                // 배팅액을 차감하고 악어 입을 벌려 게임을 시작합니다.
+                const totalGarnets = GarnetManager.get();
+                if (this.bet <= 0 || this.bet > totalGarnets) return;
+
+                // 배팅금 차감
+                GarnetManager.set(totalGarnets - this.bet);
+                this.isPlaying = true;
+                this.safeCount = 0;
+                this.pressedIndices.clear();
+                this.trapIndices.clear();
+
+                // 꽝(함정) 이빨 무작위 선정
+                const config = this.CONFIGS[this.difficulty];
+                while (this.trapIndices.size < config.traps) {
+                    const rand = Math.floor(Math.random() * config.teeth);
+                    this.trapIndices.add(rand);
+                }
+
+                // UI 상태 갱신 (악어 입 쩍 벌림)
+                document.getElementById('gatorImg').src = 'images/croc_open_jaws.jpg';
+                document.getElementById('statusBadge').textContent = '입 벌림! 🟢';
+                document.getElementById('statusBadge').style.borderColor = '#10b981';
+                document.getElementById('statusBadge').style.color = '#34d399';
+                document.getElementById('statusHeadline').textContent = '원하는 이빨을 조심스럽게 누르세요!';
+                document.getElementById('jawInstruction').textContent = '⚠️ 함정 이빨을 누르면 악어가 콰앙 물어뜯습니다!';
+                document.getElementById('currentPotText').textContent = `${this.bet} 💎 (1.0x)`;
+
+                // 버튼 제어
+                document.getElementById('btnStartGame').style.display = 'none';
+                document.getElementById('btnCashout').style.display = 'inline-flex';
+                document.getElementById('btnCashout').disabled = true;
+                document.getElementById('cashoutBtnText').textContent = '이빨을 1개 이상 누르면 도망칠 수 있습니다';
+
+                // 배팅 컨트롤 비활성화
+                this.toggleControls(false);
+                this.renderTeethBoard();
+                this.renderLadder();
+                CasinoSound.playChip();
+            },
+
+            pressTooth(idx) {
+                // 플레이어가 특정 이빨을 눌렀을 때의 안전 및 함정 판정을 처리합니다.
+                if (!this.isPlaying || this.pressedIndices.has(idx)) return;
+                this.pressedIndices.add(idx);
+                const toothEl = document.getElementById(`tooth_${idx}`);
+                CasinoSound.playToothClick();
+
+                // 1. 꽝(함정)을 누른 경우 💥
+                if (this.trapIndices.has(idx)) {
+                    toothEl.classList.add('pressed-trap');
+                    this.gameOverBite();
+                    return;
+                }
+
+                // 2. 안전한 이빨을 누른 경우 ✅
+                toothEl.classList.add('pressed-safe');
+                this.safeCount++;
+                CasinoSound.playSafe();
+
+                const config = this.CONFIGS[this.difficulty];
+                const multiplier = config.multipliers[this.safeCount - 1] || 1.0;
+                const currentPot = Math.floor(this.bet * multiplier);
+
+                document.getElementById('statusHeadline').textContent = `휴~ 안전합니다! (+${this.safeCount}단계 달성)`;
+                document.getElementById('currentPotText').textContent = `${currentPot} 💎 (${multiplier}x)`;
+                
+                // 캐시아웃 버튼 활성화
+                const cashoutBtn = document.getElementById('btnCashout');
+                cashoutBtn.disabled = false;
+                document.getElementById('cashoutBtnText').textContent = `지금 상금 챙겨 도망치기 (${currentPot} 💎)`;
+
+                this.renderLadder();
+
+                // 올 클리어 잭팟 달성 여부 확인
+                const maxSafe = config.teeth - config.traps;
+                if (this.safeCount >= maxSafe) {
+                    this.gameJackpot(currentPot);
+                }
+            },
+
+            cashOut() {
+                // 안전하게 현재 배율 상금을 챙겨 도망치고 가넷을 수령합니다.
+                if (!this.isPlaying || this.safeCount <= 0) return;
+                const config = this.CONFIGS[this.difficulty];
+                const multiplier = config.multipliers[this.safeCount - 1] || 1.0;
+                const wonAmount = Math.floor(this.bet * multiplier);
+
+                CasinoSound.playCashOut();
+                GarnetManager.set(GarnetManager.get() + wonAmount);
+
+                document.getElementById('statusHeadline').textContent = `🎉 도망 성공! +${wonAmount} 💎 가넷 획득!`;
+                document.getElementById('statusBadge').textContent = '도망 성공 🏆';
+                document.getElementById('jawInstruction').textContent = '멋진 배짱이었습니다! 다음 판을 배팅하세요.';
+
+                this.endRound();
+            },
+
+            gameOverBite() {
+                // 함정에 걸려 악어가 입을 쾅 닫고 배팅금을 전액 몰수합니다.
+                this.isPlaying = false;
+                CasinoSound.playChomp();
+
+                // 악어 입 쾅 닫힘 비주얼 + 화면 진동
+                document.getElementById('gatorImg').src = 'images/croc_mouth_closed.jpg';
+                const stageCard = document.getElementById('gatorStageCard');
+                stageCard.classList.add('shake');
+                setTimeout(() => stageCard.classList.remove('shake'), 600);
+
+                document.getElementById('statusBadge').textContent = '물렸다! 💥';
+                document.getElementById('statusBadge').style.borderColor = '#ef4444';
+                document.getElementById('statusBadge').style.color = '#f87171';
+                document.getElementById('statusHeadline').textContent = '콰아앙! 악어에게 손을 물렸습니다!';
+                document.getElementById('currentPotText').textContent = '0 💎 (전액 몰수)';
+                document.getElementById('jawInstruction').textContent = '악어가 화가 났습니다! 상금을 모두 잃었습니다.';
+
+                // 모든 이빨 비활성화
+                document.querySelectorAll('.tooth-btn').forEach(btn => btn.disabled = true);
+
+                setTimeout(() => {
+                    this.endRound();
+                }, 1800);
+            },
+
+            gameJackpot(pot) {
+                // 모든 안전 이빨을 뽑아 잭팟을 달성했을 때 보상을 지급합니다.
+                this.isPlaying = false;
+                CasinoSound.playCashOut();
+                GarnetManager.set(GarnetManager.get() + pot);
+
+                document.getElementById('statusHeadline').textContent = `👑 전설의 올클리어 잭팟! +${pot} 💎 획득!`;
+                document.getElementById('statusBadge').textContent = 'ALL CLEAR 잭팟 👑';
+                document.getElementById('jawInstruction').textContent = '모든 안전 이빨을 정복했습니다!';
+
+                this.endRound();
+            },
+
+            endRound() {
+                // 라운드를 정리하고 배팅 버튼을 다시 노출합니다.
+                this.isPlaying = false;
+                document.getElementById('btnCashout').style.display = 'none';
+                document.getElementById('btnStartGame').style.display = 'inline-flex';
+                this.toggleControls(true);
+                this.updateBetDisplay();
+            },
+
+            toggleControls(enabled) {
+                // 게임 진행 중 배팅액과 난이도 조작을 잠그거나 해제합니다.
+                document.querySelectorAll('.diff-btn, .casino-chip, #btnResetBet').forEach(btn => {
+                    btn.disabled = !enabled;
+                });
+            }
+        };
+
+        // 초기화 실행
+        window.addEventListener('DOMContentLoaded', () => {
+            GatorCasino.init();
+        });
+    </script>
+</body>
+</html>
