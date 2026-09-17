@@ -821,7 +821,7 @@ footer.site-footer {
 .arch-project-card:hover {
   border-color: var(--primary);
   transform: translate(-1px, -1px);
-  box-shadow: 6px 6px 0px #050403;
+  box-shadow: 6px 6px 0px #060a08;
 }
 
 .arch-card-header {
@@ -1173,6 +1173,78 @@ footer.site-footer {
   .home-nav-grid {
     grid-template-columns: 1fr;
   }
+}
+
+/* ==========================================================================
+   📦 16-bit 2D 픽셀 모달 다이얼로그 시스템 (상세 보고서 팝업)
+   ========================================================================== */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(6, 10, 8, 0.88);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 2000;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(16px, 3vw, 32px);
+}
+
+.modal-box-wide {
+  background: #0c1410 !important;
+  border: 4px double #4ade80 !important;
+  box-shadow: 8px 8px 0px #060a08, inset 0 0 24px rgba(0, 0, 0, 0.9) !important;
+  color: var(--text) !important;
+  padding: clamp(20px, 3.5vw, 36px);
+  max-width: 980px;
+  width: 100%;
+  max-height: 88vh;
+  overflow-y: auto;
+  position: relative;
+  border-radius: 0px !important;
+}
+
+.modal-header-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 16px;
+  margin-bottom: 24px;
+}
+
+.modal-header-flex h2 {
+  font-family: var(--font-pixel);
+  font-size: clamp(1.2rem, 2vw, 1.6rem);
+  color: var(--text);
+  line-height: 1.4;
+  margin-bottom: 4px;
+}
+
+.modal-close-btn {
+  background: #141f18;
+  color: var(--text-muted);
+  border: 2px solid var(--border-light);
+  font-family: var(--font-pixel);
+  font-size: 0.9rem;
+  padding: 6px 14px;
+  cursor: pointer;
+  border-radius: 0px !important;
+  box-shadow: 2px 2px 0px #060a08;
+  transition: all 0.1s;
+  flex-shrink: 0;
+}
+
+.modal-close-btn:hover {
+  background: #dc2626;
+  color: #fff;
+  border-color: #ef4444;
+}
+
+.modal-close-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px #060a08;
 }
 
 
