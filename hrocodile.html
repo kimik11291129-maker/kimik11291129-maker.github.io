@@ -172,6 +172,73 @@
       margin-top: 4px;
     }
 
+    /* ☠️ 브로테이토 위험도(Danger Level, D0~D5) 난이도 선택기 스타일 */
+    .danger-selector-wrap {
+      width: 100%;
+      max-width: 920px;
+      background: rgba(15, 23, 42, 0.75);
+      border: 1.5px solid rgba(245, 158, 11, 0.35);
+      border-radius: 14px;
+      padding: 10px 14px;
+      margin-bottom: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+    }
+    .danger-tabs-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: #94a3b8;
+    }
+    .danger-tabs-header span strong { color: var(--gold-light); }
+    .danger-tabs {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+    }
+    .danger-tab {
+      flex: 1;
+      min-width: 92px;
+      background: #091910;
+      border: 1.5px solid #1e3a2b;
+      border-radius: 8px;
+      padding: 6px 4px;
+      cursor: pointer;
+      text-align: center;
+      font-family: inherit;
+      color: #94a3b8;
+      transition: all 0.15s ease;
+    }
+    .danger-tab:hover {
+      border-color: #34d399;
+      color: #fff;
+    }
+    .danger-tab.active {
+      background: rgba(245, 158, 11, 0.18);
+      border-color: var(--gold);
+      color: var(--gold-light);
+      box-shadow: 0 0 10px rgba(245, 158, 11, 0.35);
+      font-weight: 800;
+    }
+    .danger-tab .d-tier { font-size: 0.95rem; font-weight: 900; }
+    .danger-tab .d-name { font-size: 0.68rem; opacity: 0.85; margin-top: 2px; }
+    .danger-desc-box {
+      font-size: 0.76rem;
+      background: rgba(0, 0, 0, 0.45);
+      border-radius: 6px;
+      padding: 6px 10px;
+      color: #cbd5e1;
+      line-height: 1.4;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
     .roster-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
@@ -611,6 +678,16 @@
           <p>총 <strong>20라운드</strong> 서바이벌! 매 <strong>5라운드마다 강력한 보스</strong>가 출현하며 처치 시 보물상자와 가넷 대박 보상이 쏟아집니다!</p>
         </div>
 
+        <!-- ☠️ 브로테이토식 위험도 (D0 ~ D5) 난이도 선택기 -->
+        <div class="danger-selector-wrap">
+          <div class="danger-tabs-header">
+            <span>☠️ <strong>위험도 (Danger Level)</strong> 선택:</span>
+            <span id="dangerRewardBadge" style="color: #34d399;">클리어 보상: 1.0x</span>
+          </div>
+          <div class="danger-tabs" id="dangerTabs"></div>
+          <div class="danger-desc-box" id="dangerDescBox"></div>
+        </div>
+
         <div class="roster-grid" id="rosterGrid">
           <!-- JS 동적 렌더링 -->
         </div>
@@ -691,8 +768,8 @@
     <!-- 하단 조작 안내 바 -->
     <div class="controls-bar">
       <div><strong>🎮 조작:</strong> [W,A,S,D] / 방향키 / 마우스·터치 드래그 / <strong>[P 또는 ESC]</strong> 일시 정지</div>
-      <div><strong>🍔 햄버거 타겟팅:</strong> 사거리 내 햄버거를 무기로 부수거나 몸으로 짓밟아 회복 버거(🍔) &amp; 상자 획득!</div>
-      <div><strong>👑 5단계 보스 레이드:</strong> 5, 10, 15, 20 라운드 보스 특수 스킬(돌진/탄막/충격파) 회피 &amp; 전설 보상!</div>
+      <div><strong>☠️ 위험도 D0~D5:</strong> 고난이도일수록 강력한 적 출현 및 정산 토큰(가넷·악어이빨) 최대 3.0배 대박 지급!</div>
+      <div><strong>🎨 16-Bit 도트 늪지:</strong> 아레나 도트 배경, 몬스터 3종, 턱 깨물기 FX, 햄버거 나무 및 5종 도트 악어 플레이!</div>
     </div>
   </div>
 
@@ -883,6 +960,7 @@
     // 🎨 16-bit 레트로 도트 게임 에셋 매니저 (몬스터, 아이템, 깨물기 FX)
     const GAME_ASSETS = {};
     const ASSET_LIST = {
+      bg_swamp: 'images/bg_swamp.png',
       mob_slime: 'images/mob_slime.png',
       mob_mosquito: 'images/mob_mosquito.png',
       mob_boar: 'images/mob_boar.png',
@@ -1151,6 +1229,103 @@
     };
 
     // -------------------------------------------------------------
+    // 3-1. 브로테이토 위험도(Danger Level, D0~D5) 난이도 시스템
+    // -------------------------------------------------------------
+    const DANGER_LEVELS = [
+      {
+        level: 0,
+        tier: 'D0',
+        name: '평화로운 늪지',
+        badgeBg: 'rgba(16, 185, 129, 0.25)',
+        color: '#34d399',
+        enemyHpMult: 1.0,
+        enemySpdMult: 1.0,
+        enemyDmgMult: 1.0,
+        shopPriceMult: 1.0,
+        spawnRateMult: 1.0,
+        rewardMult: 1.0,
+        summary: '기본 생태계 (표준 난이도)',
+        desc: '악어 초심자를 위한 온화한 늪지. 모든 적 스탯과 상점 물가가 1.0x 정상 적용됩니다.'
+      },
+      {
+        level: 1,
+        tier: 'D1',
+        name: '야생의 습지',
+        badgeBg: 'rgba(59, 130, 246, 0.25)',
+        color: '#60a5fa',
+        enemyHpMult: 1.15,
+        enemySpdMult: 1.05,
+        enemyDmgMult: 1.05,
+        shopPriceMult: 1.0,
+        spawnRateMult: 1.08,
+        rewardMult: 1.25,
+        summary: '적 HP +15%, 이속 +5% | 보상 1.25x',
+        desc: '야생성이 깨어난 몬스터들이 질기게 추격합니다. 클리어 시 가넷 & 이빨 1.25배 획득!'
+      },
+      {
+        level: 2,
+        tier: 'D2',
+        name: '가혹한 늪지',
+        badgeBg: 'rgba(234, 179, 8, 0.25)',
+        color: '#facc15',
+        enemyHpMult: 1.30,
+        enemySpdMult: 1.10,
+        enemyDmgMult: 1.15,
+        shopPriceMult: 1.10,
+        spawnRateMult: 1.15,
+        rewardMult: 1.5,
+        summary: '적 HP +30%, 공격력 +15%, 물가 +10% | 보상 1.5x',
+        desc: '늪지의 독기가 강해지고 물가가 10% 상승합니다. 방어 스탯의 중요성이 커집니다. 보상 1.5배!'
+      },
+      {
+        level: 3,
+        tier: 'D3',
+        name: '위험 구역',
+        badgeBg: 'rgba(249, 115, 22, 0.25)',
+        color: '#fb923c',
+        enemyHpMult: 1.50,
+        enemySpdMult: 1.15,
+        enemyDmgMult: 1.25,
+        shopPriceMult: 1.15,
+        spawnRateMult: 1.25,
+        rewardMult: 1.8,
+        summary: '스폰 빈도 +25%, 적 HP +50%, 공격력 +25% | 보상 1.8x',
+        desc: '몰려오는 몬스터 무리의 물량이 폭증합니다! 광역 깨물기 및 시너지 조합 필수! 보상 1.8배!'
+      },
+      {
+        level: 4,
+        tier: 'D4',
+        name: '악어 지옥',
+        badgeBg: 'rgba(239, 68, 68, 0.25)',
+        color: '#f87171',
+        enemyHpMult: 1.75,
+        enemySpdMult: 1.20,
+        enemyDmgMult: 1.35,
+        shopPriceMult: 1.20,
+        spawnRateMult: 1.35,
+        rewardMult: 2.2,
+        summary: '적 HP +75%, 이속 +20%, 공격력 +35%, 물가 +20% | 보상 2.2x',
+        desc: '핏빛으로 물든 가혹한 악어의 무덤입니다. 집중력 있는 컨트롤이 요구됩니다. 보상 2.2배!'
+      },
+      {
+        level: 5,
+        tier: 'D5',
+        name: '멸망의 심연',
+        badgeBg: 'rgba(168, 85, 247, 0.3)',
+        color: '#c084fc',
+        enemyHpMult: 2.00,
+        enemySpdMult: 1.25,
+        enemyDmgMult: 1.50,
+        shopPriceMult: 1.25,
+        spawnRateMult: 1.50,
+        rewardMult: 3.0,
+        summary: '🔥 브로테이토 최고 난이도! 적 HP 2배, 공격력 +50% | 대박 보상 3.0x!',
+        desc: '진정한 브로테이토 악어 마스터만을 위한 지옥 난이도. 20웨이브 생존 시 전설의 보상 3배 잭팟!'
+      }
+    ];
+    window.DANGER_LEVELS = DANGER_LEVELS;
+
+    // -------------------------------------------------------------
     // 4. 캐릭터 메타데이터
     // -------------------------------------------------------------
     const CHARACTERS = [
@@ -1229,6 +1404,8 @@
       expNext: 15,
       bonusCratesCount: 0,
       bossKilledCount: 0,
+      selectedDanger: parseInt(localStorage.getItem('hrocodile_danger') || '0', 10),
+      danger: DANGER_LEVELS[0],
 
       player: null,
       enemies: [],
@@ -1317,8 +1494,10 @@
       },
 
       startRun() {
+        // 새로운 20-웨이브 런을 시작하고 플레이어, 난이도, 필드 오브젝트를 초기화하는 함수
         const charId = Wallet.getSelectedCharId();
         const charData = CHARACTERS.find(c => c.id === charId) || CHARACTERS[0];
+        this.danger = DANGER_LEVELS[this.selectedDanger] || DANGER_LEVELS[0];
 
         this.state = 'playing';
         this.wave = 1;
@@ -1424,7 +1603,8 @@
       },
 
       spawnBoss() {
-        // 5라운드마다 출현하는 강력한 대형 보스 스폰
+        // 5라운드마다 출현하는 강력한 대형 보스를 스폰하고 난이도 배수를 적용하는 함수
+        const danger = this.danger || DANGER_LEVELS[0];
         const bossPresets = {
           5: { name: '🐗 늪지 멧돼지 족장', icon: '🐗', hp: 650, speed: 1.5, radius: 36, color: '#a855f7' },
           10: { name: '🦟 맹독 여왕 모기', icon: '🦟', hp: 1400, speed: 2.3, radius: 38, color: '#eab308' },
@@ -1432,19 +1612,21 @@
           20: { name: '👑 메가 버거 타이탄 악어', icon: '👑', hp: 5200, speed: 1.8, radius: 52, color: '#f59e0b' }
         };
         const preset = bossPresets[this.wave] || bossPresets[5];
+        const finalHp = Math.round(preset.hp * danger.enemyHpMult);
+        const finalSpd = preset.speed * danger.enemySpdMult;
         this.enemies.push({
           x: 480,
           y: -40,
-          hp: preset.hp,
-          maxHp: preset.hp,
-          speed: preset.speed,
-          baseSpeed: preset.speed,
+          hp: finalHp,
+          maxHp: finalHp,
+          speed: finalSpd,
+          baseSpeed: finalSpd,
           radius: preset.radius,
           color: preset.color,
           icon: preset.icon,
           isBoss: true,
           bossWave: this.wave,
-          name: preset.name,
+          name: `${preset.name} [${danger.tier}]`,
           skillTimer: 0,
           chargeState: 'none',
           chargeTime: 0,
@@ -1516,9 +1698,12 @@
       },
 
       endGame(isVictory) {
+        // 게임 종료 시 난이도 배수를 곱한 가넷과 악어이빨을 정산하고 결과창을 띄우는 함수
         clearInterval(this.timerInterval);
         document.getElementById('viewportCard').classList.remove('boss-alert');
         this.state = isVictory ? 'victory' : 'over';
+
+        const danger = this.danger || DANGER_LEVELS[0];
 
         // 보스 처치 보너스 (+25 가넷, +10 악어이빨) + 상자 보너스
         const bossBonusGarnet = this.bossKilledCount * 25;
@@ -1526,8 +1711,11 @@
         const crateBonusGarnet = this.bonusCratesCount * 3;
         const crateBonusTeeth = this.bonusCratesCount * 1;
 
-        const earnedGarnets = isVictory ? (this.wave * 6 + 60 + bossBonusGarnet + crateBonusGarnet) : (this.wave * 3 + bossBonusGarnet + crateBonusGarnet);
-        const earnedTeeth = isVictory ? (this.wave * 2 + 20 + bossBonusTeeth + crateBonusTeeth) : Math.max(1, this.wave + bossBonusTeeth + crateBonusTeeth);
+        const baseGarnets = isVictory ? (this.wave * 6 + 60 + bossBonusGarnet + crateBonusGarnet) : (this.wave * 3 + bossBonusGarnet + crateBonusGarnet);
+        const baseTeeth = isVictory ? (this.wave * 2 + 20 + bossBonusTeeth + crateBonusTeeth) : Math.max(1, this.wave + bossBonusTeeth + crateBonusTeeth);
+
+        const earnedGarnets = Math.round(baseGarnets * danger.rewardMult);
+        const earnedTeeth = Math.round(baseTeeth * danger.rewardMult);
 
         Wallet.setGarnets(Wallet.getGarnets() + earnedGarnets);
         Wallet.setTeeth(Wallet.getTeeth() + earnedTeeth);
@@ -1539,14 +1727,16 @@
         const titleEl = document.getElementById('resultTitle');
         const descEl = document.getElementById('resultDesc');
 
+        const dangerBonusText = `[위험도 ${danger.tier} (${danger.name}) 배수 ${danger.rewardMult}x 적용!]`;
+
         if (isVictory) {
           iconEl.textContent = '👑';
-          titleEl.textContent = '20라운드 완전 정복! (ALL CLEAR)';
-          descEl.textContent = `전설적인 20개 웨이브를 모두 클리어하고 최종 보스 타이탄을 쓰러뜨렸습니다! (보스 ${this.bossKilledCount}마리 처치 / 상자 ${this.bonusCratesCount}개 정산)`;
+          titleEl.textContent = `20라운드 완전 정복! [${danger.tier} ALL CLEAR]`;
+          descEl.textContent = `전설적인 20개 웨이브를 모두 클리어하고 최종 보스 타이탄을 쓰러뜨렸습니다! ${dangerBonusText} (보스 ${this.bossKilledCount}마리 처치 / 상자 ${this.bonusCratesCount}개 정산)`;
         } else {
           iconEl.textContent = '💀';
-          titleEl.textContent = '호코다일 전사 (GAME OVER)';
-          descEl.textContent = `Wave ${this.wave}에서 늪지의 맹수들에게 포위당했습니다. (보스 ${this.bossKilledCount}마리 처치 보너스 포함 토큰 지급!)`;
+          titleEl.textContent = `호코다일 전사 [${danger.tier} GAME OVER]`;
+          descEl.textContent = `Wave ${this.wave}에서 늪지의 맹수들에게 포위당했습니다. ${dangerBonusText} (보스 ${this.bossKilledCount}마리 처치 보너스 포함 토큰 지급!)`;
         }
 
         document.getElementById('shopOverlay').classList.remove('active');
@@ -1736,9 +1926,13 @@
           if (--this.slashes[i].life <= 0) this.slashes.splice(i, 1);
         }
 
-        // 8. 몬스터 스폰 (16-bit 픽셀 몬스터 에셋)
-        const spawnDelay = Math.max(20, 70 - (this.wave * 3));
-        if (++this.lastSpawn > spawnDelay && this.enemies.length < (22 + this.wave * 4)) {
+        // 8. 몬스터 스폰 (16-bit 픽셀 몬스터 에셋 & 난이도 배수)
+        const danger = this.danger || DANGER_LEVELS[0];
+        const baseSpawnDelay = Math.max(16, 70 - (this.wave * 3));
+        const spawnDelay = Math.max(10, Math.floor(baseSpawnDelay / danger.spawnRateMult));
+        const maxEnemies = Math.floor((22 + this.wave * 4) * Math.min(1.6, danger.spawnRateMult));
+
+        if (++this.lastSpawn > spawnDelay && this.enemies.length < maxEnemies) {
           this.lastSpawn = 0;
           const edge = Math.floor(Math.random() * 4);
           let sx = 0, sy = 0;
@@ -1753,10 +1947,12 @@
             { asset: 'mob_boar', hp: 35 + this.wave * 7, speed: 1.4, radius: 20, color: '#a855f7', w: 44, h: 40 }
           ];
           const pick = types[Math.floor(Math.random() * types.length)];
+          const finalHp = Math.round(pick.hp * danger.enemyHpMult);
+          const finalSpd = pick.speed * danger.enemySpdMult;
           this.enemies.push({
             x: sx, y: sy,
-            hp: pick.hp, maxHp: pick.hp,
-            speed: pick.speed, radius: pick.radius,
+            hp: finalHp, maxHp: finalHp,
+            speed: finalSpd, radius: pick.radius,
             color: pick.color, asset: pick.asset,
             w: pick.w, h: pick.h,
             isBoss: false,
@@ -1876,7 +2072,7 @@
 
           // 플레이어 공격 충돌
           if (Math.hypot(en.x - this.player.x, en.y - this.player.y) < en.radius + this.player.radius) {
-            const rawDmg = en.isBoss ? 20 : 7;
+            const rawDmg = (en.isBoss ? 20 : 7) * danger.enemyDmgMult;
             const actualDmg = Math.max(1, rawDmg - (this.player.stats.armor || 0));
             this.player.hp -= actualDmg * (1 / 60);
             this.shake = Math.max(this.shake, 2);
@@ -1891,7 +2087,7 @@
           ep.x += ep.vx; ep.y += ep.vy; ep.life--;
 
           if (Math.hypot(ep.x - this.player.x, ep.y - this.player.y) < ep.radius + this.player.radius) {
-            const actualDmg = Math.max(1, ep.dmg - (this.player.stats.armor || 0));
+            const actualDmg = Math.max(1, (ep.dmg * danger.enemyDmgMult) - (this.player.stats.armor || 0));
             this.player.hp -= actualDmg;
             this.shake = 7;
             Sound.playHit();
@@ -1912,7 +2108,7 @@
           const pDist = Math.hypot(sw.x - this.player.x, sw.y - this.player.y);
           if (!sw.hit && Math.abs(pDist - sw.r) < 18) {
             sw.hit = true;
-            const actualDmg = Math.max(1, sw.dmg - (this.player.stats.armor || 0));
+            const actualDmg = Math.max(1, (sw.dmg * danger.enemyDmgMult) - (this.player.stats.armor || 0));
             this.player.hp -= actualDmg;
             this.shake = 9;
             Sound.playHit();
@@ -2102,6 +2298,7 @@
       },
 
       draw() {
+        // 게임 전체 화면(도트 늪지 아레나 배경, 캐릭터, 적, 투사체, HUD)을 캔버스에 렌더링하는 함수
         const ctx = this.ctx;
         ctx.clearRect(0, 0, 960, 540);
 
@@ -2114,16 +2311,28 @@
           this.shake = Math.max(0, this.shake - 0.5);
         }
 
-        // 배경 그리드
-        ctx.fillStyle = '#0a1a11';
-        ctx.fillRect(0, 0, 960, 540);
-        ctx.strokeStyle = 'rgba(245, 158, 11, 0.05)';
-        ctx.lineWidth = 1;
-        for (let x = 0; x < 960; x += 40) {
-          ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, 540); ctx.stroke();
-        }
-        for (let y = 0; y < 540; y += 40) {
-          ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(960, y); ctx.stroke();
+        // 🌿 16-bit 레트로 도트 늪지 아레나 배경 렌더링
+        const bgImg = window.GAME_ASSETS ? window.GAME_ASSETS.bg_swamp : null;
+        if (bgImg && bgImg.complete && bgImg.naturalWidth > 0) {
+          ctx.save();
+          ctx.imageSmoothingEnabled = false;
+          ctx.drawImage(bgImg, 0, 0, 960, 540);
+          // 분위기 있는 늪지 앰비언트 비네팅 & 미세 그리드 필터
+          ctx.fillStyle = 'rgba(5, 18, 12, 0.22)';
+          ctx.fillRect(0, 0, 960, 540);
+          ctx.restore();
+        } else {
+          // 배경 그리드 (폴백)
+          ctx.fillStyle = '#0a1a11';
+          ctx.fillRect(0, 0, 960, 540);
+          ctx.strokeStyle = 'rgba(245, 158, 11, 0.05)';
+          ctx.lineWidth = 1;
+          for (let x = 0; x < 960; x += 40) {
+            ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, 540); ctx.stroke();
+          }
+          for (let y = 0; y < 540; y += 40) {
+            ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(960, y); ctx.stroke();
+          }
         }
 
         if (this.state !== 'playing' && this.state !== 'shop') {
@@ -2460,12 +2669,23 @@
 
         // 경험치 바
         ctx.fillStyle = '#1e293b';
-        ctx.fillRect(590, 14, 180, 12);
+        ctx.fillRect(580, 14, 180, 12);
         ctx.fillStyle = '#a855f7';
-        ctx.fillRect(590, 14, Math.min(180, 180 * (this.exp / this.expNext)), 12);
+        ctx.fillRect(580, 14, Math.min(180, 180 * (this.exp / this.expNext)), 12);
         ctx.font = '10px Pretendard, sans-serif';
         ctx.fillStyle = '#fff';
-        ctx.fillText(`EXP ${this.exp}/${this.expNext}`, 650, 24);
+        ctx.fillText(`EXP ${this.exp}/${this.expNext}`, 640, 24);
+
+        // ☠️ 위험도 난이도 뱃지
+        const curDanger = this.danger || DANGER_LEVELS[this.selectedDanger || 0] || DANGER_LEVELS[0];
+        ctx.fillStyle = curDanger.badgeBg;
+        ctx.fillRect(775, 8, 175, 24);
+        ctx.strokeStyle = curDanger.color;
+        ctx.lineWidth = 1.5;
+        ctx.strokeRect(775, 8, 175, 24);
+        ctx.font = 'bold 11px Pretendard, sans-serif';
+        ctx.fillStyle = curDanger.color;
+        ctx.fillText(`☠️ [${curDanger.tier}] ${curDanger.name} (${curDanger.rewardMult}x)`, 782, 24);
 
         // 웨이브 타이머 슬림 바 (상단 맨 위)
         if (this.totalWaveTimer > 0) {
@@ -2527,6 +2747,8 @@
     // -------------------------------------------------------------
     const LobbyUI = {
       render() {
+        // 로비 UI 전체(위험도 D0~D5 선택 탭 및 캐릭터 카드 목록)를 렌더링하는 함수
+        this.renderDanger();
         const grid = document.getElementById('rosterGrid');
         grid.innerHTML = '';
         const unlocked = Wallet.getUnlockedChars();
@@ -2586,6 +2808,41 @@
 
           grid.appendChild(card);
         });
+      },
+
+      renderDanger() {
+        // 브로테이토 위험도(D0~D5) 난이도 탭과 배수 설명을 렌더링하는 함수
+        const tabsContainer = document.getElementById('dangerTabs');
+        const descBox = document.getElementById('dangerDescBox');
+        const rewardBadge = document.getElementById('dangerRewardBadge');
+        if (!tabsContainer) return;
+
+        tabsContainer.innerHTML = '';
+        DANGER_LEVELS.forEach(dl => {
+          const tab = document.createElement('button');
+          tab.type = 'button';
+          tab.className = `danger-tab ${Game.selectedDanger === dl.level ? 'active' : ''}`;
+          tab.innerHTML = `<div class="d-tier" style="color: ${dl.color};">${dl.tier}</div><div class="d-name">${dl.name}</div>`;
+          tab.addEventListener('click', () => {
+            Game.selectedDanger = dl.level;
+            localStorage.setItem('hrocodile_danger', dl.level);
+            Sound.playBite();
+            this.renderDanger();
+          });
+          tabsContainer.appendChild(tab);
+        });
+
+        const cur = DANGER_LEVELS[Game.selectedDanger] || DANGER_LEVELS[0];
+        if (rewardBadge) {
+          rewardBadge.textContent = `클리어 보상 배수: ${cur.rewardMult}x`;
+          rewardBadge.style.color = cur.color;
+        }
+        if (descBox) {
+          descBox.innerHTML = `
+            <span style="font-weight: 900; color: ${cur.color};">[${cur.tier} ${cur.name}]</span>
+            <span>${cur.summary} — ${cur.desc}</span>
+          `;
+        }
       }
     };
 
@@ -2742,7 +2999,8 @@
           const isWeapon = (entry.type === 'weapon');
           const item = entry.data;
           const discount = Game.player ? Game.player.discount : 1.0;
-          const cost = Math.round(item.cost * discount);
+          const dangerMult = Game.danger ? Game.danger.shopPriceMult : 1.0;
+          const cost = Math.round(item.cost * discount * dangerMult);
           const canAfford = Game.materials >= cost;
           const hasMaxWeapons = isWeapon && Game.player && Game.player.weapons.length >= 6;
 
