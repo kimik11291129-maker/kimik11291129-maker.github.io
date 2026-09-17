@@ -1339,7 +1339,6 @@ footer.site-footer {
   bottom: 8px;
   right: 28px;
   z-index: 1001;
-  cursor: pointer;
   user-select: none;
   display: flex;
   flex-direction: column;
@@ -1347,8 +1346,59 @@ footer.site-footer {
   transition: transform 0.15s ease-out;
 }
 
-.pixel-pet-wrap:hover {
-  transform: translateY(-3px);
+/* 🍔 액션 툴바 (버거 먹이 주기 버튼) */
+.pet-action-toolbar {
+  margin-bottom: 6px;
+  display: flex;
+  justify-content: flex-end;
+  z-index: 1002;
+}
+
+.pixel-feed-btn {
+  background: #09140e;
+  color: #4ade80;
+  border: 2px solid #23402d;
+  font-family: var(--font-pixel, "NeoDungGeunMo", monospace) !important;
+  font-size: 0.78rem;
+  padding: 3px 8px;
+  cursor: pointer;
+  border-radius: 0px !important;
+  box-shadow: 2px 2px 0px #060a08;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.1s;
+}
+
+.pixel-feed-btn:hover {
+  background: #15803d;
+  color: #ffffff;
+  border-color: #4ade80;
+  box-shadow: 3px 3px 0px #060a08;
+  transform: translateY(-1px);
+}
+
+.pixel-feed-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px #060a08;
+}
+
+.feed-btn-icon {
+  font-size: 0.9rem;
+  filter: drop-shadow(1px 1px 0px #060a08);
+}
+
+/* 호야 캔버스 무대 박스 */
+.pet-stage-box {
+  position: relative;
+  width: 96px;
+  height: 48px;
+  cursor: pointer;
+  outline: none;
+}
+
+.pet-stage-box:hover .pixel-pet-canvas {
+  filter: drop-shadow(2px 3px 0px #060a08) drop-shadow(0 0 6px rgba(74, 222, 128, 0.35));
 }
 
 .pixel-pet-canvas {
@@ -1362,7 +1412,7 @@ footer.site-footer {
 }
 
 /* 점프 모션 (4단계 픽셀 스텝) */
-.pixel-pet-wrap.pet-jumping .pixel-pet-canvas {
+.pet-stage-box.pet-jumping .pixel-pet-canvas {
   animation: pixelPetJump 0.45s steps(4) forwards;
 }
 
@@ -1373,24 +1423,96 @@ footer.site-footer {
   100% { transform: translateY(0) scale(1, 1); }
 }
 
+/* 와구와구 씹기 모션 (Chewing Animation) */
+.pet-stage-box.pet-chewing .pixel-pet-canvas {
+  animation: pixelPetChew 0.35s steps(3) 2 forwards;
+}
+
+@keyframes pixelPetChew {
+  0% { transform: translateY(0) scale(1, 1); }
+  50% { transform: translateY(-3px) scale(1.05, 0.92); }
+  100% { transform: translateY(0) scale(1, 1); }
+}
+
+/* 🍔 날아가는 햄버거 레이어 */
+.burger-flight-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: visible;
+  z-index: 1005;
+}
+
+.flying-pixel-burger {
+  position: absolute;
+  top: -38px;
+  left: 14px;
+  width: 28px;
+  height: 24px;
+  image-rendering: pixelated;
+  animation: burgerDropIntoMouth 0.34s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  filter: drop-shadow(2px 2px 0px #060a08);
+}
+
+@keyframes burgerDropIntoMouth {
+  0% {
+    transform: translateY(0) rotate(-18deg) scale(1.2);
+    opacity: 0.9;
+  }
+  60% {
+    transform: translateY(22px) translateX(-4px) rotate(8deg) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(32px) translateX(-8px) rotate(0deg) scale(0.15);
+    opacity: 0;
+  }
+}
+
+/* 먹이 후 피어오르는 하트 & 반짝이 입자 */
+.floating-pixel-particle {
+  position: absolute;
+  top: 8px;
+  font-size: 1rem;
+  pointer-events: none;
+  user-select: none;
+  animation: particleFloatUp 0.9s steps(6) forwards;
+  filter: drop-shadow(1px 1px 0px #060a08);
+}
+
+.particle-1 { left: 8px; animation-delay: 0s; }
+.particle-2 { left: 24px; animation-delay: 0.12s; }
+.particle-3 { left: 42px; animation-delay: 0.22s; }
+
+@keyframes particleFloatUp {
+  0% { transform: translateY(0) scale(0.6); opacity: 0; }
+  25% { opacity: 1; transform: translateY(-12px) scale(1.1); }
+  75% { opacity: 0.8; transform: translateY(-28px) scale(1); }
+  100% { transform: translateY(-40px) scale(0.7); opacity: 0; }
+}
+
 /* 레트로 픽셀 말풍선 */
 .pixel-speech-bubble {
   position: absolute;
-  bottom: 56px;
-  right: 12px;
+  bottom: 84px;
+  right: 6px;
   background: #09120c;
   color: #e5ece6;
   border: 2px solid var(--border-highlight, #385241);
   padding: 10px 14px;
   font-family: var(--font-pixel, "NeoDungGeunMo", monospace) !important;
   font-size: 0.88rem;
-  line-height: 1.4;
+  line-height: 1.45;
   white-space: normal;
   width: max-content;
-  max-width: 280px;
+  max-width: 290px;
   box-shadow: 4px 4px 0px #060a08;
   border-radius: 0px !important;
   pointer-events: none;
+  z-index: 1003;
 }
 
 /* 말풍선 꼬리표 (픽셀 사각 꼬리) */
@@ -1431,11 +1553,13 @@ footer.site-footer {
     height: 40px;
   }
   .pixel-speech-bubble {
-    max-width: 220px;
+    max-width: 230px;
     font-size: 0.8rem;
+    bottom: 78px;
     right: 0;
   }
 }
+
 
 
 
