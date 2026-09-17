@@ -880,6 +880,26 @@
     });
     window.CHAR_SPRITES = CHAR_SPRITES;
 
+    // 🎨 16-bit 레트로 도트 게임 에셋 매니저 (몬스터, 아이템, 깨물기 FX)
+    const GAME_ASSETS = {};
+    const ASSET_LIST = {
+      mob_slime: 'images/mob_slime.png',
+      mob_mosquito: 'images/mob_mosquito.png',
+      mob_boar: 'images/mob_boar.png',
+      item_burger: 'images/item_burger.png',
+      item_crate: 'images/item_crate.png',
+      item_boss_chest: 'images/item_boss_chest.png',
+      item_material: 'images/item_material.png',
+      fx_chomp: 'images/fx_chomp.png'
+    };
+    Object.entries(ASSET_LIST).forEach(([key, path]) => {
+      const img = new Image();
+      img.src = (window.location.port) ? `/static/${path}` : path;
+      img.onerror = () => { img.src = path; };
+      GAME_ASSETS[key] = img;
+    });
+    window.GAME_ASSETS = GAME_ASSETS;
+
     // -------------------------------------------------------------
     // 3. 무기 사전 & 패시브 아이템 데이터베이스
     // -------------------------------------------------------------
@@ -1349,7 +1369,17 @@
       startWave() {
         this.state = 'playing';
         this.isPaused = false;
-        this.waveTimer = 20 + Math.min(25, this.wave * 2);
+
+        // ⏱️ 브로테이토 정통 웨이브 시간 커브 레벨 디자인
+        if (this.wave === 20) {
+          this.waveTimer = 60; // 20웨이브 최종 결전 60초!
+        } else if (this.wave % 5 === 0) {
+          this.waveTimer = 45; // 5/10/15 보스 레이드 45초!
+        } else if (this.wave <= 3) {
+          this.waveTimer = 20 + (this.wave - 1) * 3; // 20초, 23초, 26초
+        } else {
+          this.waveTimer = Math.min(50, 24 + Math.floor(this.wave * 1.5));
+        }
         this.totalWaveTimer = this.waveTimer;
         this.enemies = [];
         this.burgerTrees = [];
@@ -1408,11 +1438,19 @@
           hp: preset.hp,
           maxHp: preset.hp,
           speed: preset.speed,
+          baseSpeed: preset.speed,
           radius: preset.radius,
           color: preset.color,
           icon: preset.icon,
           isBoss: true,
-          name: preset.name
+          bossWave: this.wave,
+          name: preset.name,
+          skillTimer: 0,
+          chargeState: 'none',
+          chargeTime: 0,
+          chargeVx: 0,
+          chargeVy: 0,
+          hitFlash: 0
         });
       },
 
@@ -1421,10 +1459,11 @@
         this.burgerTrees.push({
           x: 60 + Math.random() * 840,
           y: 60 + Math.random() * 420,
-          radius: 22,
+          radius: 24,
           hp: 40 + this.wave * 5,
           maxHp: 40 + this.wave * 5,
-          bounceOffset: Math.random() * Math.PI
+          bounceOffset: Math.random() * Math.PI,
+          hitFlash: 0
         });
       },
 
@@ -1464,6 +1503,8 @@
 
         const harvestGain = Math.round(this.player.stats.harvest || 5);
         this.materials += harvestGain;
+        // 🌱 브로테이토 수확 복리 성장 메커니즘 (매 라운드 5% 추가 성장)
+        this.player.stats.harvest = Math.ceil((this.player.stats.harvest || 5) * 1.05);
 
         if (this.wave >= this.maxWave) {
           this.endGame(true);
@@ -1521,8 +1562,8 @@
         let dx = 0, dy = 0;
         if (this.keys['w'] || this.keys['arrowup']) dy -= 1;
         if (this.keys['s'] || this.keys['arrowdown']) dy += 1;
-        if (this.keys['a'] || this.keys['arrowleft']) dx -= 1;
-        if (this.keys['d'] || this.keys['arrowright']) dx += 1;
+        if (this.keys['a'] || this.keys['arrowleft']) { dx -= 1; this.player.facing = -1; }
+        if (this.keys['d'] || this.keys['arrowright']) { dx += 1; this.player.facing = 1; }
 
         if (dx === 0 && dy === 0 && this.pointerControl.active) {
           const pdx = this.pointerControl.x - this.player.x;
@@ -1531,6 +1572,8 @@
           if (pdist > 18) {
             dx = pdx / pdist;
             dy = pdy / pdist;
+            if (pdx < -5) this.player.facing = -1;
+            else if (pdx > 5) this.player.facing = 1;
           }
         }
 
@@ -1541,9 +1584,7 @@
           if (dx !== 0 && dy !== 0 && !this.pointerControl.active) { dx *= 0.7071; dy *= 0.7071; }
           this.player.x = Math.max(25, Math.min(935, this.player.x + dx * this.player.stats.speed));
           this.player.y = Math.max(25, Math.min(515, this.player.y + dy * this.player.stats.speed));
-          if (dx < -0.1) this.player.facing = -1;
-          else if (dx > 0.1) this.player.facing = 1;
-          this.player.walkCycle += 0.24;
+          this.player.walkCycle += 0.26;
         }
 
         // 2. 플레이어와 햄버거 나무 접촉 시 발로 밟아 자동 파쇄 (손쉬운 햄버거 파괴!)
@@ -1608,14 +1649,16 @@
               if (isCrit) this.shake = Math.max(this.shake, 4);
 
               if (weapon.type === 'melee') {
-                // 🐊 깨물기 근접 턱 공격
+                // 🐊 깨물기 근접 턱 공격 (픽셀 턱 애니메이션 연동)
                 Sound.playBite();
                 this.slashes.push({
-                  x: this.player.x + Math.cos(angle) * 35,
-                  y: this.player.y + Math.sin(angle) * 35,
+                  x: this.player.x + Math.cos(angle) * 36,
+                  y: this.player.y + Math.sin(angle) * 36,
                   angle: angle,
                   color: weapon.color,
                   life: 14,
+                  maxLife: 14,
+                  isChomp: (weapon.id === 'chomp'),
                   icon: weapon.id === 'chomp' ? '🦷' : '✨'
                 });
 
@@ -1693,7 +1736,7 @@
           if (--this.slashes[i].life <= 0) this.slashes.splice(i, 1);
         }
 
-        // 8. 몬스터 스폰 (보스 라운드 제외 일반 몬스터 주기적 스폰)
+        // 8. 몬스터 스폰 (16-bit 픽셀 몬스터 에셋)
         const spawnDelay = Math.max(20, 70 - (this.wave * 3));
         if (++this.lastSpawn > spawnDelay && this.enemies.length < (22 + this.wave * 4)) {
           this.lastSpawn = 0;
@@ -1705,16 +1748,18 @@
           else { sx = -20; sy = Math.random() * 540; }
 
           const types = [
-            { icon: '🟢', hp: 16 + this.wave * 4, speed: 1.8, radius: 14, color: '#10b981' },
-            { icon: '🦟', hp: 10 + this.wave * 2.5, speed: 2.7, radius: 10, color: '#eab308' },
-            { icon: '🐗', hp: 35 + this.wave * 7, speed: 1.4, radius: 18, color: '#a855f7' }
+            { asset: 'mob_slime', hp: 16 + this.wave * 4, speed: 1.8, radius: 16, color: '#10b981', w: 34, h: 34 },
+            { asset: 'mob_mosquito', hp: 10 + this.wave * 2.5, speed: 2.7, radius: 14, color: '#eab308', w: 32, h: 32 },
+            { asset: 'mob_boar', hp: 35 + this.wave * 7, speed: 1.4, radius: 20, color: '#a855f7', w: 44, h: 40 }
           ];
           const pick = types[Math.floor(Math.random() * types.length)];
           this.enemies.push({
             x: sx, y: sy,
             hp: pick.hp, maxHp: pick.hp,
             speed: pick.speed, radius: pick.radius,
-            color: pick.color, icon: pick.icon, isBoss: false,
+            color: pick.color, asset: pick.asset,
+            w: pick.w, h: pick.h,
+            isBoss: false,
             hitFlash: 0
           });
         }
@@ -2123,7 +2168,7 @@
           ctx.restore();
         });
 
-        // 🍔 4. 햄버거 나무 렌더링
+        // 🍔 4. 햄버거 나무 렌더링 (16-bit 픽셀 버거 도트)
         this.burgerTrees.forEach(tree => {
           ctx.save();
           const bounce = Math.sin(Date.now() / 250 + tree.bounceOffset) * 3;
@@ -2132,45 +2177,54 @@
           // 바닥 그림자
           ctx.fillStyle = 'rgba(0,0,0,0.35)';
           ctx.beginPath();
-          ctx.ellipse(0, 16, 16, 6, 0, 0, Math.PI * 2);
+          ctx.ellipse(0, 18, 18, 7, 0, 0, Math.PI * 2);
           ctx.fill();
 
-          if (tree.hitFlash > 0) ctx.filter = 'brightness(2.2)';
+          if (tree.hitFlash > 0) ctx.filter = 'brightness(2.4)';
 
-          ctx.shadowColor = '#f59e0b';
-          ctx.shadowBlur = 14;
-          ctx.font = '32px sans-serif';
-          ctx.textAlign = 'center';
-          ctx.textBaseline = 'middle';
-          ctx.fillText('🍔', 0, 0);
-          ctx.shadowBlur = 0;
+          if (window.GAME_ASSETS && window.GAME_ASSETS.item_burger && window.GAME_ASSETS.item_burger.complete) {
+            ctx.drawImage(window.GAME_ASSETS.item_burger, -26, -26, 52, 52);
+          } else {
+            ctx.font = '32px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('🍔', 0, 0);
+          }
 
           ctx.fillStyle = '#1e293b';
-          ctx.fillRect(-16, -26, 32, 4);
+          ctx.fillRect(-16, -30, 32, 4);
           ctx.fillStyle = '#f59e0b';
-          ctx.fillRect(-16, -26, Math.max(0, 32 * (tree.hp / tree.maxHp)), 4);
+          ctx.fillRect(-16, -30, Math.max(0, 32 * (tree.hp / tree.maxHp)), 4);
           ctx.restore();
         });
 
-        // ✨ 5. 드롭 아이템 렌더링
+        // ✨ 5. 드롭 아이템 렌더링 (순수 픽셀 도트 에셋)
         this.drops.forEach(d => {
           if (d.type === 'material') {
-            ctx.fillStyle = '#34d399';
-            ctx.shadowColor = '#34d399';
-            ctx.shadowBlur = 8;
-            ctx.beginPath();
-            ctx.arc(d.x, d.y, d.radius, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.shadowBlur = 0;
+            if (window.GAME_ASSETS && window.GAME_ASSETS.item_material && window.GAME_ASSETS.item_material.complete) {
+              ctx.drawImage(window.GAME_ASSETS.item_material, d.x - 9, d.y - 9, 18, 18);
+            } else {
+              ctx.fillStyle = '#34d399';
+              ctx.beginPath(); ctx.arc(d.x, d.y, d.radius, 0, Math.PI * 2); ctx.fill();
+            }
           } else if (d.type === 'burger') {
-            ctx.font = '16px serif';
-            ctx.fillText('🍔', d.x - 8, d.y + 6);
+            if (window.GAME_ASSETS && window.GAME_ASSETS.item_burger && window.GAME_ASSETS.item_burger.complete) {
+              ctx.drawImage(window.GAME_ASSETS.item_burger, d.x - 12, d.y - 12, 24, 24);
+            } else {
+              ctx.font = '16px serif'; ctx.fillText('🍔', d.x - 8, d.y + 6);
+            }
           } else if (d.type === 'crate') {
-            ctx.font = '20px serif';
-            ctx.fillText('🎁', d.x - 10, d.y + 7);
+            if (window.GAME_ASSETS && window.GAME_ASSETS.item_crate && window.GAME_ASSETS.item_crate.complete) {
+              ctx.drawImage(window.GAME_ASSETS.item_crate, d.x - 15, d.y - 15, 30, 30);
+            } else {
+              ctx.font = '20px serif'; ctx.fillText('🎁', d.x - 10, d.y + 7);
+            }
           } else if (d.type === 'boss_chest') {
-            ctx.font = '26px serif';
-            ctx.fillText('👑', d.x - 13, d.y + 9);
+            if (window.GAME_ASSETS && window.GAME_ASSETS.item_boss_chest && window.GAME_ASSETS.item_boss_chest.complete) {
+              ctx.drawImage(window.GAME_ASSETS.item_boss_chest, d.x - 20, d.y - 20, 40, 40);
+            } else {
+              ctx.font = '26px serif'; ctx.fillText('👑', d.x - 13, d.y + 9);
+            }
           }
         });
 
@@ -2205,19 +2259,28 @@
           ctx.restore();
         });
 
-        // 🦷 9. 깨물기 슬래시 이펙트
+        // 🦷 9. 깨물기 도트 이펙트 & 슬래시 렌더링
         this.slashes.forEach(s => {
           ctx.save();
           ctx.translate(s.x, s.y);
           ctx.rotate(s.angle);
-          ctx.font = '28px sans-serif';
-          ctx.textAlign = 'center';
-          ctx.textBaseline = 'middle';
-          ctx.fillText(s.icon, 0, 0);
+          const progress = (1 - s.life / (s.maxLife || 14));
+
+          if (s.isChomp && window.GAME_ASSETS && window.GAME_ASSETS.fx_chomp && window.GAME_ASSETS.fx_chomp.complete) {
+            // 🐊 16-bit 픽셀 거대 악어 턱 스냅 애니메이션!
+            const scale = 0.8 + Math.sin(progress * Math.PI) * 0.5;
+            ctx.drawImage(window.GAME_ASSETS.fx_chomp, -40, -40, 80 * scale, 80 * scale);
+          } else {
+            ctx.strokeStyle = s.color || '#22c55e';
+            ctx.lineWidth = 6;
+            ctx.beginPath();
+            ctx.arc(0, 0, 28, -Math.PI / 3, Math.PI / 3);
+            ctx.stroke();
+          }
           ctx.restore();
         });
 
-        // 👾 10. 몬스터 & 보스 렌더링
+        // 👾 10. 몬스터 & 보스 렌더링 (16-bit 픽셀 스프라이트)
         this.enemies.forEach(en => {
           ctx.save();
           ctx.translate(en.x, en.y);
@@ -2228,29 +2291,59 @@
           ctx.ellipse(0, en.radius * 0.7, en.radius * 0.8, en.radius * 0.3, 0, 0, Math.PI * 2);
           ctx.fill();
 
-          if (en.hitFlash > 0) ctx.filter = 'brightness(2.2)';
+          if (en.hitFlash > 0) ctx.filter = 'brightness(2.4)';
 
-          ctx.font = en.isBoss ? '44px sans-serif' : '22px sans-serif';
-          ctx.textAlign = 'center';
-          ctx.textBaseline = 'middle';
-          ctx.fillText(en.icon, 0, 0);
+          // 이동 방향 시선 반전
+          const targetFacing = (this.player && this.player.x < en.x) ? -1 : 1;
+          ctx.scale(targetFacing, 1);
+
+          if (en.isBoss) {
+            // 👑 보스 전용 도트 스프라이트
+            let bossImg = null;
+            let bw = 70, bh = 70;
+            if (en.bossWave === 5) { bossImg = window.GAME_ASSETS.mob_boar; bw = 84; bh = 76; }
+            else if (en.bossWave === 10) { bossImg = window.GAME_ASSETS.mob_mosquito; bw = 80; bh = 80; }
+            else if (en.bossWave === 15) { bossImg = window.CHAR_SPRITES['croc_default']; bw = 90; bh = 90; }
+            else if (en.bossWave === 20) { bossImg = window.CHAR_SPRITES['croc_emperor']; bw = 100; bh = 100; }
+
+            if (bossImg && bossImg.complete) {
+              ctx.drawImage(bossImg, -bw / 2, -bh / 2, bw, bh);
+            } else {
+              ctx.font = '44px sans-serif';
+              ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+              ctx.fillText(en.icon || '👑', 0, 0);
+            }
+          } else {
+            // 일반 몬스터 도트 스프라이트
+            const mobImg = en.asset && window.GAME_ASSETS ? window.GAME_ASSETS[en.asset] : null;
+            const mw = en.w || 36, mh = en.h || 36;
+            if (mobImg && mobImg.complete) {
+              ctx.drawImage(mobImg, -mw / 2, -mh / 2, mw, mh);
+            } else {
+              ctx.font = '22px sans-serif';
+              ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+              ctx.fillText(en.icon || '👾', 0, 0);
+            }
+          }
+
+          ctx.restore(); // scale 복원
 
           // 체력바
           const barW = en.isBoss ? 64 : 32;
           ctx.fillStyle = '#334155';
-          ctx.fillRect(-barW / 2, -en.radius - 12, barW, en.isBoss ? 6 : 4);
+          ctx.fillRect(en.x - barW / 2, en.y - en.radius - 12, barW, en.isBoss ? 6 : 4);
           ctx.fillStyle = en.isBoss ? '#f59e0b' : '#ef4444';
-          ctx.fillRect(-barW / 2, -en.radius - 12, Math.max(0, barW * (en.hp / en.maxHp)), en.isBoss ? 6 : 4);
+          ctx.fillRect(en.x - barW / 2, en.y - en.radius - 12, Math.max(0, barW * (en.hp / en.maxHp)), en.isBoss ? 6 : 4);
 
           if (en.isBoss) {
             ctx.font = 'bold 11px Pretendard, sans-serif';
             ctx.fillStyle = '#fde047';
-            ctx.fillText(en.name || 'BOSS', 0, -en.radius - 16);
+            ctx.textAlign = 'center';
+            ctx.fillText(en.name || 'BOSS', en.x, en.y - en.radius - 16);
           }
-          ctx.restore();
         });
 
-        // 🐊 11. 플레이어 호코다일 렌더링 (보빙 + 틸트 + 방향 전환 + 조준 무기)
+        // 🐊 11. 플레이어 호코다일 렌더링 (다리 걸음 애니메이션 + 완벽 좌우 반전)
         if (this.player) {
           ctx.save();
           ctx.translate(this.player.x, this.player.y);
@@ -2270,7 +2363,32 @@
           ctx.rotate(tilt);
           ctx.scale(this.player.facing || 1, 1);
 
-          // 🐊 16-bit 픽셀 아트 스프라이트 로드 완료 시 캐릭터별 스프라이트 출력, 그 외 이모지 폴백
+          // 🐾 1) 살아 숨쉬는 악어 도트 다리(발) 걷기 애니메이션!
+          const legCycle = this.player.walkCycle;
+          const leftLegY = this.player.isMoving ? Math.sin(legCycle) * 6 : 0;
+          const rightLegY = this.player.isMoving ? Math.sin(legCycle + Math.PI) * 6 : 0;
+          const leftLegX = this.player.isMoving ? Math.cos(legCycle) * 4 : 0;
+          const rightLegX = this.player.isMoving ? Math.cos(legCycle + Math.PI) * 4 : 0;
+
+          ctx.fillStyle = '#166534'; // 악어 녹색 발
+          ctx.strokeStyle = '#052e16';
+          ctx.lineWidth = 1.5;
+
+          // 왼발
+          ctx.save();
+          ctx.translate(-11 + leftLegX, 18 + leftLegY);
+          ctx.fillRect(-4, 0, 9, 7);
+          ctx.strokeRect(-4, 0, 9, 7);
+          ctx.restore();
+
+          // 오른발
+          ctx.save();
+          ctx.translate(11 + rightLegX, 18 + rightLegY);
+          ctx.fillRect(-4, 0, 9, 7);
+          ctx.strokeRect(-4, 0, 9, 7);
+          ctx.restore();
+
+          // 🐊 2) 몸통 도트 캐릭터 스프라이트 출력
           const curSprite = (window.CHAR_SPRITES && window.CHAR_SPRITES[this.player.charId]) 
             ? window.CHAR_SPRITES[this.player.charId] 
             : (window.CHAR_SPRITES ? window.CHAR_SPRITES['croc_default'] : null);
@@ -2283,7 +2401,7 @@
             ctx.textBaseline = 'middle';
             ctx.fillText(this.player.avatar, 0, 0);
           }
-          ctx.restore();
+          ctx.restore(); // scale/rotate/bob 복원
 
           // 무기 조준 및 반동 렌더링
           this.player.weapons.forEach((w, i) => {
@@ -2577,14 +2695,16 @@
             { label: '❤️ 최대 체력 +15', apply: (p) => { p.stats.maxHp += 15; p.hp += 15; } },
             { label: '⚔️ 근접 대미지 +15%', apply: (p) => { p.stats.meleeDmg += 0.15; } },
             { label: '🏹 원거리 대미지 +15%', apply: (p) => { p.stats.rangedDmg += 0.15; } },
-            { label: '⚡ 공격 속도 +10%', apply: (p) => { p.stats.atkSpd += 0.1; } },
+            { label: '⚡ 공격 속도 +12%', apply: (p) => { p.stats.atkSpd += 0.12; } },
             { label: '🎯 치명타율 +5%', apply: (p) => { p.stats.crit += 5; } },
             { label: '🛡️ 방어력 +2', apply: (p) => { p.stats.armor += 2; } },
             { label: '🩸 흡혈 +3%', apply: (p) => { p.stats.lifeSteal += 3; } },
-            { label: '🍀 행운 +10', apply: (p) => { p.stats.luck += 10; } }
+            { label: '🍀 행운 +12', apply: (p) => { p.stats.luck += 12; } },
+            { label: '👟 이동 속도 +10%', apply: (p) => { p.stats.speed += 0.35; } },
+            { label: '🌾 수확 +8 (복리 성장)', apply: (p) => { p.stats.harvest += 8; } }
           ];
 
-          stats.sort(() => Math.random() - 0.5).slice(0, 3).forEach(st => {
+          stats.sort(() => Math.random() - 0.5).slice(0, 4).forEach(st => {
             const btn = document.createElement('button');
             btn.className = 'levelup-btn';
             btn.textContent = st.label;
