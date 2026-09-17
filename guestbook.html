@@ -10,19 +10,19 @@
   <meta name="referrer" content="no-referrer">
 
   <title>방명록 (Guestbook) — 김호선 (Ho-seon Kim)</title>
-  <link rel="stylesheet" href="css/style.css?v=20260917_snow">
+  <link rel="stylesheet" href="css/style.css?v=20260917_darkwood_pixel">
 
   <!-- Supabase 공식 클라이언트 (v2) -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
-    /* 📝 방명록 전용 스타일 (Everforest Boreal) */
+    /* 📝 방명록 레트로 픽셀 스타일 (Darkwood Pixel) */
     .guestbook-card {
       background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 20px;
+      border: 2px solid var(--border);
+      border-radius: 0px;
       padding: 32px;
-      box-shadow: var(--shadow-forest);
+      box-shadow: var(--shadow-pixel);
       margin-bottom: 30px;
     }
 
@@ -36,18 +36,20 @@
     input, textarea {
       width: 100%;
       padding: 11px 15px;
-      border: 1px solid var(--border);
-      border-radius: 10px;
+      border: 2px solid var(--border);
+      border-radius: 0px;
       font-size: 0.92rem;
       outline: none;
-      background: #111a14;
+      background: #110e0b;
       color: var(--text);
-      transition: border-color 0.15s, box-shadow 0.15s;
+      font-family: var(--font-pixel);
+      box-shadow: var(--shadow-pixel-sm);
+      transition: border-color 0.1s;
     }
 
     input:focus, textarea:focus {
       border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.15);
+      box-shadow: 2px 2px 0px #050403;
     }
 
     textarea {
@@ -63,6 +65,7 @@
       margin-bottom: 14px;
       font-size: 0.84rem;
       color: var(--text-muted);
+      font-family: var(--font-pixel);
     }
 
     .cooldown-text {
@@ -73,25 +76,34 @@
 
     .btn-submit-gb {
       width: 100%;
-      padding: 13px;
+      padding: 12px;
       background: var(--primary);
-      color: #0b140e;
+      color: #0b0907 !important;
       font-size: 0.95rem;
-      font-weight: 800;
-      border: none;
-      border-radius: 10px;
+      font-weight: 700;
+      font-family: var(--font-pixel);
+      border: 2px solid #ea580c;
+      border-radius: 0px;
       cursor: pointer;
-      box-shadow: 0 2px 6px rgba(74, 222, 128, 0.2);
-      transition: background-color 0.15s;
+      box-shadow: var(--shadow-pixel);
+      transition: all 0.1s ease;
     }
 
     .btn-submit-gb:hover:not(:disabled) {
       background: var(--primary-hover);
+      transform: translate(-1px, -1px);
+      box-shadow: 5px 5px 0px #050403;
+    }
+
+    .btn-submit-gb:active:not(:disabled) {
+      transform: translate(2px, 2px);
+      box-shadow: 1px 1px 0px #050403;
     }
 
     .btn-submit-gb:disabled {
-      background: #2a3d30;
-      color: #5a7061;
+      background: #2a231d;
+      color: #615243;
+      border-color: #3d3126;
       cursor: not-allowed;
     }
 
@@ -102,35 +114,45 @@
       align-items: center;
       margin-bottom: 16px;
       padding-bottom: 10px;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 2px solid var(--border);
     }
 
     .feed-title {
-      font-size: 1.05rem;
-      font-weight: 900;
+      font-family: var(--font-pixel);
+      font-size: 1.1rem;
+      font-weight: 700;
       color: var(--text);
     }
 
     .btn-refresh {
       background: none;
-      border: none;
+      border: 1px solid var(--border-light);
       color: var(--primary);
-      font-weight: 800;
+      font-family: var(--font-pixel);
+      font-weight: 700;
       cursor: pointer;
-      font-size: 0.88rem;
+      font-size: 0.85rem;
+      padding: 4px 10px;
+      box-shadow: var(--shadow-pixel-sm);
+    }
+
+    .btn-refresh:hover {
+      background: #1c1611;
     }
 
     .gb-item {
-      background: rgba(18, 30, 23, 0.7);
-      border: 1px solid var(--border);
-      border-radius: 12px;
+      background: #15110d;
+      border: 2px solid var(--border);
+      border-radius: 0px;
+      box-shadow: var(--shadow-pixel-sm);
       padding: 16px 18px;
       margin-bottom: 12px;
-      transition: border-color 0.15s;
+      transition: all 0.1s ease;
     }
 
     .gb-item:hover {
       border-color: var(--primary);
+      transform: translate(-1px, -1px);
     }
 
     .gb-item-top {
@@ -141,9 +163,10 @@
     }
 
     .gb-author {
-      font-weight: 900;
+      font-family: var(--font-pixel);
+      font-weight: 700;
       font-size: 0.96rem;
-      color: var(--text);
+      color: var(--primary);
     }
 
     .gb-meta {
@@ -153,7 +176,8 @@
     }
 
     .gb-date {
-      font-size: 0.8rem;
+      font-family: var(--font-pixel);
+      font-size: 0.78rem;
       color: var(--text-muted);
     }
 
@@ -161,16 +185,17 @@
       background: none;
       border: 1px solid var(--border);
       color: var(--danger);
+      font-family: var(--font-pixel);
       font-size: 0.75rem;
       font-weight: 700;
       padding: 3px 8px;
-      border-radius: 6px;
+      border-radius: 0px;
       cursor: pointer;
-      transition: all 0.15s;
+      transition: all 0.1s;
     }
 
     .btn-del-item:hover {
-      background: rgba(248, 113, 113, 0.15);
+      background: rgba(239, 68, 68, 0.15);
       border-color: var(--danger);
     }
 
@@ -178,7 +203,7 @@
       font-size: 0.93rem;
       white-space: pre-wrap;
       word-break: break-word;
-      color: var(--text-muted);
+      color: var(--text);
       line-height: 1.65;
     }
 
@@ -187,21 +212,22 @@
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.45);
+      background: rgba(0, 0, 0, 0.75);
       z-index: 2000;
       align-items: center;
       justify-content: center;
     }
 
     .modal-box {
-      background: #ffffff;
+      background: #18130f;
+      color: var(--text);
       padding: 26px;
-      border-radius: 18px;
+      border-radius: 0px;
       max-width: 360px;
       width: 90%;
       text-align: center;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-      border: 1px solid var(--border);
+      box-shadow: var(--shadow-pixel);
+      border: 2px solid var(--border-light);
     }
 
     @media (max-width: 768px) {
@@ -218,7 +244,7 @@
     <div class="nav-container">
       <a href="index.html" class="brand-logo">
         <span>김호선</span>
-        <span class="role-pill">Everforest Boreal</span>
+        <span class="role-pill">Darkwood Pixel</span>
       </a>
       <nav>
         <ul class="tab-group">
@@ -532,8 +558,8 @@
     loadGuestbookFeed();
   </script>
 
-  <!-- ❄️ 3안: 타이가 설원 6각 기하학 눈결정(Snowflake Crystal) & 미스트 캔버스 -->
-  <canvas id="snowCanvas" class="taiga-canvas"></canvas>
-  <script src="js/snow.js?v=20260917_snow" defer></script>
+  <!-- 🕯️ 다크우드 레트로 픽셀 가스등 & 불씨 캔버스 -->
+  <canvas id="darkwoodCanvas" class="darkwood-canvas"></canvas>
+  <script src="js/darkwood.js?v=20260917_darkwood_pixel" defer></script>
 </body>
 </html>

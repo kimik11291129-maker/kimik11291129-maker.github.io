@@ -12,10 +12,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=20260917_snow">
+  <link rel="stylesheet" href="css/style.css?v=20260917_darkwood_pixel">
 
   <style>
-    /* 👤 자기소개 하이엔드 에디토리얼 스타일 (Everforest Boreal) */
+    /* 👤 자기소개 레트로 픽셀 스타일 (Darkwood Pixel) */
     .profile-hero {
       display: flex;
       gap: 36px;
@@ -27,12 +27,12 @@
     .profile-img-frame {
       width: 140px;
       height: 140px;
-      border-radius: 22px;
+      border-radius: 0px;
       overflow: hidden;
       border: 3px solid var(--border-light);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      box-shadow: var(--shadow-pixel);
       flex-shrink: 0;
-      background: #152019;
+      background: #18130f;
     }
 
     .profile-img-frame img {
@@ -43,16 +43,17 @@
     }
 
     .profile-intro h1 {
-      font-family: var(--font-serif);
-      font-size: 2.15rem;
+      font-family: var(--font-pixel);
+      font-size: 2rem;
       font-weight: 700;
-      letter-spacing: -0.025em;
+      letter-spacing: 0;
       color: var(--text);
       margin-bottom: 8px;
     }
 
     .profile-role-text {
-      font-size: 1.05rem;
+      font-family: var(--font-pixel);
+      font-size: 0.98rem;
       font-weight: 700;
       color: var(--primary);
       margin-bottom: 14px;
@@ -77,7 +78,7 @@
       text-decoration: underline;
     }
 
-    /* 📸 현장 실물 사진 갤러리 그리드 (2x2 Architectural Grid) */
+    /* 📸 현장 실물 사진 갤러리 그리드 */
     .gallery-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -93,16 +94,16 @@
 
     .gallery-card {
       background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 16px;
+      border: 2px solid var(--border);
+      border-radius: 0px;
       overflow: hidden;
-      box-shadow: var(--shadow-forest);
-      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: var(--shadow-pixel);
+      transition: all 0.15s ease;
     }
 
     .gallery-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 14px 30px -4px rgba(0, 0, 0, 0.5), 0 0 20px rgba(74, 222, 128, 0.1);
+      transform: translate(-1px, -1px);
+      box-shadow: 6px 6px 0px #050403;
       border-color: var(--primary);
     }
 
@@ -110,8 +111,8 @@
       width: 100%;
       height: 250px;
       overflow: hidden;
-      border-bottom: 1px solid var(--border);
-      background: #0d1611;
+      border-bottom: 2px solid var(--border);
+      background: #0d0b09;
     }
 
     .gallery-card img {
@@ -119,11 +120,6 @@
       height: 100%;
       object-fit: cover;
       display: block;
-      transition: transform 0.35s ease;
-    }
-
-    .gallery-card:hover img {
-      transform: scale(1.03);
     }
 
     .gallery-caption {
@@ -132,25 +128,26 @@
 
     .gallery-tag {
       display: inline-block;
-      font-family: "DM Mono", monospace;
-      font-size: 0.72rem;
+      font-family: var(--font-pixel);
+      font-size: 0.76rem;
       font-weight: 700;
       color: var(--primary);
       text-transform: uppercase;
-      letter-spacing: 0.06em;
-      background: rgba(74, 222, 128, 0.12);
+      letter-spacing: 0;
+      background: rgba(217, 119, 6, 0.15);
       padding: 3px 8px;
-      border-radius: 4px;
+      border-radius: 0px;
       margin-bottom: 8px;
-      border: 1px solid rgba(74, 222, 128, 0.25);
+      border: 1px solid rgba(217, 119, 6, 0.35);
     }
 
     .gallery-caption strong {
       display: block;
       color: var(--text);
-      font-size: 0.95rem;
-      font-weight: 800;
-      margin-bottom: 4px;
+      font-family: var(--font-pixel);
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 6px;
     }
 
     .gallery-caption p {
@@ -163,29 +160,30 @@
     .chapter-block {
       margin-top: 30px;
       background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 22px;
+      border: 2px solid var(--border);
+      border-radius: 0px;
       padding: 36px;
-      box-shadow: var(--shadow-forest);
+      box-shadow: var(--shadow-pixel);
     }
 
     .chapter-eyebrow {
+      font-family: var(--font-pixel);
       font-size: 0.78rem;
-      font-weight: 800;
+      font-weight: 700;
       color: var(--primary);
       text-transform: uppercase;
-      letter-spacing: 0.08em;
+      letter-spacing: 0;
       margin-bottom: 6px;
       display: block;
     }
 
     .chapter-title {
-      font-family: var(--font-serif);
-      font-size: 1.45rem;
+      font-family: var(--font-pixel);
+      font-size: 1.4rem;
       font-weight: 700;
       color: var(--text);
       margin-bottom: 16px;
-      letter-spacing: -0.02em;
+      letter-spacing: 0;
     }
 
     .chapter-desc {
@@ -197,9 +195,10 @@
 
     /* MOU 파트너 리스트 박스 */
     .mou-box {
-      background: rgba(18, 30, 23, 0.7);
+      background: #130f0c;
       border: 1px solid var(--border);
-      border-radius: 16px;
+      border-radius: 0px;
+      box-shadow: var(--shadow-pixel-sm);
       padding: 24px;
       margin-top: 18px;
     }
@@ -213,8 +212,9 @@
     }
 
     .mou-category-title {
+      font-family: var(--font-pixel);
       font-size: 0.88rem;
-      font-weight: 800;
+      font-weight: 700;
       color: var(--primary);
       margin-bottom: 8px;
       display: flex;
@@ -229,21 +229,22 @@
     }
 
     .mou-pill {
+      font-family: var(--font-pixel);
       font-size: 0.82rem;
       font-weight: 700;
-      background: #17241c;
+      background: #1a1511;
       padding: 5px 12px;
-      border-radius: 8px;
+      border-radius: 0px;
       border: 1px solid var(--border);
       color: var(--text);
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+      box-shadow: var(--shadow-pixel-sm);
       transition: all 0.15s ease;
     }
 
     .mou-pill:hover {
       border-color: var(--primary);
       color: var(--primary);
-      transform: translateY(-1px);
+      transform: translate(-1px, -1px);
     }
 
     /* 글로벌 전략 카드 그리드 */
@@ -255,37 +256,42 @@
     }
 
     .strategy-card {
-      background: rgba(18, 30, 23, 0.7);
-      border: 1px solid var(--border);
-      border-radius: 16px;
+      background: #14100c;
+      border: 2px solid var(--border);
+      border-radius: 0px;
+      box-shadow: var(--shadow-pixel);
       padding: 22px;
-      transition: border-color 0.2s ease;
+      transition: all 0.15s ease;
     }
 
     .strategy-card:hover {
       border-color: var(--primary);
+      transform: translate(-1px, -1px);
+      box-shadow: 6px 6px 0px #050403;
     }
 
     .strategy-badge {
       display: inline-flex;
       align-items: center;
       gap: 4px;
+      font-family: var(--font-pixel);
       font-size: 0.82rem;
-      font-weight: 800;
+      font-weight: 700;
       color: var(--primary);
-      background: rgba(74, 222, 128, 0.12);
+      background: rgba(217, 119, 6, 0.15);
       padding: 3px 10px;
-      border-radius: 6px;
+      border-radius: 0px;
       margin-bottom: 10px;
-      border: 1px solid rgba(74, 222, 128, 0.25);
+      border: 1px solid rgba(217, 119, 6, 0.35);
     }
 
     .strategy-title {
+      font-family: var(--font-pixel);
       font-size: 1.08rem;
-      font-weight: 800;
+      font-weight: 700;
       color: var(--text);
       margin-bottom: 8px;
-      letter-spacing: -0.015em;
+      letter-spacing: 0;
     }
 
     .strategy-desc {
@@ -302,7 +308,7 @@
     <div class="nav-container">
       <a href="index.html" class="brand-logo">
         <span>김호선</span>
-        <span class="role-pill">Everforest Boreal</span>
+        <span class="role-pill">Darkwood Pixel</span>
       </a>
       <nav>
         <ul class="tab-group">
@@ -345,7 +351,7 @@
         </div>
       </div>
 
-      <p style="font-size: 1.02rem; color: #38434a; line-height: 1.8; margin-top: 14px;">
+      <p style="font-size: 1.02rem; color: var(--text); line-height: 1.8; margin-top: 14px;">
         신체의 기능과 통증을 진단하던 물리치료사로서, 국내의 방문재활 공백을 메우기 위해 <strong>연세방문재활운동센터 부대표</strong>로 합류하여 법인화와 대기업·지자체 MOU, 운영 시스템을 설계했습니다. 동시에 러시아와 캐나다 등 북방의 고요 속에서 책을 읽고 사유하며 소설을 쓰는 창작자입니다.<br>
         이제는 경영과 임상 현장에서 다져진 '결핍을 잇는 통찰'을 <strong>공공 빅데이터와 무인 자동화 코딩</strong>으로 확장하여, 세상의 비효율을 직접 <strong>'치료(물리)'</strong>하는 디지털 빌더로 나아가고 있습니다.
       </p>
@@ -527,8 +533,8 @@
     </div>
   </footer>
 
-  <!-- ❄️ 3안: 타이가 설원 6각 기하학 눈결정(Snowflake Crystal) & 미스트 캔버스 -->
-  <canvas id="snowCanvas" class="taiga-canvas"></canvas>
-  <script src="js/snow.js?v=20260917_snow" defer></script>
+  <!-- 🕯️ 다크우드 레트로 픽셀 가스등 & 불씨 캔버스 -->
+  <canvas id="darkwoodCanvas" class="darkwood-canvas"></canvas>
+  <script src="js/darkwood.js?v=20260917_darkwood_pixel" defer></script>
 </body>
 </html>
