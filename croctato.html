@@ -1,0 +1,1473 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🐊 Croctato: 늪지의 악어 서바이벌 (크록테이토)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #07100b;
+      --swamp-deep: #0a1f14;
+      --swamp-mid: #133a26;
+      --swamp-light: #10b981;
+      --croc-green: #22c55e;
+      --gold: #f59e0b;
+      --gold-light: #fde047;
+      --garnet-red: #ef4444;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
+    body {
+      background-color: var(--bg-dark);
+      background-image: radial-gradient(circle at 50% 10%, rgba(16, 185, 129, 0.12) 0%, transparent 60%),
+                        linear-gradient(180deg, #050d09 0%, #0c2016 100%);
+      color: var(--text);
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 14px 10px 40px 10px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 900px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* 🧭 상단 헤더 & 경제 토큰 바 */
+    .top-bar {
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(16, 185, 129, 0.35);
+      border-radius: 18px;
+      padding: 12px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .brand-icon { font-size: 1.8rem; }
+    .brand-title {
+      font-size: 1.25rem;
+      font-weight: 900;
+      color: #34d399;
+      letter-spacing: -0.5px;
+    }
+    .brand-title span { color: var(--gold); }
+    .brand-sub { font-size: 0.75rem; color: var(--text-muted); }
+
+    .token-wallet {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .token-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: #0f172a;
+      border-radius: 20px;
+      padding: 5px 12px;
+      font-size: 0.88rem;
+      font-weight: 800;
+      border: 1.5px solid;
+    }
+    .token-garnet { border-color: var(--garnet-red); color: #fca5a5; box-shadow: 0 0 10px rgba(239, 68, 68, 0.3); }
+    .token-teeth { border-color: var(--gold); color: var(--gold-light); box-shadow: 0 0 10px rgba(245, 158, 11, 0.3); }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-nav {
+      background: #1e293b;
+      color: #cbd5e1;
+      border: 1px solid #475569;
+      border-radius: 10px;
+      padding: 6px 10px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-nav:hover { background: #334155; color: #fff; border-color: #94a3b8; }
+
+    /* 🎮 메인 게임 카드 래퍼 */
+    .game-viewport-card {
+      background: #030805;
+      border: 3px solid #10b981;
+      border-radius: 22px;
+      overflow: hidden;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.85), 0 0 30px rgba(16, 185, 129, 0.2);
+      position: relative;
+    }
+
+    /* 캔버스 화면 */
+    #gameCanvas {
+      display: block;
+      width: 100%;
+      max-width: 900px;
+      height: 540px;
+      background-color: #0b1a12;
+      cursor: crosshair;
+    }
+
+    /* 📱 화면 오버레이 패널들 (로비 / 상점 / 게임오버) */
+    .screen-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(3, 8, 5, 0.94);
+      backdrop-filter: blur(8px);
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
+      z-index: 50;
+      overflow-y: auto;
+    }
+    .screen-overlay.active { display: flex; }
+
+    /* 🐊 1. 캐릭터 선택 로비 */
+    .lobby-header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .lobby-header h2 {
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: #34d399;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .lobby-header p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .roster-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+      width: 100%;
+      max-width: 840px;
+      margin-bottom: 24px;
+    }
+    .roster-card {
+      background: #0f241a;
+      border: 2px solid #1e3a2b;
+      border-radius: 16px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+    .roster-card:hover {
+      border-color: #34d399;
+      transform: translateY(-3px);
+    }
+    .roster-card.selected {
+      border-color: var(--gold-light) !important;
+      background: rgba(245, 158, 11, 0.12) !important;
+      box-shadow: 0 0 16px rgba(245, 158, 11, 0.4);
+    }
+    .roster-card.locked {
+      opacity: 0.8;
+      border-style: dashed;
+    }
+    .roster-avatar {
+      font-size: 2.5rem;
+      margin-bottom: 6px;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));
+    }
+    .roster-name {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #f8fafc;
+      margin-bottom: 4px;
+    }
+    .roster-role {
+      font-size: 0.72rem;
+      color: #34d399;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .roster-desc {
+      font-size: 0.72rem;
+      color: #94a3b8;
+      line-height: 1.35;
+      margin-bottom: 12px;
+      flex-grow: 1;
+    }
+    .roster-btn {
+      width: 100%;
+      padding: 7px 10px;
+      border-radius: 10px;
+      font-size: 0.8rem;
+      font-weight: 800;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-select { background: #059669; color: #fff; }
+    .btn-select:hover { background: #10b981; }
+    .btn-buy-token {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: #000;
+    }
+    .btn-buy-token:hover { background: linear-gradient(135deg, #fbbf24, #f59e0b); }
+
+    .btn-start-run {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: #fff;
+      font-size: 1.25rem;
+      font-weight: 900;
+      padding: 14px 40px;
+      border-radius: 18px;
+      border: 2px solid #34d399;
+      box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .btn-start-run:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 12px 30px rgba(16, 185, 129, 0.6);
+    }
+
+    /* 🛒 2. 웨이브 종료 후 상점(Shop) */
+    .shop-header-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      max-width: 820px;
+      margin-bottom: 14px;
+      border-bottom: 1px solid #1e3a2b;
+      padding-bottom: 10px;
+    }
+    .shop-title {
+      font-size: 1.3rem;
+      font-weight: 900;
+      color: var(--gold-light);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .shop-mats-badge {
+      background: #022c22;
+      border: 2px solid #10b981;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 1.05rem;
+      font-weight: 900;
+      color: #34d399;
+    }
+
+    /* 레벨업 스탯 선택 */
+    .levelup-section {
+      width: 100%;
+      max-width: 820px;
+      background: rgba(16, 185, 129, 0.1);
+      border: 2px solid #10b981;
+      border-radius: 16px;
+      padding: 12px 16px;
+      margin-bottom: 14px;
+      display: none;
+    }
+    .levelup-section.active { display: block; }
+    .levelup-title {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #34d399;
+      margin-bottom: 8px;
+    }
+    .levelup-choices {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 10px;
+    }
+    .levelup-btn {
+      background: #0f241a;
+      border: 1.5px solid #10b981;
+      color: #fff;
+      padding: 10px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: left;
+    }
+    .levelup-btn:hover {
+      background: #10b981;
+      color: #000;
+      transform: translateY(-2px);
+    }
+
+    /* 상점 아이템 그리드 */
+    .shop-items-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      width: 100%;
+      max-width: 820px;
+      margin-bottom: 16px;
+    }
+    .shop-item-card {
+      background: #0c1c14;
+      border: 2px solid #1e3a2b;
+      border-radius: 14px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: border-color 0.2s;
+    }
+    .shop-item-card:hover { border-color: var(--gold); }
+    .item-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+    .item-icon { font-size: 1.6rem; }
+    .item-name { font-size: 0.85rem; font-weight: 800; color: #fff; }
+    .item-tier { font-size: 0.68rem; font-weight: 700; }
+    .tier-1 { color: #94a3b8; }
+    .tier-2 { color: #38bdf8; }
+    .tier-3 { color: #c084fc; }
+    .tier-4 { color: #facc15; }
+    .item-desc { font-size: 0.72rem; color: #94a3b8; line-height: 1.35; margin-bottom: 10px; flex-grow: 1; }
+    .item-buy-btn {
+      width: 100%;
+      padding: 7px;
+      border-radius: 8px;
+      background: var(--gold);
+      color: #000;
+      font-size: 0.8rem;
+      font-weight: 800;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .item-buy-btn:hover:not(:disabled) { background: var(--gold-light); }
+    .item-buy-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .shop-bottom-row {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      max-width: 820px;
+      gap: 12px;
+    }
+    .btn-shop-reroll {
+      background: #1e293b;
+      color: #f8fafc;
+      border: 1px solid #475569;
+      border-radius: 12px;
+      padding: 10px 18px;
+      font-size: 0.88rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .btn-shop-reroll:hover { background: #334155; }
+    .btn-next-wave {
+      flex: 1;
+      background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+      color: #fff;
+      border: 2px solid #34d399;
+      border-radius: 14px;
+      padding: 12px 24px;
+      font-size: 1.05rem;
+      font-weight: 900;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-next-wave:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4); }
+
+    /* 💀 3. 게임 오버 / 클리어 화면 */
+    .result-box {
+      text-align: center;
+      max-width: 480px;
+    }
+    .result-icon { font-size: 4rem; margin-bottom: 12px; }
+    .result-title { font-size: 2rem; font-weight: 900; margin-bottom: 8px; }
+    .result-desc { font-size: 0.95rem; color: #94a3b8; margin-bottom: 20px; line-height: 1.5; }
+    .reward-pills {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+    .reward-pill {
+      background: #0f172a;
+      border: 2px solid;
+      border-radius: 16px;
+      padding: 10px 18px;
+      font-size: 1.1rem;
+      font-weight: 900;
+    }
+
+    /* 하단 키 가이드 */
+    .controls-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(15, 23, 42, 0.6);
+      border-radius: 14px;
+      padding: 8px 16px;
+      font-size: 0.78rem;
+      color: #94a3b8;
+    }
+    .controls-bar strong { color: #f8fafc; }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- 🧭 상단 바 & 재화 토큰 지갑 -->
+    <header class="top-bar">
+      <div class="brand-group">
+        <span class="brand-icon">🐊</span>
+        <div>
+          <div class="brand-title">Croctato <span>(크록테이토)</span></div>
+          <div class="brand-sub">Top-Down Arena Survival Shooter</div>
+        </div>
+      </div>
+
+      <div class="token-wallet">
+        <div class="token-badge token-garnet" title="카지노 & 호야추 공용 재화">
+          <span>🔴 가넷</span>
+          <span id="topGarnetCount">20</span>
+        </div>
+        <div class="token-badge token-teeth" title="크록테이토 런 완주 보상 명예 토큰">
+          <span>🦷 악어이빨</span>
+          <span id="topTeethCount">0</span>
+        </div>
+      </div>
+
+      <nav class="nav-links">
+        <a href="game.html" class="btn-nav">🎲 호야추</a>
+        <a href="dentist.html" class="btn-nav">🦷 악어 룰렛</a>
+        <a href="index.html" class="btn-nav">🏠 홈</a>
+      </nav>
+    </header>
+
+    <!-- 🎮 메인 뷰포트 (캔버스 & 오버레이) -->
+    <div class="game-viewport-card">
+      <canvas id="gameCanvas" width="900" height="540"></canvas>
+
+      <!-- 1. 캐릭터 선택 로비 오버레이 -->
+      <div class="screen-overlay active" id="lobbyOverlay">
+        <div class="lobby-header">
+          <h2>🐊 늪지의 악어 전사 선택</h2>
+          <p>출전할 악어를 선택하세요! 가넷(🔴) 또는 악어이빨(🦷)로 새로운 전사를 영구 해금할 수 있습니다.</p>
+        </div>
+
+        <div class="roster-grid" id="rosterGrid">
+          <!-- JS 동적 렌더링 -->
+        </div>
+
+        <button class="btn-start-run" id="btnStartRun">
+          <span>⚔️ 늪지 서바이벌 시작</span>
+        </button>
+      </div>
+
+      <!-- 2. 웨이브 종료 후 상점(Shop) 오버레이 -->
+      <div class="screen-overlay" id="shopOverlay">
+        <div class="shop-header-bar">
+          <div class="shop-title">🛒 늪지 모닥불 상점 (Wave <span id="shopWaveNum">1</span> 완료)</div>
+          <div class="shop-mats-badge">
+            <span>보유 재료: </span>
+            <span id="shopMaterialCount">0</span> 💰
+          </div>
+        </div>
+
+        <!-- 레벨업 스탯 선택 창 -->
+        <div class="levelup-section" id="levelupSection">
+          <div class="levelup-title">🎉 LEVEL UP! 스탯을 1개 선택하세요:</div>
+          <div class="levelup-choices" id="levelupChoices"></div>
+        </div>
+
+        <!-- 구매 가능한 무기/아이템 4개 -->
+        <div class="shop-items-grid" id="shopItemsGrid"></div>
+
+        <!-- 하단 액션 버튼 -->
+        <div class="shop-bottom-row">
+          <button class="btn-shop-reroll" id="btnShopReroll">🔄 상점 새로고침 (5 💰)</button>
+          <button class="btn-next-wave" id="btnNextWave">다음 웨이브 진입 (Wave <span id="nextWaveNum">2</span>) ➔</button>
+        </div>
+      </div>
+
+      <!-- 3. 결과 (게임 오버 / 승리) 오버레이 -->
+      <div class="screen-overlay" id="resultOverlay">
+        <div class="result-box">
+          <div class="result-icon" id="resultIcon">💀</div>
+          <h2 class="result-title" id="resultTitle">게임 오버</h2>
+          <p class="result-desc" id="resultDesc">늪지의 맹수들에게 압도당했습니다. 하지만 획득한 토큰은 영구 보존됩니다!</p>
+
+          <div class="reward-pills">
+            <div class="reward-pill" style="border-color: var(--garnet-red); color: #fca5a5;">
+              <span>🔴 +</span><span id="earnedGarnetText">0</span><span> 가넷</span>
+            </div>
+            <div class="reward-pill" style="border-color: var(--gold); color: var(--gold-light);">
+              <span>🦷 +</span><span id="earnedTeethText">0</span><span> 악어이빨</span>
+            </div>
+          </div>
+
+          <button class="btn-start-run" id="btnReturnLobby" style="margin: 0 auto;">
+            <span>🐊 캐릭터 로비로 귀환</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 하단 조작 안내 바 -->
+    <div class="controls-bar">
+      <div><strong>🎮 이동 조작:</strong> [W,A,S,D] 또는 [방향키] / 마우스 클릭 및 터치 드래그</div>
+      <div><strong>🔫 공격:</strong> 최대 6개 무기 자동 조준 사격 (Auto-Aim)</div>
+      <div><strong>🎯 목표:</strong> 10개 웨이브를 생존하고 늪지의 보스 악어를 정복하세요!</div>
+    </div>
+  </div>
+
+  <!-- 🔊 Web Audio API 사운드 신디사이저 & 게임 엔진 스크립트 -->
+  <script>
+    // -------------------------------------------------------------
+    // 1. Web Audio API 신디사이저 (복고풍 칩튠 효과음)
+    // -------------------------------------------------------------
+    const Sound = {
+      ctx: null,
+      init() {
+        if (!this.ctx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          if (AudioContext) this.ctx = new AudioContext();
+        }
+      },
+      playShoot() {
+        this.init();
+        if (!this.ctx) return;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(600, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(120, this.ctx.currentTime + 0.08);
+        gain.gain.setValueAtTime(0.12, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.08);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.08);
+      },
+      playHit() {
+        this.init();
+        if (!this.ctx) return;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(140, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(40, this.ctx.currentTime + 0.06);
+        gain.gain.setValueAtTime(0.18, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.06);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.06);
+      },
+      playCoin() {
+        this.init();
+        if (!this.ctx) return;
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(987.77, now);
+        osc.frequency.setValueAtTime(1318.51, now + 0.06);
+        gain.gain.setValueAtTime(0.15, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.14);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.14);
+      },
+      playLevelup() {
+        this.init();
+        if (!this.ctx) return;
+        const now = this.ctx.currentTime;
+        [523.25, 659.25, 783.99, 1046.50].forEach((freq, idx) => {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(freq, now + idx * 0.07);
+          gain.gain.setValueAtTime(0.2, now + idx * 0.07);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + idx * 0.07 + 0.2);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(now + idx * 0.07);
+          osc.stop(now + idx * 0.07 + 0.2);
+        });
+      }
+    };
+
+    // -------------------------------------------------------------
+    // 2. 토큰 및 영구 저장소 매니저 (HoYatch 가넷과 100% 호환)
+    // -------------------------------------------------------------
+    const Wallet = {
+      GARNET_KEY: 'hell_poker_yacht_garnets',
+      TEETH_KEY: 'croctato_teeth_tokens',
+      ROSTER_KEY: 'croctato_unlocked_roster',
+      SELECTED_KEY: 'croctato_selected_char',
+
+      getGarnets() {
+        // 보유 가넷 수량을 불러옵니다.
+        const val = localStorage.getItem(this.GARNET_KEY);
+        return val !== null ? parseInt(val, 10) : 20;
+      },
+      setGarnets(val) {
+        // 가넷 수량을 저장하고 상단 UI를 갱신합니다.
+        localStorage.setItem(this.GARNET_KEY, val);
+        document.getElementById('topGarnetCount').textContent = val;
+      },
+      getTeeth() {
+        // 보유 악어이빨 토큰 수량을 불러옵니다.
+        const val = localStorage.getItem(this.TEETH_KEY);
+        return val !== null ? parseInt(val, 10) : 0;
+      },
+      setTeeth(val) {
+        // 악어이빨 토큰을 저장하고 상단 UI를 갱신합니다.
+        localStorage.setItem(this.TEETH_KEY, val);
+        document.getElementById('topTeethCount').textContent = val;
+      },
+      getUnlockedChars() {
+        // 해금된 캐릭터 ID 목록을 불러옵니다.
+        const val = localStorage.getItem(this.ROSTER_KEY);
+        return val ? JSON.parse(val) : ['croc_default'];
+      },
+      saveUnlockedChars(list) {
+        // 해금된 캐릭터 목록을 저장합니다.
+        localStorage.setItem(this.ROSTER_KEY, JSON.stringify(list));
+      },
+      getSelectedCharId() {
+        // 현재 선택된 캐릭터 ID를 불러옵니다.
+        return localStorage.getItem(this.SELECTED_KEY) || 'croc_default';
+      },
+      setSelectedCharId(id) {
+        // 플레이할 캐릭터 ID를 저장합니다.
+        localStorage.setItem(this.SELECTED_KEY, id);
+      },
+      init() {
+        // 지갑 정보를 초기화하고 화면에 반영합니다.
+        this.setGarnets(this.getGarnets());
+        this.setTeeth(this.getTeeth());
+      }
+    };
+
+    // -------------------------------------------------------------
+    // 3. 캐릭터 메타데이터 (악어 기반 5대 전사)
+    // -------------------------------------------------------------
+    const CHARACTERS = [
+      {
+        id: 'croc_default',
+        name: '야생 악어',
+        role: '밸런스 올라운더',
+        avatar: '🐊',
+        costGarnet: 0,
+        costTeeth: 0,
+        desc: '모든 스탯이 균형 잡힌 정통 늪지 악어. 초보자에게 최적.',
+        stats: { hp: 100, speed: 3.5, dmgMult: 1.0, atkSpd: 1.0, armor: 0, crit: 5, startWeapon: 'pistol' }
+      },
+      {
+        id: 'croc_ranger',
+        name: '쌍권총 레인저 악어',
+        role: '고연사 원거리 딜러',
+        avatar: '🔫',
+        costGarnet: 60,
+        costTeeth: 10,
+        desc: '공격속도 +35%, 원거리 공격력 +20%, 최대체력 -20.',
+        stats: { hp: 80, speed: 3.8, dmgMult: 1.2, atkSpd: 1.35, armor: 0, crit: 10, startWeapon: 'smg' }
+      },
+      {
+        id: 'croc_chef',
+        name: '버거 셰프 악어',
+        role: '흡혈 서스테인 탱커',
+        avatar: '👨‍🍳',
+        costGarnet: 100,
+        costTeeth: 15,
+        desc: '적 처치 시 15% 버거 드롭(체력 +3 즉시 회복), 방어력 +4, 이속 -10%.',
+        stats: { hp: 110, speed: 3.1, dmgMult: 1.0, atkSpd: 1.0, armor: 4, crit: 5, burgerDrop: true, startWeapon: 'dagger' }
+      },
+      {
+        id: 'croc_gambler',
+        name: '카지노 겜블러 악어',
+        role: '크리티컬 & 럭키 행운',
+        avatar: '🎰',
+        costGarnet: 120,
+        costTeeth: 18,
+        desc: '치명타율 +30%, 상점 가격 20% 할인, 방어력 -4.',
+        stats: { hp: 90, speed: 3.5, dmgMult: 1.1, atkSpd: 1.1, armor: -4, crit: 35, discount: 0.8, startWeapon: 'dice_launcher' }
+      },
+      {
+        id: 'croc_emperor',
+        name: '황금 중갑 악어 황제',
+        role: '헤비 아머 바주카',
+        avatar: '👑',
+        costGarnet: 150,
+        costTeeth: 20,
+        desc: '최대 체력 +60, 넉백 2배, 피해량 +30%, 공격속도 -25%.',
+        stats: { hp: 160, speed: 2.8, dmgMult: 1.3, atkSpd: 0.75, armor: 6, crit: 5, startWeapon: 'cannon' }
+      }
+    ];
+
+    // 무기 원본 사전
+    const WEAPONS_DB = {
+      pistol: { name: '악어 피스톨', icon: '🔫', tier: 1, dmg: 14, rate: 0.45, range: 240, speed: 8, cost: 15, color: '#38bdf8' },
+      smg: { name: '속사 SMG', icon: '⚡', tier: 1, dmg: 7, rate: 0.18, range: 200, speed: 9, cost: 20, color: '#facc15' },
+      shotgun: { name: '더블 샷건', icon: '💥', tier: 2, dmg: 10, rate: 0.75, range: 180, speed: 7, count: 4, cost: 25, color: '#fb923c' },
+      dagger: { name: '악어 이빨 단검', icon: '🗡️', tier: 1, dmg: 22, rate: 0.4, range: 90, speed: 12, cost: 18, color: '#34d399' },
+      dice_launcher: { name: '다이스 바주카', icon: '🎲', tier: 2, dmg: 35, rate: 0.9, range: 260, speed: 6, aoe: 50, cost: 30, color: '#ec4899' },
+      cannon: { name: '황금 대포', icon: '💣', tier: 3, dmg: 55, rate: 1.3, range: 300, speed: 5, aoe: 70, cost: 40, color: '#eab308' }
+    };
+
+    // -------------------------------------------------------------
+    // 4. 게임 메인 인스턴스 (아레나 엔진)
+    // -------------------------------------------------------------
+    const Game = {
+      canvas: null,
+      ctx: null,
+      state: 'lobby', // lobby, playing, shop, over, victory
+      wave: 1,
+      maxWave: 10,
+      waveTimer: 20,
+      materials: 0,
+      level: 1,
+      exp: 0,
+      expNext: 15,
+
+      player: null,
+      enemies: [],
+      projectiles: [],
+      drops: [],
+      particles: [],
+      damageTexts: [],
+
+      keys: {},
+      mousePos: { x: 450, y: 270 },
+      isMouseDown: false,
+      lastSpawn: 0,
+      timerInterval: null,
+
+      init() {
+        // 게임 엔진 및 캔버스 컨텍스트를 초기화합니다.
+        this.canvas = document.getElementById('gameCanvas');
+        this.ctx = this.canvas.getContext('2d');
+        Wallet.init();
+        LobbyUI.render();
+
+        // 키보드 & 마우스 이벤트 리스너 등록
+        window.addEventListener('keydown', (e) => { this.keys[e.key.toLowerCase()] = true; });
+        window.addEventListener('keyup', (e) => { this.keys[e.key.toLowerCase()] = false; });
+
+        this.canvas.addEventListener('mousemove', (e) => {
+          const rect = this.canvas.getBoundingClientRect();
+          this.mousePos.x = (e.clientX - rect.left) * (this.canvas.width / rect.width);
+          this.mousePos.y = (e.clientY - rect.top) * (this.canvas.height / rect.height);
+        });
+        this.canvas.addEventListener('mousedown', () => { this.isMouseDown = true; });
+        this.canvas.addEventListener('mouseup', () => { this.isMouseDown = false; });
+        this.canvas.addEventListener('touchmove', (e) => {
+          if (!e.touches[0]) return;
+          const rect = this.canvas.getBoundingClientRect();
+          this.mousePos.x = (e.touches[0].clientX - rect.left) * (this.canvas.width / rect.width);
+          this.mousePos.y = (e.touches[0].clientY - rect.top) * (this.canvas.height / rect.height);
+        });
+
+        // 60FPS 메인 루프 시작
+        requestAnimationFrame(() => this.loop());
+      },
+
+      startRun() {
+        // 새로운 크록테이토 런을 시작합니다.
+        const charId = Wallet.getSelectedCharId();
+        const charData = CHARACTERS.find(c => c.id === charId) || CHARACTERS[0];
+
+        this.state = 'playing';
+        this.wave = 1;
+        this.materials = 0;
+        this.level = 1;
+        this.exp = 0;
+        this.expNext = 15;
+
+        // 플레이어 초기화
+        this.player = {
+          x: 450,
+          y: 270,
+          radius: 20,
+          hp: charData.stats.hp,
+          maxHp: charData.stats.hp,
+          speed: charData.stats.speed,
+          dmgMult: charData.stats.dmgMult,
+          atkSpd: charData.stats.atkSpd,
+          armor: charData.stats.armor,
+          crit: charData.stats.crit,
+          avatar: charData.avatar,
+          burgerDrop: charData.stats.burgerDrop || false,
+          discount: charData.stats.discount || 1.0,
+          weapons: [ JSON.parse(JSON.stringify(WEAPONS_DB[charData.stats.startWeapon])) ]
+        };
+        // 첫 무기 쿨다운 초기화
+        this.player.weapons.forEach(w => w.cooldown = 0);
+
+        this.enemies = [];
+        this.projectiles = [];
+        this.drops = [];
+        this.particles = [];
+        this.damageTexts = [];
+
+        document.getElementById('lobbyOverlay').classList.remove('active');
+        document.getElementById('shopOverlay').classList.remove('active');
+        document.getElementById('resultOverlay').classList.remove('active');
+
+        this.startWave();
+      },
+
+      startWave() {
+        // 현재 웨이브를 개시하고 타이머를 설정합니다.
+        this.state = 'playing';
+        this.waveTimer = 20 + (this.wave * 2); // 웨이브가 지날수록 2초씩 증가
+        this.enemies = [];
+        this.projectiles = [];
+
+        if (this.timerInterval) clearInterval(this.timerInterval);
+        this.timerInterval = setInterval(() => {
+          if (this.state === 'playing') {
+            this.waveTimer--;
+            if (this.waveTimer <= 0) {
+              this.completeWave();
+            }
+          }
+        }, 1000);
+      },
+
+      completeWave() {
+        // 웨이브를 성공적으로 버텼을 때 상점 페이즈로 전환합니다.
+        clearInterval(this.timerInterval);
+        Sound.playLevelup();
+
+        if (this.wave >= this.maxWave) {
+          this.endGame(true);
+          return;
+        }
+
+        this.state = 'shop';
+        ShopUI.open(this.wave, this.materials);
+      },
+
+      endGame(isVictory) {
+        // 게임 종료 시(패배/승리) 보상을 계산하여 지급합니다.
+        clearInterval(this.timerInterval);
+        this.state = isVictory ? 'victory' : 'over';
+
+        // 보상 산정: 웨이브 수에 비례한 가넷 & 이빨 토큰
+        const earnedGarnets = isVictory ? (this.wave * 8 + 50) : (this.wave * 4);
+        const earnedTeeth = isVictory ? (this.wave * 3 + 15) : Math.max(1, this.wave * 2);
+
+        Wallet.setGarnets(Wallet.getGarnets() + earnedGarnets);
+        Wallet.setTeeth(Wallet.getTeeth() + earnedTeeth);
+
+        document.getElementById('earnedGarnetText').textContent = earnedGarnets;
+        document.getElementById('earnedTeethText').textContent = earnedTeeth;
+
+        const iconEl = document.getElementById('resultIcon');
+        const titleEl = document.getElementById('resultTitle');
+        const descEl = document.getElementById('resultDesc');
+
+        if (isVictory) {
+          iconEl.textContent = '👑';
+          titleEl.textContent = '늪지의 절대 군주! (VICTORY)';
+          descEl.textContent = `축하합니다! 10대 웨이브를 모두 버텨내고 거대 보스 악어를 쓰러뜨렸습니다!`;
+        } else {
+          iconEl.textContent = '💀';
+          titleEl.textContent = '악어 전사 전사 (GAME OVER)';
+          descEl.textContent = `Wave ${this.wave}에서 늪지의 맹수들에게 포위당했습니다. 토큰을 정산받았습니다!`;
+        }
+
+        document.getElementById('shopOverlay').classList.remove('active');
+        document.getElementById('resultOverlay').classList.add('active');
+      },
+
+      update() {
+        // 인게임 1프레임 물리 및 전투 시뮬레이션을 갱신합니다.
+        if (this.state !== 'playing' || !this.player) return;
+
+        // 1. 플레이어 이동 (WASD + 키보드)
+        let dx = 0;
+        let dy = 0;
+        if (this.keys['w'] || this.keys['arrowup']) dy -= 1;
+        if (this.keys['s'] || this.keys['arrowdown']) dy += 1;
+        if (this.keys['a'] || this.keys['arrowleft']) dx -= 1;
+        if (this.keys['d'] || this.keys['arrowright']) dx += 1;
+
+        if (dx !== 0 && dy !== 0) {
+          dx *= 0.7071;
+          dy *= 0.7071;
+        }
+        this.player.x = Math.max(25, Math.min(875, this.player.x + dx * this.player.speed));
+        this.player.y = Math.max(25, Math.min(515, this.player.y + dy * this.player.speed));
+
+        // 2. 무기 자동 조준 및 사격 (Auto-Aim)
+        this.player.weapons.forEach((weapon, wIdx) => {
+          weapon.cooldown = Math.max(0, weapon.cooldown - (1 / 60) * this.player.atkSpd);
+          if (weapon.cooldown <= 0 && this.enemies.length > 0) {
+            // 사거리 내 가장 가까운 적 탐색
+            let closest = null;
+            let minDist = weapon.range;
+            this.enemies.forEach(en => {
+              const dist = Math.hypot(en.x - this.player.x, en.y - this.player.y);
+              if (dist < minDist) {
+                minDist = dist;
+                closest = en;
+              }
+            });
+
+            if (closest) {
+              const angle = Math.atan2(closest.y - this.player.y, closest.x - this.player.x);
+              const isCrit = (Math.random() * 100) < this.player.crit;
+              const dmg = Math.round(weapon.dmg * this.player.dmgMult * (isCrit ? 2.0 : 1.0));
+
+              // 무기별 발사체 생성
+              const bulletCount = weapon.count || 1;
+              for (let b = 0; b < bulletCount; b++) {
+                const spread = (b - (bulletCount - 1) / 2) * 0.18;
+                this.projectiles.push({
+                  x: this.player.x,
+                  y: this.player.y,
+                  vx: Math.cos(angle + spread) * weapon.speed,
+                  vy: Math.sin(angle + spread) * weapon.speed,
+                  dmg: dmg,
+                  isCrit: isCrit,
+                  color: weapon.color,
+                  radius: weapon.aoe ? 7 : 4,
+                  aoe: weapon.aoe || 0,
+                  life: 60
+                });
+              }
+              Sound.playShoot();
+              weapon.cooldown = weapon.rate;
+            }
+          }
+        });
+
+        // 3. 발사체 이동 및 적 피격 충돌
+        for (let i = this.projectiles.length - 1; i >= 0; i--) {
+          const p = this.projectiles[i];
+          p.x += p.vx;
+          p.y += p.vy;
+          p.life--;
+
+          let hit = false;
+          for (let j = this.enemies.length - 1; j >= 0; j--) {
+            const en = this.enemies[j];
+            if (Math.hypot(p.x - en.x, p.y - en.y) < p.radius + en.radius) {
+              hit = true;
+              en.hp -= p.dmg;
+              Sound.playHit();
+
+              // 대미지 텍스트 파티클
+              this.damageTexts.push({
+                x: en.x,
+                y: en.y - 10,
+                text: (p.isCrit ? '💥' : '') + p.dmg,
+                color: p.isCrit ? '#fde047' : '#fff',
+                life: 30
+              });
+
+              // 적 사망 시
+              if (en.hp <= 0) {
+                // 재료 젤리 드롭
+                this.drops.push({
+                  x: en.x,
+                  y: en.y,
+                  type: 'material',
+                  val: en.isBoss ? 20 : 1,
+                  radius: en.isBoss ? 8 : 5
+                });
+                // 셰프 악어 버거 드롭
+                if (this.player.burgerDrop && Math.random() < 0.15) {
+                  this.drops.push({
+                    x: en.x + 5,
+                    y: en.y + 5,
+                    type: 'burger',
+                    val: 4,
+                    radius: 7
+                  });
+                }
+                this.enemies.splice(j, 1);
+              }
+              break;
+            }
+          }
+
+          if (hit || p.life <= 0) {
+            this.projectiles.splice(i, 1);
+          }
+        }
+
+        // 4. 몬스터 스폰 (웨이브별 점진적 강화)
+        const spawnDelay = Math.max(25, 75 - (this.wave * 5));
+        if (++this.lastSpawn > spawnDelay && this.enemies.length < (25 + this.wave * 6)) {
+          this.lastSpawn = 0;
+          const edge = Math.floor(Math.random() * 4);
+          let sx = 0, sy = 0;
+          if (edge === 0) { sx = Math.random() * 900; sy = -20; }
+          else if (edge === 1) { sx = 920; sy = Math.random() * 540; }
+          else if (edge === 2) { sx = Math.random() * 900; sy = 560; }
+          else { sx = -20; sy = Math.random() * 540; }
+
+          const isBossWave = (this.wave === 5 || this.wave === 10);
+          const shouldSpawnBoss = isBossWave && !this.enemies.some(e => e.isBoss);
+
+          if (shouldSpawnBoss) {
+            this.enemies.push({
+              x: sx, y: sy,
+              hp: 350 + this.wave * 120,
+              maxHp: 350 + this.wave * 120,
+              speed: 1.6,
+              radius: 32,
+              color: '#ef4444',
+              icon: '🦖',
+              isBoss: true
+            });
+          } else {
+            const types = [
+              { icon: '🟢', hp: 16 + this.wave * 4, speed: 1.8, radius: 14, color: '#10b981' },
+              { icon: '🦟', hp: 10 + this.wave * 2, speed: 2.7, radius: 10, color: '#eab308' },
+              { icon: '🐗', hp: 35 + this.wave * 7, speed: 1.4, radius: 18, color: '#a855f7' }
+            ];
+            const pick = types[Math.floor(Math.random() * types.length)];
+            this.enemies.push({
+              x: sx, y: sy,
+              hp: pick.hp,
+              maxHp: pick.hp,
+              speed: pick.speed,
+              radius: pick.radius,
+              color: pick.color,
+              icon: pick.icon,
+              isBoss: false
+            });
+          }
+        }
+
+        // 5. 몬스터 이동 & 플레이어 공격 충돌
+        this.enemies.forEach(en => {
+          const angle = Math.atan2(this.player.y - en.y, this.player.x - en.x);
+          en.x += Math.cos(angle) * en.speed;
+          en.y += Math.sin(angle) * en.speed;
+
+          // 플레이어 접촉 대미지
+          if (Math.hypot(en.x - this.player.x, en.y - this.player.y) < en.radius + this.player.radius) {
+            const rawDmg = en.isBoss ? 15 : 6;
+            const actualDmg = Math.max(1, rawDmg - (this.player.armor || 0));
+            this.player.hp -= actualDmg * (1 / 60); // 지속 대미지
+
+            if (this.player.hp <= 0) {
+              this.endGame(false);
+            }
+          }
+        });
+
+        // 6. 드롭 아이템 흡수 (자석 범위)
+        for (let i = this.drops.length - 1; i >= 0; i--) {
+          const d = this.drops[i];
+          const dist = Math.hypot(d.x - this.player.x, d.y - this.player.y);
+          if (dist < 120) {
+            d.x += (this.player.x - d.x) * 0.15;
+            d.y += (this.player.y - d.y) * 0.15;
+          }
+          if (dist < this.player.radius + d.radius) {
+            if (d.type === 'material') {
+              this.materials += d.val;
+              this.exp += d.val;
+              Sound.playCoin();
+
+              // 레벨업 체크
+              if (this.exp >= this.expNext) {
+                this.level++;
+                this.exp -= this.expNext;
+                this.expNext = Math.round(this.expNext * 1.4);
+                ShopUI.pendingLevelUps++;
+              }
+            } else if (d.type === 'burger') {
+              this.player.hp = Math.min(this.player.maxHp, this.player.hp + d.val);
+              Sound.playCoin();
+            }
+            this.drops.splice(i, 1);
+          }
+        }
+
+        // 7. 대미지 텍스트 갱신
+        for (let i = this.damageTexts.length - 1; i >= 0; i--) {
+          const dt = this.damageTexts[i];
+          dt.y -= 0.5;
+          dt.life--;
+          if (dt.life <= 0) this.damageTexts.splice(i, 1);
+        }
+      },
+
+      draw() {
+        // 캔버스 프레임을 정교하게 렌더링합니다.
+        const ctx = this.ctx;
+        ctx.clearRect(0, 0, 900, 540);
+
+        // 늪지대 배경 격자
+        ctx.fillStyle = '#0a1a11';
+        ctx.fillRect(0, 0, 900, 540);
+        ctx.strokeStyle = 'rgba(16, 185, 129, 0.06)';
+        ctx.lineWidth = 1;
+        for (let x = 0; x < 900; x += 40) {
+          ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, 540); ctx.stroke();
+        }
+        for (let y = 0; y < 540; y += 40) {
+          ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(900, y); ctx.stroke();
+        }
+
+        if (this.state !== 'playing' && this.state !== 'shop') return;
+
+        // 드롭 아이템 (초록 젤리 & 버거)
+        this.drops.forEach(d => {
+          if (d.type === 'material') {
+            ctx.fillStyle = '#34d399';
+            ctx.shadowColor = '#34d399';
+            ctx.shadowBlur = 8;
+            ctx.beginPath();
+            ctx.arc(d.x, d.y, d.radius, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.shadowBlur = 0;
+          } else {
+            ctx.font = '14px serif';
+            ctx.fillText('🍔', d.x - 7, d.y + 5);
+          }
+        });
+
+        // 발사체 렌더링
+        this.projectiles.forEach(p => {
+          ctx.fillStyle = p.color;
+          ctx.shadowColor = p.color;
+          ctx.shadowBlur = 6;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.shadowBlur = 0;
+        });
+
+        // 몬스터 렌더링
+        this.enemies.forEach(en => {
+          ctx.save();
+          ctx.translate(en.x, en.y);
+          ctx.font = en.isBoss ? '36px sans-serif' : '20px sans-serif';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(en.icon, 0, 0);
+
+          // 몬스터 체력 바
+          if (en.hp < en.maxHp) {
+            ctx.fillStyle = '#334155';
+            ctx.fillRect(-15, -en.radius - 8, 30, 4);
+            ctx.fillStyle = '#ef4444';
+            ctx.fillRect(-15, -en.radius - 8, Math.max(0, 30 * (en.hp / en.maxHp)), 4);
+          }
+          ctx.restore();
+        });
+
+        // 플레이어 악어 렌더링
+        if (this.player) {
+          ctx.save();
+          ctx.translate(this.player.x, this.player.y);
+
+          // 악어 본체 아바타 이모지
+          ctx.font = '32px sans-serif';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(this.player.avatar, 0, 0);
+
+          // 장착된 무기 공전 렌더링 (최대 6개)
+          this.player.weapons.forEach((w, i) => {
+            const angle = (Date.now() / 600) + (i * (Math.PI * 2 / this.player.weapons.length));
+            const wx = Math.cos(angle) * 32;
+            const wy = Math.sin(angle) * 32;
+            ctx.font = '16px sans-serif';
+            ctx.fillText(w.icon, wx, wy);
+          });
+
+          // 플레이어 체력 바
+          ctx.fillStyle = '#0f172a';
+          ctx.fillRect(-24, -34, 48, 6);
+          ctx.fillStyle = '#22c55e';
+          ctx.fillRect(-24, -34, Math.max(0, 48 * (this.player.hp / this.player.maxHp)), 6);
+          ctx.strokeStyle = '#000';
+          ctx.lineWidth = 1;
+          ctx.strokeRect(-24, -34, 48, 6);
+
+          ctx.restore();
+        }
+
+        // 대미지 텍스트
+        this.damageTexts.forEach(dt => {
+          ctx.font = 'bold 12px Pretendard, sans-serif';
+          ctx.fillStyle = dt.color;
+          ctx.fillText(dt.text, dt.x - 8, dt.y);
+        });
+
+        // HUD (상단 헤더 정보 렌더링)
+        ctx.fillStyle = 'rgba(3, 8, 5, 0.75)';
+        ctx.fillRect(0, 0, 900, 38);
+
+        ctx.font = 'bold 14px Pretendard, sans-serif';
+        ctx.fillStyle = '#34d399';
+        ctx.fillText(`🌊 WAVE ${this.wave} / ${this.maxWave}`, 20, 24);
+
+        ctx.fillStyle = '#facc15';
+        ctx.fillText(`⏳ ${this.waveTimer}s`, 180, 24);
+
+        ctx.fillStyle = '#38bdf8';
+        ctx.fillText(`💰 재료: ${this.materials}`, 270, 24);
+
+        ctx.fillStyle = '#a855f7';
+        ctx.fillText(`⭐ Lv.${this.level}`, 400, 24);
+
+        // 경험치 게이지 바
+        ctx.fillStyle = '#1e293b';
+        ctx.fillRect(470, 14, 200, 10);
+        ctx.fillStyle = '#a855f7';
+        ctx.fillRect(470, 14, Math.min(200, 200 * (this.exp / this.expNext)), 10);
+      },
+
+      loop() {
+        // 메인 게임 루프를 매 프레임 실행합니다.
+        this.update();
+        this.draw();
+        requestAnimationFrame(() => this.loop());
+      }
+    };
+
+    // -------------------------------------------------------------
+    // 5. 로비 UI 컨트롤러
+    // -------------------------------------------------------------
+    const LobbyUI = {
+      render() {
+        // 캐릭터 선택 카드를 생성하고 잠금 해제 상태를 반영합니다.
+        const grid = document.getElementById('rosterGrid');
+        grid.innerHTML = '';
+        const unlocked = Wallet.getUnlockedChars();
+        const selectedId = Wallet.getSelectedCharId();
+        const currentGarnet = Wallet.getGarnets();
+        const currentTeeth = Wallet.getTeeth();
+
+        CHARACTERS.forEach(char => {
+          const isUnlocked = unlocked.includes(char.id);
+          const isSelected = (selectedId === char.id);
+          const canBuy = (currentGarnet >= char.costGarnet || currentTeeth >= char.costTeeth);
+
+          const card = document.createElement('div');
+          card.className = `roster-card ${isSelected ? 'selected' : ''} ${!isUnlocked ? 'locked' : ''}`;
+          card.innerHTML = `
+            <div class="roster-avatar">${char.avatar}</div>
+            <div class="roster-name">${char.name}</div>
+            <div class="roster-role">${char.role}</div>
+            <div class="roster-desc">${char.desc}</div>
+            ${
+              isUnlocked
+                ? `<button class="roster-btn btn-select">${isSelected ? '✓ 선택됨' : '선택하기'}</button>`
+                : `<button class="roster-btn btn-buy-token" ${!canBuy ? 'disabled' : ''}>
+                     해금 (🔴 ${char.costGarnet} or 🦷 ${char.costTeeth})
+                   </button>`
+            }
+          `;
+
+          const btn = card.querySelector('.roster-btn');
+          btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (isUnlocked) {
+              Wallet.setSelectedCharId(char.id);
+              this.render();
+            } else {
+              // 구매: 가넷 우선, 부족하면 악어이빨로 결제
+              if (currentGarnet >= char.costGarnet) {
+                Wallet.setGarnets(currentGarnet - char.costGarnet);
+              } else {
+                Wallet.setTeeth(currentTeeth - char.costTeeth);
+              }
+              unlocked.push(char.id);
+              Wallet.saveUnlockedChars(unlocked);
+              Wallet.setSelectedCharId(char.id);
+              Sound.playLevelup();
+              alert(`🎉 [${char.name}] 해금 완료!`);
+              this.render();
+            }
+          });
+
+          grid.appendChild(card);
+        });
+      }
+    };
+
+    // -------------------------------------------------------------
+    // 6. 상점 UI 컨트롤러
+    // -------------------------------------------------------------
+    const ShopUI = {
+      pendingLevelUps: 0,
+
+      open(wave, materials) {
+        // 상점 모달을 열고 상품을 갱신합니다.
+        document.getElementById('shopWaveNum').textContent = wave;
+        document.getElementById('nextWaveNum').textContent = wave + 1;
+        document.getElementById('shopMaterialCount').textContent = materials;
+        this.renderItems();
+        this.checkLevelUp();
+        document.getElementById('shopOverlay').classList.add('active');
+      },
+
+      checkLevelUp() {
+        // 대기 중인 레벨업이 있으면 스탯 선택지를 엽니다.
+        const sec = document.getElementById('levelupSection');
+        const box = document.getElementById('levelupChoices');
+        if (this.pendingLevelUps > 0) {
+          sec.classList.add('active');
+          box.innerHTML = '';
+          const stats = [
+            { label: '❤️ 최대 체력 +15', apply: (p) => { p.maxHp += 15; p.hp += 15; } },
+            { label: '⚔️ 대미지 +10%', apply: (p) => { p.dmgMult += 0.1; } },
+            { label: '⚡ 공격 속도 +10%', apply: (p) => { p.atkSpd += 0.1; } },
+            { label: '👟 이동 속도 +5%', apply: (p) => { p.speed += 0.2; } },
+            { label: '🛡️ 방어력 +2', apply: (p) => { p.armor += 2; } },
+            { label: '🎯 치명타율 +5%', apply: (p) => { p.crit += 5; } }
+          ];
+
+          // 3개 랜덤 셔플
+          stats.sort(() => Math.random() - 0.5).slice(0, 3).forEach(st => {
+            const btn = document.createElement('button');
+            btn.className = 'levelup-btn';
+            btn.textContent = st.label;
+            btn.addEventListener('click', () => {
+              st.apply(Game.player);
+              this.pendingLevelUps--;
+              Sound.playCoin();
+              this.checkLevelUp();
+            });
+            box.appendChild(btn);
+          });
+        } else {
+          sec.classList.remove('active');
+        }
+      },
+
+      renderItems() {
+        // 상점에서 판매할 무기 및 패시브 아이템 4개를 동적 생성합니다.
+        const grid = document.getElementById('shopItemsGrid');
+        grid.innerHTML = '';
+        const keys = Object.keys(WEAPONS_DB);
+
+        for (let i = 0; i < 4; i++) {
+          const wKey = keys[Math.floor(Math.random() * keys.length)];
+          const base = WEAPONS_DB[wKey];
+          const discount = Game.player ? Game.player.discount : 1.0;
+          const cost = Math.round(base.cost * discount);
+          const canAfford = Game.materials >= cost;
+          const hasMaxSlots = Game.player && Game.player.weapons.length >= 6;
+
+          const card = document.createElement('div');
+          card.className = 'shop-item-card';
+          card.innerHTML = `
+            <div class="item-top">
+              <span class="item-icon">${base.icon}</span>
+              <div>
+                <div class="item-name">${base.name}</div>
+                <div class="item-tier tier-${base.tier}">Tier ${base.tier} 무기</div>
+              </div>
+            </div>
+            <div class="item-desc">대미지: ${base.dmg} | 사거리: ${base.range} | 쿨타임: ${base.rate}s</div>
+            <button class="item-buy-btn" ${(!canAfford || hasMaxSlots) ? 'disabled' : ''}>
+              ${hasMaxSlots ? '슬롯 가득참(최대 6)' : `구매 (${cost} 💰)`}
+            </button>
+          `;
+
+          const btn = card.querySelector('.item-buy-btn');
+          btn.addEventListener('click', () => {
+            if (Game.materials >= cost && Game.player.weapons.length < 6) {
+              Game.materials -= cost;
+              document.getElementById('shopMaterialCount').textContent = Game.materials;
+              const newWeapon = JSON.parse(JSON.stringify(base));
+              newWeapon.cooldown = 0;
+              Game.player.weapons.push(newWeapon);
+              Sound.playCoin();
+              card.style.opacity = '0.4';
+              btn.disabled = true;
+              btn.textContent = '구매 완료';
+            }
+          });
+
+          grid.appendChild(card);
+        }
+      }
+    };
+
+    // -------------------------------------------------------------
+    // 7. 시작 및 이벤트 바인딩
+    // -------------------------------------------------------------
+    document.getElementById('btnStartRun').addEventListener('click', () => {
+      Game.startRun();
+    });
+
+    document.getElementById('btnNextWave').addEventListener('click', () => {
+      document.getElementById('shopOverlay').classList.remove('active');
+      Game.wave++;
+      Game.startWave();
+    });
+
+    document.getElementById('btnShopReroll').addEventListener('click', () => {
+      if (Game.materials >= 5) {
+        Game.materials -= 5;
+        document.getElementById('shopMaterialCount').textContent = Game.materials;
+        Sound.playCoin();
+        ShopUI.renderItems();
+      } else {
+        alert('새로고침 재료(5 💰)가 부족합니다!');
+      }
+    });
+
+    document.getElementById('btnReturnLobby').addEventListener('click', () => {
+      document.getElementById('resultOverlay').classList.remove('active');
+      document.getElementById('lobbyOverlay').classList.add('active');
+      LobbyUI.render();
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      Game.init();
+    });
+  </script>
+</body>
+</html>
