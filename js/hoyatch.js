@@ -357,23 +357,55 @@ const ChefLabManager = {
 };
 
 // -------------------------------------------------------------
+// -------------------------------------------------------------
 // 3-2. 명예의 전당 랭킹 데이터 관리자 (LeaderboardManager)
 // -------------------------------------------------------------
 const LeaderboardManager = {
   cache: null,
+  SUPABASE_CONFIG: {
+    url: "https://xotaszyodmnmdexvtooi.supabase.co",
+    anonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhvdGFzenlvZG1ubWRleHZ0b29pIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk0OTA2MTUsImV4cCI6MjEwNTA2NjYxNX0.nYrCRLpDb2BeD4rOdAFUuZemSX946yhtGFNSNNcSSxI"
+  },
 
   async fetchFromDB() {
-    // 서버 SQLite DB에서 최신 명예의 전당 랭킹 목록을 조회합니다.
-    const res = await fetch('/api/hoyatch/leaderboard');
-    if (res.ok) {
-      this.cache = await res.json();
-      return this.cache;
-    }
-    return STORAGE.getLeaderboard();
+    // Supabase 클라우드 DB, 로컬 FastAPI 서버, 로컬스토리지를 순서대로 확인하여 최신 랭킹 목록을 가져옵니다.
+    const localList = STORAGE.getLeaderboard();
+    this.cache = localList;
+
+    try {
+      const res = await fetch(`${this.SUPABASE_CONFIG.url}/rest/v1/hoyatch_leaderboard?select=name,score,combos,garnets,date&order=score.desc,garnets.desc&limit=10`, {
+        headers: {
+          'apikey': this.SUPABASE_CONFIG.anonKey,
+          'Authorization': `Bearer ${this.SUPABASE_CONFIG.anonKey}`
+        }
+      });
+      if (res.ok) {
+        const dbList = await res.json();
+        if (dbList && dbList.length > 0) {
+          this.cache = dbList;
+          STORAGE.saveLeaderboard(dbList);
+          return this.cache;
+        }
+      }
+    } catch (e) {}
+
+    try {
+      const res = await fetch('/api/hoyatch/leaderboard');
+      if (res.ok) {
+        const dbList = await res.json();
+        if (dbList && dbList.length > 0) {
+          this.cache = dbList;
+          STORAGE.saveLeaderboard(dbList);
+          return this.cache;
+        }
+      }
+    } catch (e) {}
+
+    return this.cache;
   },
 
   getTopList() {
-    // 캐시된 랭킹 목록 또는 기본 랭킹을 반환합니다.
+    // 캐시된 랭킹 목록 또는 로컬스토리지 보존 기록을 반환합니다.
     if (this.cache && this.cache.length > 0) {
       return this.cache;
     }
@@ -381,7 +413,7 @@ const LeaderboardManager = {
   },
 
   async addEntry(playerName, score, combos, garnets) {
-    // 새로운 랭킹 기록을 서버 SQLite DB에 영구 저장합니다.
+    // 새로운 랭킹 기록을 LocalStorage, Supabase 클라우드 DB, 로컬 FastAPI DB에 즉시 영구 저장합니다.
     const today = new Date();
     const dateStr = `${today.getFullYear()}.${String(today.getMonth() + 1).padStart(2, '0')}.${String(today.getDate()).padStart(2, '0')}`;
     
@@ -393,19 +425,59 @@ const LeaderboardManager = {
       date: dateStr
     };
 
-    await fetch('/api/hoyatch/leaderboard', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(newRecord)
-    });
+    // 1. 브라우저 로컬 스토리지에 즉시 저장
+    const currentList = STORAGE.getLeaderboard();
+    currentList.push(newRecord);
+    currentList.sort((a, b) => b.score - a.score || b.garnets - a.garnets);
+    const top10 = currentList.slice(0, 10);
+    STORAGE.saveLeaderboard(top10);
+    this.cache = top10;
 
-    return await this.fetchFromDB();
+    // 2. Supabase 클라우드 DB 전송 (GitHub Pages 및 전역 공유용)
+    try {
+      fetch(`${this.SUPABASE_CONFIG.url}/rest/v1/hoyatch_leaderboard`, {
+        method: 'POST',
+        headers: {
+          'apikey': this.SUPABASE_CONFIG.anonKey,
+          'Authorization': `Bearer ${this.SUPABASE_CONFIG.anonKey}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newRecord)
+      }).catch(() => {});
+    } catch (e) {}
+
+    // 3. 로컬 FastAPI 서버 DB 전송
+    try {
+      fetch('/api/hoyatch/leaderboard', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newRecord)
+      }).catch(() => {});
+    } catch (e) {}
+
+    return top10;
   },
 
   async clear() {
-    // 랭킹 데이터를 서버 SQLite DB에서 초기화합니다.
-    await fetch('/api/hoyatch/leaderboard', { method: 'DELETE' });
-    return await this.fetchFromDB();
+    // 명예의 전당 랭킹 데이터를 로컬 및 클라우드 DB에서 초기화합니다.
+    STORAGE.clearLeaderboard();
+    this.cache = STORAGE.getLeaderboard();
+
+    try {
+      fetch(`${this.SUPABASE_CONFIG.url}/rest/v1/hoyatch_leaderboard?id=gt.0`, {
+        method: 'DELETE',
+        headers: {
+          'apikey': this.SUPABASE_CONFIG.anonKey,
+          'Authorization': `Bearer ${this.SUPABASE_CONFIG.anonKey}`
+        }
+      }).catch(() => {});
+    } catch (e) {}
+
+    try {
+      fetch('/api/hoyatch/leaderboard', { method: 'DELETE' }).catch(() => {});
+    } catch (e) {}
+
+    return this.cache;
   }
 };
 
@@ -699,13 +771,34 @@ const Game = {
   },
 
   roll() {
-    // 고정(Keep)되지 않은 활성 주사위들을 무작위 굴립니다.
+    // 고정(Keep)되지 않은 주사위는 남아있는 주사위 통에서 새로 뽑아 굴립니다.
     if (this.rollsLeft <= 0 || this.isRolling) return;
     this.isRolling = true;
     SoundFX.playRoll();
 
-    if (this.rollsLeft === this.maxRolls) {
+    if (this.rollsLeft === this.maxRolls || this.currentDice.length === 0) {
       this.currentDice = this.drawFiveDice();
+    } else {
+      const masterPool = this.createMasterPool();
+      const keptIds = new Set(this.currentDice.filter(d => d.isKept).map(d => d.id));
+      const remainingPool = masterPool.filter(d => !keptIds.has(d.id));
+
+      for (let i = remainingPool.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [remainingPool[i], remainingPool[j]] = [remainingPool[j], remainingPool[i]];
+      }
+
+      let drawIdx = 0;
+      this.currentDice = this.currentDice.map(die => {
+        if (die.isKept) return die;
+        const newDie = remainingPool[drawIdx++];
+        return {
+          ...newDie,
+          value: 1,
+          wildChosen: 6,
+          isKept: false
+        };
+      });
     }
 
     UI.setRollingAnimation(true);
@@ -726,6 +819,7 @@ const Game = {
       this.isRolling = false;
       UI.setRollingAnimation(false);
       UI.renderDice();
+      UI.updatePoolText();
       UI.updateRollControls();
 
       // 첫 굴리기 업적 검사
@@ -757,6 +851,7 @@ const Game = {
     die.isKept = !die.isKept;
     SoundFX.playClick();
     UI.renderDice();
+    UI.updatePoolText();
   },
 
   setWildValue(chosenNum, diceIndex) {
@@ -1436,14 +1531,35 @@ const PvPGame = {
   },
 
   roll() {
-    // 현재 플레이어의 활성 주사위를 굴리고 온라인인 경우 상대방에게 패킷을 동기화합니다.
+    // 현재 플레이어의 활성 주사위를 남은 통에서 새로 뽑아 굴리고 온라인 동기화합니다.
     if (!this.isMyTurn()) return;
     if (this.rollsLeft <= 0 || this.isRolling) return;
     this.isRolling = true;
     SoundFX.playRoll();
 
-    if (this.rollsLeft === this.maxRolls) {
+    if (this.rollsLeft === this.maxRolls || this.currentDice.length === 0) {
       this.currentDice = this.drawFiveDice();
+    } else {
+      const masterPool = this.createMasterPool();
+      const keptIds = new Set(this.currentDice.filter(d => d.isKept).map(d => d.id));
+      const remainingPool = masterPool.filter(d => !keptIds.has(d.id));
+
+      for (let i = remainingPool.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [remainingPool[i], remainingPool[j]] = [remainingPool[j], remainingPool[i]];
+      }
+
+      let drawIdx = 0;
+      this.currentDice = this.currentDice.map(die => {
+        if (die.isKept) return die;
+        const newDie = remainingPool[drawIdx++];
+        return {
+          ...newDie,
+          value: 1,
+          wildChosen: 6,
+          isKept: false
+        };
+      });
     }
 
     UI.setRollingAnimation(true);
@@ -1467,6 +1583,7 @@ const PvPGame = {
       this.isRolling = false;
       UI.setRollingAnimation(false);
       UI.renderDice();
+      UI.updatePoolText();
       UI.updateRollControls();
       UI.updateScorePreviews();
       this.updateNoticeAfterRoll();
@@ -1508,6 +1625,7 @@ const PvPGame = {
     die.isKept = !die.isKept;
     SoundFX.playClick();
     UI.renderDice();
+    UI.updatePoolText();
 
     if (this.isOnline) {
       PvPOnlineManager.send({
@@ -1946,11 +2064,11 @@ const PvPGame = {
 const ASSET_BASE = (typeof window !== 'undefined' && window.HOYATCH_ASSET_BASE) ? window.HOYATCH_ASSET_BASE : 'assets/';
 
 const ADVENTURE_BOSSES = [
-  { stage: 1, name: '버거 먹는 아기 악어', icon: '🐊', hp: 100, turns: 5, gimmick: '초반 탐험: 기본 족보로 가볍게 워밍업 타격!', image: null },
-  { stage: 2, name: '검보 피자 셰프 악어', icon: '🍕', hp: 160, turns: 5, gimmick: '피자 셰프: 짝수 눈금 점수 +50% 추가 화력!', image: null },
-  { stage: 3, name: '늪지 격투가 검보 킥', icon: '🥋', hp: 220, turns: 5, gimmick: '격투 연타 콤보: 페어/세트류 족보(트리플/포카드/풀하우스/투페어) 데미지 +50% 증폭!', image: null },
-  { stage: 4, name: '심연의 언데드 뼈악어', icon: '☠️', hp: 320, turns: 6, gimmick: '뼈의 저주: 플러시 & 스트레이트(스몰/라지/스티플) 데미지 +50% 증폭!', image: null },
-  { stage: 5, name: '메카 게이터 버거 킹', icon: '👑', hp: 480, turns: 6, gimmick: '최종 결전: 대형 족보(포카드/풀하우스/요트/스티플/파이브카드) 데미지 2.0배 초대형 증폭!', image: null }
+  { stage: 1, name: '버거 먹는 아기 악어', icon: '🐊', hp: 100, turns: 5, gimmick: '초반 탐험: 기본 족보로 가볍게 워밍업 타격!', image: `${ASSET_BASE}boss1_baby_gator.jpg` },
+  { stage: 2, name: '검보 피자 셰프 악어', icon: '🍕', hp: 160, turns: 5, gimmick: '피자 셰프: 짝수 눈금 점수 +50% 추가 화력!', image: `${ASSET_BASE}boss2_gumbo_pizza.jpg` },
+  { stage: 3, name: '늪지 격투가 검보 킥', icon: '🥋', hp: 220, turns: 5, gimmick: '격투 연타 콤보: 페어/세트류 족보(트리플/포카드/풀하우스/투페어) 데미지 +50% 증폭!', image: `${ASSET_BASE}boss3_gumbo_kick.jpg` },
+  { stage: 4, name: '심연의 언데드 뼈악어', icon: '☠️', hp: 320, turns: 6, gimmick: '뼈의 저주: 플러시 & 스트레이트(스몰/라지/스티플) 데미지 +50% 증폭!', image: `${ASSET_BASE}boss4_bone_gator.png` },
+  { stage: 5, name: '메카 게이터 버거 킹', icon: '👑', hp: 480, turns: 6, gimmick: '최종 결전: 대형 족보(포카드/풀하우스/요트/스티플/파이브카드) 데미지 2.0배 초대형 증폭!', image: `${ASSET_BASE}boss5_mecha_gator.png` }
 ];
 
 const ADVENTURE_RELICS = [
@@ -2076,13 +2194,34 @@ const AdventureGame = {
   },
 
   roll() {
-    // 보스 공격을 위한 주사위를 굴립니다.
+    // 보스 공격을 위한 주사위를 남은 통에서 새로 뽑아 굴립니다.
     if (this.rollsLeft <= 0 || this.isRolling) return;
     this.isRolling = true;
     SoundFX.playRoll();
 
-    if (this.rollsLeft === this.maxRolls) {
+    if (this.rollsLeft === this.maxRolls || this.currentDice.length === 0) {
       this.currentDice = this.drawFiveDice();
+    } else {
+      const masterPool = this.createMasterPool();
+      const keptIds = new Set(this.currentDice.filter(d => d.isKept).map(d => d.id));
+      const remainingPool = masterPool.filter(d => !keptIds.has(d.id));
+
+      for (let i = remainingPool.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [remainingPool[i], remainingPool[j]] = [remainingPool[j], remainingPool[i]];
+      }
+
+      let drawIdx = 0;
+      this.currentDice = this.currentDice.map(die => {
+        if (die.isKept) return die;
+        const newDie = remainingPool[drawIdx++];
+        return {
+          ...newDie,
+          value: 1,
+          wildChosen: 6,
+          isKept: false
+        };
+      });
     }
 
     UI.setRollingAnimation(true);
@@ -2103,6 +2242,7 @@ const AdventureGame = {
       this.isRolling = false;
       UI.setRollingAnimation(false);
       UI.renderDice();
+      UI.updatePoolText();
       UI.updateRollControls();
       UI.updateScorePreviews();
       this.updateNoticeAfterRoll();
@@ -2128,6 +2268,7 @@ const AdventureGame = {
     die.isKept = !die.isKept;
     SoundFX.playClick();
     UI.renderDice();
+    UI.updatePoolText();
   },
 
   setWildValue(chosenNum, diceIndex) {
@@ -2894,10 +3035,23 @@ const UI = {
   },
 
   updatePoolText() {
-    // 남은 주머니 주사위 구성을 텍스트로 보여줍니다.
+    // 주사위 통 및 남아있는 주사위 구성을 실시간 텍스트로 보여줍니다.
     const curGame = (typeof ModeManager !== 'undefined') ? ModeManager.getCurrentGame() : Game;
     const d = curGame.deck;
-    this.dom.poolStatusText.textContent = `주머니: 🔴 빨강 ${d.redCount}개 | ⚫ 검정 ${d.blackCount}개 | 🌟 특수 ${d.wildCount}개`;
+    const masterPool = curGame.createMasterPool ? curGame.createMasterPool() : [];
+    const keptDice = (curGame.currentDice || []).filter(die => die.isKept);
+    const keptIds = new Set(keptDice.map(die => die.id));
+    const remainingDice = masterPool.filter(die => !keptIds.has(die.id));
+
+    const remRed = remainingDice.filter(die => die.color === 'red').length;
+    const remBlack = remainingDice.filter(die => die.color === 'black').length;
+    const remWild = remainingDice.filter(die => die.color === 'wild').length;
+
+    if (keptDice.length > 0) {
+      this.dom.poolStatusText.textContent = `남은 주사위 통(${remainingDice.length}개): 🔴 ${remRed}개 | ⚫ ${remBlack}개 | 🌟 ${remWild}개 (고정: ${keptDice.length}개)`;
+    } else {
+      this.dom.poolStatusText.textContent = `주사위 통(총 ${masterPool.length}개): 🔴 빨강 ${d.redCount}개 | ⚫ 검정 ${d.blackCount}개 | 🌟 특수 ${d.wildCount}개`;
+    }
   },
 
   updateRollControls() {
