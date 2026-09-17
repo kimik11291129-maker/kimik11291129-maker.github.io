@@ -3,33 +3,33 @@
 @import url("https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap");
 
 /* ==========================================================================
-   🕯️ Darkwood Retro Pixel — 구식 8-bit 레트로 픽셀 & 가스등 테마
+   🌲 Everforest Retro Pixel — 구식 8-bit 레트로 픽셀 & 타이가 에버포레스트
    ========================================================================== */
 :root {
-  --bg: #0c0a08;               /* 썩은 고목과 축축한 숲의 흑갈색 */
-  --bg-subtle: #14100c;        /* 오두막 내부 어둠 */
-  --card-bg: #16120e;          /* 어두운 오두막 목재 판자 서피스 */
-  --card-bg-glass: rgba(22, 18, 14, 0.92);
-  --card-hover: #1f1913;
-  --text: #d8cebc;             /* 생존자의 바랜 양피지 일기장 아이보리 */
-  --text-muted: #8c816e;       /* 재와 이끼 잿빛 세이지 */
-  --text-dim: #5c5244;         /* 그을린 목탄 톤 */
-  --primary: #d97706;          /* 타오르는 가스등 호박색 앰버 */
-  --primary-hover: #ea580c;    /* 활활 타오르는 가스등 불꽃 주황 */
-  --primary-glow: rgba(217, 119, 6, 0.35);
-  --accent: #b91c1c;           /* 다크우드 핏빛 생존 레드 */
-  --accent-hover: #dc2626;
-  --accent-dim: rgba(185, 28, 28, 0.2);
-  --danger: #ef4444;
-  --warning: #f59e0b;
-  --border: #382b20;           /* 부식된 쇳녹/철물 테두리 */
-  --border-light: #543f2e;     /* 거친 픽셀 하이라이트 경계선 */
-  --border-highlight: #73563e;
-  --nav-bg: rgba(12, 10, 8, 0.95);
+  --bg: #0c1410;               /* 깊은 타이가 가문비나무 숲의 밤 차콜 그린 */
+  --bg-subtle: #111a14;        /* 부드러운 숲속 그림자 */
+  --card-bg: #141f18;          /* 숲속 고요한 오두막 패널 서피스 */
+  --card-bg-glass: rgba(20, 31, 24, 0.92);
+  --card-hover: #1a2920;
+  --text: #e5ece6;             /* 자작나무 서리 화이트 */
+  --text-muted: #8ca393;       /* 솔잎 이끼 세이지 그레이 */
+  --text-dim: #5a7061;         /* 차분한 나무껍질 톤 */
+  --primary: #4ade80;          /* 새벽 이슬 머금은 침엽수 민트 에메랄드 */
+  --primary-hover: #38c86f;
+  --primary-glow: rgba(74, 222, 128, 0.25);
+  --accent: #f59e0b;           /* 오두막 벽난로 따뜻한 골드 앰버 */
+  --accent-hover: #d97706;
+  --accent-dim: rgba(245, 158, 11, 0.15);
+  --danger: #f87171;
+  --warning: #fbbf24;
+  --border: #1e2e23;           /* 섬세한 상록수 침엽수 테두리 */
+  --border-light: #2a3d30;     /* 하이라이트 경계선 */
+  --border-highlight: #385241;
+  --nav-bg: rgba(12, 20, 16, 0.95);
   --nav-height: 70px;
-  --shadow-pixel: 4px 4px 0px #050403;    /* 8-bit 하드 픽셀 그림자 */
-  --shadow-pixel-sm: 2px 2px 0px #050403;
-  --shadow-forest: 0 10px 30px -8px rgba(0, 0, 0, 0.85), 0 0 20px rgba(217, 119, 6, 0.08);
+  --shadow-pixel: 4px 4px 0px #060a08;    /* 8-bit 하드 픽셀 그림자 (타이가 딥) */
+  --shadow-pixel-sm: 2px 2px 0px #060a08;
+  --shadow-forest: 0 10px 30px -8px rgba(0, 0, 0, 0.7), 0 0 20px rgba(74, 222, 128, 0.08);
 
   /* 🔤 서체 시스템: 네오둥근모(NeoDungGeunMo) 구식 8-bit 레트로 픽셀 도트 */
   --font-pixel: "NeoDungGeunMo", "DM Mono", monospace;
@@ -53,7 +53,7 @@ html {
 
 body {
   background-color: var(--bg);
-  background: #0c0a08;
+  background: #0c1410;
   background-attachment: fixed;
   color: var(--text);
   line-height: 1.68;
@@ -72,7 +72,7 @@ body::before {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: linear-gradient(rgba(18, 16, 14, 0) 50%, rgba(0, 0, 0, 0.22) 50%);
+  background: linear-gradient(rgba(18, 24, 20, 0) 50%, rgba(0, 0, 0, 0.22) 50%);
   background-size: 100% 4px;
   pointer-events: none;
   z-index: 9999;
@@ -117,7 +117,7 @@ body::before {
   background-color: var(--nav-bg);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  border-bottom: 1px solid var(--border);
+  border-bottom: 2px solid var(--border);
   position: sticky;
   top: 0;
   z-index: 1000;
@@ -150,12 +150,12 @@ body::before {
   font-family: var(--font-pixel);
   font-size: 0.72rem;
   font-weight: 700;
-  background: rgba(217, 119, 6, 0.15);
+  background: rgba(74, 222, 128, 0.12);
   color: var(--primary);
   padding: 3px 8px;
   border-radius: 0px;
-  border: 1px solid var(--border-light);
-  box-shadow: 2px 2px 0px #050403;
+  border: 1px solid rgba(74, 222, 128, 0.25);
+  box-shadow: 2px 2px 0px #060a08;
   letter-spacing: 0;
 }
 
@@ -184,14 +184,14 @@ body::before {
   color: #ffffff;
   background-color: var(--card-bg);
   border-color: var(--border);
-  box-shadow: 2px 2px 0px #050403;
+  box-shadow: 2px 2px 0px #060a08;
 }
 
 .tab-item a.active {
   color: var(--primary);
-  background-color: #19130e;
+  background-color: #17241c;
   border: 1px solid var(--primary);
-  box-shadow: 2px 2px 0px #050403;
+  box-shadow: 2px 2px 0px #060a08;
   font-weight: 700;
 }
 
@@ -205,7 +205,7 @@ body::before {
   height: 3px;
   background-color: var(--primary);
   border-radius: 0px;
-  box-shadow: 1px 1px 0px #050403;
+  box-shadow: 1px 1px 0px #060a08;
 }
 
 @media (max-width: 768px) {
@@ -281,7 +281,7 @@ body::before {
 }
 
 .badge {
-  background: #17120e;
+  background: #17241c;
   color: var(--text-muted);
   font-size: 0.82rem;
   font-weight: 700;
@@ -294,15 +294,15 @@ body::before {
 }
 
 .badge-primary {
-  background: rgba(217, 119, 6, 0.15);
+  background: rgba(74, 222, 128, 0.12);
   color: var(--primary);
-  border-color: rgba(217, 119, 6, 0.35);
+  border-color: rgba(74, 222, 128, 0.25);
 }
 
 .badge-accent {
-  background: rgba(185, 28, 28, 0.15);
-  color: #ef4444;
-  border-color: rgba(185, 28, 28, 0.35);
+  background: rgba(245, 158, 11, 0.12);
+  color: var(--accent);
+  border-color: rgba(245, 158, 11, 0.25);
 }
 
 /* 버튼 시스템 (구식 도트 8-bit 스타일) */
@@ -317,7 +317,7 @@ body::before {
   text-decoration: none;
   cursor: pointer;
   border: 2px solid var(--border-light);
-  background: #18130f;
+  background: #152019;
   color: var(--text);
   font-family: var(--font-pixel);
   transition: all 0.1s ease;
@@ -326,57 +326,58 @@ body::before {
 }
 
 .btn-action:hover {
-  background: #241c15;
+  background: #1a2820;
   border-color: var(--primary);
   color: #ffffff;
   transform: translate(-1px, -1px);
-  box-shadow: 5px 5px 0px #050403;
+  box-shadow: 5px 5px 0px #060a08;
 }
 
 .btn-action:active {
   transform: translate(2px, 2px);
-  box-shadow: 1px 1px 0px #050403;
+  box-shadow: 1px 1px 0px #060a08;
 }
 
 .btn-primary {
   background: var(--primary);
-  color: #0b0907 !important;
+  color: #0c1410 !important;
   font-weight: 800;
-  border: 2px solid #ea580c;
+  border: 2px solid #38c86f;
   box-shadow: var(--shadow-pixel);
 }
 
 .btn-primary:hover {
   background: var(--primary-hover);
-  color: #0b0907 !important;
+  color: #0c1410 !important;
   transform: translate(-1px, -1px);
-  box-shadow: 5px 5px 0px #050403;
+  box-shadow: 5px 5px 0px #060a08;
 }
 
 .btn-primary:active {
   transform: translate(2px, 2px);
-  box-shadow: 1px 1px 0px #050403;
+  box-shadow: 1px 1px 0px #060a08;
 }
 
 .btn-accent {
   background: var(--accent);
-  color: #ffffff;
-  border: 2px solid #991b1b;
+  color: #0c1410 !important;
+  border: 2px solid #d97706;
   border-radius: 0px;
   box-shadow: var(--shadow-pixel);
   font-family: var(--font-pixel);
+  font-weight: 800;
 }
 
 .btn-accent:hover {
   background: var(--accent-hover);
-  color: #ffffff;
+  color: #0c1410 !important;
   transform: translate(-1px, -1px);
-  box-shadow: 5px 5px 0px #050403;
+  box-shadow: 5px 5px 0px #060a08;
 }
 
 .btn-accent:active {
   transform: translate(2px, 2px);
-  box-shadow: 1px 1px 0px #050403;
+  box-shadow: 1px 1px 0px #060a08;
 }
 
 /* 푸터 */
@@ -386,7 +387,7 @@ footer.site-footer {
   font-size: 0.88rem;
   color: var(--text-muted);
   border-top: 2px solid var(--border);
-  background: #080705;
+  background: #09100c;
   font-family: var(--font-pixel);
   margin-top: auto;
 }
@@ -678,8 +679,8 @@ footer.site-footer {
 .case-callout-box {
   margin-top: 44px;
   padding: clamp(26px, 4vw, 48px);
-  border: 2px solid var(--border-light);
-  background: #17130f;
+  border: 2px solid rgba(74, 222, 128, 0.25);
+  background: rgba(74, 222, 128, 0.08);
   border-radius: 0px;
   box-shadow: var(--shadow-pixel);
 }
@@ -711,7 +712,7 @@ footer.site-footer {
 .case-outcome-panel {
   margin-top: clamp(80px, 11vw, 160px);
   padding: clamp(48px, 6vw, 90px);
-  background: #15110d;
+  background: #111e16;
   border: 2px solid var(--border-light);
   box-shadow: var(--shadow-pixel);
   color: var(--text);
@@ -985,27 +986,27 @@ footer.site-footer {
   gap: 12px;
   padding: 12px 24px;
   background: var(--primary);
-  color: #0b0907 !important;
+  color: #0c1410 !important;
   border-radius: 0px;
-  border: 2px solid #ea580c;
+  border: 2px solid #38c86f;
   text-decoration: none !important;
   font-family: var(--font-pixel);
   font-size: 0.96rem;
-  font-weight: 700;
+  font-weight: 800;
   box-shadow: var(--shadow-pixel);
   transition: all 0.1s ease;
 }
 
 .home-btn-primary:hover {
   background: var(--primary-hover);
-  color: #0b0907 !important;
+  color: #0c1410 !important;
   transform: translate(-1px, -1px);
-  box-shadow: 6px 6px 0px #050403;
+  box-shadow: 6px 6px 0px #060a08;
 }
 
 .home-btn-primary:active {
   transform: translate(2px, 2px);
-  box-shadow: 1px 1px 0px #050403;
+  box-shadow: 1px 1px 0px #060a08;
 }
 
 .home-btn-secondary {
@@ -1013,7 +1014,7 @@ footer.site-footer {
   align-items: center;
   gap: 12px;
   padding: 12px 24px;
-  background: #18130f;
+  background: #152019;
   color: var(--text) !important;
   border: 2px solid var(--border-light);
   border-radius: 0px;
@@ -1026,16 +1027,16 @@ footer.site-footer {
 }
 
 .home-btn-secondary:hover {
-  background: #241c15;
+  background: #1a2820;
   border-color: var(--primary);
   color: #ffffff !important;
   transform: translate(-1px, -1px);
-  box-shadow: 6px 6px 0px #050403;
+  box-shadow: 6px 6px 0px #060a08;
 }
 
 .home-btn-secondary:active {
   transform: translate(2px, 2px);
-  box-shadow: 1px 1px 0px #050403;
+  box-shadow: 1px 1px 0px #060a08;
 }
 
 .home-badges-strip {
@@ -1056,16 +1057,16 @@ footer.site-footer {
   font-weight: 700;
   padding: 5px 12px;
   border-radius: 0px;
-  background: #18130f;
+  background: #17241c;
   color: var(--text-muted);
   border: 1px solid var(--border);
   box-shadow: var(--shadow-pixel-sm);
 }
 
 .home-badge-primary {
-  background: rgba(217, 119, 6, 0.15);
+  background: rgba(74, 222, 128, 0.12);
   color: var(--primary);
-  border-color: rgba(217, 119, 6, 0.35);
+  border-color: rgba(74, 222, 128, 0.25);
 }
 
 /* 4열 건축적 숏컷 그리드 */
@@ -1096,7 +1097,7 @@ footer.site-footer {
 }
 
 .home-nav-item:hover {
-  background: rgba(217, 119, 6, 0.08);
+  background: rgba(74, 222, 128, 0.05);
 }
 
 .home-nav-index {

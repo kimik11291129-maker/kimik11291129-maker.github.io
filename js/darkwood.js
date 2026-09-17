@@ -71,20 +71,20 @@
   const PARTICLE_COUNT = 85;
   const particles = [];
 
-  // 색상 팔레트 (다크우드 레트로 픽셀)
+  // 색상 팔레트 (타이가 숲 & 앰버 가스등 픽셀)
   const EMBER_COLORS = [
-    '#ffdd66', // 타오르는 백열심
-    '#ff9922', // 가스등 앰버
-    '#f97316', // 불꽃 주황
-    '#dc2626', // 붉은 숯불씨
-    '#7f1d1d'  // 식어가는 잉걸불
+    '#ffedd5', // 타오르는 백열심
+    '#f59e0b', // 가스등 앰버 골드
+    '#4ade80', // 숲속 침엽수 에메랄드 반딧불이
+    '#86efac', // 연녹색 이슬빛
+    '#fbbf24'  // 따뜻한 촛불 황금
   ];
 
   const SPORE_COLORS = [
-    '#5c6347', // 눅눅한 숲속 이끼 포자
-    '#78716c', // 고목 잿빛 부유물
-    '#44403c', // 어두운 나무껍질 파편
-    '#854d0e'  // 썩은 호박빛 곰팡이
+    '#385241', // 깊은 숲속 가문비나무 이끼
+    '#5a7061', // 솔잎 세이지 그레이
+    '#243328', // 어두운 나무껍질 파편
+    '#1e2e23'  // 타이가 침엽수 그림자
   ];
 
   class PixelParticle {
@@ -183,32 +183,32 @@
     const iy = Math.floor(y);
 
     // 4단계 구식 픽셀 동심원 계단식 빛 퍼짐 (Stepped Pixel Bands)
-    // 외곽 어둠 속 1단계 (잔잔한 앰버 림)
+    // 외곽 어둠 속 1단계 (잔잔한 에메랄드 앰비언트 림)
     ctx.beginPath();
     ctx.arc(ix, iy, baseRadius * 1.5, 0, Math.PI * 2);
-    ctx.fillStyle = 'rgba(217, 119, 6, 0.04)';
+    ctx.fillStyle = 'rgba(74, 222, 128, 0.03)';
     ctx.fill();
 
-    // 2단계 (다크우드 숲속 따스한 불빛)
+    // 2단계 (타이가 숲속 따스한 가스등 불빛)
     ctx.beginPath();
     ctx.arc(ix, iy, baseRadius * 1.1, 0, Math.PI * 2);
-    ctx.fillStyle = 'rgba(234, 88, 12, 0.08)';
+    ctx.fillStyle = 'rgba(245, 158, 11, 0.07)';
     ctx.fill();
 
     // 3단계 (가스등 내부 심장부)
     ctx.beginPath();
     ctx.arc(ix, iy, baseRadius * 0.65, 0, Math.PI * 2);
-    ctx.fillStyle = 'rgba(245, 158, 11, 0.13)';
+    ctx.fillStyle = 'rgba(251, 191, 36, 0.12)';
     ctx.fill();
 
     // 4단계 (중심 백열 픽셀 코어)
     ctx.beginPath();
     ctx.arc(ix, iy, baseRadius * 0.28, 0, Math.PI * 2);
-    ctx.fillStyle = 'rgba(255, 225, 120, 0.22)';
+    ctx.fillStyle = 'rgba(255, 240, 180, 0.22)';
     ctx.fill();
 
     // 중심 가스등 심지 작은 픽셀
-    ctx.fillStyle = '#ffedd5';
+    ctx.fillStyle = '#ffffff';
     ctx.fillRect(ix - 1, iy - 1, 2, 2);
   }
 
@@ -219,9 +219,9 @@
       renderWidth / 2, renderHeight / 2, Math.min(renderWidth, renderHeight) * 0.25,
       renderWidth / 2, renderHeight / 2, Math.max(renderWidth, renderHeight) * 0.72
     );
-    grad.addColorStop(0, 'rgba(13, 11, 9, 0)');
-    grad.addColorStop(0.65, 'rgba(13, 11, 9, 0.45)');
-    grad.addColorStop(1, 'rgba(9, 7, 5, 0.88)');
+    grad.addColorStop(0, 'rgba(12, 20, 16, 0)');
+    grad.addColorStop(0.65, 'rgba(12, 20, 16, 0.45)');
+    grad.addColorStop(1, 'rgba(8, 14, 11, 0.88)');
 
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, renderWidth, renderHeight);
@@ -235,8 +235,8 @@
 
     tick++;
 
-    // 기본 숲속 배경 클리어 (썩은 고목 흑갈색 베이스)
-    ctx.fillStyle = '#0d0b09';
+    // 기본 숲속 배경 클리어 (깊은 타이가 가문비나무 숲의 밤 차콜 그린)
+    ctx.fillStyle = '#0c1410';
     ctx.fillRect(0, 0, renderWidth, renderHeight);
 
     // 마우스 가스등 부드러운 물리 관성 추적
@@ -278,3 +278,4 @@
   });
 
 })();
+
