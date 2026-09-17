@@ -3202,3 +3202,112 @@ body.game-page-body .tab-item a.active::after {
 
 
 
+
+
+/* ==========================================================================
+   🎯 HoYatch 상단 헤더 툴바 텍스트 줄바꿈 깨짐 완전 차단 & 수평 정렬 안정화
+   ========================================================================== */
+.game-header {
+  flex-wrap: wrap !important;
+  gap: 10px !important;
+  padding: 12px 18px !important;
+}
+
+.header-left,
+.header-right {
+  display: flex !important;
+  align-items: center !important;
+  flex-wrap: wrap !important;
+  gap: 6px !important;
+}
+
+.title-row {
+  display: flex !important;
+  align-items: center !important;
+  flex-wrap: wrap !important;
+  gap: 6px !important;
+}
+
+/* 모든 헤더 버튼 및 뱃지 텍스트 1줄 강제 (절대 줄바꿈 금지) */
+.mode-title-tag,
+.btn-lobby,
+.btn-help,
+.btn-leaderboard,
+.btn-achievements,
+.btn-shop,
+.btn-secondary,
+.stat-badge {
+  white-space: nowrap !important;
+  word-break: keep-all !important;
+  flex-shrink: 0 !important;
+}
+
+/* 버튼 규격 및 패딩 최적화 */
+.btn-lobby,
+.btn-help,
+.btn-leaderboard,
+.btn-achievements,
+.btn-shop,
+.btn-secondary {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 7px 11px !important;
+  font-size: 12px !important;
+  gap: 5px !important;
+  line-height: 1 !important;
+  height: 36px !important;
+  box-sizing: border-box !important;
+}
+
+.mode-title-tag {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 5px 10px !important;
+  font-size: 12px !important;
+  height: 36px !important;
+  box-sizing: border-box !important;
+  line-height: 1 !important;
+  border-radius: 0px !important;
+  border: 2px solid rgba(245, 158, 11, 0.6) !important;
+  box-shadow: 2px 2px 0px #060a08 !important;
+}
+
+/* 배지 (가넷, 라운드, 스코어) 완벽 2단 카드 정렬 */
+.stat-badge {
+  min-width: 58px !important;
+  padding: 4px 10px !important;
+  height: 36px !important;
+  box-sizing: border-box !important;
+  justify-content: center !important;
+  border-radius: 0px !important;
+  border: 2px solid var(--border-highlight) !important;
+  box-shadow: 2px 2px 0px #060a08 !important;
+}
+
+.stat-badge.garnet-badge {
+  border-color: #dc2626 !important;
+  min-width: 68px !important;
+}
+
+.stat-badge .label {
+  font-size: 9px !important;
+  white-space: nowrap !important;
+  line-height: 1.1 !important;
+  letter-spacing: 0 !important;
+}
+
+.stat-badge .value {
+  font-size: 16px !important;
+  white-space: nowrap !important;
+  line-height: 1 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 2px !important;
+}
+
+.stat-badge .total {
+  font-size: 11px !important;
+  white-space: nowrap !important;
+}
