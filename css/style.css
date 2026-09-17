@@ -1346,15 +1346,17 @@ footer.site-footer {
   transition: transform 0.15s ease-out;
 }
 
-/* 🍔 액션 툴바 (버거 먹이 주기 버튼) */
+/* 🍔 액션 툴바 (버거 먹이 주기 & 닉네임 버튼) */
 .pet-action-toolbar {
   margin-bottom: 6px;
   display: flex;
   justify-content: flex-end;
+  gap: 6px;
   z-index: 1002;
 }
 
-.pixel-feed-btn {
+.pixel-feed-btn,
+.pixel-name-btn {
   background: #09140e;
   color: #4ade80;
   border: 2px solid #23402d;
@@ -1370,6 +1372,10 @@ footer.site-footer {
   transition: all 0.1s;
 }
 
+.pixel-name-btn {
+  color: #86efac;
+}
+
 .pixel-feed-btn:hover {
   background: #15803d;
   color: #ffffff;
@@ -1378,7 +1384,16 @@ footer.site-footer {
   transform: translateY(-1px);
 }
 
-.pixel-feed-btn:active {
+.pixel-name-btn:hover {
+  background: #1e3a29;
+  color: #ffffff;
+  border-color: #86efac;
+  box-shadow: 3px 3px 0px #060a08;
+  transform: translateY(-1px);
+}
+
+.pixel-feed-btn:active,
+.pixel-name-btn:active {
   transform: translate(2px, 2px);
   box-shadow: 1px 1px 0px #060a08;
 }

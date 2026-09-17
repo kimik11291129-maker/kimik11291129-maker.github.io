@@ -436,6 +436,11 @@
 
         if (error) throw error;
 
+        // 🐊 악어 호야 닉네임 연동 저장
+        try {
+          localStorage.setItem("hoya_guest_name", name);
+        } catch (e) {}
+
         alert("방명록이 등록되었습니다! 🎉");
         document.getElementById("gbMessage").value = "";
         document.getElementById("gbPassword").value = "";
@@ -566,6 +571,14 @@
     document.getElementById("btnConfirmDel").addEventListener("click", executeDelItem);
 
     // 초기 로드
+    try {
+      const savedHoyaName = localStorage.getItem("hoya_guest_name");
+      if (savedHoyaName) {
+        const nameInput = document.getElementById("gbName");
+        if (nameInput && !nameInput.value) nameInput.value = savedHoyaName;
+      }
+    } catch (e) {}
+
     loadGuestbookFeed();
   </script>
 
@@ -574,6 +587,6 @@
   <script src="js/snow.js?v=20260917_pixel_snow" defer></script>
 
   <!-- 🐊 16-bit 픽셀 펫(호야) & 하단 늪지대 연출 엔진 -->
-  <script src="js/pet.js?v=20260917_burger_chomp" defer></script>
+  <script src="js/pet.js?v=20260917_dynamic_name" defer></script>
 </body>
 </html>

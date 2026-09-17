@@ -4,6 +4,7 @@
  * - Authentic 1990~2000s Classic 2D Pixel Mascot (악어 '호야')
  * - Interactive Tamagotchi companion (Idle, Eye-blink, Happy hop, Dialogues)
  * - 🍔 햄버거 먹이 주기 시스템 (Burger Feeding Mini-Game & Chomp Animation)
+ * - 🏷️ 방명록 작성자 이름 기반 실시간 동적 호칭 연동 (Dynamic Visitor Name System)
  * - Web Audio API 8-bit Sound Synthesizers (Hop jump chime & Burger chomp crunch)
  * - Atmospheric retro swamp waterline shelf with swaying cattails & spores
  * - 100% dependency-free, zero impact on page interactions (pointer-events safe)
@@ -148,27 +149,81 @@
     <rect x="5" y="20" width="1" height="1" fill="#06150b"/><rect x="6" y="20" width="2" height="3" fill="#22c55e"/><rect x="8" y="20" width="1" height="1" fill="#06150b"/><rect x="14" y="20" width="1" height="3" fill="#06150b"/><rect x="15" y="20" width="1" height="3" fill="#22c55e"/><rect x="16" y="20" width="1" height="3" fill="#06150b"/><rect x="18" y="20" width="1" height="3" fill="#06150b"/><rect x="19" y="20" width="1" height="3" fill="#22c55e"/><rect x="20" y="20" width="1" height="3" fill="#06150b"/>
   </svg>`;
 
-  // 2. Pet Dialogues Pools
-  const PET_DIALOGUES = [
-    "안녕하세요! 디지털 빌더 김호선의 아카이브예요 🐊",
-    "배고프면 [🍔 버거주기] 버튼을 콕 눌러주세요 😋",
-    "심심할 땐 상단 [게임] 탭에서 호야추 한 판! 🎲",
-    "방명록에 발도장을 남겨주시면 큰 힘이 됩니다 📝",
-    "포트폴리오의 [상세 연구 보고서]에서 심층 분석을 확인해보세요 📜",
-    "화면 아래 갈대 숲에서 헤엄치는 중이에요~ 🌾",
-    "참고로 전 두툼한 패티의 햄버거를 아주 좋아해요! 🍔",
-    "16-bit 레트로 도트 감성, 마음에 드시나요? ✨",
-    "오늘도 늪지대 개발 캠프에 오신 것을 환영합니다! 🌲"
-  ];
+  // 2. Dynamic Visitor Name Management
+  const SUPABASE_CONFIG = {
+    url: "https://xotaszyodmnmdexvtooi.supabase.co",
+    anonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhvdGFzenlvZG1ubWRleHZ0b29pIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk0OTA2MTUsImV4cCI6MjEwNTA2NjYxNX0.nYrCRLpDb2BeD4rOdAFUuZemSX946yhtGFNSNNcSSxI"
+  };
 
-  const BURGER_EATING_DIALOGUES = [
-    "🍔 와구와구! 역시 늪지대 수제 악어버거가 최고야!",
-    "😋 냠냠쩝쩝! 두툼한 패티 육즙이 입안 가득 퍼지네요!",
-    "🍔 버거를 먹었더니 기운이 펄펄 나요! 호선 님 최고! 💪",
-    "❤️ 우물우물... 호선 님이 주신 버거라 100배는 더 꿀맛!",
-    "🍔 꺼억~ 포만감 MAX! 오늘도 멋진 프로젝트 개발 파이팅! 🚀",
-    "✨ 와작와작! 버거 파워로 늪지대 수호 확률 100% 상승!"
-  ];
+  let latestGuestNameFromDb = null;
+
+  async function fetchLatestGuestNameFromDb() {
+    try {
+      const res = await fetch(`${SUPABASE_CONFIG.url}/rest/v1/guestbook_view?select=name&order=created_at.desc&limit=1`, {
+        headers: {
+          'apikey': SUPABASE_CONFIG.anonKey,
+          'Authorization': `Bearer ${SUPABASE_CONFIG.anonKey}`
+        }
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.length > 0 && data[0].name) {
+          latestGuestNameFromDb = data[0].name.trim();
+        }
+      }
+    } catch (e) {}
+  }
+
+  fetchLatestGuestNameFromDb();
+
+  function getHoyaVisitorName() {
+    try {
+      const myName = localStorage.getItem('hoya_guest_name');
+      if (myName && myName.trim()) {
+        return myName.trim();
+      }
+    } catch (e) {}
+
+    if (latestGuestNameFromDb) {
+      return latestGuestNameFromDb;
+    }
+    return '호선';
+  }
+
+  function setHoyaVisitorName(newName) {
+    if (!newName || !newName.trim()) return;
+    try {
+      localStorage.setItem('hoya_guest_name', newName.trim());
+    } catch (e) {}
+  }
+
+  // 3. Dynamic Dialogue Builders
+  function getBurgerEatingDialogues() {
+    const name = getHoyaVisitorName();
+    return [
+      `🍔 와구와구! 역시 늪지대 수제 악어버거가 최고야!`,
+      `😋 냠냠쩝쩝! ${name} 님이 주신 버거라 패티 육즙이 100배 꿀맛!`,
+      `🍔 버거를 먹었더니 기운이 펄펄 나요! ${name} 님 최고! 💪`,
+      `❤️ 우물우물... ${name} 님, 맛있는 버거 정말 감사합니다!`,
+      `🍔 꺼억~ 포만감 MAX! ${name} 님도 오늘 프로젝트 개발 파이팅! 🚀`,
+      `✨ 와작와작! ${name} 님의 버거 파워로 늪지대 수호 확률 100% 상승!`
+    ];
+  }
+
+  function getPetDialogues() {
+    const name = getHoyaVisitorName();
+    return [
+      `안녕하세요! 디지털 빌더 김호선의 아카이브예요, ${name} 님! 🐊`,
+      `배고프면 [🍔 버거주기] 버튼을 콕 눌러주세요 😋`,
+      `심심할 땐 상단 [게임] 탭에서 호야추 한 판! 🎲`,
+      `방명록에 발도장을 남겨주시면 큰 힘이 됩니다, ${name} 님! 📝`,
+      `포트폴리오의 [상세 연구 보고서]에서 심층 분석을 확인해보세요 📜`,
+      `화면 아래 갈대 숲에서 헤엄치는 중이에요~ 🌾`,
+      `참고로 전 두툼한 패티의 햄버거를 아주 좋아해요! 🍔`,
+      `16-bit 레트로 도트 감성, 마음에 드시나요? ✨`,
+      `${name} 님, 오늘도 늪지대 개발 캠프에 오신 것을 환영합니다! 🌲`
+    ];
+  }
 
   let currentDialogueIndex = -1;
   let bubbleTimeout = null;
@@ -194,7 +249,7 @@
     }
   }
 
-  // 3. Web Audio API Chiptune Jump Synth
+  // 4. Web Audio API Chiptune Jump Synth
   function playRetroHopSound() {
     try {
       const AudioCtx = window.AudioContext || window.webkitAudioContext;
@@ -230,7 +285,7 @@
     } catch (e) {}
   }
 
-  // 4. Web Audio API Burger Crunch & Chomp Synth
+  // 5. Web Audio API Burger Crunch & Chomp Synth
   function playBurgerChompSound() {
     try {
       const AudioCtx = window.AudioContext || window.webkitAudioContext;
@@ -280,7 +335,7 @@
     } catch (e) {}
   }
 
-  // 5. Canvas Renderer for Hoya
+  // 6. Canvas Renderer for Hoya
   function drawFrame(canvas, frameArt) {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
@@ -298,9 +353,9 @@
     }
   }
 
-  // 6. Mount Environment & Companion
+  // 7. Mount Environment & Companion
   function initSwampAndPet() {
-    // 6-1. Create Swamp Layer if not exists
+    // 7-1. Create Swamp Layer if not exists
     if (!document.getElementById('swampDecor')) {
       const swamp = document.createElement('div');
       swamp.id = 'swampDecor';
@@ -349,7 +404,7 @@
       document.body.appendChild(swamp);
     }
 
-    // 6-2. Create Pixel Pet Companion if not exists
+    // 7-2. Create Pixel Pet Companion if not exists
     if (!document.getElementById('pixelPetWrap')) {
       const petWrap = document.createElement('div');
       petWrap.id = 'pixelPetWrap';
@@ -361,7 +416,7 @@
       bubble.className = 'pixel-speech-bubble';
       bubble.style.display = 'none';
 
-      // Action Toolbar (Feed Burger Button)
+      // Action Toolbar (Feed Burger & Set Name)
       const toolbar = document.createElement('div');
       toolbar.className = 'pet-action-toolbar';
 
@@ -372,6 +427,15 @@
       feedBtn.setAttribute('title', '악어 호야에게 늪지대 버거 주기');
       feedBtn.innerHTML = '<span class="feed-btn-icon">🍔</span> <span>버거주기</span>';
       toolbar.appendChild(feedBtn);
+
+      const nameBtn = document.createElement('button');
+      nameBtn.id = 'btnSetName';
+      nameBtn.className = 'pixel-name-btn';
+      nameBtn.type = 'button';
+      nameBtn.setAttribute('title', '호야에게 내 이름 알려주기 (방명록 연동)');
+      const currentName = getHoyaVisitorName();
+      nameBtn.innerHTML = `<span class="feed-btn-icon">🏷️</span> <span id="hoyaNameTagText">${currentName}</span>`;
+      toolbar.appendChild(nameBtn);
 
       // Pet Stage Container
       const stage = document.createElement('div');
@@ -430,10 +494,17 @@
         }, duration);
       }
 
+      // Update Toolbar Tag Text Helper
+      function refreshNameTag() {
+        const tag = document.getElementById('hoyaNameTagText');
+        if (tag) tag.textContent = getHoyaVisitorName();
+      }
+
       // 🍔 Feed Burger Interaction Routine
       function feedBurgerToPet() {
         if (isActionBusy) return;
         isActionBusy = true;
+        refreshNameTag();
 
         // 1. Mouth opens wide!
         currentFrame = 3; // CHOMP frame
@@ -464,8 +535,9 @@
           // Update burger count
           const totalBurgers = incrementBurgerCount();
 
-          // Pick random burger line
-          const rLine = BURGER_EATING_DIALOGUES[Math.floor(Math.random() * BURGER_EATING_DIALOGUES.length)];
+          // Pick dynamic burger dialogue with visitor's name
+          const burgerDialogues = getBurgerEatingDialogues();
+          const rLine = burgerDialogues[Math.floor(Math.random() * burgerDialogues.length)];
           showDialogue(`${rLine} (오늘 먹은 버거: ${totalBurgers}개) 🍔`, 6000);
 
           // Return to idle after chewing
@@ -496,6 +568,7 @@
       function triggerPetHop() {
         if (isActionBusy) return;
         isActionBusy = true;
+        refreshNameTag();
         currentFrame = 2; // HAPPY frame
         drawFrame(canvas, FRAME_HAPPY);
 
@@ -511,20 +584,42 @@
           drawFrame(canvas, FRAME_IDLE);
         }, 450);
 
-        // Regular dialogue
+        // Dynamic dialogues with visitor's name
+        const dialogues = getPetDialogues();
         let nextIdx;
         do {
-          nextIdx = Math.floor(Math.random() * PET_DIALOGUES.length);
-        } while (nextIdx === currentDialogueIndex && PET_DIALOGUES.length > 1);
+          nextIdx = Math.floor(Math.random() * dialogues.length);
+        } while (nextIdx === currentDialogueIndex && dialogues.length > 1);
         currentDialogueIndex = nextIdx;
 
-        showDialogue(PET_DIALOGUES[currentDialogueIndex]);
+        showDialogue(dialogues[currentDialogueIndex]);
       }
 
       // Event Listeners
       feedBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         feedBurgerToPet();
+      });
+
+      nameBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const current = getHoyaVisitorName();
+        const input = prompt("호야가 부를 당신의 닉네임을 입력해 주세요! (방명록 작성자명과 자동 연동됩니다)", current === '호선' ? '' : current);
+        if (input && input.trim()) {
+          const trimmed = input.trim();
+          setHoyaVisitorName(trimmed);
+          refreshNameTag();
+          playRetroHopSound();
+          currentFrame = 2;
+          drawFrame(canvas, FRAME_HAPPY);
+          showDialogue(`만나서 반가워요, ${trimmed} 님! 호야가 꼭 기억할게요 🐊✨`, 5500);
+          setTimeout(() => {
+            if (!isActionBusy) {
+              currentFrame = 0;
+              drawFrame(canvas, FRAME_IDLE);
+            }
+          }, 700);
+        }
       });
 
       stage.addEventListener('click', triggerPetHop);
