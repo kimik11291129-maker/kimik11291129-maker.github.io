@@ -57,6 +57,27 @@ body {
   display: flex;
   flex-direction: column;
   letter-spacing: -0.015em;
+  position: relative;
+}
+
+/* 🌌 북극광 인터랙티브 캔버스 (Aurora Canvas) */
+.aurora-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.95;
+}
+
+.home-broadsheet-wrap,
+.case-study-wrap,
+.main-container,
+.hoyatch-page-main {
+  position: relative;
+  z-index: 1;
 }
 
 /* 📚 세리프(명조) 포인트 타이포그래피 */
