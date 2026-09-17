@@ -264,6 +264,46 @@ const STORAGE = {
     } catch (e) {
       console.warn('LocalStorage chef perks save failed:', e);
     }
+  },
+
+  SKINS_KEY: 'hoyatch_unlocked_skins',
+  ACTIVE_DICE_SKIN_KEY: 'hoyatch_active_dice_skin',
+  ACTIVE_GATOR_SKIN_KEY: 'hoyatch_active_gator_skin',
+
+  getUnlockedSkins() {
+    // 플레이어가 해금한 럭셔리 스킨 ID 목록을 로컬스토리지에서 가져옵니다.
+    try {
+      const saved = localStorage.getItem(this.SKINS_KEY);
+      if (saved) return JSON.parse(saved);
+    } catch (e) {}
+    return ['dice_default', 'gator_default'];
+  },
+
+  saveUnlockedSkins(list) {
+    // 해금된 스킨 목록을 로컬스토리지에 영구 저장합니다.
+    try {
+      localStorage.setItem(this.SKINS_KEY, JSON.stringify(list));
+    } catch (e) {}
+  },
+
+  getActiveDiceSkin() {
+    // 현재 장착 중인 주사위 스킨 ID를 반환합니다.
+    return localStorage.getItem(this.ACTIVE_DICE_SKIN_KEY) || 'dice_default';
+  },
+
+  setActiveDiceSkin(id) {
+    // 새로운 주사위 스킨을 장착하고 로컬스토리지에 저장합니다.
+    localStorage.setItem(this.ACTIVE_DICE_SKIN_KEY, id);
+  },
+
+  getActiveGatorSkin() {
+    // 현재 장착 중인 악어 아바타 코스튬 ID를 반환합니다.
+    return localStorage.getItem(this.ACTIVE_GATOR_SKIN_KEY) || 'gator_default';
+  },
+
+  setActiveGatorSkin(id) {
+    // 새로운 악어 아바타 코스튬을 장착하고 로컬스토리지에 저장합니다.
+    localStorage.setItem(this.ACTIVE_GATOR_SKIN_KEY, id);
   }
 };
 
@@ -357,6 +397,218 @@ const ChefLabManager = {
 };
 
 // -------------------------------------------------------------
+// 3-1-B. 럭셔리 스킨 부티크 데이터 및 관리자 (SkinManager)
+// -------------------------------------------------------------
+const SKINS_DATA = {
+  dice: [
+    {
+      id: 'dice_default',
+      name: '클래식 레트로 다이스',
+      category: 'dice',
+      cost: 0,
+      icon: '🎲',
+      desc: '기본 지급되는 정통 빨강 & 검정 주사위 세트',
+      cssClass: 'skin-default'
+    },
+    {
+      id: 'dice_gold',
+      name: '24K 순금 골드 다이스',
+      category: 'dice',
+      cost: 80,
+      icon: '🌟',
+      desc: '황금 도금과 은은한 금가루 광채가 뿜어져 나오는 럭셔리 주사위',
+      cssClass: 'skin-gold'
+    },
+    {
+      id: 'dice_neon',
+      name: '사이버네틱 네온 RGB 다이스',
+      category: 'dice',
+      cost: 120,
+      icon: '🌌',
+      desc: '사이버펑크 감성의 미래형 시안/마젠타 홀로그램 발광 주사위',
+      cssClass: 'skin-neon'
+    },
+    {
+      id: 'dice_magma',
+      name: '심연의 용암 마그마 다이스',
+      category: 'dice',
+      cost: 150,
+      icon: '🌋',
+      desc: '불타는 용암 균열과 강렬한 화염 파티클 효과의 주사위',
+      cssClass: 'skin-magma'
+    },
+    {
+      id: 'dice_emerald',
+      name: '로열 에메랄드 프리즘 다이스',
+      category: 'dice',
+      cost: 200,
+      icon: '💎',
+      desc: '투명하고 영롱한 최고급 보석 광채를 자랑하는 에메랄드 주사위',
+      cssClass: 'skin-emerald'
+    }
+  ],
+  gator: [
+    {
+      id: 'gator_default',
+      name: '야생 늪지 악어',
+      category: 'gator',
+      cost: 0,
+      icon: '🐊',
+      desc: '기본 지급되는 늪지의 터줏대감 야생 악어'
+    },
+    {
+      id: 'gator_boss',
+      name: '선글라스 카지노 대부 악어',
+      category: 'gator',
+      cost: 70,
+      icon: '🕶️',
+      desc: '금목걸이와 바이퍼 선글라스를 착용한 카지노 보스 악어'
+    },
+    {
+      id: 'gator_chef',
+      name: '버거 마스터 셰프 악어',
+      category: 'gator',
+      cost: 100,
+      icon: '👨‍🍳',
+      desc: '최고급 수제버거 레시피를 마스터한 셰프 모자 착용 악어'
+    },
+    {
+      id: 'gator_king',
+      name: '황금 왕관 악어 황제',
+      category: 'gator',
+      cost: 150,
+      icon: '👑',
+      desc: '루비와 다이아몬드가 박힌 순금 왕관을 쓴 늪지의 절대 군주'
+    }
+  ]
+};
+
+const SkinManager = {
+  getUnlocked() {
+    // 플레이어가 해금한 스킨 목록을 가져옵니다.
+    return STORAGE.getUnlockedSkins();
+  },
+
+  isUnlocked(id) {
+    // 특정 스킨이 해금되어 있는지 여부를 확인합니다.
+    if (id === 'dice_default' || id === 'gator_default') return true;
+    return this.getUnlocked().includes(id);
+  },
+
+  getActiveDice() {
+    // 현재 활성화된 주사위 스킨 객체를 반환합니다.
+    const id = STORAGE.getActiveDiceSkin();
+    return SKINS_DATA.dice.find(d => d.id === id) || SKINS_DATA.dice[0];
+  },
+
+  getActiveGator() {
+    // 현재 활성화된 악어 아바타 코스튬 객체를 반환합니다.
+    const id = STORAGE.getActiveGatorSkin();
+    return SKINS_DATA.gator.find(g => g.id === id) || SKINS_DATA.gator[0];
+  },
+
+  buySkin(id) {
+    // 가넷을 소모하여 새로운 스킨을 구매하고 잠금 해제합니다.
+    const allSkins = [...SKINS_DATA.dice, ...SKINS_DATA.gator];
+    const skin = allSkins.find(s => s.id === id);
+    if (!skin || this.isUnlocked(id)) return false;
+
+    const garnets = STORAGE.getGarnets();
+    if (garnets < skin.cost) {
+      alert(`가넷이 부족합니다! (필요: ${skin.cost} 가넷 / 보유: ${garnets} 가넷)`);
+      return false;
+    }
+
+    STORAGE.setGarnets(garnets - skin.cost);
+    const unlocked = this.getUnlocked();
+    unlocked.push(id);
+    STORAGE.saveUnlockedSkins(unlocked);
+
+    if (skin.category === 'dice') {
+      STORAGE.setActiveDiceSkin(id);
+    } else {
+      STORAGE.setActiveGatorSkin(id);
+    }
+
+    SoundFX.playJackpot();
+    UI.showToast({
+      title: '✨ 럭셔리 스킨 획득 & 장착!',
+      desc: `[${skin.name}] 획득 및 즉시 장착 완료!`,
+      icon: skin.icon
+    });
+
+    UI.updateGarnetDisplay();
+    UI.renderSkinsBoutique();
+    UI.renderDice();
+    return true;
+  },
+
+  equipSkin(id) {
+    // 해금된 스킨을 활성화 장착합니다.
+    const allSkins = [...SKINS_DATA.dice, ...SKINS_DATA.gator];
+    const skin = allSkins.find(s => s.id === id);
+    if (!skin || !this.isUnlocked(id)) return false;
+
+    if (skin.category === 'dice') {
+      STORAGE.setActiveDiceSkin(id);
+    } else {
+      STORAGE.setActiveGatorSkin(id);
+    }
+
+    SoundFX.playClick();
+    UI.showToast({
+      title: '🎨 스킨 장착 완료!',
+      desc: `[${skin.name}] 스킨이 활성화되었습니다.`,
+      icon: skin.icon
+    });
+
+    UI.renderSkinsBoutique();
+    UI.renderDice();
+    return true;
+  },
+
+  drawGacha() {
+    // 50 가넷을 소모하여 미보유 스킨 중 1개를 무작위로 뽑습니다.
+    const garnets = STORAGE.getGarnets();
+    if (garnets < 50) {
+      alert(`가넷이 부족합니다! (럭셔리 뽑기 1회: 50 가넷 / 보유: ${garnets} 가넷)`);
+      return null;
+    }
+
+    const allSkins = [...SKINS_DATA.dice, ...SKINS_DATA.gator];
+    const lockedSkins = allSkins.filter(s => !this.isUnlocked(s.id));
+
+    if (lockedSkins.length === 0) {
+      alert('이미 모든 럭셔리 스킨을 보유하고 있습니다! 50 가넷이 보존됩니다.');
+      return null;
+    }
+
+    STORAGE.setGarnets(garnets - 50);
+    const picked = lockedSkins[Math.floor(Math.random() * lockedSkins.length)];
+    const unlocked = this.getUnlocked();
+    unlocked.push(picked.id);
+    STORAGE.saveUnlockedSkins(unlocked);
+
+    if (picked.category === 'dice') {
+      STORAGE.setActiveDiceSkin(picked.id);
+    } else {
+      STORAGE.setActiveGatorSkin(picked.id);
+    }
+
+    SoundFX.playJackpot();
+    UI.showToast({
+      title: '🎉 럭셔리 뽑기 대성공!',
+      desc: `[${picked.name}] 당첨 및 즉시 장착!`,
+      icon: picked.icon
+    });
+
+    UI.updateGarnetDisplay();
+    UI.renderSkinsBoutique();
+    UI.renderDice();
+    return picked;
+  }
+};
+
 // -------------------------------------------------------------
 // 3-2. 명예의 전당 랭킹 데이터 관리자 (LeaderboardManager)
 // -------------------------------------------------------------
@@ -2889,8 +3141,13 @@ const UI = {
     btnCloseShop: document.getElementById('btnCloseShop'),
     tabShopStandard: document.getElementById('tabShopStandard'),
     tabShopChefLab: document.getElementById('tabShopChefLab'),
+    tabShopSkins: document.getElementById('tabShopSkins'),
     shopStandardPanel: document.getElementById('shopStandardPanel'),
     shopChefLabPanel: document.getElementById('shopChefLabPanel'),
+    shopSkinsPanel: document.getElementById('shopSkinsPanel'),
+    btnGachaDraw: document.getElementById('btnGachaDraw'),
+    diceSkinsGrid: document.getElementById('diceSkinsGrid'),
+    gatorSkinsGrid: document.getElementById('gatorSkinsGrid'),
     chefLabGrid: document.getElementById('chefLabGrid'),
     shopGarnetCount: document.getElementById('shopGarnetCount'),
     shopWildCount: document.getElementById('shopWildCount'),
@@ -3118,10 +3375,12 @@ const UI = {
     this.dom.keptDice.innerHTML = '';
 
     const curGame = (typeof ModeManager !== 'undefined') ? ModeManager.getCurrentGame() : Game;
+    const activeDiceSkin = (typeof SkinManager !== 'undefined') ? SkinManager.getActiveDice() : null;
+    const skinClass = (activeDiceSkin && activeDiceSkin.cssClass) ? activeDiceSkin.cssClass : '';
 
     curGame.currentDice.forEach((die, index) => {
       const card = document.createElement('div');
-      card.className = `dice-card ${die.color} ${die.isKept ? 'kept' : ''}`;
+      card.className = `dice-card ${die.color} ${skinClass} ${die.isKept ? 'kept' : ''}`;
       card.title = die.isKept ? '클릭하여 고정 해제' : '클릭하여 고정(KEEP)';
 
       if (die.isKept) {
@@ -3496,18 +3755,22 @@ const UI = {
   },
 
   switchShopTab(tabName) {
-    // 일반 상점과 셰프 연구소(모험 모드 영구 특성) 탭을 전환합니다.
+    // 일반 상점, 셰프 연구소, 럭셔리 스킨 부티크 탭을 전환합니다.
+    const tabs = [
+      { name: 'standard', btn: this.dom.tabShopStandard, panel: this.dom.shopStandardPanel },
+      { name: 'cheflab', btn: this.dom.tabShopChefLab, panel: this.dom.shopChefLabPanel },
+      { name: 'skins', btn: this.dom.tabShopSkins, panel: this.dom.shopSkinsPanel }
+    ];
+    tabs.forEach(t => {
+      if (t.btn) t.btn.classList.toggle('active', t.name === tabName);
+      if (t.panel) t.panel.style.display = (t.name === tabName) ? 'block' : 'none';
+    });
+
     if (tabName === 'cheflab') {
-      if (this.dom.tabShopChefLab) this.dom.tabShopChefLab.classList.add('active');
-      if (this.dom.tabShopStandard) this.dom.tabShopStandard.classList.remove('active');
-      if (this.dom.shopChefLabPanel) this.dom.shopChefLabPanel.style.display = 'block';
-      if (this.dom.shopStandardPanel) this.dom.shopStandardPanel.style.display = 'none';
       this.renderChefLab();
+    } else if (tabName === 'skins') {
+      this.renderSkinsBoutique();
     } else {
-      if (this.dom.tabShopStandard) this.dom.tabShopStandard.classList.add('active');
-      if (this.dom.tabShopChefLab) this.dom.tabShopChefLab.classList.remove('active');
-      if (this.dom.shopStandardPanel) this.dom.shopStandardPanel.style.display = 'block';
-      if (this.dom.shopChefLabPanel) this.dom.shopChefLabPanel.style.display = 'none';
       this.updateShopModal();
     }
   },
@@ -3581,6 +3844,90 @@ const UI = {
         });
       }
       this.dom.chefLabGrid.appendChild(card);
+    });
+  },
+
+  renderSkinsBoutique() {
+    // 럭셔리 스킨 부티크(주사위 및 악어 코스튬) 목록을 렌더링하고 구매 및 장착 기능을 제공합니다.
+    if (!this.dom.diceSkinsGrid || !this.dom.gatorSkinsGrid) return;
+    const currentGarnets = STORAGE.getGarnets();
+    const activeDice = STORAGE.getActiveDiceSkin();
+    const activeGator = STORAGE.getActiveGatorSkin();
+
+    // 1. 주사위 스킨 렌더링
+    this.dom.diceSkinsGrid.innerHTML = '';
+    SKINS_DATA.dice.forEach(skin => {
+      const isUnlocked = SkinManager.isUnlocked(skin.id);
+      const isEquipped = (activeDice === skin.id);
+      const canAfford = currentGarnets >= skin.cost;
+
+      const card = document.createElement('div');
+      card.className = `skin-card ${isEquipped ? 'equipped' : ''}`;
+      card.innerHTML = `
+        <div class="skin-card-header">
+          <span class="skin-card-icon">${skin.icon}</span>
+          <div>
+            <div class="skin-card-name">${skin.name}</div>
+            <div class="skin-card-cost">${isUnlocked ? '보유 중' : `🔴 ${skin.cost} 가넷`}</div>
+          </div>
+        </div>
+        <div class="skin-card-desc">${skin.desc}</div>
+        <button class="btn-skin-action ${isEquipped ? 'btn-equipped' : (isUnlocked ? 'btn-equip' : 'btn-buy-skin')}"
+          ${isEquipped || (!isUnlocked && !canAfford) ? 'disabled' : ''}>
+          ${isEquipped ? '✓ 장착 중' : (isUnlocked ? '장착하기' : '구매하기')}
+        </button>
+      `;
+
+      const btn = card.querySelector('.btn-skin-action');
+      if (btn && !isEquipped) {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          if (isUnlocked) {
+            SkinManager.equipSkin(skin.id);
+          } else {
+            SkinManager.buySkin(skin.id);
+          }
+        });
+      }
+      this.dom.diceSkinsGrid.appendChild(card);
+    });
+
+    // 2. 악어 아바타 코스튬 렌더링
+    this.dom.gatorSkinsGrid.innerHTML = '';
+    SKINS_DATA.gator.forEach(skin => {
+      const isUnlocked = SkinManager.isUnlocked(skin.id);
+      const isEquipped = (activeGator === skin.id);
+      const canAfford = currentGarnets >= skin.cost;
+
+      const card = document.createElement('div');
+      card.className = `skin-card ${isEquipped ? 'equipped' : ''}`;
+      card.innerHTML = `
+        <div class="skin-card-header">
+          <span class="skin-card-icon">${skin.icon}</span>
+          <div>
+            <div class="skin-card-name">${skin.name}</div>
+            <div class="skin-card-cost">${isUnlocked ? '보유 중' : `🔴 ${skin.cost} 가넷`}</div>
+          </div>
+        </div>
+        <div class="skin-card-desc">${skin.desc}</div>
+        <button class="btn-skin-action ${isEquipped ? 'btn-equipped' : (isUnlocked ? 'btn-equip' : 'btn-buy-skin')}"
+          ${isEquipped || (!isUnlocked && !canAfford) ? 'disabled' : ''}>
+          ${isEquipped ? '✓ 장착 중' : (isUnlocked ? '장착하기' : '구매하기')}
+        </button>
+      `;
+
+      const btn = card.querySelector('.btn-skin-action');
+      if (btn && !isEquipped) {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          if (isUnlocked) {
+            SkinManager.equipSkin(skin.id);
+          } else {
+            SkinManager.buySkin(skin.id);
+          }
+        });
+      }
+      this.dom.gatorSkinsGrid.appendChild(card);
     });
   },
 
@@ -3902,6 +4249,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   if (UI.dom.tabShopChefLab) {
     UI.dom.tabShopChefLab.addEventListener('click', () => UI.switchShopTab('cheflab'));
+  }
+  if (UI.dom.tabShopSkins) {
+    UI.dom.tabShopSkins.addEventListener('click', () => UI.switchShopTab('skins'));
+  }
+  if (UI.dom.btnGachaDraw) {
+    UI.dom.btnGachaDraw.addEventListener('click', () => SkinManager.drawGacha());
   }
   if (UI.dom.btnOpenChefLabFromLobby) {
     UI.dom.btnOpenChefLabFromLobby.addEventListener('click', () => {

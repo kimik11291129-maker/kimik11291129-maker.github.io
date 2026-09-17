@@ -300,10 +300,11 @@
           <div class="shop-garnet-display" id="shopGarnetCount">🔴 20</div>
         </div>
 
-        <!-- 탭 스위처: 일반 덱빌딩 상점 vs 셰프 연구소 (모험 영구 특성) -->
+        <!-- 탭 스위처: 일반 덱빌딩 상점 vs 셰프 연구소 (모험 영구 특성) vs 럭셔리 스킨 부티크 -->
         <div class="shop-tab-nav">
           <button id="tabShopStandard" class="shop-tab-btn active">🛒 일반 덱빌딩 상점</button>
           <button id="tabShopChefLab" class="shop-tab-btn">🧪 셰프 연구소 (모험 영구 특성)</button>
+          <button id="tabShopSkins" class="shop-tab-btn">🎨 럭셔리 스킨 부티크</button>
         </div>
 
         <!-- 1. 일반 상점 패널 -->
@@ -357,6 +358,30 @@
             <p>💡 모은 가넷으로 보스 디펜스(모험 모드)의 시작 주사위, 리롤 횟수, 영구 공격력을 연구하여 클리어 확률을 대폭 높이세요!</p>
           </div>
           <div class="chef-lab-grid" id="chefLabGrid">
+            <!-- JS 동적 렌더링 -->
+          </div>
+        </div>
+
+        <!-- 3. 럭셔리 스킨 부티크 패널 -->
+        <div id="shopSkinsPanel" class="shop-tab-panel" style="display: none;">
+          <div class="skin-boutique-banner">
+            <div class="banner-left">
+              <h4>🎰 럭셔리 미스터리 가챠 (50 가넷)</h4>
+              <p>황금 주사위부터 황제 악어 코스튬까지! 미보유 스킨 중 1종 100% 당첨!</p>
+            </div>
+            <button class="btn-gacha-draw" id="btnGachaDraw">
+              <span>🎲 럭셔리 뽑기 (1회)</span>
+              <span class="gacha-price">🔴 50 가넷</span>
+            </button>
+          </div>
+
+          <div class="skins-section-title">🎲 프리미엄 주사위 스킨</div>
+          <div class="skins-grid" id="diceSkinsGrid">
+            <!-- JS 동적 렌더링 -->
+          </div>
+
+          <div class="skins-section-title" style="margin-top: 20px;">🐊 악어 아바타 코스튬</div>
+          <div class="skins-grid" id="gatorSkinsGrid">
             <!-- JS 동적 렌더링 -->
           </div>
         </div>

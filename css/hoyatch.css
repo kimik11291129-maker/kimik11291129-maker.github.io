@@ -24,82 +24,26 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: 'NeoDungGeunMo', monospace !important;
-  -webkit-font-smoothing: none;
-  -moz-osx-font-smoothing: unset;
-  image-rendering: pixelated;
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
 }
 
-body.game-page-body {
-  background-color: #0c1410;
-  background: #0c1410;
+body:not(.swamp-theme) {
+  background-color: var(--bg-dark);
   color: var(--text-main);
   min-height: 100vh;
-}
-
-body.game-page-body .header {
-  background-color: rgba(12, 20, 16, 0.95);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border-bottom: 2px solid #1e2e23;
-}
-
-body.game-page-body .brand-logo {
-  font-family: 'NeoDungGeunMo', monospace;
-  color: #4ade80;
-}
-
-body.game-page-body .brand-logo span.role-pill {
-  font-family: 'NeoDungGeunMo', monospace;
-  background: rgba(74, 222, 128, 0.12);
-  color: #4ade80;
-  border: 1px solid rgba(74, 222, 128, 0.25);
-  border-radius: 0px;
-  box-shadow: 2px 2px 0px #060a08;
-}
-
-body.game-page-body .tab-item a {
-  font-family: 'NeoDungGeunMo', monospace;
-  color: #8ca393;
-  border-radius: 0px;
-}
-
-body.game-page-body .tab-item a:hover {
-  color: #ffffff;
-  background-color: #141f18;
-  border-color: #1e2e23;
-  box-shadow: 2px 2px 0px #060a08;
-}
-
-body.game-page-body .tab-item a.active {
-  color: #4ade80;
-  background-color: #17241c;
-  border: 1px solid #4ade80;
-  box-shadow: 2px 2px 0px #060a08;
-  font-weight: 700;
-}
-
-body.game-page-body .tab-item a.active::after {
-  background-color: #4ade80;
-  border-radius: 0px;
-  box-shadow: 1px 1px 0px #060a08;
-}
-
-.hoyatch-page-main {
-  width: 100%;
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding: 24px 16px 80px 16px;
+  padding: 20px;
 }
 
 .hoyatch-wrapper {
-  background: #0d1612;
+  background: var(--bg-dark);
   color: var(--text-main);
-  border-radius: 0px !important;
+  border-radius: 24px;
   padding: 16px;
-  border: 4px double #4ade80 !important;
-  box-shadow: 6px 6px 0px #060a08, inset 0 0 24px rgba(0, 0, 0, 0.8) !important;
+  border: 3px solid #10b981;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7);
 }
 
 .game-container {
@@ -457,11 +401,11 @@ body.game-page-body .tab-item a.active::after {
   border-radius: 8px;
 }
 
-/* 녹색 펠트 보드 (고전 아케이드 도트 보드) */
+/* 녹색 펠트 보드 */
 .dice-table {
-  background: radial-gradient(circle at center, #064e3b, #032b20);
-  border: 4px double #4ade80 !important;
-  border-radius: 0px !important;
+  background: radial-gradient(circle at center, #065f46, #044432);
+  border: 4px solid var(--bg-table-border);
+  border-radius: 20px;
   min-height: 220px;
   padding: 24px;
   position: relative;
@@ -469,7 +413,7 @@ body.game-page-body .tab-item a.active::after {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.7), 4px 4px 0px #060a08 !important;
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.6), var(--shadow-drop);
 }
 
 .table-label, .tray-label {
@@ -490,25 +434,23 @@ body.game-page-body .tab-item a.active::after {
 }
 
 .tip-badge {
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.4);
   color: #fef08a;
   padding: 2px 8px;
-  border-radius: 0px !important;
-  border: 1px solid #fef08a;
+  border-radius: 6px;
   font-size: 11px;
   font-weight: 600;
-  box-shadow: 1px 1px 0px #000;
 }
 
 .tray-label {
   color: #cbd5e1;
 }
 
-/* 킵 트레이 (고전 16-bit 픽셀 인벤토리 트레이) */
+/* 킵 트레이 */
 .keep-tray {
-  background: #111a14;
-  border: 3px dashed #385241 !important;
-  border-radius: 0px !important;
+  background: #131d2e;
+  border: 2px dashed #334155;
+  border-radius: 16px;
   min-height: 160px;
   padding: 24px;
   position: relative;
@@ -516,7 +458,7 @@ body.game-page-body .tab-item a.active::after {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  box-shadow: 4px 4px 0px #060a08 !important;
+  box-shadow: var(--shadow-drop);
 }
 
 .dice-slots {
@@ -551,12 +493,12 @@ body.game-page-body .tab-item a.active::after {
 }
 
 /* ----------------------------------------------------
-   🎲 1990~2000 고전 16-bit 2D 픽셀 주사위 (Classic 2D Pixel Dice)
+   주사위 3D 스타일 비주얼 (Dice Styling)
 ---------------------------------------------------- */
 .dice-card {
-  width: 82px;
-  height: 82px;
-  border-radius: 0px !important;
+  width: 84px;
+  height: 84px;
+  border-radius: 18px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -564,31 +506,18 @@ body.game-page-body .tab-item a.active::after {
   position: relative;
   cursor: pointer;
   user-select: none;
-  border: 3px solid #060a08 !important;
-  box-shadow: inset 2px 2px 0px rgba(255, 255, 255, 0.4), inset -2px -2px 0px rgba(0, 0, 0, 0.6), 4px 4px 0px #060a08 !important;
-  transition: transform 0.1s, box-shadow 0.1s;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.3);
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s;
 }
 
 .dice-card:hover {
-  transform: translateY(-4px) !important;
-  box-shadow: inset 2px 2px 0px rgba(255, 255, 255, 0.5), inset -2px -2px 0px rgba(0, 0, 0, 0.7), 5px 5px 0px #060a08 !important;
-}
-
-.dice-card:active {
-  transform: translateY(2px) !important;
-  box-shadow: inset 2px 2px 0px rgba(0, 0, 0, 0.6), inset -2px -2px 0px rgba(255, 255, 255, 0.2), 2px 2px 0px #060a08 !important;
+  transform: translateY(-6px) scale(1.05);
+  box-shadow: 0 14px 24px rgba(0, 0, 0, 0.6);
 }
 
 .dice-card.kept {
-  border: 3px solid #f59e0b !important;
-  box-shadow: inset 2px 2px 0px #ffffff, inset -2px -2px 0px #000000, 0 0 0 2px #fbbf24, 4px 4px 0px #060a08 !important;
-  animation: pixelKeepPulse 1s steps(2, start) infinite;
-}
-
-@keyframes pixelKeepPulse {
-  0% { border-color: #f59e0b; }
-  50% { border-color: #fde047; }
-  100% { border-color: #f59e0b; }
+  border: 3px solid #fbbf24 !important;
+  box-shadow: 0 0 16px rgba(245, 158, 11, 0.7);
 }
 
 .dice-lock-tag {
@@ -597,28 +526,27 @@ body.game-page-body .tab-item a.active::after {
   right: -8px;
   background: #f59e0b;
   color: #000;
-  font-family: 'NeoDungGeunMo', monospace !important;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 900;
   padding: 2px 6px;
-  border-radius: 0px !important;
-  border: 1px solid #000;
-  box-shadow: 2px 2px 0px #000;
+  border-radius: 6px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.5);
 }
 
 .dice-card.red {
-  background: #b91c1c !important;
-  border-color: #7f1d1d !important;
+  background: radial-gradient(circle at 30% 30%, #ef4444, #991b1b);
+  border: 2px solid #f87171;
 }
 
 .dice-card.black {
-  background: #1f2937 !important;
-  border-color: #111827 !important;
+  background: radial-gradient(circle at 30% 30%, #27272a, #09090b);
+  border: 2px solid #52525b;
 }
 
 .dice-card.wild {
-  background: #d97706 !important;
-  border-color: #78350f !important;
+  background: linear-gradient(135deg, #f59e0b, #9333ea, #3b82f6);
+  border: 2px solid #fde047;
+  animation: wildGlow 2.5s infinite alternate;
 }
 
 @keyframes wildGlow {
@@ -626,22 +554,90 @@ body.game-page-body .tab-item a.active::after {
   100% { box-shadow: 0 0 22px rgba(147, 51, 234, 0.9); }
 }
 
+/* 🌟 24K 순금 골드 다이스 스킨 */
+.dice-card.skin-gold.red {
+  background: radial-gradient(circle at 30% 30%, #f59e0b, #78350f) !important;
+  border: 2.5px solid #fde047 !important;
+  box-shadow: 0 0 16px rgba(245, 158, 11, 0.8), inset 0 2px 6px rgba(254, 240, 138, 0.6) !important;
+}
+.dice-card.skin-gold.black {
+  background: radial-gradient(circle at 30% 30%, #451a03, #1c1917) !important;
+  border: 2.5px solid #d97706 !important;
+  box-shadow: 0 0 14px rgba(217, 119, 6, 0.6), inset 0 2px 6px rgba(245, 158, 11, 0.4) !important;
+}
+.dice-card.skin-gold.wild {
+  background: linear-gradient(135deg, #facc15, #b45309, #f59e0b) !important;
+  border: 2.5px solid #ffffff !important;
+  box-shadow: 0 0 24px rgba(250, 204, 21, 0.95) !important;
+}
+
+/* 🌌 사이버네틱 네온 RGB 다이스 스킨 */
+.dice-card.skin-neon.red {
+  background: radial-gradient(circle at 30% 30%, #f43f5e, #881337) !important;
+  border: 2.5px solid #fda4af !important;
+  box-shadow: 0 0 20px rgba(244, 63, 94, 0.85), inset 0 2px 6px rgba(253, 164, 175, 0.6) !important;
+}
+.dice-card.skin-neon.black {
+  background: radial-gradient(circle at 30% 30%, #0284c7, #082f49) !important;
+  border: 2.5px solid #38bdf8 !important;
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.85), inset 0 2px 6px rgba(125, 211, 252, 0.6) !important;
+}
+.dice-card.skin-neon.wild {
+  background: linear-gradient(135deg, #06b6d4, #a855f7, #ec4899) !important;
+  border: 2.5px solid #ffffff !important;
+  box-shadow: 0 0 26px rgba(168, 85, 247, 0.95) !important;
+}
+
+/* 🌋 심연의 용암 마그마 다이스 스킨 */
+.dice-card.skin-magma.red {
+  background: radial-gradient(circle at 30% 30%, #ea580c, #431407) !important;
+  border: 2.5px solid #fb923c !important;
+  box-shadow: 0 0 20px rgba(234, 88, 12, 0.85), inset 0 2px 6px rgba(251, 146, 60, 0.6) !important;
+}
+.dice-card.skin-magma.black {
+  background: radial-gradient(circle at 30% 30%, #27272a, #09090b) !important;
+  border: 2.5px solid #ea580c !important;
+  box-shadow: 0 0 16px rgba(234, 88, 12, 0.65), inset 0 2px 6px rgba(154, 52, 18, 0.4) !important;
+}
+.dice-card.skin-magma.wild {
+  background: linear-gradient(135deg, #ef4444, #f97316, #eab308) !important;
+  border: 2.5px solid #ffedd5 !important;
+  box-shadow: 0 0 26px rgba(249, 115, 22, 0.95) !important;
+}
+
+/* 💎 로열 에메랄드 프리즘 다이스 스킨 */
+.dice-card.skin-emerald.red {
+  background: radial-gradient(circle at 30% 30%, #10b981, #064e3b) !important;
+  border: 2.5px solid #6ee7b7 !important;
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.85), inset 0 2px 6px rgba(110, 231, 183, 0.6) !important;
+}
+.dice-card.skin-emerald.black {
+  background: radial-gradient(circle at 30% 30%, #047857, #022c22) !important;
+  border: 2.5px solid #34d399 !important;
+  box-shadow: 0 0 16px rgba(52, 211, 153, 0.65), inset 0 2px 6px rgba(5, 150, 105, 0.4) !important;
+}
+.dice-card.skin-emerald.wild {
+  background: linear-gradient(135deg, #10b981, #3b82f6, #6366f1) !important;
+  border: 2.5px solid #a7f3d0 !important;
+  box-shadow: 0 0 26px rgba(16, 185, 129, 0.95) !important;
+}
+
 .pip-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
-  width: 54px;
-  height: 54px;
-  padding: 3px;
+  width: 56px;
+  height: 56px;
+  padding: 4px;
 }
 
 .pip {
-  width: 11px !important;
-  height: 11px !important;
-  background: #ffffff !important;
-  border-radius: 0px !important;
+  width: 12px;
+  height: 12px;
+  background: #ffffff;
+  border-radius: 50%;
   margin: auto;
-  box-shadow: 1px 1px 0px #000 !important;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.4);
 }
 
 .pip.empty {
@@ -2224,63 +2220,20 @@ body.game-page-body .tab-item a.active::after {
 /* 🐊 All I gator Ham Burger 배너 */
 .site-header-banner {
   width: 100%;
+  max-height: 120px;
+  overflow: hidden;
   border-radius: 16px;
   margin-bottom: 16px;
-  border: 2px solid #059669;
-  box-shadow: 0 6px 24px rgba(16, 185, 129, 0.25), inset 0 0 30px rgba(0, 0, 0, 0.5);
-  background: radial-gradient(circle at 50% 40%, #064e3b 0%, #022c22 65%, #01140f 100%);
-  padding: 24px 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
+  border: 2px solid #78350f;
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.5);
+  background: #020617;
 }
 
-.site-header-banner::before {
-  content: "";
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 0, 0, 0.18) 2px, rgba(0, 0, 0, 0.18) 4px);
-  pointer-events: none;
-}
-
-.banner-arcade-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(16, 185, 129, 0.2);
-  border: 1px solid #10b981;
-  color: #34d399;
-  font-size: 0.78rem;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-  padding: 4px 14px;
-  border-radius: 20px;
-  margin-bottom: 8px;
-  text-transform: uppercase;
-}
-
-.banner-arcade-title {
-  font-size: clamp(1.6rem, 3.8vw, 2.6rem);
-  font-weight: 900;
-  color: #ffffff;
-  letter-spacing: -0.02em;
-  text-shadow: 0 2px 14px rgba(16, 185, 129, 0.6), 0 0 8px rgba(16, 185, 129, 0.4);
-  margin-bottom: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-}
-
-.banner-arcade-sub {
-  color: #94a3b8;
-  font-size: clamp(0.85rem, 1.2vw, 0.98rem);
-  font-weight: 600;
-  letter-spacing: -0.01em;
+.site-header-banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .boss-profile {
@@ -2292,37 +2245,26 @@ body.game-page-body .tab-item a.active::after {
 
 .boss-avatar-wrap {
   position: relative;
-  width: 58px;
-  height: 58px;
+  width: 54px;
+  height: 54px;
   flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
-.boss-avatar-badge {
-  width: 58px;
-  height: 58px;
-  border-radius: 14px;
-  background: radial-gradient(circle at 35% 35%, #1e3a29 0%, #0f2317 70%, #06110a 100%);
+.boss-img-thumb {
+  width: 54px;
+  height: 54px;
+  border-radius: 12px;
+  object-fit: cover;
   border: 2.5px solid #10b981;
-  box-shadow: 0 0 14px rgba(16, 185, 129, 0.6), inset 0 0 10px rgba(0, 0, 0, 0.6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.3s ease, border-color 0.3s ease;
+  box-shadow: 0 0 14px rgba(16, 185, 129, 0.6);
+  transition: transform 0.3s ease;
+  display: block;
 }
 
-.boss-avatar-wrap:hover .boss-avatar-badge {
+.boss-avatar-wrap:hover .boss-img-thumb {
   transform: scale(1.1);
   border-color: #facc15;
   box-shadow: 0 0 20px rgba(250, 204, 21, 0.8);
-}
-
-.boss-avatar-emoji {
-  font-size: 2rem;
-  line-height: 1;
-  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.5));
 }
 
 .boss-icon-badge {
@@ -3050,264 +2992,169 @@ body.game-page-body .tab-item a.active::after {
   background: rgba(245, 158, 11, 0.15);
   border: 1px solid rgba(245, 158, 11, 0.4);
   padding: 2px 8px;
-  border-radius: 0px !important;
+  border-radius: 12px;
 }
 
-/* ==========================================================================
-   👾 1990~2000 CLASSIC 2D PIXEL RPG & ARCADE MASTER OVERRIDES
-   ========================================================================== */
-
-/* 1. 전 요소 100% 네오둥근모 & 0px 각진 픽셀 하드 모서리 */
-.hoyatch-wrapper,
-.hoyatch-wrapper *,
-.game-container,
-.game-container * {
-  font-family: 'NeoDungGeunMo', monospace !important;
-  border-radius: 0px !important;
-  -webkit-font-smoothing: none !important;
-  image-rendering: pixelated !important;
+/* ----------------------------------------------------
+   🎨 럭셔리 스킨 부티크 상점 스타일
+---------------------------------------------------- */
+.skin-boutique-banner {
+  background: linear-gradient(135deg, #1e1b4b 0%, #312e81 60%, #4338ca 100%);
+  border: 2px solid #818cf8;
+  border-radius: 16px;
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  box-shadow: 0 8px 24px rgba(67, 56, 202, 0.4);
 }
 
-/* 2. 16-bit 콘솔/DOS 게임 창틀 (Window Bevel & Hard Shadows) */
-.game-header,
-.site-header-banner,
-.score-card,
-.step-guide-bar,
-.pvp-status-bar,
-.adventure-status-bar,
-.table-info-bar,
-.game-notice,
-.custom-room-card {
-  border: 2px solid var(--border-highlight) !important;
-  box-shadow: 4px 4px 0px #060a08 !important;
-  background-color: #141f18 !important;
+.banner-left h4 {
+  margin: 0;
+  font-size: 1.15rem;
+  color: #c7d2fe;
+  font-weight: 800;
 }
 
-/* 3. 1990년대 아케이드 손맛 2D 릴리프 버튼 */
-.btn-leaderboard,
-.btn-achievements,
-.btn-shop,
-.btn-help,
-.btn-lobby,
-.btn-primary,
-.btn-secondary,
-.btn-roll,
-.btn-action,
-.btn-wild-edit,
-.btn-close-modal {
-  border-radius: 0px !important;
-  border: 2px solid #060a08 !important;
-  box-shadow: 3px 3px 0px #060a08 !important;
-  text-shadow: 1px 1px 0px #000 !important;
-  transition: transform 0.06s, box-shadow 0.06s !important;
+.banner-left p {
+  margin: 4px 0 0 0;
+  font-size: 0.85rem;
+  color: #a5b4fc;
 }
 
-.btn-leaderboard:hover,
-.btn-achievements:hover,
-.btn-shop:hover,
-.btn-help:hover,
-.btn-lobby:hover,
-.btn-primary:hover,
-.btn-secondary:hover {
-  transform: translateY(-2px) !important;
-  box-shadow: 4px 4px 0px #060a08 !important;
+.btn-gacha-draw {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: #000;
+  border: 2px solid #fde047;
+  border-radius: 14px;
+  padding: 10px 18px;
+  font-weight: 900;
+  font-size: 0.95rem;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  box-shadow: 0 4px 16px rgba(245, 158, 11, 0.5);
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.btn-leaderboard:active,
-.btn-achievements:active,
-.btn-shop:active,
-.btn-help:active,
-.btn-lobby:active,
-.btn-primary:active,
-.btn-secondary:active {
-  transform: translate(2px, 2px) !important;
-  box-shadow: 1px 1px 0px #060a08 !important;
+.btn-gacha-draw:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 8px 24px rgba(245, 158, 11, 0.7);
 }
 
-/* 4. 고전 RPG 몬스터 대결 세그먼트 블록 HP바 (Segmented Health Bar) */
-.boss-hp-container {
-  border: 2px solid #060a08 !important;
-  background: #111a14 !important;
-  box-shadow: inset 2px 2px 0px #000, 2px 2px 0px #060a08 !important;
-  height: 22px !important;
-  position: relative;
-  overflow: hidden;
+.gacha-price {
+  font-size: 0.8rem;
+  color: #78350f;
+  font-weight: 800;
 }
 
-.boss-hp-bar {
-  height: 100% !important;
-  background: repeating-linear-gradient(90deg, #ef4444, #ef4444 12px, #991b1b 12px, #991b1b 14px) !important;
-  box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.4) !important;
+.skins-section-title {
+  font-size: 1rem;
+  font-weight: 800;
+  color: #facc15;
+  margin: 14px 0 10px 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
-.boss-hp-label {
-  font-size: 11px !important;
-  font-weight: 900 !important;
-  letter-spacing: 0.5px !important;
-  text-shadow: 1px 1px 0px #000, -1px -1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000 !important;
+.skins-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 14px;
 }
 
-/* 5. 16-bit 스코어보드 표 & 추천 셀 픽셀 점멸 */
-.score-table th,
-.score-table td {
-  border-radius: 0px !important;
-  border: 1px solid #1e2e23 !important;
+.skin-card {
+  background: #131d2e;
+  border: 2px solid #1e293b;
+  border-radius: 14px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s, border-color 0.2s;
 }
 
-.score-cell.suggested {
-  background: rgba(74, 222, 128, 0.22) !important;
-  border: 2px solid #4ade80 !important;
-  box-shadow: inset 1px 1px 0px #86efac, 2px 2px 0px #060a08 !important;
-  color: #4ade80 !important;
-  animation: pixelSuggestPulse 1.2s steps(2, start) infinite !important;
+.skin-card:hover {
+  border-color: #38bdf8;
+  transform: translateY(-3px);
 }
 
-@keyframes pixelSuggestPulse {
-  0% { border-color: #4ade80; }
-  50% { border-color: #f59e0b; }
-  100% { border-color: #4ade80; }
+.skin-card.equipped {
+  border-color: #10b981 !important;
+  background: rgba(6, 78, 59, 0.25) !important;
+  box-shadow: 0 0 14px rgba(16, 185, 129, 0.3);
 }
 
-/* 6. 1990년대 PC 대화상자 모달 (2중 픽셀 라인) */
-.modal-box {
-  background: #0c1410 !important;
-  border: 4px double #4ade80 !important;
-  box-shadow: 6px 6px 0px #060a08, inset 0 0 20px rgba(0, 0, 0, 0.9) !important;
-  color: #e5ece6 !important;
+.skin-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
 }
 
-.modal-header {
-  border-bottom: 2px solid #1e2e23 !important;
-  padding-bottom: 12px !important;
+.skin-card-icon {
+  font-size: 1.8rem;
 }
 
-/* 7. 상점 카드 및 업적 아이템 16-bit 인벤토리 슬롯 */
-.shop-card,
-.arch-item,
-.relic-card,
-.dice-skin-card {
-  border: 2px solid #1e2e23 !important;
-  box-shadow: 3px 3px 0px #060a08 !important;
-  background: #141f18 !important;
+.skin-card-name {
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: #f8fafc;
 }
 
-.shop-card:hover,
-.arch-item:hover,
-.relic-card:hover {
-  border-color: #4ade80 !important;
-  transform: translateY(-2px) !important;
-  box-shadow: 4px 4px 0px #060a08 !important;
+.skin-card-cost {
+  font-size: 0.8rem;
+  color: #f59e0b;
+  font-weight: 700;
+}
+
+.skin-card-desc {
+  font-size: 0.78rem;
+  color: #94a3b8;
+  margin: 6px 0 12px 0;
+  line-height: 1.4;
+  flex-grow: 1;
+}
+
+.btn-skin-action {
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+}
+
+.btn-buy-skin {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: #000;
+  box-shadow: 0 3px 10px rgba(245, 158, 11, 0.3);
+}
+.btn-buy-skin:hover {
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+}
+
+.btn-equip {
+  background: #0284c7;
+  color: #fff;
+}
+.btn-equip:hover {
+  background: #0369a1;
+}
+
+.btn-equipped {
+  background: #065f46;
+  color: #34d399;
+  cursor: default;
 }
 
 
 
 
 
-
-/* ==========================================================================
-   🎯 HoYatch 상단 헤더 툴바 텍스트 줄바꿈 깨짐 완전 차단 & 수평 정렬 안정화
-   ========================================================================== */
-.game-header {
-  flex-wrap: wrap !important;
-  gap: 10px !important;
-  padding: 12px 18px !important;
-}
-
-.header-left,
-.header-right {
-  display: flex !important;
-  align-items: center !important;
-  flex-wrap: wrap !important;
-  gap: 6px !important;
-}
-
-.title-row {
-  display: flex !important;
-  align-items: center !important;
-  flex-wrap: wrap !important;
-  gap: 6px !important;
-}
-
-/* 모든 헤더 버튼 및 뱃지 텍스트 1줄 강제 (절대 줄바꿈 금지) */
-.mode-title-tag,
-.btn-lobby,
-.btn-help,
-.btn-leaderboard,
-.btn-achievements,
-.btn-shop,
-.btn-secondary,
-.stat-badge {
-  white-space: nowrap !important;
-  word-break: keep-all !important;
-  flex-shrink: 0 !important;
-}
-
-/* 버튼 규격 및 패딩 최적화 */
-.btn-lobby,
-.btn-help,
-.btn-leaderboard,
-.btn-achievements,
-.btn-shop,
-.btn-secondary {
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  padding: 7px 11px !important;
-  font-size: 12px !important;
-  gap: 5px !important;
-  line-height: 1 !important;
-  height: 36px !important;
-  box-sizing: border-box !important;
-}
-
-.mode-title-tag {
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  padding: 5px 10px !important;
-  font-size: 12px !important;
-  height: 36px !important;
-  box-sizing: border-box !important;
-  line-height: 1 !important;
-  border-radius: 0px !important;
-  border: 2px solid rgba(245, 158, 11, 0.6) !important;
-  box-shadow: 2px 2px 0px #060a08 !important;
-}
-
-/* 배지 (가넷, 라운드, 스코어) 완벽 2단 카드 정렬 */
-.stat-badge {
-  min-width: 58px !important;
-  padding: 4px 10px !important;
-  height: 36px !important;
-  box-sizing: border-box !important;
-  justify-content: center !important;
-  border-radius: 0px !important;
-  border: 2px solid var(--border-highlight) !important;
-  box-shadow: 2px 2px 0px #060a08 !important;
-}
-
-.stat-badge.garnet-badge {
-  border-color: #dc2626 !important;
-  min-width: 68px !important;
-}
-
-.stat-badge .label {
-  font-size: 9px !important;
-  white-space: nowrap !important;
-  line-height: 1.1 !important;
-  letter-spacing: 0 !important;
-}
-
-.stat-badge .value {
-  font-size: 16px !important;
-  white-space: nowrap !important;
-  line-height: 1 !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  gap: 2px !important;
-}
-
-.stat-badge .total {
-  font-size: 11px !important;
-  white-space: nowrap !important;
-}

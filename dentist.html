@@ -3,19 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- 🛡️ 보안 메타 태그 -->
-    <meta http-equiv="X-Content-Type-Options" content="nosniff">
-    <meta name="referrer" content="no-referrer">
-
-    <!-- 🐊 파비콘 -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐊</text></svg>">
-
-    <title>악어 이빨 룰렛 &amp; 잭팟 카지노 (Gator Dentist) — 김호선</title>
+    <title>🐊 악어 이빨 룰렛 & 잭팟 카지노 (Gator Dentist)</title>
+    <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700;800;900&family=NeoDungGeunMo&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
             --casino-bg: #07130c;
@@ -36,15 +28,15 @@
             color: var(--casino-text);
             font-family: 'Pretendard', sans-serif;
             margin: 0;
-            padding: 0 10px 60px 10px;
+            padding: 20px 10px 60px 10px;
         }
 
         .dentist-container {
             max-width: 860px;
-            margin: 20px auto 0 auto;
+            margin: 0 auto;
         }
 
-        /* 🧭 상단 카지노 헤더 */
+        /* 🧭 상단 네비게이션 & 카지노 헤더 */
         .casino-header {
             display: flex;
             justify-content: space-between;
@@ -131,7 +123,7 @@
             border-color: #94a3b8;
         }
 
-        /* 🐊 악어 비주얼 극장 (모니터) */
+        /* 🐊 악어 비주얼 극장 (포트레이트 모니터) */
         .gator-stage-card {
             background: #020617;
             border: 3px solid #10b981;
@@ -578,29 +570,144 @@
             color: #64748b;
             line-height: 1.6;
         }
+
+        /* 🎨 스킨 부티크 모달 */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+        .modal-overlay.active {
+            display: flex;
+        }
+        .skin-modal-box {
+            background: #0f172a;
+            border: 2px solid #6366f1;
+            border-radius: 20px;
+            max-width: 640px;
+            width: 100%;
+            max-height: 88vh;
+            overflow-y: auto;
+            padding: 24px;
+            color: #f8fafc;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9);
+        }
+        .skin-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #1e293b;
+            padding-bottom: 14px;
+            margin-bottom: 18px;
+        }
+        .skin-boutique-banner {
+            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 60%, #4338ca 100%);
+            border: 2px solid #818cf8;
+            border-radius: 16px;
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .btn-gacha-draw {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: #000;
+            border: 2px solid #fde047;
+            border-radius: 14px;
+            padding: 10px 18px;
+            font-weight: 900;
+            font-size: 0.95rem;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            box-shadow: 0 4px 16px rgba(245, 158, 11, 0.5);
+            transition: transform 0.2s;
+        }
+        .btn-gacha-draw:hover {
+            transform: translateY(-2px) scale(1.03);
+        }
+        .skins-section-title {
+            font-size: 1rem;
+            font-weight: 800;
+            color: #facc15;
+            margin: 16px 0 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .skins-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+            gap: 12px;
+        }
+        .skin-card {
+            background: #1e293b;
+            border: 2px solid #334155;
+            border-radius: 14px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .skin-card:hover {
+            border-color: #38bdf8;
+            transform: translateY(-2px);
+        }
+        .skin-card.equipped {
+            border-color: #10b981 !important;
+            background: rgba(6, 78, 59, 0.3) !important;
+            box-shadow: 0 0 12px rgba(16, 185, 129, 0.3);
+        }
+        .skin-card-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+        .skin-card-icon { font-size: 1.6rem; }
+        .skin-card-name { font-size: 0.88rem; font-weight: 800; color: #f8fafc; }
+        .skin-card-cost { font-size: 0.78rem; color: #f59e0b; font-weight: 700; }
+        .skin-card-desc { font-size: 0.75rem; color: #94a3b8; margin: 4px 0 10px 0; line-height: 1.35; flex-grow: 1; }
+        .btn-skin-action {
+            width: 100%;
+            padding: 7px 10px;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            font-weight: 800;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+        }
+        .btn-buy-skin { background: linear-gradient(135deg, #f59e0b, #d97706); color: #000; }
+        .btn-equip { background: #0284c7; color: #fff; }
+        .btn-equipped { background: #059669; color: #fff; cursor: default; }
+
+        /* 악어 외형 테마 */
+        .gator-stage-card.skin-gator-king {
+            border-color: #f59e0b !important;
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.8), 0 0 35px rgba(245, 158, 11, 0.5) !important;
+        }
+        .gator-stage-card.skin-gator-boss {
+            border-color: #8b5cf6 !important;
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.8), 0 0 35px rgba(139, 92, 246, 0.5) !important;
+        }
+        .gator-stage-card.skin-gator-chef {
+            border-color: #f97316 !important;
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.8), 0 0 35px rgba(249, 115, 22, 0.5) !important;
+        }
     </style>
 </head>
 <body class="dentist-body">
-
-    <!-- 🧭 상단 공통 네비게이션 헤더 -->
-    <header class="header">
-      <div class="nav-container nav-container-broadsheet">
-        <a href="index.html" class="brand-logo">
-          <span>김호선</span>
-          <span class="role-pill">Retro 2D Pixel</span>
-        </a>
-        <nav>
-          <ul class="tab-group">
-            <li class="tab-item"><a href="index.html">홈</a></li>
-            <li class="tab-item"><a href="about.html">자기소개</a></li>
-            <li class="tab-item"><a href="portfolio.html">포트폴리오</a></li>
-            <li class="tab-item"><a href="game.html">호야추 다이스</a></li>
-            <li class="tab-item"><a href="dentist.html" class="active">악어이빨 룰렛</a></li>
-            <li class="tab-item"><a href="guestbook.html">퀘스트 &amp; 로그 보드</a></li>
-          </ul>
-        </nav>
-      </div>
-    </header>
 
     <div class="dentist-container">
 
@@ -612,14 +719,20 @@
             </div>
             <div class="header-actions">
                 <div class="garnet-counter-badge" title="현재 보유한 가넷 칩 수량">
-                    <span>💎</span>
+                    <span>🔴</span>
                     <span id="playerGarnets">20</span>
                 </div>
                 <button class="btn-refill" id="btnRefillGarnets" onclick="GatorCasino.refillGarnets()" style="display: none;">
                     +20 충전
                 </button>
+                <button class="btn-nav-link" id="btnOpenDentistShop" onclick="SkinModal.open()" style="background: linear-gradient(135deg, #4f46e5, #7c3aed); color:#fff; border-color: #818cf8; cursor:pointer;">
+                    🎨 스킨 부티크
+                </button>
                 <a href="game.html" class="btn-nav-link">
                     🎲 호야추 다이스
+                </a>
+                <a href="index.html" class="btn-nav-link">
+                    🏠 홈
                 </a>
             </div>
         </header>
@@ -713,6 +826,41 @@
             언제든 <strong>[지금 상금 챙겨 도망치기]</strong>로 승리를 확정할 수 있지만, 함정 이빨을 누르면 악어가 <strong>콰앙!</strong> 입을 닫고 전액 몰수합니다!
         </footer>
 
+    </div>
+
+    <!-- 🎨 럭셔리 스킨 부티크 모달 -->
+    <div class="modal-overlay" id="skinModal">
+        <div class="skin-modal-box">
+            <div class="skin-modal-header">
+                <h3 style="margin:0; font-size:1.2rem; color:#facc15; display:flex; align-items:center; gap:8px;">
+                    🎨 럭셔리 스킨 부티크
+                </h3>
+                <button onclick="SkinModal.close()" style="background:#334155; color:#cbd5e1; border:none; border-radius:8px; padding:6px 12px; cursor:pointer; font-weight:700;">
+                    닫기
+                </button>
+            </div>
+
+            <div class="skin-boutique-banner">
+                <div>
+                    <h4 style="margin:0; font-size:1.05rem; color:#c7d2fe; font-weight:800;">🎰 럭셔리 미스터리 가챠 (50 가넷)</h4>
+                    <p style="margin:4px 0 0 0; font-size:0.8rem; color:#a5b4fc;">황금 주사위부터 황제 악어 코스튬까지! 미보유 스킨 중 1종 당첨!</p>
+                </div>
+                <button class="btn-gacha-draw" onclick="SkinModal.drawGacha()">
+                    <span>🎲 럭셔리 뽑기</span>
+                    <span style="font-size:0.75rem; color:#78350f; font-weight:800;">🔴 50 가넷</span>
+                </button>
+            </div>
+
+            <div class="skins-section-title">🐊 악어 아바타 코스튬</div>
+            <div class="skins-grid" id="dentistGatorSkinsGrid">
+                <!-- JS 동적 렌더링 -->
+            </div>
+
+            <div class="skins-section-title" style="margin-top: 18px;">🎲 프리미엄 주사위 스킨 (호야추 연동)</div>
+            <div class="skins-grid" id="dentistDiceSkinsGrid">
+                <!-- JS 동적 렌더링 -->
+            </div>
+        </div>
     </div>
 
     <!-- 🔊 사운드 신디사이저 & 게임 엔진 스크립트 -->
@@ -1117,6 +1265,7 @@
                 document.getElementById('btnStartGame').style.display = 'inline-flex';
                 this.toggleControls(true);
                 this.updateBetDisplay();
+                GatorSkinManager.applyVisual();
             },
 
             toggleControls(enabled) {
@@ -1127,10 +1276,232 @@
             }
         };
 
+        // -------------------------------------------------------------
+        // 4. 스킨 시스템 매니저 (HoYatch와 완벽 동기화)
+        // -------------------------------------------------------------
+        const GatorSkinManager = {
+            UNLOCKED_KEY: 'hoyatch_unlocked_skins',
+            DICE_KEY: 'hoyatch_active_dice_skin',
+            GATOR_KEY: 'hoyatch_active_gator_skin',
+
+            SKINS: {
+                dice: [
+                    { id: 'dice_default', name: '클래식 레트로 다이스', cost: 0, icon: '🎲', desc: '정통 빨강 & 검정 주사위 세트' },
+                    { id: 'dice_gold', name: '24K 순금 골드 다이스', cost: 80, icon: '🌟', desc: '황금 도금과 금가루 광채 주사위' },
+                    { id: 'dice_neon', name: '사이버네틱 네온 다이스', cost: 120, icon: '🌌', desc: '시안/마젠타 홀로그램 발광 주사위' },
+                    { id: 'dice_magma', name: '심연의 용암 마그마 다이스', cost: 150, icon: '🌋', desc: '불타는 용암 균열과 화염 주사위' },
+                    { id: 'dice_emerald', name: '로열 에메랄드 다이스', cost: 200, icon: '💎', desc: '투명하고 영롱한 보석 광채 주사위' }
+                ],
+                gator: [
+                    { id: 'gator_default', name: '야생 늪지 악어', cost: 0, icon: '🐊', desc: '늪지의 터줏대감 야생 악어', themeClass: '' },
+                    { id: 'gator_boss', name: '선글라스 카지노 대부', cost: 70, icon: '🕶️', desc: '금목걸이와 바이퍼 선글라스의 카지노 보스', themeClass: 'skin-gator-boss' },
+                    { id: 'gator_chef', name: '버거 마스터 셰프', cost: 100, icon: '👨‍🍳', desc: '최고급 수제버거 셰프 모자 착용 악어', themeClass: 'skin-gator-chef' },
+                    { id: 'gator_king', name: '황금 왕관 악어 황제', cost: 150, icon: '👑', desc: '순금 왕관을 쓴 늪지의 절대 군주', themeClass: 'skin-gator-king' }
+                ]
+            },
+
+            getUnlocked() {
+                // 해금된 스킨 목록을 로컬스토리지에서 가져옵니다.
+                const val = localStorage.getItem(this.UNLOCKED_KEY);
+                return val ? JSON.parse(val) : ['dice_default', 'gator_default'];
+            },
+
+            saveUnlocked(list) {
+                // 해금된 스킨 목록을 로컬스토리지에 저장합니다.
+                localStorage.setItem(this.UNLOCKED_KEY, JSON.stringify(list));
+            },
+
+            getActiveGator() {
+                // 현재 장착된 악어 코스튬 객체를 반환합니다.
+                const id = localStorage.getItem(this.GATOR_KEY) || 'gator_default';
+                return this.SKINS.gator.find(g => g.id === id) || this.SKINS.gator[0];
+            },
+
+            getActiveDice() {
+                // 현재 장착된 주사위 스킨 객체를 반환합니다.
+                const id = localStorage.getItem(this.DICE_KEY) || 'dice_default';
+                return this.SKINS.dice.find(d => d.id === id) || this.SKINS.dice[0];
+            },
+
+            setActiveGator(id) {
+                // 악어 코스튬을 장착하고 화면 비주얼을 갱신합니다.
+                localStorage.setItem(this.GATOR_KEY, id);
+                this.applyVisual();
+            },
+
+            setActiveDice(id) {
+                // 주사위 스킨을 장착합니다.
+                localStorage.setItem(this.DICE_KEY, id);
+            },
+
+            applyVisual() {
+                // 장착된 악어 코스튬에 맞춰 스테이지 카드 테마 및 타이틀을 업데이트합니다.
+                const gator = this.getActiveGator();
+                const stageCard = document.getElementById('gatorStageCard');
+                if (stageCard) {
+                    stageCard.className = `gator-stage-card ${gator.themeClass || ''}`;
+                }
+                const badge = document.getElementById('statusBadge');
+                if (badge && !GatorCasino.isPlaying) {
+                    badge.textContent = `${gator.icon} ${gator.name}`;
+                    badge.style.borderColor = '#10b981';
+                    badge.style.color = '#34d399';
+                }
+            }
+        };
+
+        // -------------------------------------------------------------
+        // 5. 스킨 부티크 모달 컨트롤러
+        // -------------------------------------------------------------
+        const SkinModal = {
+            open() {
+                // 스킨 부티크 모달을 열고 목록을 렌더링합니다.
+                this.render();
+                document.getElementById('skinModal').classList.add('active');
+            },
+
+            close() {
+                // 스킨 부티크 모달을 닫습니다.
+                document.getElementById('skinModal').classList.remove('active');
+            },
+
+            render() {
+                // 악어 및 주사위 스킨 카드를 동적으로 렌더링합니다.
+                const currentGarnets = GarnetManager.get();
+                const unlocked = GatorSkinManager.getUnlocked();
+                const activeGator = GatorSkinManager.getActiveGator().id;
+                const activeDice = GatorSkinManager.getActiveDice().id;
+
+                // 1. 악어 스킨
+                const gatorGrid = document.getElementById('dentistGatorSkinsGrid');
+                if (gatorGrid) {
+                    gatorGrid.innerHTML = '';
+                    GatorSkinManager.SKINS.gator.forEach(s => {
+                        const isUnlocked = unlocked.includes(s.id);
+                        const isEquipped = (activeGator === s.id);
+                        const canAfford = currentGarnets >= s.cost;
+
+                        const card = document.createElement('div');
+                        card.className = `skin-card ${isEquipped ? 'equipped' : ''}`;
+                        card.innerHTML = `
+                            <div class="skin-card-header">
+                                <span class="skin-card-icon">${s.icon}</span>
+                                <div>
+                                    <div class="skin-card-name">${s.name}</div>
+                                    <div class="skin-card-cost">${isUnlocked ? '보유 중' : `🔴 ${s.cost} 가넷`}</div>
+                                </div>
+                            </div>
+                            <div class="skin-card-desc">${s.desc}</div>
+                            <button class="btn-skin-action ${isEquipped ? 'btn-equipped' : (isUnlocked ? 'btn-equip' : 'btn-buy-skin')}"
+                                ${isEquipped || (!isUnlocked && !canAfford) ? 'disabled' : ''}>
+                                ${isEquipped ? '✓ 장착 중' : (isUnlocked ? '장착하기' : '구매하기')}
+                            </button>
+                        `;
+                        const btn = card.querySelector('.btn-skin-action');
+                        if (btn && !isEquipped) {
+                            btn.onclick = () => {
+                                if (isUnlocked) {
+                                    GatorSkinManager.setActiveGator(s.id);
+                                    CasinoSound.playSafe();
+                                } else {
+                                    GarnetManager.set(currentGarnets - s.cost);
+                                    unlocked.push(s.id);
+                                    GatorSkinManager.saveUnlocked(unlocked);
+                                    GatorSkinManager.setActiveGator(s.id);
+                                    CasinoSound.playCashOut();
+                                }
+                                this.render();
+                            };
+                        }
+                        gatorGrid.appendChild(card);
+                    });
+                }
+
+                // 2. 주사위 스킨
+                const diceGrid = document.getElementById('dentistDiceSkinsGrid');
+                if (diceGrid) {
+                    diceGrid.innerHTML = '';
+                    GatorSkinManager.SKINS.dice.forEach(s => {
+                        const isUnlocked = unlocked.includes(s.id);
+                        const isEquipped = (activeDice === s.id);
+                        const canAfford = currentGarnets >= s.cost;
+
+                        const card = document.createElement('div');
+                        card.className = `skin-card ${isEquipped ? 'equipped' : ''}`;
+                        card.innerHTML = `
+                            <div class="skin-card-header">
+                                <span class="skin-card-icon">${s.icon}</span>
+                                <div>
+                                    <div class="skin-card-name">${s.name}</div>
+                                    <div class="skin-card-cost">${isUnlocked ? '보유 중' : `🔴 ${s.cost} 가넷`}</div>
+                                </div>
+                            </div>
+                            <div class="skin-card-desc">${s.desc}</div>
+                            <button class="btn-skin-action ${isEquipped ? 'btn-equipped' : (isUnlocked ? 'btn-equip' : 'btn-buy-skin')}"
+                                ${isEquipped || (!isUnlocked && !canAfford) ? 'disabled' : ''}>
+                                ${isEquipped ? '✓ 장착 중' : (isUnlocked ? '장착하기' : '구매하기')}
+                            </button>
+                        `;
+                        const btn = card.querySelector('.btn-skin-action');
+                        if (btn && !isEquipped) {
+                            btn.onclick = () => {
+                                if (isUnlocked) {
+                                    GatorSkinManager.setActiveDice(s.id);
+                                    CasinoSound.playSafe();
+                                } else {
+                                    GarnetManager.set(currentGarnets - s.cost);
+                                    unlocked.push(s.id);
+                                    GatorSkinManager.saveUnlocked(unlocked);
+                                    GatorSkinManager.setActiveDice(s.id);
+                                    CasinoSound.playCashOut();
+                                }
+                                this.render();
+                            };
+                        }
+                        diceGrid.appendChild(card);
+                    });
+                }
+            },
+
+            drawGacha() {
+                // 50 가넷을 소모하여 미보유 스킨 중 1종을 무작위로 뽑습니다.
+                const garnets = GarnetManager.get();
+                if (garnets < 50) {
+                    alert(`가넷이 부족합니다! (럭셔리 뽑기 1회: 50 가넷 / 보유: ${garnets} 가넷)`);
+                    return;
+                }
+                const allSkins = [...GatorSkinManager.SKINS.dice, ...GatorSkinManager.SKINS.gator];
+                const unlocked = GatorSkinManager.getUnlocked();
+                const lockedSkins = allSkins.filter(s => !unlocked.includes(s.id));
+
+                if (lockedSkins.length === 0) {
+                    alert('이미 모든 럭셔리 스킨을 보유하고 있습니다!');
+                    return;
+                }
+
+                GarnetManager.set(garnets - 50);
+                const picked = lockedSkins[Math.floor(Math.random() * lockedSkins.length)];
+                unlocked.push(picked.id);
+                GatorSkinManager.saveUnlocked(unlocked);
+
+                if (picked.id.startsWith('dice')) {
+                    GatorSkinManager.setActiveDice(picked.id);
+                } else {
+                    GatorSkinManager.setActiveGator(picked.id);
+                }
+
+                CasinoSound.playCashOut();
+                alert(`🎉 럭셔리 뽑기 당첨! [${picked.icon} ${picked.name}] 획득 및 장착!`);
+                this.render();
+            }
+        };
+
         // 초기화 실행
         window.addEventListener('DOMContentLoaded', () => {
             GatorCasino.init();
+            GatorSkinManager.applyVisual();
         });
     </script>
 </body>
 </html>
+
