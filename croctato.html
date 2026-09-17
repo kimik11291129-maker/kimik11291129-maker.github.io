@@ -575,7 +575,7 @@
     <!-- 🧭 상단 바 & 재화 토큰 지갑 -->
     <header class="top-bar">
       <div class="brand-group">
-        <span class="brand-icon">🍔</span>
+        <img src="images/hrocodile_64.png" onerror="this.onerror=null; this.src='/static/images/hrocodile_64.png';" alt="Hrocodile" style="width: 44px; height: 44px; image-rendering: pixelated; object-fit: contain; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));">
         <div>
           <div class="brand-title">Hrocodile <span>(호코다일 🐊)</span></div>
           <div class="brand-sub">Brotato-style 20-Wave Hamburger Arena Survival</div>
@@ -866,6 +866,14 @@
         this.setTeeth(this.getTeeth());
       }
     };
+
+    // 🐊 16-bit 레트로 픽셀 아트 호코다일 스프라이트 이미지 프리로드
+    const hrocSpriteImg = new Image();
+    hrocSpriteImg.src = (window.location.port) ? '/static/images/hrocodile_128.png' : 'images/hrocodile_128.png';
+    hrocSpriteImg.onerror = () => {
+      hrocSpriteImg.src = 'images/hrocodile_128.png';
+    };
+    window.HROCODILE_SPRITE = hrocSpriteImg;
 
     // -------------------------------------------------------------
     // 3. 무기 사전 & 패시브 아이템 데이터베이스
@@ -1812,10 +1820,15 @@
           ctx.save();
           ctx.translate(this.player.x, this.player.y);
 
-          ctx.font = '34px sans-serif';
-          ctx.textAlign = 'center';
-          ctx.textBaseline = 'middle';
-          ctx.fillText(this.player.avatar, 0, 0);
+          // 🐊 16-bit 픽셀 아트 스프라이트 로드 완료 시 스프라이트 출력, 그 외 이모지 폴백
+          if (window.HROCODILE_SPRITE && window.HROCODILE_SPRITE.complete && window.HROCODILE_SPRITE.naturalWidth > 0) {
+            ctx.drawImage(window.HROCODILE_SPRITE, -26, -26, 52, 52);
+          } else {
+            ctx.font = '34px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(this.player.avatar, 0, 0);
+          }
 
           this.player.weapons.forEach((w, i) => {
             const angle = (Date.now() / 600) + (i * (Math.PI * 2 / this.player.weapons.length));
