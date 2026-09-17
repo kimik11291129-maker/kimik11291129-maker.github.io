@@ -39,7 +39,7 @@
 
     .container {
       width: 100%;
-      max-width: 900px;
+      max-width: 960px;
       display: flex;
       flex-direction: column;
       gap: 14px;
@@ -120,17 +120,16 @@
       position: relative;
     }
 
-    /* 캔버스 화면 */
     #gameCanvas {
       display: block;
       width: 100%;
-      max-width: 900px;
+      max-width: 960px;
       height: 540px;
       background-color: #0b1a12;
       cursor: crosshair;
     }
 
-    /* 📱 화면 오버레이 패널들 (로비 / 상점 / 게임오버) */
+    /* 📱 화면 오버레이 패널들 */
     .screen-overlay {
       position: absolute;
       inset: 0;
@@ -149,7 +148,7 @@
     /* 🐊 1. 캐릭터 선택 로비 */
     .lobby-header {
       text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
     }
     .lobby-header h2 {
       font-size: 1.8rem;
@@ -168,17 +167,17 @@
 
     .roster-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
       gap: 12px;
       width: 100%;
-      max-width: 840px;
-      margin-bottom: 24px;
+      max-width: 920px;
+      margin-bottom: 20px;
     }
     .roster-card {
       background: #0f241a;
       border: 2px solid #1e3a2b;
       border-radius: 16px;
-      padding: 14px;
+      padding: 12px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -201,34 +200,44 @@
       border-style: dashed;
     }
     .roster-avatar {
-      font-size: 2.5rem;
-      margin-bottom: 6px;
+      font-size: 2.3rem;
+      margin-bottom: 4px;
       filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));
     }
     .roster-name {
       font-size: 0.95rem;
       font-weight: 800;
       color: #f8fafc;
-      margin-bottom: 4px;
+      margin-bottom: 2px;
     }
     .roster-role {
       font-size: 0.72rem;
       color: #34d399;
       font-weight: 700;
-      margin-bottom: 8px;
+      margin-bottom: 4px;
+    }
+    .roster-weapon-badge {
+      background: rgba(16, 185, 129, 0.2);
+      border: 1px solid #10b981;
+      color: #34d399;
+      font-size: 0.68rem;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 6px;
+      margin-bottom: 6px;
     }
     .roster-desc {
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       color: #94a3b8;
       line-height: 1.35;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       flex-grow: 1;
     }
     .roster-btn {
       width: 100%;
-      padding: 7px 10px;
-      border-radius: 10px;
-      font-size: 0.8rem;
+      padding: 6px 10px;
+      border-radius: 8px;
+      font-size: 0.78rem;
       font-weight: 800;
       border: none;
       cursor: pointer;
@@ -247,105 +256,183 @@
       color: #000;
       font-size: 1.25rem;
       font-weight: 900;
-      padding: 14px 40px;
-      border-radius: 18px;
+      padding: 12px 36px;
+      border-radius: 16px;
       border: 2px solid #fde047;
       box-shadow: 0 8px 24px rgba(245, 158, 11, 0.4);
       cursor: pointer;
       transition: all 0.2s;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
     }
     .btn-start-run:hover {
       transform: translateY(-2px) scale(1.03);
       box-shadow: 0 12px 30px rgba(245, 158, 11, 0.6);
     }
 
-    /* 🛒 2. 웨이브 종료 후 상점(Shop) */
-    .shop-header-bar {
+    /* 🛒 2. 브로테이토 스타일 상점 (2열 레이아웃: 좌측 스탯/시너지 인스펙터 + 우측 쇼핑) */
+    .shop-layout {
+      display: flex;
+      gap: 16px;
+      width: 100%;
+      max-width: 920px;
+      height: 480px;
+    }
+
+    /* 좌측: 플레이어 스탯 & 시너지 인스펙터 */
+    .shop-stats-panel {
+      width: 260px;
+      background: #08160f;
+      border: 2px solid #1e3a2b;
+      border-radius: 16px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      overflow-y: auto;
+    }
+    .stats-panel-title {
+      font-size: 0.95rem;
+      font-weight: 900;
+      color: var(--gold-light);
+      border-bottom: 1px solid #1e3a2b;
+      padding-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      padding: 3px 0;
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.05);
+    }
+    .stat-label { color: #94a3b8; display: flex; align-items: center; gap: 4px; }
+    .stat-val { font-weight: 800; color: #f8fafc; }
+    .stat-val.buff { color: #34d399; }
+    .stat-val.debuff { color: #f87171; }
+
+    /* 시너지 뱃지 영역 */
+    .synergy-section-title {
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: #38bdf8;
+      margin-top: 6px;
+      border-bottom: 1px solid #1e3a2b;
+      padding-bottom: 4px;
+    }
+    .synergy-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .synergy-badge {
+      background: #0f241a;
+      border: 1px solid #10b981;
+      border-radius: 8px;
+      padding: 6px 8px;
+      font-size: 0.72rem;
+    }
+    .synergy-badge.active {
+      border-color: #facc15;
+      background: rgba(245, 158, 11, 0.15);
+    }
+    .synergy-badge-title {
+      font-weight: 800;
+      color: #fde047;
+      display: flex;
+      justify-content: space-between;
+    }
+    .synergy-badge-desc {
+      color: #94a3b8;
+      font-size: 0.65rem;
+      margin-top: 2px;
+      line-height: 1.3;
+    }
+
+    /* 우측: 상점 메인 (레벨업 + 아이템 구매 + 다음 웨이브) */
+    .shop-main-panel {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: #08160f;
+      border: 2px solid #1e3a2b;
+      border-radius: 16px;
+      padding: 14px;
+    }
+    .shop-top-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      width: 100%;
-      max-width: 820px;
-      margin-bottom: 14px;
       border-bottom: 1px solid #1e3a2b;
-      padding-bottom: 10px;
+      padding-bottom: 8px;
     }
-    .shop-title {
-      font-size: 1.3rem;
+    .shop-top-title {
+      font-size: 1.15rem;
       font-weight: 900;
       color: var(--gold-light);
-      display: flex;
-      align-items: center;
-      gap: 8px;
     }
     .shop-mats-badge {
       background: #022c22;
       border: 2px solid #10b981;
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-size: 1.05rem;
+      padding: 4px 12px;
+      border-radius: 16px;
+      font-size: 0.95rem;
       font-weight: 900;
       color: #34d399;
     }
 
-    /* 레벨업 스탯 선택 */
+    /* 레벨업 섹션 */
     .levelup-section {
-      width: 100%;
-      max-width: 820px;
       background: rgba(16, 185, 129, 0.1);
       border: 2px solid #10b981;
-      border-radius: 16px;
-      padding: 12px 16px;
-      margin-bottom: 14px;
+      border-radius: 12px;
+      padding: 10px;
+      margin: 10px 0;
       display: none;
     }
     .levelup-section.active { display: block; }
     .levelup-title {
-      font-size: 0.95rem;
+      font-size: 0.85rem;
       font-weight: 800;
       color: #34d399;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
     .levelup-choices {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 10px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
     }
     .levelup-btn {
       background: #0f241a;
       border: 1.5px solid #10b981;
       color: #fff;
-      padding: 10px;
-      border-radius: 12px;
-      font-size: 0.85rem;
+      padding: 8px;
+      border-radius: 10px;
+      font-size: 0.78rem;
       font-weight: 800;
       cursor: pointer;
       transition: all 0.2s;
       text-align: left;
     }
-    .levelup-btn:hover {
-      background: #10b981;
-      color: #000;
-      transform: translateY(-2px);
-    }
+    .levelup-btn:hover { background: #10b981; color: #000; }
 
-    /* 상점 아이템 그리드 */
+    /* 상품 그리드 4열 */
     .shop-items-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-      width: 100%;
-      max-width: 820px;
-      margin-bottom: 16px;
+      gap: 10px;
+      margin: 10px 0;
+      flex-grow: 1;
     }
     .shop-item-card {
       background: #0c1c14;
-      border: 2px solid #1e3a2b;
-      border-radius: 14px;
-      padding: 12px;
+      border: 1.5px solid #1e3a2b;
+      border-radius: 12px;
+      padding: 10px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -355,24 +442,25 @@
     .item-top {
       display: flex;
       align-items: center;
-      gap: 8px;
-      margin-bottom: 6px;
+      gap: 6px;
+      margin-bottom: 4px;
     }
-    .item-icon { font-size: 1.6rem; }
-    .item-name { font-size: 0.85rem; font-weight: 800; color: #fff; }
-    .item-tier { font-size: 0.68rem; font-weight: 700; }
-    .tier-1 { color: #94a3b8; }
-    .tier-2 { color: #38bdf8; }
-    .tier-3 { color: #c084fc; }
-    .tier-4 { color: #facc15; }
-    .item-desc { font-size: 0.72rem; color: #94a3b8; line-height: 1.35; margin-bottom: 10px; flex-grow: 1; }
+    .item-icon { font-size: 1.4rem; }
+    .item-name { font-size: 0.8rem; font-weight: 800; color: #fff; }
+    .item-tags {
+      font-size: 0.65rem;
+      color: #38bdf8;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .item-desc { font-size: 0.68rem; color: #94a3b8; line-height: 1.3; margin-bottom: 8px; flex-grow: 1; }
     .item-buy-btn {
       width: 100%;
-      padding: 7px;
-      border-radius: 8px;
+      padding: 6px;
+      border-radius: 6px;
       background: var(--gold);
       color: #000;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       font-weight: 800;
       border: none;
       cursor: pointer;
@@ -384,17 +472,17 @@
     .shop-bottom-row {
       display: flex;
       justify-content: space-between;
-      width: 100%;
-      max-width: 820px;
-      gap: 12px;
+      gap: 10px;
+      border-top: 1px solid #1e3a2b;
+      padding-top: 8px;
     }
     .btn-shop-reroll {
       background: #1e293b;
       color: #f8fafc;
       border: 1px solid #475569;
-      border-radius: 12px;
-      padding: 10px 18px;
-      font-size: 0.88rem;
+      border-radius: 10px;
+      padding: 8px 14px;
+      font-size: 0.82rem;
       font-weight: 800;
       cursor: pointer;
     }
@@ -404,9 +492,9 @@
       background: linear-gradient(135deg, #10b981 0%, #047857 100%);
       color: #fff;
       border: 2px solid #34d399;
-      border-radius: 14px;
-      padding: 12px 24px;
-      font-size: 1.05rem;
+      border-radius: 12px;
+      padding: 10px 20px;
+      font-size: 0.95rem;
       font-weight: 900;
       cursor: pointer;
       transition: all 0.2s;
@@ -459,7 +547,7 @@
         <span class="brand-icon">🍔</span>
         <div>
           <div class="brand-title">Hrocodile <span>(호코다일 🐊)</span></div>
-          <div class="brand-sub">All I Gator × Hamburger Arena Survival Shooter</div>
+          <div class="brand-sub">Brotato-style Hamburger Arena Survival Shooter</div>
         </div>
       </div>
 
@@ -483,13 +571,13 @@
 
     <!-- 🎮 메인 뷰포트 (캔버스 & 오버레이) -->
     <div class="game-viewport-card">
-      <canvas id="gameCanvas" width="900" height="540"></canvas>
+      <canvas id="gameCanvas" width="960" height="540"></canvas>
 
       <!-- 1. 캐릭터 선택 로비 오버레이 -->
       <div class="screen-overlay active" id="lobbyOverlay">
         <div class="lobby-header">
           <h2>🍔 늪지의 호코다일(Hrocodile) 전사 선택</h2>
-          <p>출전할 악어를 선택하세요! 가넷(🔴) 또는 악어이빨(🦷)로 새로운 전사를 영구 해금할 수 있습니다.</p>
+          <p>출전할 악어를 선택하세요! 각 캐릭터는 고유한 <strong>시작 무기</strong>와 <strong>특성</strong>을 보유합니다.</p>
         </div>
 
         <div class="roster-grid" id="rosterGrid">
@@ -501,29 +589,47 @@
         </button>
       </div>
 
-      <!-- 2. 웨이브 종료 후 상점(Shop) 오버레이 -->
+      <!-- 2. 브로테이토 스타일 상점 (2열 레이아웃: 좌측 스탯/시너지 + 우측 쇼핑) -->
       <div class="screen-overlay" id="shopOverlay">
-        <div class="shop-header-bar">
-          <div class="shop-title">🛒 햄버거 모닥불 상점 (Wave <span id="shopWaveNum">1</span> 완료)</div>
-          <div class="shop-mats-badge">
-            <span>보유 재료: </span>
-            <span id="shopMaterialCount">0</span> 💰
+        <div class="shop-layout">
+          <!-- 좌측: 브로테이토식 스탯 & 시너지 인스펙터 -->
+          <div class="shop-stats-panel">
+            <div class="stats-panel-title">📊 악어 스탯 인스펙터</div>
+            <div id="statsInspectorRows">
+              <!-- JS 동적 렌더링 -->
+            </div>
+
+            <div class="synergy-section-title">⚡ 무기 시너지 (Synergies)</div>
+            <div class="synergy-list" id="synergyList">
+              <!-- JS 동적 렌더링 -->
+            </div>
           </div>
-        </div>
 
-        <!-- 레벨업 스탯 선택 창 -->
-        <div class="levelup-section" id="levelupSection">
-          <div class="levelup-title">🎉 LEVEL UP! 스탯을 1개 선택하세요:</div>
-          <div class="levelup-choices" id="levelupChoices"></div>
-        </div>
+          <!-- 우측: 상점 메인 -->
+          <div class="shop-main-panel">
+            <div class="shop-top-bar">
+              <div class="shop-top-title">🛒 햄버거 모닥불 상점 (Wave <span id="shopWaveNum">1</span> 완료)</div>
+              <div class="shop-mats-badge">
+                <span>보유 재료: </span>
+                <span id="shopMaterialCount">0</span> 💰
+              </div>
+            </div>
 
-        <!-- 구매 가능한 무기/아이템 4개 -->
-        <div class="shop-items-grid" id="shopItemsGrid"></div>
+            <!-- 레벨업 스탯 선택 창 -->
+            <div class="levelup-section" id="levelupSection">
+              <div class="levelup-title">🎉 LEVEL UP! 스탯을 1개 선택하세요:</div>
+              <div class="levelup-choices" id="levelupChoices"></div>
+            </div>
 
-        <!-- 하단 액션 버튼 -->
-        <div class="shop-bottom-row">
-          <button class="btn-shop-reroll" id="btnShopReroll">🔄 상점 새로고침 (5 💰)</button>
-          <button class="btn-next-wave" id="btnNextWave">다음 웨이브 진입 (Wave <span id="nextWaveNum">2</span>) ➔</button>
+            <!-- 구매 가능한 무기/아이템 4개 -->
+            <div class="shop-items-grid" id="shopItemsGrid"></div>
+
+            <!-- 하단 액션 버튼 -->
+            <div class="shop-bottom-row">
+              <button class="btn-shop-reroll" id="btnShopReroll">🔄 상점 새로고침 (5 💰)</button>
+              <button class="btn-next-wave" id="btnNextWave">다음 웨이브 진입 (Wave <span id="nextWaveNum">2</span>) ➔</button>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -553,15 +659,15 @@
     <!-- 하단 조작 안내 바 -->
     <div class="controls-bar">
       <div><strong>🎮 조작:</strong> [W,A,S,D] / 방향키 / 마우스 드래그 (자동 조준 사격)</div>
-      <div><strong>🍔 햄버거 나무:</strong> 맵에 생성되는 햄버거를 부수면 <strong>체력 회복 버거(🍔)</strong>와 <strong>보물상자(🎁)</strong> 드롭!</div>
-      <div><strong>🎯 목표:</strong> 10개 웨이브를 생존하고 늪지의 보스 악어를 정복하세요!</div>
+      <div><strong>🐊 깨물기:</strong> 기본 악어는 근접 턱 깨물기로 전방 맹수들을 물어뜯습니다!</div>
+      <div><strong>⚡ 시너지:</strong> 동일 계열 무기(총기/근접/버거/폭발)를 모으면 강력한 세트 효과 발동!</div>
     </div>
   </div>
 
   <!-- 🔊 Web Audio API 사운드 신디사이저 & 게임 엔진 스크립트 -->
   <script>
     // -------------------------------------------------------------
-    // 1. Web Audio API 신디사이저 (복고풍 칩튠 효과음)
+    // 1. Web Audio API 사운드 신디사이저
     // -------------------------------------------------------------
     const Sound = {
       ctx: null,
@@ -570,6 +676,22 @@
           const AudioContext = window.AudioContext || window.webkitAudioContext;
           if (AudioContext) this.ctx = new AudioContext();
         }
+      },
+      playBite() {
+        // 악어가 턱을 쾅 닫고 깨무는 묵직한 물어뜯기 소리
+        this.init();
+        if (!this.ctx) return;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(220, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(50, this.ctx.currentTime + 0.09);
+        gain.gain.setValueAtTime(0.25, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.09);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.09);
       },
       playShoot() {
         this.init();
@@ -654,7 +776,7 @@
     };
 
     // -------------------------------------------------------------
-    // 2. 토큰 및 영구 저장소 매니저 (HoYatch 가넷과 100% 호환)
+    // 2. 토큰 및 영구 저장소 매니저 (HoYatch 가넷 호환)
     // -------------------------------------------------------------
     const Wallet = {
       GARNET_KEY: 'hell_poker_yacht_garnets',
@@ -663,62 +785,222 @@
       SELECTED_KEY: 'croctato_selected_char',
 
       getGarnets() {
-        // 보유 가넷 수량을 불러옵니다.
         const val = localStorage.getItem(this.GARNET_KEY);
         return val !== null ? parseInt(val, 10) : 20;
       },
       setGarnets(val) {
-        // 가넷 수량을 저장하고 상단 UI를 갱신합니다.
         localStorage.setItem(this.GARNET_KEY, val);
         document.getElementById('topGarnetCount').textContent = val;
       },
       getTeeth() {
-        // 보유 악어이빨 토큰 수량을 불러옵니다.
         const val = localStorage.getItem(this.TEETH_KEY);
         return val !== null ? parseInt(val, 10) : 0;
       },
       setTeeth(val) {
-        // 악어이빨 토큰을 저장하고 상단 UI를 갱신합니다.
         localStorage.setItem(this.TEETH_KEY, val);
         document.getElementById('topTeethCount').textContent = val;
       },
       getUnlockedChars() {
-        // 해금된 캐릭터 ID 목록을 불러옵니다.
         const val = localStorage.getItem(this.ROSTER_KEY);
         return val ? JSON.parse(val) : ['croc_default'];
       },
       saveUnlockedChars(list) {
-        // 해금된 캐릭터 목록을 저장합니다.
         localStorage.setItem(this.ROSTER_KEY, JSON.stringify(list));
       },
       getSelectedCharId() {
-        // 현재 선택된 캐릭터 ID를 불러옵니다.
         return localStorage.getItem(this.SELECTED_KEY) || 'croc_default';
       },
       setSelectedCharId(id) {
-        // 플레이할 캐릭터 ID를 저장합니다.
         localStorage.setItem(this.SELECTED_KEY, id);
       },
       init() {
-        // 지갑 정보를 초기화하고 화면에 반영합니다.
         this.setGarnets(this.getGarnets());
         this.setTeeth(this.getTeeth());
       }
     };
 
     // -------------------------------------------------------------
-    // 3. 캐릭터 메타데이터 (Hrocodile 5대 악어 전사)
+    // 3. 무기 사전 및 시너지 태그 데이터베이스
+    // -------------------------------------------------------------
+    const WEAPONS_DB = {
+      // 🐊 기본 악어 시그니처 무기: 깨물기
+      chomp: {
+        id: 'chomp',
+        name: '악어 턱 깨물기',
+        icon: '🐊',
+        type: 'melee',
+        tags: ['melee', 'primitive'],
+        tier: 1,
+        dmg: 28,
+        rate: 0.55,
+        range: 100,
+        speed: 0,
+        cost: 16,
+        color: '#22c55e',
+        desc: '전방의 적을 턱으로 콱 깨물어 강력한 부채꼴 광역 피해를 입힙니다.'
+      },
+      cleaver: {
+        id: 'cleaver',
+        name: '버거 셰프 식칼',
+        icon: '🔪',
+        type: 'melee',
+        tags: ['melee', 'food'],
+        tier: 1,
+        dmg: 22,
+        rate: 0.42,
+        range: 90,
+        speed: 0,
+        cost: 18,
+        color: '#fb923c',
+        desc: '빠르게 휘두르는 수제버거용 식칼. 버거 드롭율을 증가시킵니다.'
+      },
+      tail_whip: {
+        id: 'tail_whip',
+        name: '악어 꼬리치기',
+        icon: '🌀',
+        type: 'melee',
+        tags: ['melee', 'primitive'],
+        tier: 2,
+        dmg: 35,
+        rate: 0.8,
+        range: 110,
+        speed: 0,
+        cost: 26,
+        color: '#10b981',
+        desc: '주변 360도를 강하게 휩쓸며 적들을 밀쳐냅니다.'
+      },
+      pistol: {
+        id: 'pistol',
+        name: '악어 피스톨',
+        icon: '🔫',
+        type: 'ranged',
+        tags: ['gun'],
+        tier: 1,
+        dmg: 15,
+        rate: 0.45,
+        range: 250,
+        speed: 8.5,
+        cost: 15,
+        color: '#38bdf8',
+        desc: '정확하고 신속한 단발 탄환 사격.'
+      },
+      smg: {
+        id: 'smg',
+        name: '속사 SMG',
+        icon: '⚡',
+        type: 'ranged',
+        tags: ['gun'],
+        tier: 1,
+        dmg: 8,
+        rate: 0.18,
+        range: 210,
+        speed: 9.5,
+        cost: 22,
+        color: '#facc15',
+        desc: '초당 수발을 퍼붓는 고연사 서브머신건.'
+      },
+      shotgun: {
+        id: 'shotgun',
+        name: '더블 샷건',
+        icon: '💥',
+        type: 'ranged',
+        tags: ['gun'],
+        tier: 2,
+        dmg: 11,
+        rate: 0.75,
+        range: 190,
+        speed: 7.5,
+        count: 4,
+        cost: 26,
+        color: '#fb923c',
+        desc: '한 번에 4발의 벅샷을 방사형으로 발사합니다.'
+      },
+      dice_launcher: {
+        id: 'dice_launcher',
+        name: '다이스 바주카',
+        icon: '🎲',
+        type: 'ranged',
+        tags: ['explosive', 'gambler'],
+        tier: 2,
+        dmg: 36,
+        rate: 0.9,
+        range: 260,
+        speed: 6,
+        aoe: 50,
+        cost: 30,
+        color: '#ec4899',
+        desc: '주사위 탄환이 날아가 폭발하며 주변 적들을 타격합니다.'
+      },
+      cannon: {
+        id: 'cannon',
+        name: '황금 대포',
+        icon: '💣',
+        type: 'ranged',
+        tags: ['explosive', 'heavy'],
+        tier: 3,
+        dmg: 60,
+        rate: 1.3,
+        range: 300,
+        speed: 5.5,
+        aoe: 75,
+        cost: 42,
+        color: '#eab308',
+        desc: '묵직하고 거대한 황금 폭발 탄환을 발사합니다.'
+      }
+    };
+
+    // 시너지 정의
+    const SYNERGY_INFO = {
+      gun: {
+        name: '총기류 (Gun)',
+        icon: '🔫',
+        levels: [
+          { count: 2, desc: '사거리 +30, 원거리 대미지 +15%' },
+          { count: 4, desc: '공격속도 +25%, 원거리 대미지 +30%' },
+          { count: 6, desc: '공격속도 +50%, 탄환 관통 +1' }
+        ]
+      },
+      melee: {
+        name: '근접/격투 (Melee)',
+        icon: '⚔️',
+        levels: [
+          { count: 2, desc: '근접 대미지 +20%, 최대 체력 +15' },
+          { count: 4, desc: '근접 대미지 +40%, 최대 체력 +30, 넉백 1.5배' },
+          { count: 6, desc: '근접 대미지 +70%, 흡혈(Life Steal) +8%' }
+        ]
+      },
+      food: {
+        name: '버거/푸드 (Food)',
+        icon: '🍔',
+        levels: [
+          { count: 2, desc: '체력 회복 버거 효과 +5 HP, 버거 드롭율 +10%' },
+          { count: 4, desc: '체력 재생 +3 HP/초, 보물상자 확률 +25%' }
+        ]
+      },
+      explosive: {
+        name: '폭발 (Explosive)',
+        icon: '💥',
+        levels: [
+          { count: 2, desc: '폭발 반경 +25%, 치명타율 +10%' },
+          { count: 4, desc: '폭발 피해 +40%, 치명타율 +20%' }
+        ]
+      }
+    };
+
+    // -------------------------------------------------------------
+    // 4. 캐릭터 메타데이터 (Hrocodile 5대 악어 전사)
     // -------------------------------------------------------------
     const CHARACTERS = [
       {
         id: 'croc_default',
         name: '클래식 호코다일',
-        role: '밸런스 버거 전사',
+        role: '근접 턱 깨물기 맹수',
         avatar: '🐊',
         costGarnet: 0,
         costTeeth: 0,
-        desc: '모든 스탯이 균형 잡힌 정통 늪지 악어. 햄버거 나무 파괴 시 안정적 성장.',
-        stats: { hp: 100, speed: 3.5, dmgMult: 1.0, atkSpd: 1.0, armor: 0, crit: 5, startWeapon: 'pistol' }
+        startWeapon: 'chomp',
+        desc: '기본 무기 [악어 턱 깨물기]. 턱 힘이 강해 근접 대미지 +20%, 최대 체력 +15의 탄탄한 올라운더.',
+        baseStats: { maxHp: 115, hpRegen: 1, lifeSteal: 2, meleeDmg: 1.2, rangedDmg: 1.0, atkSpd: 1.0, crit: 5, armor: 1, speed: 3.5, luck: 10, harvest: 5 }
       },
       {
         id: 'croc_ranger',
@@ -727,18 +1009,21 @@
         avatar: '🔫',
         costGarnet: 60,
         costTeeth: 10,
-        desc: '공격속도 +35%, 원거리 공격력 +20%, 최대체력 -20.',
-        stats: { hp: 80, speed: 3.8, dmgMult: 1.2, atkSpd: 1.35, armor: 0, crit: 10, startWeapon: 'smg' }
+        startWeapon: 'pistol',
+        desc: '기본 무기 [악어 피스톨]. 공격속도 +30%, 원거리 공격력 +25%, 최대 체력 -20의 유리대포.',
+        baseStats: { maxHp: 80, hpRegen: 0, lifeSteal: 0, meleeDmg: 0.8, rangedDmg: 1.25, atkSpd: 1.3, crit: 10, armor: 0, speed: 3.8, luck: 5, harvest: 5 }
       },
       {
         id: 'croc_chef',
-        name: '버거 마스터 셰프 악어',
-        role: '흡혈 버거 마스터',
+        name: '버거 마스터 셰프',
+        role: '버거 흡혈 서스테인 탱커',
         avatar: '👨‍🍳',
         costGarnet: 100,
         costTeeth: 15,
-        desc: '적 처치 시 15% 버거 드롭, 햄버거 나무 파괴 시 보너스 보물상자 확률 2배, 방어력 +4.',
-        stats: { hp: 110, speed: 3.1, dmgMult: 1.0, atkSpd: 1.0, armor: 4, crit: 5, burgerDrop: true, burgerBonus: true, startWeapon: 'dagger' }
+        startWeapon: 'cleaver',
+        desc: '기본 무기 [버거 식칼]. 햄버거 나무 파괴 시 보물상자 확률 2배, 적 처치 시 15% 버거 드롭, 방어력 +4.',
+        baseStats: { maxHp: 110, hpRegen: 2, lifeSteal: 5, meleeDmg: 1.0, rangedDmg: 0.9, atkSpd: 1.0, crit: 5, armor: 4, speed: 3.2, luck: 15, harvest: 8 },
+        burgerBonus: true
       },
       {
         id: 'croc_gambler',
@@ -747,8 +1032,10 @@
         avatar: '🎰',
         costGarnet: 120,
         costTeeth: 18,
-        desc: '치명타율 +30%, 상점 가격 20% 할인, 방어력 -4.',
-        stats: { hp: 90, speed: 3.5, dmgMult: 1.1, atkSpd: 1.1, armor: -4, crit: 35, discount: 0.8, startWeapon: 'dice_launcher' }
+        startWeapon: 'dice_launcher',
+        desc: '기본 무기 [다이스 바주카]. 치명타율 +30%, 상점 가격 20% 할인, 행운 +30, 방어력 -4.',
+        baseStats: { maxHp: 90, hpRegen: 0, lifeSteal: 2, meleeDmg: 1.0, rangedDmg: 1.1, atkSpd: 1.1, crit: 35, armor: -4, speed: 3.5, luck: 35, harvest: 10 },
+        discount: 0.8
       },
       {
         id: 'croc_emperor',
@@ -757,28 +1044,19 @@
         avatar: '👑',
         costGarnet: 150,
         costTeeth: 20,
-        desc: '최대 체력 +60, 넉백 2배, 피해량 +30%, 공격속도 -25%.',
-        stats: { hp: 160, speed: 2.8, dmgMult: 1.3, atkSpd: 0.75, armor: 6, crit: 5, startWeapon: 'cannon' }
+        startWeapon: 'cannon',
+        desc: '기본 무기 [황금 대포]. 최대 체력 +65, 넉백 2배, 폭발 피해 +35%, 공격속도 -25%.',
+        baseStats: { maxHp: 165, hpRegen: 2, lifeSteal: 0, meleeDmg: 1.3, rangedDmg: 1.3, atkSpd: 0.75, crit: 5, armor: 6, speed: 2.9, luck: 10, harvest: 5 }
       }
     ];
 
-    // 무기 원본 사전
-    const WEAPONS_DB = {
-      pistol: { name: '악어 피스톨', icon: '🔫', tier: 1, dmg: 14, rate: 0.45, range: 240, speed: 8, cost: 15, color: '#38bdf8' },
-      smg: { name: '속사 SMG', icon: '⚡', tier: 1, dmg: 7, rate: 0.18, range: 200, speed: 9, cost: 20, color: '#facc15' },
-      shotgun: { name: '더블 샷건', icon: '💥', tier: 2, dmg: 10, rate: 0.75, range: 180, speed: 7, count: 4, cost: 25, color: '#fb923c' },
-      dagger: { name: '악어 이빨 단검', icon: '🗡️', tier: 1, dmg: 22, rate: 0.4, range: 90, speed: 12, cost: 18, color: '#34d399' },
-      dice_launcher: { name: '다이스 바주카', icon: '🎲', tier: 2, dmg: 35, rate: 0.9, range: 260, speed: 6, aoe: 50, cost: 30, color: '#ec4899' },
-      cannon: { name: '황금 대포', icon: '💣', tier: 3, dmg: 55, rate: 1.3, range: 300, speed: 5, aoe: 70, cost: 40, color: '#eab308' }
-    };
-
     // -------------------------------------------------------------
-    // 4. 게임 메인 인스턴스 (Hrocodile 엔진)
+    // 5. 게임 메인 인스턴스 (Hrocodile 엔진)
     // -------------------------------------------------------------
     const Game = {
       canvas: null,
       ctx: null,
-      state: 'lobby', // lobby, playing, shop, over, victory
+      state: 'lobby',
       wave: 1,
       maxWave: 10,
       waveTimer: 20,
@@ -790,41 +1068,31 @@
 
       player: null,
       enemies: [],
-      burgerTrees: [], // 🍔 브로테이토 나무 대체: 주기적으로 자라나는 햄버거 오브젝트
+      burgerTrees: [],
       projectiles: [],
+      slashes: [], // 깨물기 및 근접 휘두르기 시각 이펙트
       drops: [],
-      particles: [],
       damageTexts: [],
 
       keys: {},
-      mousePos: { x: 450, y: 270 },
       lastSpawn: 0,
       lastTreeSpawn: 0,
+      regenTimer: 0,
       timerInterval: null,
 
       init() {
-        // 게임 엔진 및 캔버스 컨텍스트를 초기화합니다.
         this.canvas = document.getElementById('gameCanvas');
         this.ctx = this.canvas.getContext('2d');
         Wallet.init();
         LobbyUI.render();
 
-        // 키보드 & 마우스 이벤트 리스너 등록
         window.addEventListener('keydown', (e) => { this.keys[e.key.toLowerCase()] = true; });
         window.addEventListener('keyup', (e) => { this.keys[e.key.toLowerCase()] = false; });
 
-        this.canvas.addEventListener('mousemove', (e) => {
-          const rect = this.canvas.getBoundingClientRect();
-          this.mousePos.x = (e.clientX - rect.left) * (this.canvas.width / rect.width);
-          this.mousePos.y = (e.clientY - rect.top) * (this.canvas.height / rect.height);
-        });
-
-        // 60FPS 메인 루프 시작
         requestAnimationFrame(() => this.loop());
       },
 
       startRun() {
-        // 새로운 호코다일 런을 시작합니다.
         const charId = Wallet.getSelectedCharId();
         const charData = CHARACTERS.find(c => c.id === charId) || CHARACTERS[0];
 
@@ -836,31 +1104,25 @@
         this.expNext = 15;
         this.bonusCratesCount = 0;
 
-        // 플레이어 초기화
+        // 플레이어 세분화 스탯 객체 생성
         this.player = {
-          x: 450,
+          x: 480,
           y: 270,
-          radius: 20,
-          hp: charData.stats.hp,
-          maxHp: charData.stats.hp,
-          speed: charData.stats.speed,
-          dmgMult: charData.stats.dmgMult,
-          atkSpd: charData.stats.atkSpd,
-          armor: charData.stats.armor,
-          crit: charData.stats.crit,
+          radius: 22,
           avatar: charData.avatar,
-          burgerDrop: charData.stats.burgerDrop || false,
-          burgerBonus: charData.stats.burgerBonus || false,
-          discount: charData.stats.discount || 1.0,
-          weapons: [ JSON.parse(JSON.stringify(WEAPONS_DB[charData.stats.startWeapon])) ]
+          stats: JSON.parse(JSON.stringify(charData.baseStats)),
+          hp: charData.baseStats.maxHp,
+          weapons: [ JSON.parse(JSON.stringify(WEAPONS_DB[charData.startWeapon])) ],
+          burgerBonus: charData.burgerBonus || false,
+          discount: charData.discount || 1.0
         };
         this.player.weapons.forEach(w => w.cooldown = 0);
 
         this.enemies = [];
         this.burgerTrees = [];
         this.projectiles = [];
+        this.slashes = [];
         this.drops = [];
-        this.particles = [];
         this.damageTexts = [];
 
         document.getElementById('lobbyOverlay').classList.remove('active');
@@ -871,14 +1133,13 @@
       },
 
       startWave() {
-        // 현재 웨이브를 개시하고 타이머와 시작 햄버거 나무를 스폰합니다.
         this.state = 'playing';
         this.waveTimer = 20 + (this.wave * 2);
         this.enemies = [];
         this.burgerTrees = [];
         this.projectiles = [];
+        this.slashes = [];
 
-        // 웨이브 시작 시 햄버거 나무 2개 스폰
         this.spawnBurgerTree();
         this.spawnBurgerTree();
 
@@ -894,24 +1155,35 @@
       },
 
       spawnBurgerTree() {
-        // 맵 랜덤 위치에 파괴 가능한 햄버거 오브젝트를 스폰합니다.
         if (this.burgerTrees.length >= 4) return;
-        const tx = 60 + Math.random() * 780;
-        const ty = 60 + Math.random() * 420;
         this.burgerTrees.push({
-          x: tx,
-          y: ty,
+          x: 60 + Math.random() * 840,
+          y: 60 + Math.random() * 420,
           radius: 22,
-          hp: 35 + this.wave * 5,
-          maxHp: 35 + this.wave * 5,
+          hp: 40 + this.wave * 6,
+          maxHp: 40 + this.wave * 6,
           bounceOffset: Math.random() * Math.PI
         });
       },
 
+      // 활성화된 시너지 계산
+      getActiveSynergies() {
+        const counts = {};
+        this.player.weapons.forEach(w => {
+          w.tags.forEach(t => {
+            counts[t] = (counts[t] || 0) + 1;
+          });
+        });
+        return counts;
+      },
+
       completeWave() {
-        // 웨이브를 클리어하고 상점 페이즈로 전환합니다.
         clearInterval(this.timerInterval);
         Sound.playLevelup();
+
+        // 수확(Harvest) 스탯 반영
+        const harvestGain = Math.round(this.player.stats.harvest || 5);
+        this.materials += harvestGain;
 
         if (this.wave >= this.maxWave) {
           this.endGame(true);
@@ -923,11 +1195,9 @@
       },
 
       endGame(isVictory) {
-        // 게임 종료 시(패배/승리) 보상을 계산하여 지급합니다.
         clearInterval(this.timerInterval);
         this.state = isVictory ? 'victory' : 'over';
 
-        // 보상 산정: 웨이브 수에 비례한 가넷 & 이빨 토큰 + 보물상자 보너스
         const crateBonusGarnet = this.bonusCratesCount * 3;
         const crateBonusTeeth = this.bonusCratesCount * 1;
         const earnedGarnets = isVictory ? (this.wave * 8 + 50 + crateBonusGarnet) : (this.wave * 4 + crateBonusGarnet);
@@ -958,201 +1228,153 @@
       },
 
       update() {
-        // 인게임 1프레임 물리 및 전투 시뮬레이션을 갱신합니다.
         if (this.state !== 'playing' || !this.player) return;
 
-        // 1. 플레이어 이동 (WASD + 키보드)
-        let dx = 0;
-        let dy = 0;
+        // 1. 플레이어 이동
+        let dx = 0, dy = 0;
         if (this.keys['w'] || this.keys['arrowup']) dy -= 1;
         if (this.keys['s'] || this.keys['arrowdown']) dy += 1;
         if (this.keys['a'] || this.keys['arrowleft']) dx -= 1;
         if (this.keys['d'] || this.keys['arrowright']) dx += 1;
 
-        if (dx !== 0 && dy !== 0) {
-          dx *= 0.7071;
-          dy *= 0.7071;
-        }
-        this.player.x = Math.max(25, Math.min(875, this.player.x + dx * this.player.speed));
-        this.player.y = Math.max(25, Math.min(515, this.player.y + dy * this.player.speed));
+        if (dx !== 0 && dy !== 0) { dx *= 0.7071; dy *= 0.7071; }
+        this.player.x = Math.max(25, Math.min(935, this.player.x + dx * this.player.stats.speed));
+        this.player.y = Math.max(25, Math.min(515, this.player.y + dy * this.player.stats.speed));
 
-        // 2. 주기적 햄버거 나무 스폰 (약 9초마다 1개씩 추가 생성)
+        // 2. 체력 재생 (HP Regen: 매 5초마다 1틱)
+        if (++this.regenTimer > 300) {
+          this.regenTimer = 0;
+          if (this.player.stats.hpRegen > 0 && this.player.hp < this.player.stats.maxHp) {
+            this.player.hp = Math.min(this.player.stats.maxHp, this.player.hp + this.player.stats.hpRegen);
+          }
+        }
+
+        // 3. 주기적 햄버거 나무 스폰
         if (++this.lastTreeSpawn > 540) {
           this.lastTreeSpawn = 0;
           this.spawnBurgerTree();
         }
 
-        // 3. 무기 자동 조준 및 사격 (Auto-Aim: 적 우선, 적이 없으면 햄버거 나무 조준)
-        this.player.weapons.forEach((weapon) => {
-          weapon.cooldown = Math.max(0, weapon.cooldown - (1 / 60) * this.player.atkSpd);
-          if (weapon.cooldown <= 0) {
-            // 타겟 후보 목록: 몬스터 우선, 없으면 햄버거 나무
-            const targets = (this.enemies.length > 0) ? this.enemies : this.burgerTrees;
+        // 4. 시너지 보너스 적용 계산
+        const synCounts = this.getActiveSynergies();
+        let gunDmgBonus = 1.0, gunSpdBonus = 1.0;
+        let meleeDmgBonus = 1.0;
 
+        if (synCounts.gun >= 4) { gunDmgBonus = 1.3; gunSpdBonus = 1.25; }
+        else if (synCounts.gun >= 2) { gunDmgBonus = 1.15; }
+
+        if (synCounts.melee >= 4) { meleeDmgBonus = 1.4; }
+        else if (synCounts.melee >= 2) { meleeDmgBonus = 1.2; }
+
+        // 5. 무기 자동 조준 및 사격 (깨물기 vs 총기)
+        this.player.weapons.forEach((weapon) => {
+          const totalAtkSpd = this.player.stats.atkSpd * (weapon.type === 'ranged' ? gunSpdBonus : 1.0);
+          weapon.cooldown = Math.max(0, weapon.cooldown - (1 / 60) * totalAtkSpd);
+
+          if (weapon.cooldown <= 0) {
+            const targets = (this.enemies.length > 0) ? this.enemies : this.burgerTrees;
             if (targets.length > 0) {
               let closest = null;
               let minDist = weapon.range;
               targets.forEach(t => {
                 const dist = Math.hypot(t.x - this.player.x, t.y - this.player.y);
-                if (dist < minDist) {
-                  minDist = dist;
-                  closest = t;
-                }
+                if (dist < minDist) { minDist = dist; closest = t; }
               });
 
               if (closest) {
                 const angle = Math.atan2(closest.y - this.player.y, closest.x - this.player.x);
-                const isCrit = (Math.random() * 100) < this.player.crit;
-                const dmg = Math.round(weapon.dmg * this.player.dmgMult * (isCrit ? 2.0 : 1.0));
+                const isCrit = (Math.random() * 100) < this.player.stats.crit;
+                const dmgMult = (weapon.type === 'melee' ? (this.player.stats.meleeDmg * meleeDmgBonus) : (this.player.stats.rangedDmg * gunDmgBonus));
+                const dmg = Math.round(weapon.dmg * dmgMult * (isCrit ? 2.0 : 1.0));
 
-                const bulletCount = weapon.count || 1;
-                for (let b = 0; b < bulletCount; b++) {
-                  const spread = (b - (bulletCount - 1) / 2) * 0.18;
-                  this.projectiles.push({
-                    x: this.player.x,
-                    y: this.player.y,
-                    vx: Math.cos(angle + spread) * weapon.speed,
-                    vy: Math.sin(angle + spread) * weapon.speed,
-                    dmg: dmg,
-                    isCrit: isCrit,
+                if (weapon.type === 'melee') {
+                  // 🐊 악어 깨물기 및 근접 무기: 전방 부채꼴 광역 타격 & 이빨 슬래시 이펙트!
+                  Sound.playBite();
+                  this.slashes.push({
+                    x: this.player.x + Math.cos(angle) * 35,
+                    y: this.player.y + Math.sin(angle) * 35,
+                    angle: angle,
                     color: weapon.color,
-                    radius: weapon.aoe ? 7 : 4,
-                    life: 60
+                    life: 14,
+                    icon: weapon.id === 'chomp' ? '🦷' : '✨'
                   });
+
+                  // 사거리 내 모든 적 동시 타격
+                  targets.forEach(t => {
+                    const dist = Math.hypot(t.x - this.player.x, t.y - this.player.y);
+                    if (dist < weapon.range + t.radius) {
+                      this.damageEntity(t, dmg, isCrit, angle);
+                    }
+                  });
+                } else {
+                  // 🔫 원거리 총기 발사체
+                  Sound.playShoot();
+                  const count = weapon.count || 1;
+                  for (let b = 0; b < count; b++) {
+                    const spread = (b - (count - 1) / 2) * 0.18;
+                    this.projectiles.push({
+                      x: this.player.x,
+                      y: this.player.y,
+                      vx: Math.cos(angle + spread) * weapon.speed,
+                      vy: Math.sin(angle + spread) * weapon.speed,
+                      dmg: dmg,
+                      isCrit: isCrit,
+                      color: weapon.color,
+                      radius: weapon.aoe ? 7 : 4,
+                      life: 60
+                    });
+                  }
                 }
-                Sound.playShoot();
                 weapon.cooldown = weapon.rate;
               }
             }
           }
         });
 
-        // 4. 발사체 이동 & 피격 판정 (몬스터 및 햄버거 나무)
+        // 6. 발사체 이동 & 충돌 판정
         for (let i = this.projectiles.length - 1; i >= 0; i--) {
           const p = this.projectiles[i];
-          p.x += p.vx;
-          p.y += p.vy;
-          p.life--;
+          p.x += p.vx; p.y += p.vy; p.life--;
 
           let hit = false;
-
-          // 4-A. 몬스터 피격 충돌
+          // 몬스터 충돌
           for (let j = this.enemies.length - 1; j >= 0; j--) {
             const en = this.enemies[j];
             if (Math.hypot(p.x - en.x, p.y - en.y) < p.radius + en.radius) {
               hit = true;
-              en.hp -= p.dmg;
-              Sound.playHit();
-
-              this.damageTexts.push({
-                x: en.x,
-                y: en.y - 10,
-                text: (p.isCrit ? '💥' : '') + p.dmg,
-                color: p.isCrit ? '#fde047' : '#fff',
-                life: 30
-              });
-
-              if (en.hp <= 0) {
-                // 재료 젤리 드롭
-                this.drops.push({
-                  x: en.x,
-                  y: en.y,
-                  type: 'material',
-                  val: en.isBoss ? 20 : 1,
-                  radius: en.isBoss ? 8 : 5
-                });
-                // 셰프 악어 버거 드롭
-                if (this.player.burgerDrop && Math.random() < 0.15) {
-                  this.drops.push({
-                    x: en.x + 5,
-                    y: en.y + 5,
-                    type: 'burger',
-                    val: 4,
-                    radius: 7
-                  });
-                }
-                this.enemies.splice(j, 1);
-              }
+              this.damageEntity(en, p.dmg, p.isCrit, Math.atan2(p.vy, p.vx));
               break;
             }
           }
-
-          // 4-B. 햄버거 나무 피격 충돌 (브로테이토 나무 시스템)
+          // 햄버거 나무 충돌
           if (!hit) {
             for (let k = this.burgerTrees.length - 1; k >= 0; k--) {
               const tree = this.burgerTrees[k];
               if (Math.hypot(p.x - tree.x, p.y - tree.y) < p.radius + tree.radius) {
                 hit = true;
-                tree.hp -= p.dmg;
-                Sound.playHit();
-
-                this.damageTexts.push({
-                  x: tree.x,
-                  y: tree.y - 10,
-                  text: '🍔 ' + p.dmg,
-                  color: '#fbbf24',
-                  life: 25
-                });
-
-                // 햄버거 나무 파괴 시 보상 팡파레!
-                if (tree.hp <= 0) {
-                  Sound.playBurgerBreak();
-
-                  // 1) 대량 재료 젤리 분출 (4개)
-                  for (let m = 0; m < 4; m++) {
-                    this.drops.push({
-                      x: tree.x + (Math.random() - 0.5) * 20,
-                      y: tree.y + (Math.random() - 0.5) * 20,
-                      type: 'material',
-                      val: 2,
-                      radius: 6
-                    });
-                  }
-
-                  // 2) 70% 확률로 체력 회복 햄버거 드롭
-                  if (Math.random() < 0.70) {
-                    this.drops.push({
-                      x: tree.x + 10,
-                      y: tree.y,
-                      type: 'burger',
-                      val: 12,
-                      radius: 8
-                    });
-                  }
-
-                  // 3) 35% 확률로 황금 버거 보물상자 드롭! (셰프는 60%)
-                  const crateChance = this.player.burgerBonus ? 0.60 : 0.35;
-                  if (Math.random() < crateChance) {
-                    this.drops.push({
-                      x: tree.x - 10,
-                      y: tree.y,
-                      type: 'crate',
-                      val: 25,
-                      radius: 10
-                    });
-                  }
-
-                  this.burgerTrees.splice(k, 1);
-                }
+                this.damageEntity(tree, p.dmg, p.isCrit, Math.atan2(p.vy, p.vx));
                 break;
               }
             }
           }
 
-          if (hit || p.life <= 0) {
-            this.projectiles.splice(i, 1);
-          }
+          if (hit || p.life <= 0) { this.projectiles.splice(i, 1); }
         }
 
-        // 5. 몬스터 스폰
+        // 7. 슬래시 애니메이션 수명 갱신
+        for (let i = this.slashes.length - 1; i >= 0; i--) {
+          if (--this.slashes[i].life <= 0) this.slashes.splice(i, 1);
+        }
+
+        // 8. 몬스터 스폰
         const spawnDelay = Math.max(25, 75 - (this.wave * 5));
         if (++this.lastSpawn > spawnDelay && this.enemies.length < (25 + this.wave * 6)) {
           this.lastSpawn = 0;
           const edge = Math.floor(Math.random() * 4);
           let sx = 0, sy = 0;
-          if (edge === 0) { sx = Math.random() * 900; sy = -20; }
-          else if (edge === 1) { sx = 920; sy = Math.random() * 540; }
-          else if (edge === 2) { sx = Math.random() * 900; sy = 560; }
+          if (edge === 0) { sx = Math.random() * 960; sy = -20; }
+          else if (edge === 1) { sx = 980; sy = Math.random() * 540; }
+          else if (edge === 2) { sx = Math.random() * 960; sy = 560; }
           else { sx = -20; sy = Math.random() * 540; }
 
           const isBossWave = (this.wave === 5 || this.wave === 10);
@@ -1161,10 +1383,10 @@
           if (shouldSpawnBoss) {
             this.enemies.push({
               x: sx, y: sy,
-              hp: 350 + this.wave * 120,
-              maxHp: 350 + this.wave * 120,
+              hp: 380 + this.wave * 130,
+              maxHp: 380 + this.wave * 130,
               speed: 1.6,
-              radius: 32,
+              radius: 34,
               color: '#ef4444',
               icon: '🦖',
               isBoss: true
@@ -1178,18 +1400,14 @@
             const pick = types[Math.floor(Math.random() * types.length)];
             this.enemies.push({
               x: sx, y: sy,
-              hp: pick.hp,
-              maxHp: pick.hp,
-              speed: pick.speed,
-              radius: pick.radius,
-              color: pick.color,
-              icon: pick.icon,
-              isBoss: false
+              hp: pick.hp, maxHp: pick.hp,
+              speed: pick.speed, radius: pick.radius,
+              color: pick.color, icon: pick.icon, isBoss: false
             });
           }
         }
 
-        // 6. 몬스터 이동 & 플레이어 공격 충돌
+        // 9. 몬스터 이동 & 플레이어 공격 충돌
         this.enemies.forEach(en => {
           const angle = Math.atan2(this.player.y - en.y, this.player.x - en.x);
           en.x += Math.cos(angle) * en.speed;
@@ -1197,16 +1415,14 @@
 
           if (Math.hypot(en.x - this.player.x, en.y - this.player.y) < en.radius + this.player.radius) {
             const rawDmg = en.isBoss ? 15 : 6;
-            const actualDmg = Math.max(1, rawDmg - (this.player.armor || 0));
+            const actualDmg = Math.max(1, rawDmg - (this.player.stats.armor || 0));
             this.player.hp -= actualDmg * (1 / 60);
 
-            if (this.player.hp <= 0) {
-              this.endGame(false);
-            }
+            if (this.player.hp <= 0) { this.endGame(false); }
           }
         });
 
-        // 7. 드롭 아이템 흡수 (자석 범위: 재료, 버거, 보물상자)
+        // 10. 드롭 아이템 흡수
         for (let i = this.drops.length - 1; i >= 0; i--) {
           const d = this.drops[i];
           const dist = Math.hypot(d.x - this.player.x, d.y - this.player.y);
@@ -1227,68 +1443,115 @@
                 ShopUI.pendingLevelUps++;
               }
             } else if (d.type === 'burger') {
-              // 체력 회복 햄버거
-              this.player.hp = Math.min(this.player.maxHp, this.player.hp + d.val);
+              this.player.hp = Math.min(this.player.stats.maxHp, this.player.hp + d.val);
               Sound.playCoin();
               this.damageTexts.push({
-                x: this.player.x,
-                y: this.player.y - 18,
-                text: `+${d.val} HP ❤️`,
-                color: '#4ade80',
-                life: 30
+                x: this.player.x, y: this.player.y - 18,
+                text: `+${d.val} HP ❤️`, color: '#4ade80', life: 30
               });
             } else if (d.type === 'crate') {
-              // 황금 버거 보물상자!
               this.materials += d.val;
               this.bonusCratesCount++;
               Sound.playBurgerBreak();
               this.damageTexts.push({
-                x: this.player.x,
-                y: this.player.y - 24,
-                text: `🎁 버거 상자! (+${d.val} 💰)`,
-                color: '#fde047',
-                life: 40
+                x: this.player.x, y: this.player.y - 24,
+                text: `🎁 버거 상자! (+${d.val} 💰)`, color: '#fde047', life: 40
               });
             }
             this.drops.splice(i, 1);
           }
         }
 
-        // 8. 대미지 텍스트 갱신
+        // 11. 대미지 텍스트 갱신
         for (let i = this.damageTexts.length - 1; i >= 0; i--) {
           const dt = this.damageTexts[i];
           dt.y -= 0.5;
-          dt.life--;
-          if (dt.life <= 0) this.damageTexts.splice(i, 1);
+          if (--dt.life <= 0) this.damageTexts.splice(i, 1);
+        }
+      },
+
+      damageEntity(target, dmg, isCrit, hitAngle) {
+        // 엔티티(몬스터/햄버거 나무)에 대미지를 입히고 흡혈 및 드롭을 판정합니다.
+        target.hp -= dmg;
+        Sound.playHit();
+
+        // 넉백
+        if (target.speed) {
+          target.x += Math.cos(hitAngle) * 8;
+          target.y += Math.sin(hitAngle) * 8;
+        }
+
+        // 흡혈(Life Steal) 판정
+        if (this.player.stats.lifeSteal > 0 && Math.random() * 100 < this.player.stats.lifeSteal) {
+          this.player.hp = Math.min(this.player.stats.maxHp, this.player.hp + 2);
+        }
+
+        this.damageTexts.push({
+          x: target.x, y: target.y - 10,
+          text: (isCrit ? '💥' : '') + dmg,
+          color: isCrit ? '#fde047' : '#fff',
+          life: 25
+        });
+
+        // 엔티티 사망 처리
+        if (target.hp <= 0) {
+          if (target.bounceOffset !== undefined) {
+            // 🍔 햄버거 나무 파괴 시
+            Sound.playBurgerBreak();
+            for (let m = 0; m < 4; m++) {
+              this.drops.push({
+                x: target.x + (Math.random() - 0.5) * 20,
+                y: target.y + (Math.random() - 0.5) * 20,
+                type: 'material', val: 2, radius: 6
+              });
+            }
+            if (Math.random() < 0.70) {
+              this.drops.push({ x: target.x + 10, y: target.y, type: 'burger', val: 12, radius: 8 });
+            }
+            const crateChance = this.player.burgerBonus ? 0.60 : 0.35;
+            if (Math.random() < crateChance) {
+              this.drops.push({ x: target.x - 10, y: target.y, type: 'crate', val: 25, radius: 10 });
+            }
+            const idx = this.burgerTrees.indexOf(target);
+            if (idx !== -1) this.burgerTrees.splice(idx, 1);
+          } else {
+            // 몬스터 사망 시
+            this.drops.push({
+              x: target.x, y: target.y,
+              type: 'material', val: target.isBoss ? 20 : 1, radius: target.isBoss ? 8 : 5
+            });
+            if (this.player.burgerBonus && Math.random() < 0.15) {
+              this.drops.push({ x: target.x + 5, y: target.y + 5, type: 'burger', val: 4, radius: 7 });
+            }
+            const idx = this.enemies.indexOf(target);
+            if (idx !== -1) this.enemies.splice(idx, 1);
+          }
         }
       },
 
       draw() {
-        // 캔버스 프레임을 정교하게 렌더링합니다.
         const ctx = this.ctx;
-        ctx.clearRect(0, 0, 900, 540);
+        ctx.clearRect(0, 0, 960, 540);
 
         // 늪지대 배경 격자
         ctx.fillStyle = '#0a1a11';
-        ctx.fillRect(0, 0, 900, 540);
+        ctx.fillRect(0, 0, 960, 540);
         ctx.strokeStyle = 'rgba(245, 158, 11, 0.05)';
         ctx.lineWidth = 1;
-        for (let x = 0; x < 900; x += 40) {
+        for (let x = 0; x < 960; x += 40) {
           ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, 540); ctx.stroke();
         }
         for (let y = 0; y < 540; y += 40) {
-          ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(900, y); ctx.stroke();
+          ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(960, y); ctx.stroke();
         }
 
         if (this.state !== 'playing' && this.state !== 'shop') return;
 
-        // 🍔 햄버거 나무 렌더링 (나무 대체 오브젝트)
+        // 🍔 햄버거 나무 렌더링
         this.burgerTrees.forEach(tree => {
           ctx.save();
           const bounce = Math.sin(Date.now() / 250 + tree.bounceOffset) * 3;
           ctx.translate(tree.x, tree.y + bounce);
-
-          // 후광 글로우
           ctx.shadowColor = '#f59e0b';
           ctx.shadowBlur = 12;
           ctx.font = '32px sans-serif';
@@ -1297,7 +1560,6 @@
           ctx.fillText('🍔', 0, 0);
           ctx.shadowBlur = 0;
 
-          // 햄버거 나무 체력바
           ctx.fillStyle = '#1e293b';
           ctx.fillRect(-16, -26, 32, 4);
           ctx.fillStyle = '#f59e0b';
@@ -1305,7 +1567,7 @@
           ctx.restore();
         });
 
-        // 드롭 아이템 (초록 젤리 & 회복 버거 & 보물상자)
+        // 드롭 아이템
         this.drops.forEach(d => {
           if (d.type === 'material') {
             ctx.fillStyle = '#34d399';
@@ -1335,6 +1597,18 @@
           ctx.shadowBlur = 0;
         });
 
+        // 🐊 깨물기 & 근접 슬래시 시각 효과 렌더링
+        this.slashes.forEach(s => {
+          ctx.save();
+          ctx.translate(s.x, s.y);
+          ctx.rotate(s.angle);
+          ctx.font = '28px sans-serif';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(s.icon, 0, 0);
+          ctx.restore();
+        });
+
         // 몬스터 렌더링
         this.enemies.forEach(en => {
           ctx.save();
@@ -1358,17 +1632,16 @@
           ctx.save();
           ctx.translate(this.player.x, this.player.y);
 
-          // 악어 본체 아바타 이모지
-          ctx.font = '32px sans-serif';
+          ctx.font = '34px sans-serif';
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
           ctx.fillText(this.player.avatar, 0, 0);
 
-          // 장착된 무기 공전 렌더링 (최대 6개)
+          // 장착된 무기 6개 공전
           this.player.weapons.forEach((w, i) => {
             const angle = (Date.now() / 600) + (i * (Math.PI * 2 / this.player.weapons.length));
-            const wx = Math.cos(angle) * 32;
-            const wy = Math.sin(angle) * 32;
+            const wx = Math.cos(angle) * 34;
+            const wy = Math.sin(angle) * 34;
             ctx.font = '16px sans-serif';
             ctx.fillText(w.icon, wx, wy);
           });
@@ -1377,7 +1650,7 @@
           ctx.fillStyle = '#0f172a';
           ctx.fillRect(-24, -34, 48, 6);
           ctx.fillStyle = '#22c55e';
-          ctx.fillRect(-24, -34, Math.max(0, 48 * (this.player.hp / this.player.maxHp)), 6);
+          ctx.fillRect(-24, -34, Math.max(0, 48 * (this.player.hp / this.player.stats.maxHp)), 6);
           ctx.strokeStyle = '#000';
           ctx.lineWidth = 1;
           ctx.strokeRect(-24, -34, 48, 6);
@@ -1392,9 +1665,9 @@
           ctx.fillText(dt.text, dt.x - 8, dt.y);
         });
 
-        // HUD (상단 헤더 정보 렌더링)
-        ctx.fillStyle = 'rgba(3, 8, 5, 0.75)';
-        ctx.fillRect(0, 0, 900, 38);
+        // HUD 헤더 정보 바
+        ctx.fillStyle = 'rgba(3, 8, 5, 0.78)';
+        ctx.fillRect(0, 0, 960, 38);
 
         ctx.font = 'bold 14px Pretendard, sans-serif';
         ctx.fillStyle = '#fde047';
@@ -1412,15 +1685,14 @@
         ctx.fillStyle = '#34d399';
         ctx.fillText(`🎁 상자: ${this.bonusCratesCount}`, 490, 24);
 
-        // 경험치 게이지 바
+        // 경험치 바
         ctx.fillStyle = '#1e293b';
-        ctx.fillRect(580, 14, 200, 10);
+        ctx.fillRect(590, 14, 220, 10);
         ctx.fillStyle = '#a855f7';
-        ctx.fillRect(580, 14, Math.min(200, 200 * (this.exp / this.expNext)), 10);
+        ctx.fillRect(590, 14, Math.min(220, 220 * (this.exp / this.expNext)), 10);
       },
 
       loop() {
-        // 메인 게임 루프를 매 프레임 실행합니다.
         this.update();
         this.draw();
         requestAnimationFrame(() => this.loop());
@@ -1428,11 +1700,10 @@
     };
 
     // -------------------------------------------------------------
-    // 5. 로비 UI 컨트롤러
+    // 6. 로비 UI 컨트롤러
     // -------------------------------------------------------------
     const LobbyUI = {
       render() {
-        // 캐릭터 선택 카드를 생성하고 잠금 해제 상태를 반영합니다.
         const grid = document.getElementById('rosterGrid');
         grid.innerHTML = '';
         const unlocked = Wallet.getUnlockedChars();
@@ -1444,6 +1715,7 @@
           const isUnlocked = unlocked.includes(char.id);
           const isSelected = (selectedId === char.id);
           const canBuy = (currentGarnet >= char.costGarnet || currentTeeth >= char.costTeeth);
+          const startWeaponData = WEAPONS_DB[char.startWeapon];
 
           const card = document.createElement('div');
           card.className = `roster-card ${isSelected ? 'selected' : ''} ${!isUnlocked ? 'locked' : ''}`;
@@ -1451,6 +1723,7 @@
             <div class="roster-avatar">${char.avatar}</div>
             <div class="roster-name">${char.name}</div>
             <div class="roster-role">${char.role}</div>
+            <div class="roster-weapon-badge">${startWeaponData.icon} 시작: ${startWeaponData.name}</div>
             <div class="roster-desc">${char.desc}</div>
             ${
               isUnlocked
@@ -1468,7 +1741,6 @@
               Wallet.setSelectedCharId(char.id);
               this.render();
             } else {
-              // 구매: 가넷 우선, 부족하면 악어이빨로 결제
               if (currentGarnet >= char.costGarnet) {
                 Wallet.setGarnets(currentGarnet - char.costGarnet);
               } else {
@@ -1489,35 +1761,99 @@
     };
 
     // -------------------------------------------------------------
-    // 6. 상점 UI 컨트롤러
+    // 7. 브로테이토 스타일 상점 & 스탯 인스펙터 UI
     // -------------------------------------------------------------
     const ShopUI = {
       pendingLevelUps: 0,
 
       open(wave, materials) {
-        // 상점 모달을 열고 상품을 갱신합니다.
         document.getElementById('shopWaveNum').textContent = wave;
         document.getElementById('nextWaveNum').textContent = wave + 1;
         document.getElementById('shopMaterialCount').textContent = materials;
+        this.renderStats();
+        this.renderSynergies();
         this.renderItems();
         this.checkLevelUp();
         document.getElementById('shopOverlay').classList.add('active');
       },
 
+      renderStats() {
+        // 브로테이토식 세분화 스탯 인스펙터 렌더링
+        const container = document.getElementById('statsInspectorRows');
+        container.innerHTML = '';
+        if (!Game.player) return;
+
+        const st = Game.player.stats;
+        const statItems = [
+          { icon: '❤️', label: '최대 체력', val: Math.round(st.maxHp) },
+          { icon: '💚', label: '체력 재생', val: `+${st.hpRegen}/5s` },
+          { icon: '🩸', label: '흡혈 확률', val: `${st.lifeSteal}%` },
+          { icon: '⚔️', label: '근접 대미지', val: `${Math.round(st.meleeDmg * 100)}%` },
+          { icon: '🏹', label: '원거리 대미지', val: `${Math.round(st.rangedDmg * 100)}%` },
+          { icon: '⚡', label: '공격 속도', val: `${Math.round(st.atkSpd * 100)}%` },
+          { icon: '🎯', label: '치명타율', val: `${st.crit}%` },
+          { icon: '🛡️', label: '방어력', val: st.armor },
+          { icon: '👟', label: '이동 속도', val: st.speed.toFixed(1) },
+          { icon: '🍀', label: '행운', val: st.luck },
+          { icon: '🌾', label: '수확 (재료)', val: `+${st.harvest}` }
+        ];
+
+        statItems.forEach(item => {
+          const row = document.createElement('div');
+          row.className = 'stat-row';
+          row.innerHTML = `
+            <span class="stat-label"><span>${item.icon}</span> ${item.label}</span>
+            <span class="stat-val ${typeof item.val === 'number' && item.val > 0 ? 'buff' : ''}">${item.val}</span>
+          `;
+          container.appendChild(row);
+        });
+      },
+
+      renderSynergies() {
+        // 현재 장착된 무기들의 시너지 효과를 렌더링
+        const container = document.getElementById('synergyList');
+        container.innerHTML = '';
+        const counts = Game.getActiveSynergies();
+
+        Object.keys(SYNERGY_INFO).forEach(key => {
+          const info = SYNERGY_INFO[key];
+          const count = counts[key] || 0;
+          let activeLevel = null;
+
+          info.levels.forEach(lvl => {
+            if (count >= lvl.count) activeLevel = lvl;
+          });
+
+          const badge = document.createElement('div');
+          badge.className = `synergy-badge ${activeLevel ? 'active' : ''}`;
+          badge.innerHTML = `
+            <div class="synergy-badge-title">
+              <span>${info.icon} ${info.name}</span>
+              <span>[${count}개]</span>
+            </div>
+            <div class="synergy-badge-desc">
+              ${activeLevel ? `✅ 활성: ${activeLevel.desc}` : `다음: ${info.levels[0].count}개 필요 (${info.levels[0].desc})`}
+            </div>
+          `;
+          container.appendChild(badge);
+        });
+      },
+
       checkLevelUp() {
-        // 대기 중인 레벨업이 있으면 스탯 선택지를 엽니다.
         const sec = document.getElementById('levelupSection');
         const box = document.getElementById('levelupChoices');
         if (this.pendingLevelUps > 0) {
           sec.classList.add('active');
           box.innerHTML = '';
           const stats = [
-            { label: '❤️ 최대 체력 +15', apply: (p) => { p.maxHp += 15; p.hp += 15; } },
-            { label: '⚔️ 대미지 +10%', apply: (p) => { p.dmgMult += 0.1; } },
-            { label: '⚡ 공격 속도 +10%', apply: (p) => { p.atkSpd += 0.1; } },
-            { label: '👟 이동 속도 +5%', apply: (p) => { p.speed += 0.2; } },
-            { label: '🛡️ 방어력 +2', apply: (p) => { p.armor += 2; } },
-            { label: '🎯 치명타율 +5%', apply: (p) => { p.crit += 5; } }
+            { label: '❤️ 최대 체력 +15', apply: (p) => { p.stats.maxHp += 15; p.hp += 15; } },
+            { label: '⚔️ 근접 대미지 +15%', apply: (p) => { p.stats.meleeDmg += 0.15; } },
+            { label: '🏹 원거리 대미지 +15%', apply: (p) => { p.stats.rangedDmg += 0.15; } },
+            { label: '⚡ 공격 속도 +10%', apply: (p) => { p.stats.atkSpd += 0.1; } },
+            { label: '🎯 치명타율 +5%', apply: (p) => { p.stats.crit += 5; } },
+            { label: '🛡️ 방어력 +2', apply: (p) => { p.stats.armor += 2; } },
+            { label: '🩸 흡혈 +3%', apply: (p) => { p.stats.lifeSteal += 3; } },
+            { label: '🍀 행운 +10', apply: (p) => { p.stats.luck += 10; } }
           ];
 
           stats.sort(() => Math.random() - 0.5).slice(0, 3).forEach(st => {
@@ -1528,6 +1864,7 @@
               st.apply(Game.player);
               this.pendingLevelUps--;
               Sound.playCoin();
+              this.renderStats();
               this.checkLevelUp();
             });
             box.appendChild(btn);
@@ -1538,7 +1875,6 @@
       },
 
       renderItems() {
-        // 상점에서 판매할 무기 및 패시브 아이템 4개를 동적 생성합니다.
         const grid = document.getElementById('shopItemsGrid');
         grid.innerHTML = '';
         const keys = Object.keys(WEAPONS_DB);
@@ -1558,12 +1894,12 @@
               <span class="item-icon">${base.icon}</span>
               <div>
                 <div class="item-name">${base.name}</div>
-                <div class="item-tier tier-${base.tier}">Tier ${base.tier} 무기</div>
+                <div class="item-tags">[${base.tags.map(t => SYNERGY_INFO[t] ? SYNERGY_INFO[t].name.split(' ')[0] : t).join(', ')}]</div>
               </div>
             </div>
-            <div class="item-desc">대미지: ${base.dmg} | 사거리: ${base.range} | 쿨타임: ${base.rate}s</div>
+            <div class="item-desc">${base.desc}</div>
             <button class="item-buy-btn" ${(!canAfford || hasMaxSlots) ? 'disabled' : ''}>
-              ${hasMaxSlots ? '슬롯 가득참(최대 6)' : `구매 (${cost} 💰)`}
+              ${hasMaxSlots ? '슬롯 만석(6/6)' : `구매 (${cost} 💰)`}
             </button>
           `;
 
@@ -1578,7 +1914,9 @@
               Sound.playCoin();
               card.style.opacity = '0.4';
               btn.disabled = true;
-              btn.textContent = '구매 완료';
+              btn.textContent = '장착 완료';
+              this.renderSynergies();
+              this.renderStats();
             }
           });
 
@@ -1588,7 +1926,7 @@
     };
 
     // -------------------------------------------------------------
-    // 7. 시작 및 이벤트 바인딩
+    // 8. 시작 및 이벤트 바인딩
     // -------------------------------------------------------------
     document.getElementById('btnStartRun').addEventListener('click', () => {
       Game.startRun();
