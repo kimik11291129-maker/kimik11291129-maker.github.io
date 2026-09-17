@@ -21,7 +21,7 @@
   <meta name="twitter:card" content="summary_large_image">
 
   <title>방명록 (Guestbook) — 김호선 (Ho-seon Kim)</title>
-  <link rel="stylesheet" href="css/style.css?v=20260917_16bit_diorama">
+  <link rel="stylesheet" href="css/style.css?v=20260917_quest_board">
 
   <!-- Supabase 공식 클라이언트 (v2) -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -263,7 +263,7 @@
           <li class="tab-item"><a href="about.html">자기소개</a></li>
           <li class="tab-item"><a href="portfolio.html">포트폴리오</a></li>
           <li class="tab-item"><a href="game.html">게임</a></li>
-          <li class="tab-item"><a href="guestbook.html" class="active">방명록</a></li>
+          <li class="tab-item"><a href="guestbook.html" class="active">퀘스트 &amp; 로그 보드</a></li>
         </ul>
       </nav>
     </div>
@@ -272,37 +272,37 @@
   <!-- 📦 메인 콘텐츠 영역 -->
   <main class="main-container">
     <div class="page-header">
-      <h1 class="page-title">📝 오픈 방명록 (Guestbook)</h1>
-      <p class="page-desc">포트폴리오에 방문해 주셔서 감사합니다. 자유롭게 응원의 한마디나 피드백, 인사를 남겨주세요.</p>
+      <h1 class="page-title">📜 퀘스트 &amp; 로그 보드 (Quest &amp; Log Board)</h1>
+      <p class="page-desc">포트폴리오에 방문해 주신 모험가분들을 환영합니다. 자유롭게 퀘스트 의뢰, 피드백, 모험 일지를 남겨주세요.</p>
     </div>
 
     <!-- 방명록 메인 카드 -->
     <div class="guestbook-card">
       <!-- 📜 모험가 길드 퀘스트 보드 배너 -->
       <div class="quest-board-banner">
-        <div><span class="quest-pin"></span>📜 모험가 길드 의뢰 &amp; 방문자 일지 [QUEST &amp; LOG BOARD]</div>
+        <div><span class="quest-pin"></span>📜 모험가 길드 퀘스트 &amp; 로그 보드 [QUEST &amp; LOG BOARD]</div>
         <span class="quest-badge">VERIFIED RPG</span>
       </div>
 
       <!-- 작성 폼 -->
       <form id="gbForm" style="margin-bottom: 30px;">
         <div class="form-row">
-          <input type="text" id="gbName" maxlength="20" placeholder="닉네임 (최대 20자)" required>
+          <input type="text" id="gbName" maxlength="20" placeholder="모험가 닉네임 (최대 20자)" required>
           <input type="password" id="gbPassword" minlength="4" maxlength="30" placeholder="삭제 비밀번호 (4자리 이상)" required>
         </div>
-        <textarea id="gbMessage" maxlength="300" placeholder="자유롭게 방명록을 작성해 주세요 (최대 300자)" required></textarea>
+        <textarea id="gbMessage" maxlength="300" placeholder="자유롭게 퀘스트 의뢰나 모험 일지를 작성해 주세요 (최대 300자)" required></textarea>
         <div class="form-helper">
           <span><span id="gbCharCount">0</span> / 300자</span>
           <span id="cooldownNotice" class="cooldown-text">
             ⏱️ 도배 방지 쿨타임: <span id="cooldownTimer">30</span>초
           </span>
         </div>
-        <button type="submit" id="gbSubmitBtn" class="btn-submit-gb">방명록 남기기</button>
+        <button type="submit" id="gbSubmitBtn" class="btn-submit-gb">의뢰 &amp; 일지 남기기</button>
       </form>
 
       <!-- 방명록 피드 -->
       <div class="feed-header">
-        <div class="feed-title">남겨진 이야기 (<span id="gbTotalCount">0</span>)</div>
+        <div class="feed-title">기록된 퀘스트 &amp; 모험 일지 (<span id="gbTotalCount">0</span>)</div>
         <button type="button" id="gbRefreshBtn" class="btn-refresh">새로고침 ↻</button>
       </div>
 

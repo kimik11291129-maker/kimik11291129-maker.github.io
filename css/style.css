@@ -1801,3 +1801,24 @@ footer.site-footer {
   position: relative;
   vertical-align: middle;
 }
+
+
+/* 🖼️ 실사 이미지 및 아카이브 사진 고화질 원본 렌더링 복원 (픽셀 계단화 방지) */
+img, 
+.gallery-card img, 
+.profile-img-col img, 
+.project-thumb-img, 
+.modal-visual img {
+  image-rendering: auto !important;
+  image-rendering: -webkit-optimize-contrast;
+  -ms-interpolation-mode: bicubic;
+}
+
+
+/* 🌿 하단 늪지대 수면선 및 갈대 겹침 방지 여백 */
+.main-container,
+.case-study-wrap,
+.home-broadsheet-wrap,
+.hoyatch-page-main {
+  padding-bottom: 96px !important;
+}
