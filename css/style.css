@@ -31,20 +31,21 @@
   --shadow-pixel-sm: 2px 2px 0px #060a08;
   --shadow-forest: 0 10px 30px -8px rgba(0, 0, 0, 0.7), 0 0 20px rgba(74, 222, 128, 0.08);
 
-  /* 🔤 서체 시스템: 네오둥근모(NeoDungGeunMo) 구식 8-bit 레트로 픽셀 도트 */
-  --font-pixel: "NeoDungGeunMo", "DM Mono", monospace;
-  --font-body: "Pretendard Variable", Pretendard, -apple-system, sans-serif;
+  /* 🔤 서체 시스템: 100% 네오둥근모(NeoDungGeunMo) 1990~2000 고전 2D 도트 폰트 */
+  --font-pixel: "NeoDungGeunMo", monospace;
+  --font-body: "NeoDungGeunMo", monospace;
   --font-serif: "NeoDungGeunMo", monospace;
-  --font-mono: "NeoDungGeunMo", "DM Mono", monospace;
+  --font-mono: "NeoDungGeunMo", monospace;
 }
 
-* {
+*, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: var(--font-body);
+  font-family: "NeoDungGeunMo", monospace !important;
   -webkit-font-smoothing: none;
   -moz-osx-font-smoothing: unset;
+  image-rendering: pixelated;
 }
 
 html {
@@ -56,11 +57,11 @@ body {
   background: #0c1410;
   background-attachment: fixed;
   color: var(--text);
-  line-height: 1.68;
+  line-height: 1.72;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  letter-spacing: -0.015em;
+  letter-spacing: 0.2px;
   position: relative;
 }
 
@@ -79,7 +80,8 @@ body::before {
   opacity: 0.35;
 }
 
-/* 🕯️ 다크우드 픽셀 가스등 & 불씨 캔버스 */
+/* ❄️ 16-bit 픽셀 눈결정 캔버스 */
+.snow-canvas,
 .darkwood-canvas {
   position: fixed;
   top: 0;
