@@ -28,9 +28,9 @@
 </head>
 <body class="game-page-body">
 
-  <!-- 🧭 상단 공통 네비게이션 헤더 -->
+  <!-- 🧭 상단 공통 네비게이션 헤더 (브로드시트 폭 정렬) -->
   <header class="header">
-    <div class="nav-container" style="max-width: 1200px; width: 100%; margin: 0 auto; padding: 0 16px;">
+    <div class="nav-container nav-container-broadsheet">
       <a href="index.html" class="brand-logo">
         <span>김호선</span>
         <span class="role-pill">Retro 2D Pixel</span>
@@ -40,14 +40,9 @@
           <li class="tab-item"><a href="index.html">홈</a></li>
           <li class="tab-item"><a href="about.html">자기소개</a></li>
           <li class="tab-item"><a href="portfolio.html">포트폴리오</a></li>
-          <li class="tab-item dropdown-item">
-            <a href="game.html" class="dropdown-toggle active">악어게임 ▾</a>
-            <ul class="dropdown-menu">
-              <li><a href="game.html" class="active">🎲 호야추 다이스</a></li>
-              <li><a href="dentist.html">🦷 악어이빨 룰렛</a></li>
-              <li><a href="hrocodile.html">🍔 호코다일 (Hrocodile)</a></li>
-            </ul>
-          </li>
+          <li class="tab-item"><a href="game.html" class="active">호야추 다이스</a></li>
+          <li class="tab-item"><a href="dentist.html">악어이빨 룰렛</a></li>
+          <li class="tab-item"><a href="hrocodile.html">호코다일 (Hrocodile)</a></li>
           <li class="tab-item"><a href="guestbook.html">퀘스트 &amp; 로그 보드</a></li>
         </ul>
       </nav>
@@ -61,6 +56,13 @@
         <!-- 🐊 All I gator Ham Burger 시네마틱 배너 -->
         <div class="site-header-banner">
           <img src="images/title_banner.jpg" alt="All I gator Ham Burger" class="banner-img">
+        </div>
+
+        <!-- 🎮 악어 게임 3종 목차 탭 전환 바 (In-Game Menu) -->
+        <div class="game-arcade-tabs">
+          <a href="game.html" class="arcade-tab-btn active"><span>🎲 호야추 다이스</span></a>
+          <a href="dentist.html" class="arcade-tab-btn"><span>🦷 악어이빨 룰렛</span></a>
+          <a href="hrocodile.html" class="arcade-tab-btn"><span>🍔 호코다일 (Hrocodile)</span></a>
         </div>
 
     <!-- 헤더 영역 -->
