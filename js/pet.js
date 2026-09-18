@@ -651,4 +651,21 @@
   } else {
     initSwampAndPet();
   }
+
+  // 🐊 네비게이션 악어게임 드롭다운 모바일/터치 토글 이벤트 바인딩
+  document.addEventListener('click', (e) => {
+    const toggle = e.target.closest('.dropdown-toggle');
+    const allDropdowns = document.querySelectorAll('.dropdown-item');
+    if (toggle) {
+      const item = toggle.closest('.dropdown-item');
+      if (item && window.innerWidth <= 768) {
+        e.preventDefault();
+        const isOpen = item.classList.contains('open');
+        allDropdowns.forEach(d => d.classList.remove('open'));
+        if (!isOpen) item.classList.add('open');
+      }
+    } else if (!e.target.closest('.dropdown-menu')) {
+      allDropdowns.forEach(d => d.classList.remove('open'));
+    }
+  });
 })();
