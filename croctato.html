@@ -34,7 +34,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 14px 10px 40px 10px;
+      padding: 8px 10px 24px 10px;
     }
 
     .container {
@@ -42,16 +42,16 @@
       max-width: 960px;
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 8px;
     }
 
     /* 🧭 상단 헤더 & 경제 토큰 바 */
     .top-bar {
       background: rgba(15, 23, 42, 0.85);
       backdrop-filter: blur(10px);
-      border: 2px solid rgba(245, 158, 11, 0.4);
-      border-radius: 18px;
-      padding: 12px 18px;
+      border: 1.5px solid rgba(245, 158, 11, 0.4);
+      border-radius: 14px;
+      padding: 8px 16px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -130,8 +130,7 @@
     #gameCanvas {
       display: block;
       width: 100%;
-      max-width: 960px;
-      height: 540px;
+      height: 100%;
       background-color: #0b1a12;
       cursor: crosshair;
     }
@@ -146,67 +145,85 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding: 24px;
+      padding: 12px 16px;
       z-index: 50;
       overflow-y: auto;
     }
     .screen-overlay.active { display: flex; }
+    .screen-overlay::-webkit-scrollbar {
+      width: 5px;
+    }
+    .screen-overlay::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.3);
+    }
+    .screen-overlay::-webkit-scrollbar-thumb {
+      background: #1e3a2b;
+      border-radius: 4px;
+    }
+    .screen-overlay::-webkit-scrollbar-thumb:hover {
+      background: #34d399;
+    }
 
-    /* 🐊 1. 캐릭터 선택 로비 */
+    /* 🐊 1. 캐릭터 선택 로비 전용 최적화 */
+    #lobbyOverlay {
+      justify-content: flex-start;
+      padding: 10px 14px;
+    }
     .lobby-header {
       text-align: center;
-      margin-bottom: 16px;
+      margin-bottom: 6px;
     }
     .lobby-header h2 {
-      font-size: 1.8rem;
+      font-size: 1.12rem;
       font-weight: 900;
       color: var(--gold-light);
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: 6px;
+      margin-bottom: 1px;
     }
     .lobby-header p {
-      font-size: 0.85rem;
+      font-size: 0.72rem;
       color: var(--text-muted);
-      margin-top: 4px;
+      line-height: 1.2;
     }
 
     /* ☠️ 브로테이토 위험도(Danger Level, D0~D5) 난이도 선택기 스타일 */
     .danger-selector-wrap {
       width: 100%;
-      max-width: 920px;
+      max-width: 930px;
       background: rgba(15, 23, 42, 0.75);
       border: 1.5px solid rgba(245, 158, 11, 0.35);
-      border-radius: 14px;
-      padding: 10px 14px;
-      margin-bottom: 14px;
+      border-radius: 10px;
+      padding: 5px 10px;
+      margin-bottom: 8px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 4px;
       box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
     }
     .danger-tabs-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 0.82rem;
+      font-size: 0.72rem;
       font-weight: 800;
       color: #94a3b8;
     }
     .danger-tabs-header span strong { color: var(--gold-light); }
     .danger-tabs {
       display: flex;
-      gap: 6px;
+      gap: 5px;
       overflow-x: auto;
     }
     .danger-tab {
       flex: 1;
-      min-width: 92px;
+      min-width: 80px;
       background: #091910;
       border: 1.5px solid #1e3a2b;
-      border-radius: 8px;
-      padding: 6px 4px;
+      border-radius: 6px;
+      padding: 3px 2px;
       cursor: pointer;
       text-align: center;
       font-family: inherit;
@@ -218,40 +235,41 @@
       color: #fff;
     }
     .danger-tab.active {
-      background: rgba(245, 158, 11, 0.18);
+      background: rgba(245, 158, 11, 0.2);
       border-color: var(--gold);
       color: var(--gold-light);
-      box-shadow: 0 0 10px rgba(245, 158, 11, 0.35);
+      box-shadow: 0 0 8px rgba(245, 158, 11, 0.35);
       font-weight: 800;
     }
-    .danger-tab .d-tier { font-size: 0.95rem; font-weight: 900; }
-    .danger-tab .d-name { font-size: 0.68rem; opacity: 0.85; margin-top: 2px; }
+    .danger-tab .d-tier { font-size: 0.82rem; font-weight: 900; }
+    .danger-tab .d-name { font-size: 0.62rem; opacity: 0.85; margin-top: 1px; }
     .danger-desc-box {
-      font-size: 0.76rem;
+      font-size: 0.68rem;
       background: rgba(0, 0, 0, 0.45);
-      border-radius: 6px;
-      padding: 6px 10px;
+      border-radius: 5px;
+      padding: 3px 8px;
       color: #cbd5e1;
-      line-height: 1.4;
+      line-height: 1.3;
       display: flex;
       align-items: center;
       gap: 6px;
       border: 1px solid rgba(255, 255, 255, 0.05);
     }
 
+    /* 5개 캐릭터 가로 5열 100% 피팅 그리드 */
     .roster-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-      gap: 12px;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 6px;
       width: 100%;
-      max-width: 920px;
-      margin-bottom: 20px;
+      max-width: 930px;
+      margin-bottom: 8px;
     }
     .roster-card {
       background: #0f241a;
-      border: 2px solid #1e3a2b;
-      border-radius: 16px;
-      padding: 12px;
+      border: 1.5px solid #1e3a2b;
+      border-radius: 10px;
+      padding: 6px 5px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -262,60 +280,73 @@
     }
     .roster-card:hover {
       border-color: var(--gold-light);
-      transform: translateY(-3px);
+      transform: translateY(-2px);
     }
     .roster-card.selected {
       border-color: var(--gold-light) !important;
       background: rgba(245, 158, 11, 0.15) !important;
-      box-shadow: 0 0 16px rgba(245, 158, 11, 0.4);
+      box-shadow: 0 0 12px rgba(245, 158, 11, 0.4);
     }
     .roster-card.locked {
       opacity: 0.8;
       border-style: dashed;
     }
     .roster-avatar {
-      font-size: 2.3rem;
-      margin-bottom: 4px;
-      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));
+      font-size: 1.6rem;
+      margin-bottom: 2px;
+      filter: drop-shadow(0 3px 6px rgba(0,0,0,0.5));
     }
     .roster-name {
-      font-size: 0.95rem;
+      font-size: 0.78rem;
       font-weight: 800;
       color: #f8fafc;
-      margin-bottom: 2px;
+      margin-bottom: 1px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
     }
     .roster-role {
-      font-size: 0.72rem;
+      font-size: 0.65rem;
       color: #34d399;
       font-weight: 700;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
+      white-space: nowrap;
     }
     .roster-weapon-badge {
       background: rgba(16, 185, 129, 0.2);
       border: 1px solid #10b981;
       color: #34d399;
-      font-size: 0.68rem;
+      font-size: 0.6rem;
       font-weight: 800;
-      padding: 2px 6px;
-      border-radius: 6px;
-      margin-bottom: 6px;
+      padding: 1px 4px;
+      border-radius: 4px;
+      margin-bottom: 4px;
+      white-space: nowrap;
     }
     .roster-desc {
-      font-size: 0.7rem;
+      font-size: 0.62rem;
       color: #94a3b8;
-      line-height: 1.35;
-      margin-bottom: 10px;
+      line-height: 1.25;
+      margin-bottom: 6px;
       flex-grow: 1;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-height: 38px;
     }
     .roster-btn {
       width: 100%;
-      padding: 6px 10px;
-      border-radius: 8px;
-      font-size: 0.78rem;
+      padding: 4px 6px;
+      border-radius: 6px;
+      font-size: 0.7rem;
       font-weight: 800;
       border: none;
       cursor: pointer;
       transition: all 0.2s;
+      white-space: nowrap;
     }
     .btn-select { background: #059669; color: #fff; }
     .btn-select:hover { background: #10b981; }
@@ -328,21 +359,21 @@
     .btn-start-run {
       background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
       color: #000;
-      font-size: 1.25rem;
+      font-size: 1rem;
       font-weight: 900;
-      padding: 12px 36px;
-      border-radius: 16px;
+      padding: 7px 24px;
+      border-radius: 12px;
       border: 2px solid #fde047;
-      box-shadow: 0 8px 24px rgba(245, 158, 11, 0.4);
+      box-shadow: 0 4px 14px rgba(245, 158, 11, 0.4);
       cursor: pointer;
       transition: all 0.2s;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
     }
     .btn-start-run:hover {
-      transform: translateY(-2px) scale(1.03);
-      box-shadow: 0 12px 30px rgba(245, 158, 11, 0.6);
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 8px 20px rgba(245, 158, 11, 0.6);
     }
 
     /* 🛒 2. 브로테이토 스타일 상점 (2열 레이아웃) */
@@ -2769,8 +2800,8 @@
               <img src="${(window.location.port ? '/static/images/' : 'images/') + char.id + '_64.png'}" 
                    onerror="this.onerror=null; this.src='images/${char.id}_64.png'; if(!this.src.endsWith('64.png')) { this.style.display='none'; this.nextElementSibling.style.display='inline-block'; }" 
                    alt="${char.name}" 
-                   style="width: 60px; height: 60px; image-rendering: pixelated; object-fit: contain; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5)); margin-bottom: 2px;">
-              <span style="display:none; font-size: 2.3rem;">${char.avatar}</span>
+                   style="width: 38px; height: 38px; image-rendering: pixelated; object-fit: contain; filter: drop-shadow(0 3px 6px rgba(0,0,0,0.5)); margin-bottom: 2px;">
+              <span style="display:none; font-size: 1.6rem;">${char.avatar}</span>
             </div>
             <div class="roster-name">${char.name}</div>
             <div class="roster-role">${char.role}</div>

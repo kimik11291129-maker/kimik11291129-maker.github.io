@@ -744,8 +744,7 @@
         <!-- 🐊 악어 비주얼 극장 (모니터) -->
         <section class="gator-stage-card" id="gatorStageCard">
             <div class="gator-screen">
-                <img src="/static/croc_mouth_closed.jpg" id="gatorImg" class="gator-img" alt="야생 악어">
-                <img src="images/croc_mouth_closed.jpg" id="gatorImg" class="gator-img" alt="야생 악어">
+                <img src="images/croc_mouth_closed.jpg" onerror="this.onerror=null; this.src='/static/images/croc_mouth_closed.jpg';" id="gatorImg" class="gator-img" alt="">
                 <div class="gator-overlay-status">
                     <div class="status-left">
                         <span class="status-tag" id="statusBadge">대기 중</span>
@@ -1146,7 +1145,6 @@
                 }
 
                 // UI 상태 갱신 (악어 입 쩍 벌림)
-                document.getElementById('gatorImg').src = '/static/croc_open_jaws.jpg';
                 document.getElementById('gatorImg').src = 'images/croc_open_jaws.jpg';
                 document.getElementById('statusBadge').textContent = '입 벌림! 🟢';
                 document.getElementById('statusBadge').style.borderColor = '#10b981';
@@ -1231,7 +1229,6 @@
                 CasinoSound.playChomp();
 
                 // 악어 입 쾅 닫힘 비주얼 + 화면 진동
-                document.getElementById('gatorImg').src = '/static/croc_mouth_closed.jpg';
                 document.getElementById('gatorImg').src = 'images/croc_mouth_closed.jpg';
                 const stageCard = document.getElementById('gatorStageCard');
                 stageCard.classList.add('shake');
