@@ -139,91 +139,71 @@
     .screen-overlay {
       position: absolute;
       inset: 0;
-      background: rgba(3, 8, 5, 0.94);
+      background: rgba(3, 8, 5, 0.95);
       backdrop-filter: blur(8px);
       display: none;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding: 12px 16px;
+      padding: 8px 12px;
       z-index: 50;
-      overflow-y: auto;
+      overflow: hidden;
     }
     .screen-overlay.active { display: flex; }
-    .screen-overlay::-webkit-scrollbar {
-      width: 5px;
-    }
-    .screen-overlay::-webkit-scrollbar-track {
-      background: rgba(0, 0, 0, 0.3);
-    }
-    .screen-overlay::-webkit-scrollbar-thumb {
-      background: #1e3a2b;
-      border-radius: 4px;
-    }
-    .screen-overlay::-webkit-scrollbar-thumb:hover {
-      background: #34d399;
-    }
 
     /* 🐊 1. 캐릭터 선택 로비 전용 최적화 */
     #lobbyOverlay {
-      justify-content: flex-start;
-      padding: 10px 14px;
-    }
-    .lobby-header {
-      text-align: center;
-      margin-bottom: 6px;
-    }
-    .lobby-header h2 {
-      font-size: 1.12rem;
-      font-weight: 900;
-      color: var(--gold-light);
-      display: flex;
-      align-items: center;
       justify-content: center;
       gap: 6px;
-      margin-bottom: 1px;
-    }
-    .lobby-header p {
-      font-size: 0.72rem;
-      color: var(--text-muted);
-      line-height: 1.2;
     }
 
     /* ☠️ 브로테이토 위험도(Danger Level, D0~D5) 난이도 선택기 스타일 */
     .danger-selector-wrap {
       width: 100%;
       max-width: 930px;
-      background: rgba(15, 23, 42, 0.75);
+      background: rgba(15, 23, 42, 0.85);
       border: 1.5px solid rgba(245, 158, 11, 0.35);
       border-radius: 10px;
       padding: 5px 10px;
-      margin-bottom: 8px;
       display: flex;
       flex-direction: column;
       gap: 4px;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
     }
     .danger-tabs-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 0.72rem;
+      font-size: 0.74rem;
       font-weight: 800;
       color: #94a3b8;
     }
-    .danger-tabs-header span strong { color: var(--gold-light); }
+    .lobby-title-mini {
+      color: var(--gold-light);
+      font-size: 0.8rem;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .danger-title-right {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.72rem;
+    }
     .danger-tabs {
       display: flex;
-      gap: 5px;
-      overflow-x: auto;
+      gap: 4px;
+      width: 100%;
     }
     .danger-tab {
       flex: 1;
-      min-width: 80px;
+      min-width: 0;
       background: #091910;
       border: 1.5px solid #1e3a2b;
       border-radius: 6px;
-      padding: 3px 2px;
+      padding: 2px 1px;
       cursor: pointer;
       text-align: center;
       font-family: inherit;
@@ -235,69 +215,73 @@
       color: #fff;
     }
     .danger-tab.active {
-      background: rgba(245, 158, 11, 0.2);
+      background: rgba(245, 158, 11, 0.22);
       border-color: var(--gold);
       color: var(--gold-light);
       box-shadow: 0 0 8px rgba(245, 158, 11, 0.35);
       font-weight: 800;
     }
-    .danger-tab .d-tier { font-size: 0.82rem; font-weight: 900; }
-    .danger-tab .d-name { font-size: 0.62rem; opacity: 0.85; margin-top: 1px; }
+    .danger-tab .d-tier { font-size: 0.8rem; font-weight: 900; line-height: 1.1; }
+    .danger-tab .d-name { font-size: 0.6rem; opacity: 0.85; margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .danger-desc-box {
-      font-size: 0.68rem;
+      font-size: 0.66rem;
       background: rgba(0, 0, 0, 0.45);
       border-radius: 5px;
-      padding: 3px 8px;
+      padding: 2px 8px;
       color: #cbd5e1;
-      line-height: 1.3;
+      line-height: 1.25;
       display: flex;
       align-items: center;
       gap: 6px;
       border: 1px solid rgba(255, 255, 255, 0.05);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    /* 5개 캐릭터 가로 5열 100% 피팅 그리드 */
+    /* 5개 캐릭터 가로 5열 100% 균등 그리드 (절대 줄바꿈 방지) */
     .roster-grid {
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 6px;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 5px;
       width: 100%;
       max-width: 930px;
-      margin-bottom: 8px;
     }
     .roster-card {
       background: #0f241a;
-      border: 1.5px solid #1e3a2b;
+      border: 2px solid #1e3a2b;
       border-radius: 10px;
-      padding: 6px 5px;
+      padding: 5px 4px;
       display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: all 0.15s ease;
       position: relative;
+      min-width: 0;
     }
     .roster-card:hover {
       border-color: var(--gold-light);
       transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
     }
     .roster-card.selected {
       border-color: var(--gold-light) !important;
-      background: rgba(245, 158, 11, 0.15) !important;
-      box-shadow: 0 0 12px rgba(245, 158, 11, 0.4);
+      background: rgba(245, 158, 11, 0.18) !important;
+      box-shadow: 0 0 14px rgba(245, 158, 11, 0.45);
     }
     .roster-card.locked {
-      opacity: 0.8;
+      opacity: 0.75;
       border-style: dashed;
     }
     .roster-avatar {
-      font-size: 1.6rem;
+      font-size: 1.4rem;
       margin-bottom: 2px;
-      filter: drop-shadow(0 3px 6px rgba(0,0,0,0.5));
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
     }
     .roster-name {
-      font-size: 0.78rem;
+      font-size: 0.74rem;
       font-weight: 800;
       color: #f8fafc;
       margin-bottom: 1px;
@@ -307,73 +291,101 @@
       max-width: 100%;
     }
     .roster-role {
-      font-size: 0.65rem;
+      font-size: 0.6rem;
       color: #34d399;
       font-weight: 700;
-      margin-bottom: 3px;
+      margin-bottom: 2px;
       white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
     }
     .roster-weapon-badge {
       background: rgba(16, 185, 129, 0.2);
       border: 1px solid #10b981;
       color: #34d399;
-      font-size: 0.6rem;
+      font-size: 0.56rem;
       font-weight: 800;
-      padding: 1px 4px;
+      padding: 1px 3px;
       border-radius: 4px;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
       white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
     }
     .roster-desc {
-      font-size: 0.62rem;
+      font-size: 0.58rem;
       color: #94a3b8;
-      line-height: 1.25;
-      margin-bottom: 6px;
+      line-height: 1.2;
+      margin-bottom: 5px;
       flex-grow: 1;
       display: -webkit-box;
-      -webkit-line-clamp: 3;
+      -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
       text-overflow: ellipsis;
-      max-height: 38px;
+      max-height: 26px;
     }
     .roster-btn {
       width: 100%;
-      padding: 4px 6px;
+      padding: 4px 2px;
       border-radius: 6px;
       font-size: 0.7rem;
-      font-weight: 800;
+      font-weight: 900;
       border: none;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.15s;
       white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
-    .btn-select { background: #059669; color: #fff; }
-    .btn-select:hover { background: #10b981; }
+    .btn-select {
+      background: #059669;
+      color: #fff;
+    }
+    .btn-select:hover {
+      background: #10b981;
+      box-shadow: 0 0 8px rgba(16, 185, 129, 0.5);
+    }
+    .btn-start-char {
+      background: linear-gradient(135deg, #f59e0b, #eab308);
+      color: #000;
+      font-weight: 900;
+      box-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
+    }
     .btn-buy-token {
       background: linear-gradient(135deg, #f59e0b, #d97706);
       color: #000;
     }
     .btn-buy-token:hover { background: linear-gradient(135deg, #fbbf24, #f59e0b); }
 
+    .lobby-bottom-bar {
+      width: 100%;
+      max-width: 930px;
+      display: flex;
+      justify-content: center;
+      margin-top: 2px;
+    }
     .btn-start-run {
       background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
       color: #000;
-      font-size: 1rem;
+      font-size: 0.95rem;
       font-weight: 900;
-      padding: 7px 24px;
-      border-radius: 12px;
+      padding: 6px 28px;
+      border-radius: 10px;
       border: 2px solid #fde047;
       box-shadow: 0 4px 14px rgba(245, 158, 11, 0.4);
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.15s;
       display: flex;
       align-items: center;
       gap: 6px;
     }
     .btn-start-run:hover {
       transform: translateY(-2px) scale(1.02);
-      box-shadow: 0 8px 20px rgba(245, 158, 11, 0.6);
+      box-shadow: 0 8px 24px rgba(245, 158, 11, 0.6);
+      background: linear-gradient(135deg, #fde047 0%, #f59e0b 100%);
     }
 
     /* 🛒 2. 브로테이토 스타일 상점 (2열 레이아웃) */
@@ -704,28 +716,30 @@
 
       <!-- 1. 캐릭터 선택 로비 오버레이 -->
       <div class="screen-overlay active" id="lobbyOverlay">
-        <div class="lobby-header">
-          <h2>🍔 늪지의 호코다일(Hrocodile) 전사 선택</h2>
-          <p>총 <strong>20라운드</strong> 서바이벌! 매 <strong>5라운드마다 강력한 보스</strong>가 출현하며 처치 시 보물상자와 가넷 대박 보상이 쏟아집니다!</p>
-        </div>
-
-        <!-- ☠️ 브로테이토식 위험도 (D0 ~ D5) 난이도 선택기 -->
+        <!-- 상단 헤더 & 위험도(D0~D5) 통합 바 -->
         <div class="danger-selector-wrap">
           <div class="danger-tabs-header">
-            <span>☠️ <strong>위험도 (Danger Level)</strong> 선택:</span>
-            <span id="dangerRewardBadge" style="color: #34d399;">클리어 보상: 1.0x</span>
+            <div class="lobby-title-mini">🐊 <strong>악어 전사 선택</strong> <span style="font-weight:400; opacity:0.8;">(20-웨이브 생존)</span></div>
+            <div class="danger-title-right">
+              <span>☠️ 위험도:</span>
+              <span id="dangerRewardBadge" style="color: #34d399; font-weight: 900;">보상 1.0x</span>
+            </div>
           </div>
           <div class="danger-tabs" id="dangerTabs"></div>
           <div class="danger-desc-box" id="dangerDescBox"></div>
         </div>
 
+        <!-- 5개 악어 카드 1열 그리드 -->
         <div class="roster-grid" id="rosterGrid">
           <!-- JS 동적 렌더링 -->
         </div>
 
-        <button class="btn-start-run" id="btnStartRun">
-          <span>🍔 20-웨이브 서바이벌 시작</span>
-        </button>
+        <!-- 시작 버튼 -->
+        <div class="lobby-bottom-bar">
+          <button class="btn-start-run" id="btnStartRun">
+            <span>🚀 선택한 악어로 웨이브 1 출격! (SPACE / ENTER)</span>
+          </button>
+        </div>
       </div>
 
       <!-- 2. 브로테이토 스타일 상점 (2열 레이아웃) -->
@@ -1475,6 +1489,14 @@
           this.keys[k] = true;
           if (k === 'p' || k === 'escape') {
             if (this.state === 'playing') this.togglePause();
+          }
+          if (k === ' ' || k === 'enter') {
+            const lobbyOverlay = document.getElementById('lobbyOverlay');
+            if (lobbyOverlay && lobbyOverlay.classList.contains('active')) {
+              e.preventDefault();
+              Sound.playLevelup();
+              this.startRun();
+            }
           }
         });
         window.addEventListener('keyup', (e) => { this.keys[e.key.toLowerCase()] = false; });
@@ -2809,19 +2831,31 @@
             <div class="roster-desc">${char.desc}</div>
             ${
               isUnlocked
-                ? `<button class="roster-btn btn-select">${isSelected ? '✓ 선택됨' : '선택하기'}</button>`
+                ? `<button class="roster-btn ${isSelected ? 'btn-start-char' : 'btn-select'}">
+                     ${isSelected ? '▶ 바로 출격! 🎮' : '선택 & 출격 🚀'}
+                   </button>`
                 : `<button class="roster-btn btn-buy-token" ${!canBuy ? 'disabled' : ''}>
                      해금 (🔴 ${char.costGarnet} or 🦷 ${char.costTeeth})
                    </button>`
             }
           `;
 
+          // 카드 전체 또는 버튼 클릭 시 즉시 선택 및 게임 출격!
+          card.addEventListener('click', () => {
+            if (isUnlocked) {
+              Wallet.setSelectedCharId(char.id);
+              Sound.playLevelup();
+              Game.startRun();
+            }
+          });
+
           const btn = card.querySelector('.roster-btn');
           btn.addEventListener('click', (e) => {
             e.stopPropagation();
             if (isUnlocked) {
               Wallet.setSelectedCharId(char.id);
-              this.render();
+              Sound.playLevelup();
+              Game.startRun();
             } else {
               if (currentGarnet >= char.costGarnet) {
                 Wallet.setGarnets(currentGarnet - char.costGarnet);
@@ -3091,6 +3125,7 @@
     // 8. 시작 및 이벤트 바인딩
     // -------------------------------------------------------------
     document.getElementById('btnStartRun').addEventListener('click', () => {
+      Sound.playLevelup();
       Game.startRun();
     });
 
