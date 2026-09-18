@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🎰 악어 도트 캡슐 가챠 머신 | Kim Ho-seon</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/gacha.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700;800;900&family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body class="gacha-body">
+
+  <!-- 🧭 상단 공통 네비게이션 헤더 -->
+  <header class="header">
+    <div class="nav-container-broadsheet">
+      <a href="index.html" class="brand-logo">
+        <span>김호선</span>
+        <span class="role-pill">Retro 2D Pixel</span>
+      </a>
+      <nav class="nav">
+        <ul class="nav-tabs">
+          <li class="tab-item"><a href="index.html">홈</a></li>
+          <li class="tab-item"><a href="about.html">자기소개</a></li>
+          <li class="tab-item"><a href="portfolio.html">포트폴리오</a></li>
+          <li class="tab-item"><a href="game.html">호야추 다이스</a></li>
+          <li class="tab-item"><a href="dentist.html">악어이빨 룰렛</a></li>
+          <li class="tab-item"><a href="hrocodile.html">호코다일 (Hrocodile)</a></li>
+          <li class="tab-item"><a href="guestbook.html">퀘스트 &amp; 로그 보드</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- 🎮 메인 아케이드 스테이지 -->
+  <main class="gacha-main-wrap">
+
+    <!-- 🎮 게임 목차 탭 바 (In-Game Menu) -->
+    <div class="game-arcade-tabs">
+      <a href="game.html" class="arcade-tab-btn"><span>🎲 호야추 다이스</span></a>
+      <a href="dentist.html" class="arcade-tab-btn"><span>🦷 악어이빨 룰렛</span></a>
+      <a href="hrocodile.html" class="arcade-tab-btn"><span>🍔 호코다일 (Hrocodile)</span></a>
+      <a href="gacha.html" class="arcade-tab-btn gacha-tab active"><span>🎰 도트 캡슐 가챠</span></a>
+    </div>
+
+    <!-- 🏷️ 상단 상태 바 & 재화 지갑 -->
+    <header class="gacha-top-bar">
+      <div class="gacha-title-area">
+        <img src="images/hrocodile_64.png" alt="Gator" style="width: 36px; height: 36px; image-rendering: pixelated; object-fit: contain;">
+        <div>
+          <h1>🎰 악어 도트 캡슐 가챠 <span>(Gator Capsule)</span></h1>
+          <p>늪지 공용 재화로 뽑는 16-Bit 레트로 캡슐 머신 (⚠️ 확률 극악 주의)</p>
+        </div>
+      </div>
+
+      <div class="gacha-wallet-row">
+        <div class="token-pill garnet" title="카지노 & 호야추 공용 재화">
+          <span>🔴 가넷</span>
+          <span id="walletGarnetText">20</span>
+        </div>
+        <div class="token-pill teeth" title="호코다일 완주 보상 토큰">
+          <span>🦷 이빨</span>
+          <span id="walletTeethText">0</span>
+        </div>
+        <button class="btn-refill-garnet" id="btnRefillGarnets" title="무료 가넷 지원금 받기">+50 가넷 충전</button>
+        <button class="btn-view-rates" id="btnViewRates" title="실시간 극악 확률표 보기">📜 확률 공시표</button>
+      </div>
+    </header>
+
+    <!-- 💥 전설/신화 대박 당첨 알림 배너 -->
+    <div class="jackpot-banner" id="jackpotBanner">
+      👑 [전설 대박] 축하합니다!
+    </div>
+
+    <!-- 🎰 메인 스테이지 그리드 (머신 본체 + 도감) -->
+    <div class="gacha-game-stage">
+
+      <!-- 🕹️ 좌측: 도트 가챠 머신 캐비닛 -->
+      <section class="gacha-machine-cabinet">
+        <div class="cabinet-marquee">
+          <div class="marquee-text">🐊 GATOR GACHA ARCADE</div>
+          <div class="marquee-warning">⚠️ 극악 확률 (0.01% 신화)</div>
+        </div>
+
+        <!-- 🔮 캡슐 유리 돔 (캔버스 애니메이션) -->
+        <div class="gacha-dome-wrapper">
+          <div class="gacha-dome-reflection"></div>
+          <canvas id="gachaDomeCanvas" class="gacha-dome-canvas"></canvas>
+        </div>
+
+        <!-- 캡슐 배출구 -->
+        <div class="gacha-chute-box">
+          <span class="chute-flap">PUSH TO OPEN</span>
+          <!-- 떨어지는 캡슐 애니메이션 엘리먼트 -->
+          <div class="dropped-capsule-anim" id="droppedCapsule" style="background: radial-gradient(circle at 30% 30%, #fde047 0%, #ea580c 100%);"></div>
+        </div>
+
+        <!-- 🕹️ 뽑기 버튼 패널 -->
+        <div class="gacha-control-panel">
+          <!-- 일일 1회 무료 뽑기 -->
+          <div class="daily-free-bar">
+            <div class="daily-free-info" id="dailyFreeInfoText">
+              🎁 오늘의 1회 무료 뽑기가 준비되어 있습니다!
+            </div>
+            <button class="btn-free-pull" id="btnDailyFree">무료 뽑기 1회!</button>
+          </div>
+
+          <!-- 재화 뽑기 그리드 -->
+          <div class="pull-buttons-grid">
+            <button class="btn-gacha-pull btn-pull-garnet-1" id="btnPullGarnet1">
+              <span>🔴 1회 뽑기</span>
+              <span class="pull-btn-sub">10 가넷 소모</span>
+            </button>
+            <button class="btn-gacha-pull btn-pull-garnet-10" id="btnPullGarnet10">
+              <span class="pull-discount-badge">5 가넷 할인!</span>
+              <span>🔴 10회 연속 뽑기</span>
+              <span class="pull-btn-sub">95 가넷 소모</span>
+            </button>
+            <button class="btn-gacha-pull btn-pull-teeth-1" id="btnPullTeeth1">
+              <span>🦷 1회 뽑기</span>
+              <span class="pull-btn-sub">2 악어이빨 소모</span>
+            </button>
+            <button class="btn-gacha-pull btn-pull-teeth-10" id="btnPullTeeth10">
+              <span class="pull-discount-badge">2 이빨 할인!</span>
+              <span>🦷 10회 연속 뽑기</span>
+              <span class="pull-btn-sub">18 악어이빨 소모</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 📖 우측: 도트 수집 도감 & 인벤토리 -->
+      <section class="gacha-inventory-panel">
+        <div class="inv-header">
+          <div class="inv-title">
+            <span>📖 도트 수집 도감</span>
+          </div>
+          <div class="inv-progress-badge" id="invProgressBadge">
+            도감 수집률: 0/16 (0%)
+          </div>
+        </div>
+
+        <div class="inv-tab-switcher">
+          <button class="inv-tab-btn active">전체 도감 목록 (16종)</button>
+        </div>
+
+        <!-- 도트 아이템 그리드 -->
+        <div class="compendium-grid" id="compendiumGrid">
+          <!-- 동적으로 16종 도트 아이템 카드 렌더링 -->
+        </div>
+
+        <!-- 하단 액션 바: 꽝 분해(갈갈이) -->
+        <div class="inv-footer-actions">
+          <div style="font-size:0.75rem; color:#94a3b8;">
+            * 꽝 아이템은 분해하여 가넷으로 회수할 수 있습니다.
+          </div>
+          <button class="btn-scrap-trash" id="btnScrapTrash">
+            ♻️ 꽝 일괄 분해 (+가넷 환급)
+          </button>
+        </div>
+      </section>
+
+    </div>
+
+  </main>
+
+  <!-- 🎬 가챠 결과 팝업 모달 -->
+  <div class="gacha-result-overlay" id="gachaResultOverlay">
+    <div class="gacha-result-card">
+      <h2 class="result-headline" id="resultHeadline">뽑기 결과</h2>
+      <p class="result-subline" id="resultSubline">획득한 아이템을 확인하세요!</p>
+
+      <div class="result-items-grid" id="resultItemsGrid">
+        <!-- 동적으로 카드 렌더링 -->
+      </div>
+
+      <button class="btn-result-close" id="btnResultClose">
+        확인 (SPACE)
+      </button>
+    </div>
+  </div>
+
+  <!-- 📜 실시간 극악 확률 공시표 모달 -->
+  <div class="rates-modal-overlay" id="ratesModalOverlay">
+    <div class="rates-modal-card">
+      <h2 style="font-size: 1.2rem; color: #38bdf8; font-weight: 900; margin-bottom: 6px;">
+        📜 가챠 아이템별 극악 확률 공시표
+      </h2>
+      <p style="font-size: 0.78rem; color: #94a3b8;">
+        본 뽑기 머신은 자비 없는 늪지대 생태계 법률을 준수하며, 소수점 세자리까지 투명하게 공개합니다.
+      </p>
+
+      <table class="rates-table">
+        <thead>
+          <tr>
+            <th>등급</th>
+            <th>구성 품목 예시</th>
+            <th style="text-align:right;">추첨 확률</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="color:#ec4899; font-weight:900;">🌌 신화 (Mythic)</td>
+            <td>초차원 코스믹 악어 신 (Cosmic Gator God)</td>
+            <td class="rate-val" style="color:#ec4899;">0.010% (1/10,000)</td>
+          </tr>
+          <tr>
+            <td style="color:#f59e0b; font-weight:900;">👑 전설 (Legendary)</td>
+            <td>순금 왕관, 황금 중갑 악어 상, 무한 성배 버거</td>
+            <td class="rate-val" style="color:#f59e0b;">0.090%</td>
+          </tr>
+          <tr>
+            <td style="color:#a855f7; font-weight:800;">🥇 에픽 (Epic)</td>
+            <td>선글라스, 셰프 모자, 서바이벌 반다나 도트</td>
+            <td class="rate-val" style="color:#a855f7;">0.900%</td>
+          </tr>
+          <tr>
+            <td style="color:#38bdf8; font-weight:800;">🥈 레어 (Rare)</td>
+            <td>황금 피클, 크리스탈 다이스, 은빛 뒤집개</td>
+            <td class="rate-val" style="color:#38bdf8;">4.000%</td>
+          </tr>
+          <tr>
+            <td style="color:#10b981; font-weight:700;">🥉 노말 (Normal)</td>
+            <td>픽셀 맛소금, 아삭한 피클, 가짜 플라스틱 칩</td>
+            <td class="rate-val" style="color:#10b981;">10.000%</td>
+          </tr>
+          <tr>
+            <td style="color:#64748b; font-weight:700;">🪨 꽝/폐기물 (Trash)</td>
+            <td>썩은 생선 가시, 찢어진 고무장화, 눅눅한 감튀 등</td>
+            <td class="rate-val" style="color:#94a3b8;">85.000%</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div style="text-align: right; margin-top: 14px;">
+        <button class="btn-view-rates" id="btnCloseRates" style="padding: 8px 18px; color: #fff; background: #0369a1; border-color: #38bdf8;">
+          닫기
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/gacha.js"></script>
+</body>
+</html>
