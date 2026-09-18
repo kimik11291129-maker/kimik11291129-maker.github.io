@@ -157,18 +157,19 @@
       gap: 6px;
     }
 
-    /* ☠️ 브로테이토 위험도(Danger Level, D0~D5) 난이도 선택기 스타일 */
+    /* ☠️ 브로테이토 위험도(Danger Level, D0~D5) 프리미엄 난이도 선택기 스타일 */
     .danger-selector-wrap {
       width: 100%;
       max-width: 930px;
-      background: rgba(15, 23, 42, 0.85);
-      border: 1.5px solid rgba(245, 158, 11, 0.35);
-      border-radius: 10px;
-      padding: 5px 10px;
+      background: rgba(10, 18, 14, 0.92);
+      border: 2px solid #1e3a2b;
+      border-radius: 12px;
+      padding: 6px 10px;
       display: flex;
       flex-direction: column;
-      gap: 4px;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+      gap: 5px;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.6);
+      transition: all 0.25s ease;
     }
     .danger-tabs-header {
       display: flex;
@@ -179,18 +180,24 @@
       color: #94a3b8;
     }
     .lobby-title-mini {
-      color: var(--gold-light);
+      color: #facc15;
       font-size: 0.8rem;
       font-weight: 900;
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 5px;
+      letter-spacing: -0.2px;
     }
-    .danger-title-right {
-      display: flex;
-      align-items: center;
-      gap: 6px;
+    .danger-reward-pill {
+      background: #064e3b;
+      border: 1px solid #10b981;
+      color: #a7f3d0;
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-weight: 900;
       font-size: 0.72rem;
+      box-shadow: 0 0 8px rgba(16, 185, 129, 0.3);
+      transition: all 0.2s;
     }
     .danger-tabs {
       display: flex;
@@ -200,43 +207,137 @@
     .danger-tab {
       flex: 1;
       min-width: 0;
-      background: #091910;
-      border: 1.5px solid #1e3a2b;
-      border-radius: 6px;
-      padding: 2px 1px;
+      background: #06110a;
+      border: 1.5px solid #1a3325;
+      border-radius: 8px;
+      padding: 3px 2px;
       cursor: pointer;
       text-align: center;
       font-family: inherit;
       color: #94a3b8;
-      transition: all 0.15s ease;
+      transition: all 0.18s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
     }
     .danger-tab:hover {
-      border-color: #34d399;
+      border-color: #38bdf8;
       color: #fff;
+      transform: translateY(-1px);
     }
     .danger-tab.active {
-      background: rgba(245, 158, 11, 0.22);
-      border-color: var(--gold);
-      color: var(--gold-light);
-      box-shadow: 0 0 8px rgba(245, 158, 11, 0.35);
-      font-weight: 800;
+      transform: translateY(-1px) scale(1.02);
+      font-weight: 900;
     }
-    .danger-tab .d-tier { font-size: 0.8rem; font-weight: 900; line-height: 1.1; }
-    .danger-tab .d-name { font-size: 0.6rem; opacity: 0.85; margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .danger-desc-box {
-      font-size: 0.66rem;
-      background: rgba(0, 0, 0, 0.45);
-      border-radius: 5px;
-      padding: 2px 8px;
-      color: #cbd5e1;
-      line-height: 1.25;
+    .danger-tab .d-tier-row {
       display: flex;
       align-items: center;
-      gap: 6px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
+      gap: 2px;
+      line-height: 1.1;
+    }
+    .danger-tab .d-tier {
+      font-size: 0.84rem;
+      font-weight: 900;
+    }
+    .danger-tab .d-skulls {
+      font-size: 0.58rem;
+      letter-spacing: -1px;
+    }
+    .danger-tab .d-name {
+      font-size: 0.62rem;
+      font-weight: 800;
+      opacity: 0.9;
+      margin-top: 1px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      max-width: 100%;
+    }
+    .danger-tab .d-reward-mult {
+      font-size: 0.54rem;
+      font-weight: 800;
+      color: #facc15;
+      opacity: 0.85;
+      margin-top: 1px;
+    }
+
+    /* 선택된 난이도 모디파이어 & 전술 요약 스트립 */
+    .danger-summary-strip {
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 7px;
+      padding: 3px 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      font-size: 0.68rem;
+    }
+    .danger-summary-left {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .danger-badge-title {
+      font-weight: 900;
+      font-size: 0.74rem;
+    }
+    .danger-mod-pills {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+    }
+    .mod-pill {
+      font-size: 0.58rem;
+      font-weight: 800;
+      padding: 1px 5px;
+      border-radius: 4px;
+      border: 1px solid;
+      white-space: nowrap;
+    }
+    .mod-pill.neutral { background: rgba(100, 116, 139, 0.2); border-color: #64748b; color: #cbd5e1; }
+    .mod-pill.buff { background: rgba(16, 185, 129, 0.2); border-color: #10b981; color: #6ee7b7; }
+    .mod-pill.nerf { background: rgba(239, 68, 68, 0.2); border-color: #ef4444; color: #fca5a5; }
+    .mod-pill.danger { background: rgba(249, 115, 22, 0.25); border-color: #f97316; color: #fed7aa; }
+    .mod-pill.boss-double {
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.35) 0%, rgba(236, 72, 153, 0.35) 100%);
+      border-color: #e879f9;
+      color: #fdf4ff;
+      animation: doubleBossPulse 1.2s infinite alternate;
+      box-shadow: 0 0 8px rgba(232, 121, 249, 0.5);
+    }
+    @keyframes doubleBossPulse {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.05); }
+    }
+    .mod-pill.reward { background: rgba(245, 158, 11, 0.25); border-color: #f59e0b; color: #fef08a; font-weight: 900; }
+    .danger-tip-text {
+      font-size: 0.6rem;
+      color: #94a3b8;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 330px;
+    }
+
+    /* 위험도별 뷰포트 아우라 */
+    .game-viewport-card.aura-d0 { border-color: #10b981; box-shadow: 0 12px 32px rgba(0,0,0,0.8), 0 0 20px rgba(16, 185, 129, 0.25); }
+    .game-viewport-card.aura-d1 { border-color: #3b82f6; box-shadow: 0 12px 32px rgba(0,0,0,0.8), 0 0 20px rgba(59, 130, 246, 0.25); }
+    .game-viewport-card.aura-d2 { border-color: #f59e0b; box-shadow: 0 12px 32px rgba(0,0,0,0.8), 0 0 20px rgba(245, 158, 11, 0.25); }
+    .game-viewport-card.aura-d3 { border-color: #f97316; box-shadow: 0 12px 32px rgba(0,0,0,0.8), 0 0 24px rgba(249, 115, 22, 0.35); }
+    .game-viewport-card.aura-d4 { border-color: #ef4444; box-shadow: 0 12px 32px rgba(0,0,0,0.8), 0 0 28px rgba(239, 68, 68, 0.45); }
+    .game-viewport-card.aura-d5 {
+      border-color: #a855f7;
+      box-shadow: 0 12px 36px rgba(0,0,0,0.9), 0 0 32px rgba(168, 85, 247, 0.55), inset 0 0 20px rgba(168, 85, 247, 0.2);
+      animation: d5AbyssPulse 2s infinite alternate;
+    }
+    @keyframes d5AbyssPulse {
+      0% { border-color: #a855f7; box-shadow: 0 0 25px rgba(168, 85, 247, 0.5); }
+      100% { border-color: #ec4899; box-shadow: 0 0 40px rgba(236, 72, 153, 0.8); }
     }
 
     /* 5개 캐릭터 가로 5열 100% 균등 그리드 (절대 줄바꿈 방지) */
@@ -717,17 +818,19 @@
 
       <!-- 1. 캐릭터 선택 로비 오버레이 -->
       <div class="screen-overlay active" id="lobbyOverlay">
-        <!-- 상단 헤더 & 위험도(D0~D5) 통합 바 -->
-        <div class="danger-selector-wrap">
+        <!-- ☠️ 브로테이토 위험도(Danger Level, D0~D5) 프리미엄 난이도 센터 -->
+        <div class="danger-selector-wrap" id="dangerSelectorWrap">
           <div class="danger-tabs-header">
-            <div class="lobby-title-mini">🐊 <strong>악어 전사 선택</strong> <span style="font-weight:400; opacity:0.8;">(20-웨이브 생존)</span></div>
+            <div class="lobby-title-mini">
+              <span>☠️</span>
+              <strong>위험도 난이도 선택 (Danger Level)</strong>
+            </div>
             <div class="danger-title-right">
-              <span>☠️ 위험도:</span>
-              <span id="dangerRewardBadge" style="color: #34d399; font-weight: 900;">보상 1.0x</span>
+              <span class="danger-reward-pill" id="dangerRewardBadge">💰 클리어 보상 배수: 1.0x</span>
             </div>
           </div>
           <div class="danger-tabs" id="dangerTabs"></div>
-          <div class="danger-desc-box" id="dangerDescBox"></div>
+          <div class="danger-summary-strip" id="dangerSummaryStrip"></div>
         </div>
 
         <!-- 5개 악어 카드 1열 그리드 -->
@@ -1282,91 +1385,141 @@
         level: 0,
         tier: 'D0',
         name: '평화로운 늪지',
+        skulls: '⭐',
+        tag: '기본 생태계',
         badgeBg: 'rgba(16, 185, 129, 0.25)',
         color: '#34d399',
+        auraClass: 'aura-d0',
         enemyHpMult: 1.0,
         enemySpdMult: 1.0,
         enemyDmgMult: 1.0,
         shopPriceMult: 1.0,
         spawnRateMult: 1.0,
         rewardMult: 1.0,
-        summary: '기본 생태계 (표준 난이도)',
+        modifiers: [
+          { text: '표준 스탯 1.0x', type: 'neutral' },
+          { text: '버거 드롭 정상', type: 'buff' },
+          { text: '보상 1.0x', type: 'reward' }
+        ],
         desc: '악어 초심자를 위한 온화한 늪지. 모든 적 스탯과 상점 물가가 1.0x 정상 적용됩니다.'
       },
       {
         level: 1,
         tier: 'D1',
         name: '야생의 습지',
+        skulls: '💀',
+        tag: '야생 본능',
         badgeBg: 'rgba(59, 130, 246, 0.25)',
         color: '#60a5fa',
+        auraClass: 'aura-d1',
         enemyHpMult: 1.15,
-        enemySpdMult: 1.05,
-        enemyDmgMult: 1.05,
+        enemySpdMult: 1.08,
+        enemyDmgMult: 1.10,
         shopPriceMult: 1.0,
-        spawnRateMult: 1.08,
-        rewardMult: 1.25,
-        summary: '적 HP +15%, 이속 +5% | 보상 1.25x',
-        desc: '야생성이 깨어난 몬스터들이 질기게 추격합니다. 클리어 시 가넷 & 이빨 1.25배 획득!'
+        spawnRateMult: 1.10,
+        rewardMult: 1.3,
+        modifiers: [
+          { text: '적 HP +15%', type: 'nerf' },
+          { text: '적 이속 +8%', type: 'nerf' },
+          { text: '보상 1.3x', type: 'reward' }
+        ],
+        desc: '야생성이 깨어난 몬스터들이 질기게 추격합니다. 클리어 시 가넷 & 이빨 1.3배!'
       },
       {
         level: 2,
         tier: 'D2',
-        name: '가혹한 늪지',
+        name: '독기 품은 늪',
+        skulls: '💀💀',
+        tag: '가혹한 환경',
         badgeBg: 'rgba(234, 179, 8, 0.25)',
         color: '#facc15',
+        auraClass: 'aura-d2',
         enemyHpMult: 1.30,
-        enemySpdMult: 1.10,
-        enemyDmgMult: 1.15,
+        enemySpdMult: 1.12,
+        enemyDmgMult: 1.20,
         shopPriceMult: 1.10,
-        spawnRateMult: 1.15,
-        rewardMult: 1.5,
-        summary: '적 HP +30%, 공격력 +15%, 물가 +10% | 보상 1.5x',
-        desc: '늪지의 독기가 강해지고 물가가 10% 상승합니다. 방어 스탯의 중요성이 커집니다. 보상 1.5배!'
+        spawnRateMult: 1.20,
+        rewardMult: 1.6,
+        modifiers: [
+          { text: '적 HP +30%', type: 'nerf' },
+          { text: '적 공격력 +20%', type: 'nerf' },
+          { text: '상점 물가 +10%', type: 'nerf' },
+          { text: '보상 1.6x', type: 'reward' }
+        ],
+        desc: '늪지의 독기와 물가가 상승합니다. 방어력과 체력 흡혈 세팅의 중요성이 커집니다.'
       },
       {
         level: 3,
         tier: 'D3',
-        name: '위험 구역',
+        name: '광기의 늪지대',
+        skulls: '💀💀💀',
+        tag: '물량 공세',
         badgeBg: 'rgba(249, 115, 22, 0.25)',
         color: '#fb923c',
-        enemyHpMult: 1.50,
-        enemySpdMult: 1.15,
-        enemyDmgMult: 1.25,
+        auraClass: 'aura-d3',
+        enemyHpMult: 1.55,
+        enemySpdMult: 1.18,
+        enemyDmgMult: 1.30,
         shopPriceMult: 1.15,
-        spawnRateMult: 1.25,
-        rewardMult: 1.8,
-        summary: '스폰 빈도 +25%, 적 HP +50%, 공격력 +25% | 보상 1.8x',
-        desc: '몰려오는 몬스터 무리의 물량이 폭증합니다! 광역 깨물기 및 시너지 조합 필수! 보상 1.8배!'
+        spawnRateMult: 1.35,
+        rewardMult: 2.0,
+        hasEliteWave: true,
+        modifiers: [
+          { text: '적 물량 +35%', type: 'nerf' },
+          { text: '적 공격력 +30%', type: 'nerf' },
+          { text: 'Wave 10/15 엘리트 난입!', type: 'danger' },
+          { text: '보상 2.0x', type: 'reward' }
+        ],
+        desc: '몬스터 무리가 물밀듯이 쏟아집니다. 광역 깨물기 및 다이스 바주카 조합 필수!'
       },
       {
         level: 4,
         tier: 'D4',
-        name: '악어 지옥',
+        name: '핏빛 악어 지옥',
+        skulls: '💀💀💀💀',
+        tag: '악몽의 늪',
         badgeBg: 'rgba(239, 68, 68, 0.25)',
         color: '#f87171',
-        enemyHpMult: 1.75,
-        enemySpdMult: 1.20,
-        enemyDmgMult: 1.35,
+        auraClass: 'aura-d4',
+        enemyHpMult: 1.80,
+        enemySpdMult: 1.22,
+        enemyDmgMult: 1.45,
         shopPriceMult: 1.20,
-        spawnRateMult: 1.35,
-        rewardMult: 2.2,
-        summary: '적 HP +75%, 이속 +20%, 공격력 +35%, 물가 +20% | 보상 2.2x',
-        desc: '핏빛으로 물든 가혹한 악어의 무덤입니다. 집중력 있는 컨트롤이 요구됩니다. 보상 2.2배!'
+        spawnRateMult: 1.45,
+        rewardMult: 2.6,
+        hasEliteWave: true,
+        modifiers: [
+          { text: '적 HP +80% / 이속 +22%', type: 'nerf' },
+          { text: '보스 체력 +40%', type: 'danger' },
+          { text: '상점 물가 +20%', type: 'nerf' },
+          { text: '보상 2.6x', type: 'reward' }
+        ],
+        desc: '핏빛으로 물든 가혹한 악어의 무덤. 한 번의 실수가 즉사로 이어질 수 있습니다.'
       },
       {
         level: 5,
         tier: 'D5',
         name: '멸망의 심연',
+        skulls: '💀💀💀💀💀',
+        tag: '더블 보스 동시 출현',
         badgeBg: 'rgba(168, 85, 247, 0.3)',
         color: '#c084fc',
-        enemyHpMult: 2.00,
-        enemySpdMult: 1.25,
-        enemyDmgMult: 1.50,
+        auraClass: 'aura-d5',
+        enemyHpMult: 2.10,
+        enemySpdMult: 1.28,
+        enemyDmgMult: 1.60,
         shopPriceMult: 1.25,
-        spawnRateMult: 1.50,
-        rewardMult: 3.0,
-        summary: '🔥 브로테이토 최고 난이도! 적 HP 2배, 공격력 +50% | 대박 보상 3.0x!',
-        desc: '진정한 브로테이토 악어 마스터만을 위한 지옥 난이도. 20웨이브 생존 시 전설의 보상 3배 잭팟!'
+        spawnRateMult: 1.55,
+        rewardMult: 3.5,
+        hasDoubleBoss: true,
+        hasEliteWave: true,
+        modifiers: [
+          { text: '👑 Wave 20 더블 보스 협공!', type: 'boss-double' },
+          { text: '적 HP 2.1배 / 공격력 +60%', type: 'danger' },
+          { text: '적 물량 +55%', type: 'nerf' },
+          { text: '🔥 전설 보상 3.5x 대박!', type: 'reward' }
+        ],
+        desc: '진정한 브로테이토 악어 마스터만을 위한 지옥 난이도. 20웨이브에 2마리 거대 보스가 협공합니다!'
       }
     ];
     window.DANGER_LEVELS = DANGER_LEVELS;
@@ -1553,6 +1706,12 @@
         const charData = CHARACTERS.find(c => c.id === charId) || CHARACTERS[0];
         this.danger = DANGER_LEVELS[this.selectedDanger] || DANGER_LEVELS[0];
 
+        // 뷰포트에 위험도별 아우라 클래스 적용
+        const card = document.getElementById('viewportCard');
+        if (card) {
+          card.className = `game-viewport-card ${this.danger.auraClass || 'aura-d0'}`;
+        }
+
         this.state = 'playing';
         this.wave = 1;
         this.materials = 0;
@@ -1657,7 +1816,7 @@
       },
 
       spawnBoss() {
-        // 5라운드마다 출현하는 강력한 대형 보스를 스폰하고 난이도 배수를 적용하는 함수
+        // 5라운드마다 출현하는 강력한 대형 보스를 스폰하고 난이도 배수 및 D5 더블 보스를 적용하는 함수
         const danger = this.danger || DANGER_LEVELS[0];
         const bossPresets = {
           5: { name: '🐗 늪지 멧돼지 족장', icon: '🐗', hp: 650, speed: 1.5, radius: 36, color: '#a855f7' },
@@ -1669,7 +1828,7 @@
         const finalHp = Math.round(preset.hp * danger.enemyHpMult);
         const finalSpd = preset.speed * danger.enemySpdMult;
         this.enemies.push({
-          x: 480,
+          x: danger.hasDoubleBoss && this.wave === 20 ? 320 : 480,
           y: -40,
           hp: finalHp,
           maxHp: finalHp,
@@ -1688,6 +1847,34 @@
           chargeVy: 0,
           hitFlash: 0
         });
+
+        // 👑 D5 최고 난이도 특권: 20웨이브 더블 보스 동시 출현 (메가 타이탄 + 고대 공룡 악어 협공)
+        if (this.wave === 20 && danger.hasDoubleBoss) {
+          const boss2Hp = Math.round(3200 * danger.enemyHpMult);
+          const boss2Spd = 1.9 * danger.enemySpdMult;
+          this.enemies.push({
+            x: 640,
+            y: -50,
+            hp: boss2Hp,
+            maxHp: boss2Hp,
+            speed: boss2Spd,
+            baseSpeed: boss2Spd,
+            radius: 46,
+            color: '#ef4444',
+            icon: '🦖',
+            isBoss: true,
+            bossWave: 15,
+            name: `🦖 고대 공룡 악어 [D5 협공 보스]`,
+            skillTimer: 0,
+            chargeState: 'none',
+            chargeTime: 0,
+            chargeVx: 0,
+            chargeVy: 0,
+            hitFlash: 0
+          });
+          this.bannerText = `👑 [D5 DOUBLE BOSS] 2대 거대 보스 동시 출현!!`;
+          this.bannerSub = '심연의 지옥! 메가 타이탄 & 고대 공룡 악어가 협공합니다!';
+        }
       },
 
       spawnBurgerTree() {
@@ -2733,13 +2920,13 @@
         // ☠️ 위험도 난이도 뱃지
         const curDanger = this.danger || DANGER_LEVELS[this.selectedDanger || 0] || DANGER_LEVELS[0];
         ctx.fillStyle = curDanger.badgeBg;
-        ctx.fillRect(775, 8, 175, 24);
+        ctx.fillRect(750, 8, 200, 24);
         ctx.strokeStyle = curDanger.color;
         ctx.lineWidth = 1.5;
-        ctx.strokeRect(775, 8, 175, 24);
+        ctx.strokeRect(750, 8, 200, 24);
         ctx.font = 'bold 11px Pretendard, sans-serif';
         ctx.fillStyle = curDanger.color;
-        ctx.fillText(`☠️ [${curDanger.tier}] ${curDanger.name} (${curDanger.rewardMult}x)`, 782, 24);
+        ctx.fillText(`☠️ [${curDanger.tier}] ${curDanger.name} ${curDanger.skulls} (${curDanger.rewardMult}x)`, 756, 24);
 
         // 웨이브 타이머 슬림 바 (상단 맨 위)
         if (this.totalWaveTimer > 0) {
@@ -2877,18 +3064,43 @@
       },
 
       renderDanger() {
-        // 브로테이토 위험도(D0~D5) 난이도 탭과 배수 설명을 렌더링하는 함수
+        // 브로테이토 위험도(D0~D5) 난이도 탭과 모디파이어 요약 스트립을 렌더링하는 함수
         const tabsContainer = document.getElementById('dangerTabs');
-        const descBox = document.getElementById('dangerDescBox');
+        const summaryStrip = document.getElementById('dangerSummaryStrip');
         const rewardBadge = document.getElementById('dangerRewardBadge');
+        const wrap = document.getElementById('dangerSelectorWrap');
         if (!tabsContainer) return;
+
+        const cur = DANGER_LEVELS[Game.selectedDanger] || DANGER_LEVELS[0];
+
+        if (wrap) {
+          wrap.style.borderColor = cur.color;
+          wrap.style.boxShadow = `0 4px 18px rgba(0, 0, 0, 0.7), 0 0 16px ${cur.color}33`;
+        }
 
         tabsContainer.innerHTML = '';
         DANGER_LEVELS.forEach(dl => {
+          const isActive = Game.selectedDanger === dl.level;
           const tab = document.createElement('button');
           tab.type = 'button';
-          tab.className = `danger-tab ${Game.selectedDanger === dl.level ? 'active' : ''}`;
-          tab.innerHTML = `<div class="d-tier" style="color: ${dl.color};">${dl.tier}</div><div class="d-name">${dl.name}</div>`;
+          tab.className = `danger-tab ${isActive ? 'active' : ''}`;
+          if (isActive) {
+            tab.style.borderColor = dl.color;
+            tab.style.background = `${dl.color}25`;
+            tab.style.boxShadow = `0 0 12px ${dl.color}66`;
+          } else {
+            tab.style.borderColor = '#1a3325';
+            tab.style.background = '#06110a';
+            tab.style.boxShadow = 'none';
+          }
+          tab.innerHTML = `
+            <div class="d-tier-row">
+              <span class="d-tier" style="color: ${dl.color};">${dl.tier}</span>
+              <span class="d-skulls">${dl.skulls}</span>
+            </div>
+            <div class="d-name">${dl.name}</div>
+            <div class="d-reward-mult">${dl.rewardMult}x 보상</div>
+          `;
           tab.addEventListener('click', () => {
             Game.selectedDanger = dl.level;
             localStorage.setItem('hrocodile_danger', dl.level);
@@ -2898,15 +3110,23 @@
           tabsContainer.appendChild(tab);
         });
 
-        const cur = DANGER_LEVELS[Game.selectedDanger] || DANGER_LEVELS[0];
         if (rewardBadge) {
-          rewardBadge.textContent = `클리어 보상 배수: ${cur.rewardMult}x`;
+          rewardBadge.textContent = `💰 클리어 보상: ${cur.rewardMult}x 배수`;
           rewardBadge.style.color = cur.color;
+          rewardBadge.style.borderColor = cur.color;
         }
-        if (descBox) {
-          descBox.innerHTML = `
-            <span style="font-weight: 900; color: ${cur.color};">[${cur.tier} ${cur.name}]</span>
-            <span>${cur.summary} — ${cur.desc}</span>
+
+        if (summaryStrip) {
+          const pillsHtml = (cur.modifiers || []).map(m => `
+            <span class="mod-pill ${m.type}">${m.text}</span>
+          `).join('');
+
+          summaryStrip.innerHTML = `
+            <div class="danger-summary-left">
+              <span class="danger-badge-title" style="color: ${cur.color};">[${cur.tier} ${cur.name}]</span>
+              <div class="danger-mod-pills">${pillsHtml}</div>
+            </div>
+            <div class="danger-tip-text" title="${cur.desc}">💡 ${cur.desc}</div>
           `;
         }
       }

@@ -722,3 +722,4 @@
   window.RatesModal = RatesModal;
   window.Wallet = Wallet;
 })();
+
